@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -26,6 +27,9 @@
       --accent: #9a7350;
       --accent-soft: #eee4d8;
       --dark: #2e2d29;
+      --green-soft: #e6eee7;
+      --yellow-soft: #f4eddc;
+      --blue-soft: #e7edf3;
       --danger: #a65a52;
       --shadow: 0 8px 28px rgba(52,45,36,0.06);
     }
@@ -36,6 +40,7 @@
 
     body {
       margin: 0;
+
       background: var(--bg);
       color: var(--text);
 
@@ -49,10 +54,10 @@
       padding-bottom: 95px;
     }
 
-    button,
     input,
     textarea,
-    select {
+    select,
+    button {
       font: inherit;
     }
 
@@ -66,10 +71,9 @@
     }
 
     .container {
-      width: min(950px, calc(100% - 24px));
+      width: min(1000px, calc(100% - 24px));
       margin: auto;
     }
-
 
 
     /* HEADER */
@@ -77,9 +81,10 @@
     header {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 80;
 
-      background: rgba(244,241,235,0.92);
+      background: rgba(244,241,235,0.94);
+
       backdrop-filter: blur(18px);
 
       border-bottom: 1px solid rgba(0,0,0,0.04);
@@ -123,16 +128,45 @@
     }
 
 
+    /* PAGE */
 
-    /* DAY SELECTOR */
+    .page-head {
+      padding: 20px 0 9px;
+    }
+
+    .page-head h1 {
+      margin: 0 0 5px;
+      font-size: 28px;
+    }
+
+    .page-head p {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+
+    /* DAYS */
 
     .day-scroll {
+      position: sticky;
+
+      top: 70px;
+
+      z-index: 60;
+
       display: flex;
-      gap: 8px;
+
+      gap: 7px;
 
       overflow-x: auto;
 
-      padding: 14px 0 10px;
+      padding: 10px 0 14px;
+
+      background: var(--bg);
 
       scrollbar-width: none;
     }
@@ -144,35 +178,40 @@
     .day-button {
       flex: 0 0 auto;
 
-      min-width: 76px;
+      min-width: 72px;
 
       border: 0;
 
+      border-radius: 14px;
+
+      padding: 9px 10px;
+
       background: white;
 
-      padding: 10px 12px;
-
-      border-radius: 16px;
+      color: var(--muted);
 
       box-shadow: var(--shadow);
-
-      color: var(--muted);
     }
 
     .day-button strong {
       display: block;
-      font-size: 14px;
+
       color: var(--text);
-      margin-bottom: 3px;
+
+      font-size: 12px;
     }
 
     .day-button span {
-      font-size: 11px;
+      display: block;
+
+      margin-top: 2px;
+
+      font-size: 10px;
     }
 
     .day-button.active {
       background: var(--dark);
-      color: rgba(255,255,255,0.72);
+      color: white;
     }
 
     .day-button.active strong {
@@ -180,124 +219,151 @@
     }
 
 
+    /* DAY INFO */
 
-    /* DAY HERO */
-
-    .day-hero {
-      margin-top: 10px;
-
+    .day-info {
       background: var(--dark);
+
       color: white;
 
-      border-radius: 25px;
+      border-radius: 23px;
 
-      padding: 22px;
+      padding: 18px;
 
       box-shadow: var(--shadow);
     }
 
-    .day-number {
-      color: rgba(255,255,255,0.65);
-      font-size: 12px;
-      margin-bottom: 7px;
+    .day-info-top {
+      display: flex;
+
+      align-items: flex-start;
+      justify-content: space-between;
+
+      gap: 12px;
     }
 
     .day-date {
-      font-size: 13px;
-      color: rgba(255,255,255,0.68);
-      margin-bottom: 12px;
+      color: rgba(255,255,255,0.62);
+      font-size: 11px;
     }
 
-    .hero-input {
+    .day-info h2 {
+      margin: 3px 0 0;
+
+      font-size: 22px;
+    }
+
+    .map-link {
+      border: 0;
+
+      border-radius: 13px;
+
+      padding: 10px 12px;
+
+      background: white;
+
+      color: var(--dark);
+
+      font-weight: 750;
+
+      white-space: nowrap;
+    }
+
+    .day-fields {
+      display: grid;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 15px;
+    }
+
+    .dark-field {
       width: 100%;
 
-      border: 0;
-      outline: none;
+      border: 1px solid rgba(255,255,255,0.15);
 
-      background: transparent;
+      border-radius: 12px;
+
+      padding: 10px 11px;
+
+      background: rgba(255,255,255,0.09);
+
       color: white;
 
-      font-weight: 800;
-      font-size: 27px;
-
-      padding: 0;
-    }
-
-    .hero-input::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-
-    .city-input {
-      width: 100%;
-
-      border: 0;
       outline: none;
+    }
 
-      background: transparent;
+    .dark-field::placeholder {
+      color: rgba(255,255,255,0.43);
+    }
 
-      color: rgba(255,255,255,0.72);
+    textarea.dark-field {
+      min-height: 70px;
 
-      font-size: 14px;
+      resize: vertical;
 
+      line-height: 1.5;
+    }
+
+    .day-note-wrap {
       margin-top: 8px;
-      padding: 0;
-    }
-
-    .city-input::placeholder {
-      color: rgba(255,255,255,0.4);
     }
 
 
+    /* TOOLBAR */
 
-    /* SECTION */
-
-    .section {
-      margin-top: 22px;
-    }
-
-    .section-head {
+    .toolbar {
       display: flex;
+
       align-items: center;
       justify-content: space-between;
 
-      margin-bottom: 11px;
+      gap: 10px;
+
+      margin: 18px 0 11px;
     }
 
-    .section-head h2 {
+    .toolbar h3 {
       margin: 0;
-      font-size: 19px;
+
+      font-size: 18px;
+    }
+
+    .toolbar span {
+      color: var(--muted);
+      font-size: 11px;
     }
 
     .add-button {
       border: 0;
 
-      padding: 9px 13px;
-
       border-radius: 13px;
+
+      padding: 10px 13px;
 
       background: var(--accent-soft);
 
       color: #72543b;
 
-      font-weight: 700;
-      font-size: 13px;
+      font-weight: 750;
     }
-
 
 
     /* ACTIVITY */
 
     .activity-list {
       display: grid;
-      gap: 12px;
+      gap: 11px;
     }
 
-    .activity {
+    .activity-card {
       background: white;
 
-      border-radius: 22px;
+      border-radius: 21px;
 
-      padding: 16px;
+      padding: 15px;
 
       box-shadow: var(--shadow);
     }
@@ -305,182 +371,201 @@
     .activity-top {
       display: grid;
 
-      grid-template-columns:
-        105px 125px 1fr;
+      grid-template-columns: 80px 1fr auto;
 
       gap: 9px;
+
+      align-items: center;
     }
 
-    .field {
+    .time-input {
+      width: 100%;
+
       border: 1px solid var(--line);
 
-      border-radius: 13px;
+      border-radius: 11px;
 
-      padding: 10px 11px;
+      padding: 9px;
 
       background: #fbfaf8;
 
       outline: none;
 
-      width: 100%;
-    }
-
-    .field:focus {
-      border-color: #bba58f;
-      background: white;
-    }
-
-    .time-field {
       text-align: center;
+
       font-weight: 750;
-      letter-spacing: 0.5px;
     }
 
-    .title-field {
-      font-weight: 700;
-    }
-
-    textarea.field {
-      resize: vertical;
-      min-height: 72px;
-      line-height: 1.55;
-    }
-
-    .activity-details {
-      margin-top: 10px;
-
-      display: grid;
-      gap: 9px;
-    }
-
-    .map-row {
-      display: grid;
-
-      grid-template-columns:
-        1fr auto;
-
-      gap: 8px;
-    }
-
-    .map-button {
-      border: 0;
-
-      border-radius: 13px;
-
-      padding: 0 14px;
-
-      background: #e8efe7;
-
-      font-weight: 700;
-
-      white-space: nowrap;
-    }
-
-    .map-button:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
-
-    .activity-actions {
-      display: flex;
-      gap: 7px;
-
-      margin-top: 12px;
-
-      flex-wrap: wrap;
-    }
-
-    .action-button {
-      border: 0;
-
-      border-radius: 11px;
-
-      background: #f1eee9;
-
-      padding: 8px 10px;
-
-      font-size: 12px;
-    }
-
-    .delete-button {
-      color: var(--danger);
-      margin-left: auto;
-    }
-
-
-
-    /* EMPTY */
-
-    .empty {
-      text-align: center;
-
-      padding: 40px 20px;
-
-      border: 1px dashed #cabdac;
-
-      border-radius: 22px;
-
-      color: var(--muted);
-
-      background: rgba(255,255,255,0.45);
-    }
-
-    .empty-icon {
-      font-size: 36px;
-      margin-bottom: 9px;
-    }
-
-
-
-    /* NOTE */
-
-    .note-card {
-      background: white;
-
-      border-radius: 22px;
-
-      padding: 17px;
-
-      box-shadow: var(--shadow);
-    }
-
-    .note-card textarea {
+    .activity-title {
       width: 100%;
-
-      min-height: 100px;
 
       border: 0;
       outline: none;
 
-      resize: vertical;
+      background: transparent;
 
       color: var(--text);
 
-      line-height: 1.65;
+      font-size: 17px;
+      font-weight: 800;
     }
 
-
-
-    /* RESET */
-
-    .danger-zone {
-      margin-top: 30px;
-
-      border-top: 1px solid var(--line);
-
-      padding-top: 20px;
-    }
-
-    .reset-button {
+    .delete-button {
       border: 0;
 
       background: transparent;
 
       color: var(--danger);
 
-      font-size: 12px;
+      font-size: 20px;
     }
 
+
+    /* FIELDS */
+
+    .grid {
+      display: grid;
+
+      grid-template-columns: repeat(2,1fr);
+
+      gap: 8px;
+
+      margin-top: 12px;
+    }
+
+    .field-wrap {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field-wrap.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .field {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      border-radius: 12px;
+
+      padding: 10px 11px;
+
+      background: #fbfaf8;
+
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: #baa48f;
+      background: white;
+    }
+
+    textarea.field {
+      min-height: 68px;
+
+      resize: vertical;
+
+      line-height: 1.5;
+    }
+
+    .status-confirmed {
+      background: var(--green-soft);
+    }
+
+    .status-tentative {
+      background: var(--yellow-soft);
+    }
+
+
+    /* ACTIONS */
+
+    .actions {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 7px;
+
+      margin-top: 11px;
+
+      padding-top: 11px;
+
+      border-top: 1px solid var(--line);
+    }
+
+    .action-button {
+      border: 0;
+
+      border-radius: 10px;
+
+      padding: 8px 10px;
+
+      background: #f1eee9;
+
+      font-size: 11px;
+    }
+
+    .map-button {
+      background: var(--blue-soft);
+    }
+
+
+    /* EMPTY */
+
+    .empty {
+      padding: 38px 20px;
+
+      text-align: center;
+
+      border: 1px dashed #cbbeb0;
+
+      border-radius: 21px;
+
+      color: var(--muted);
+
+      background: rgba(255,255,255,0.4);
+    }
+
+    .empty-icon {
+      font-size: 38px;
+      margin-bottom: 8px;
+    }
+
+    .empty strong {
+      display: block;
+
+      color: var(--text);
+
+      margin-bottom: 4px;
+    }
+
+
+    /* NOTICE */
+
+    .notice {
+      margin-top: 18px;
+
+      padding: 14px 15px;
+
+      border-radius: 17px;
+
+      background: var(--yellow-soft);
+
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .notice strong {
+      display: block;
+      margin-bottom: 3px;
+    }
 
 
     /* NAV */
@@ -492,32 +577,34 @@
       right: 0;
       bottom: 0;
 
+      z-index: 100;
+
       height: 72px;
 
-      z-index: 100;
+      display: grid;
+
+      grid-template-columns: repeat(5,1fr);
 
       background: rgba(255,255,255,0.94);
 
       backdrop-filter: blur(18px);
 
       border-top: 1px solid rgba(0,0,0,0.06);
-
-      display: grid;
-      grid-template-columns: repeat(5,1fr);
     }
 
     .nav-link {
       display: flex;
 
+      flex-direction: column;
+
       align-items: center;
       justify-content: center;
-      flex-direction: column;
 
       gap: 3px;
 
-      font-size: 11px;
-
       color: #79756e;
+
+      font-size: 11px;
     }
 
     .nav-icon {
@@ -530,28 +617,34 @@
     }
 
 
-
-    /* MOBILE */
-
     @media (max-width: 650px) {
 
+      .day-info-top {
+        flex-direction: column;
+      }
+
+      .map-link {
+        width: 100%;
+      }
+
+      .day-fields,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-wrap.full {
+        grid-column: auto;
+      }
+
       .activity-top {
-        grid-template-columns: 100px 1fr;
-      }
-
-      .title-field {
-        grid-column: 1 / -1;
-      }
-
-      .delete-button {
-        margin-left: 0;
+        grid-template-columns: 72px 1fr auto;
       }
 
     }
 
   </style>
-</head>
 
+</head>
 
 
 <body>
@@ -581,7 +674,7 @@
       class="save-status"
       id="saveStatus"
     >
-      已自動儲存
+      自動儲存
     </div>
 
   </div>
@@ -593,6 +686,20 @@
 <main class="container">
 
 
+  <section class="page-head">
+
+    <h1>
+      📅 每日行程
+    </h1>
+
+    <p>
+      這裡新增的地點，下一步會直接同步到旅行地圖
+    </p>
+
+  </section>
+
+
+
   <div
     class="day-scroll"
     id="dayScroll"
@@ -600,81 +707,60 @@
 
 
 
-  <section class="day-hero">
+  <section class="day-info">
 
-    <div
-      class="day-number"
-      id="dayNumber"
-    >
-      DAY 1
-    </div>
+    <div class="day-info-top">
 
-    <div
-      class="day-date"
-      id="dayDate"
-    ></div>
+      <div>
 
+        <div
+          class="day-date"
+          id="dayDate"
+        >
+          -
+        </div>
 
-    <input
-      class="hero-input"
-      id="dayTitle"
-      placeholder="今天去哪裡？"
-    >
+        <h2 id="dayHeading">
+          Day 1
+        </h2>
+
+      </div>
 
 
-    <input
-      class="city-input"
-      id="dayCity"
-      placeholder="城市 / 地區"
-    >
-
-  </section>
-
-
-
-  <section class="section">
-
-    <div class="section-head">
-
-      <h2>
-        今日行程
-      </h2>
-
-      <button
-        class="add-button"
-        id="addActivity"
+      <a
+        class="map-link"
+        href="map.html"
       >
-        ＋ 新增行程
-      </button>
+        🗺️ 查看地圖
+      </a>
 
     </div>
 
 
-    <div
-      class="activity-list"
-      id="activityList"
-    ></div>
+    <div class="day-fields">
 
-  </section>
+      <input
+        class="dark-field"
+        id="dayTitle"
+        placeholder="今天主題，例如：米蘭市區"
+      >
 
 
-
-  <section class="section">
-
-    <div class="section-head">
-
-      <h2>
-        📝 今日備註
-      </h2>
+      <input
+        class="dark-field"
+        id="dayCity"
+        placeholder="城市 / 住宿區域"
+      >
 
     </div>
 
 
-    <div class="note-card">
+    <div class="day-note-wrap">
 
       <textarea
+        class="dark-field"
         id="dayNote"
-        placeholder="例如：今天要早點出門、記得帶門票、山區可能很冷……"
+        placeholder="這一天的整體備註……"
       ></textarea>
 
     </div>
@@ -683,14 +769,46 @@
 
 
 
-  <div class="danger-zone">
+  <div class="toolbar">
+
+    <div>
+
+      <h3>
+        今日行程
+      </h3>
+
+      <span id="activityCount">
+        0 個
+      </span>
+
+    </div>
+
 
     <button
-      class="reset-button"
-      id="resetDay"
+      class="add-button"
+      id="addActivity"
     >
-      重設今天的行程
+      ＋ 新增行程
     </button>
+
+  </div>
+
+
+
+  <div
+    class="activity-list"
+    id="activityList"
+  ></div>
+
+
+
+  <div class="notice">
+
+    <strong>
+      🔗 這版開始使用共用資料
+    </strong>
+
+    下一步把地圖頁也換成共用版後，你在這裡改景點名稱、地址、狀態或順序，地圖頁就會直接跟著變，不需要輸入兩次。
 
   </div>
 
@@ -721,7 +839,7 @@
 
   <a
     class="nav-link"
-    href="#"
+    href="map.html"
   >
     <span class="nav-icon">🗺️</span>
     地圖
@@ -730,7 +848,7 @@
 
   <a
     class="nav-link"
-    href="#"
+    href="tickets.html"
   >
     <span class="nav-icon">🎫</span>
     票券
@@ -739,10 +857,10 @@
 
   <a
     class="nav-link"
-    href="index.html"
+    href="car.html"
   >
-    <span class="nav-icon">☰</span>
-    更多
+    <span class="nav-icon">🚗</span>
+    租車
   </a>
 
 </nav>
@@ -753,325 +871,61 @@
 
 
 const STORAGE_KEY =
-  "travelHubItaly2026Itinerary";
+  "travelHubItaly2026SharedPlanV1";
 
 
-const defaultDays = [
-
-  {
-    date: "2026-10-01",
-    title: "出發 ✈️",
-    city: "台北 → 河內",
-    note: "從台灣出發，河內轉機。",
-    activities: [
-
-      {
-        time: "07:30",
-        type: "航班",
-        title: "TPE → HAN",
-        note: "前往河內轉機。",
-        map: ""
-      },
-
-      {
-        time: "",
-        type: "轉機",
-        title: "河內轉機",
-        note: "約 18 小時轉機，可安排休息或視情況進市區。",
-        map: ""
-      }
-
-    ]
-  },
-
-
-  {
-    date: "2026-10-02",
-    title: "抵達義大利 🇮🇹",
-    city: "Milano",
-    note: "抵達米蘭。",
-    activities: [
-
-      {
-        time: "",
-        type: "航班",
-        title: "抵達 Milano Malpensa",
-        note: "抵達 MXP、入境、領取行李。",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Milano+Malpensa+Airport"
-      },
-
-      {
-        time: "",
-        type: "住宿",
-        title: "前往住宿",
-        note: "",
-        map: ""
-      }
-
-    ]
-  },
-
-
-  {
-    date: "2026-10-03",
-    title: "米蘭 → 加爾達湖",
-    city: "Milano / Lake Garda",
-    note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "租車",
-        title: "取車",
-        note: "完成取車驗車、拍照、油量與里程紀錄。",
-        map: ""
-      },
-
-      {
-        time: "",
-        type: "自駕",
-        title: "前往 Lake Garda",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Lake+Garda+Italy"
-      }
-
-    ]
-  },
-
-
-  {
-    date: "2026-10-04",
-    title: "加爾達湖 → Dolomites",
-    city: "Lake Garda / Dolomites",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-05",
-    title: "Dolomites",
-    city: "Dolomites",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-06",
-    title: "Dolomites",
-    city: "Dolomites",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-07",
-    title: "Dolomites",
-    city: "Dolomites",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-08",
-    title: "Dolomites",
-    city: "Dolomites",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-09",
-    title: "Dolomites",
-    city: "Dolomites",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-10",
-    title: "威尼斯 → 波隆那",
-    city: "Venezia / Bologna",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-11",
-    title: "佛羅倫斯",
-    city: "Firenze",
-    note: "",
-    activities: [
-
-      {
-        time: "16:45",
-        type: "門票",
-        title: "大衛像",
-        note: "Galleria dell'Accademia。",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Galleria+dell'Accademia+Florence"
-      }
-
-    ]
-  },
-
-
-  {
-    date: "2026-10-12",
-    title: "比薩 → 托斯卡尼",
-    city: "Pisa / Toscana",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-13",
-    title: "托斯卡尼",
-    city: "Toscana",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-14",
-    title: "Viterbo",
-    city: "Viterbo",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-15",
-    title: "前往羅馬",
-    city: "Viterbo / Roma",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-16",
-    title: "羅馬",
-    city: "Roma",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-17",
-    title: "Lazio",
-    city: "Lazio",
-    note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "景點",
-        title: "Villa Farnese",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Villa+Farnese+Caprarola"
-      },
-
-      {
-        time: "",
-        type: "景點",
-        title: "Villa d'Este",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Villa+d'Este+Tivoli"
-      },
-
-      {
-        time: "",
-        type: "租車",
-        title: "還車",
-        note: "完成還車檢查、油量、里程與車況照片。",
-        map: ""
-      }
-
-    ]
-  },
-
-
-  {
-    date: "2026-10-18",
-    title: "羅馬",
-    city: "Roma",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-19",
-    title: "羅馬 / 梵蒂岡",
-    city: "Roma / Vaticano",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-20",
-    title: "羅馬",
-    city: "Roma",
-    note: "",
-    activities: []
-  },
-
-
-  {
-    date: "2026-10-21",
-    title: "回程 ✈️",
-    city: "Roma → Taipei",
-    note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "航班",
-        title: "前往 Fiumicino Airport",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Rome+Fiumicino+Airport"
-      }
-
-    ]
-  }
-
-];
-
-
-
-let tripData;
-let currentDay = 0;
-
-
-
-function cloneDefaults() {
-
-  return JSON.parse(
-    JSON.stringify(defaultDays)
+const START_DATE =
+  new Date(
+    "2026-10-01T00:00:00"
   );
+
+
+let currentDay =
+  1;
+
+
+let plan =
+  createEmptyPlan();
+
+
+
+function createEmptyPlan() {
+
+  return {
+
+    version: 1,
+
+    days:
+      Array.from(
+        {
+          length: 21
+        },
+        (
+          _,
+          index
+        ) => ({
+
+          day:
+            index + 1,
+
+          title: "",
+
+          city: "",
+
+          note: "",
+
+          activities: []
+
+        })
+      )
+
+  };
 
 }
 
 
 
-function loadData() {
+function loadPlan() {
 
   const saved =
     localStorage.getItem(
@@ -1079,40 +933,43 @@ function loadData() {
     );
 
 
-  if (saved) {
+  if (!saved) {
+    return;
+  }
 
-    try {
 
-      tripData =
-        JSON.parse(saved);
+  try {
 
-    }
+    const parsed =
+      JSON.parse(saved);
 
-    catch {
 
-      tripData =
-        cloneDefaults();
+    if (
+      parsed &&
+      Array.isArray(
+        parsed.days
+      ) &&
+      parsed.days.length === 21
+    ) {
+
+      plan =
+        parsed;
 
     }
 
   }
 
-  else {
-
-    tripData =
-      cloneDefaults();
-
-  }
+  catch {}
 
 }
 
 
 
-function saveData() {
+function savePlan() {
 
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(tripData)
+    JSON.stringify(plan)
   );
 
 
@@ -1127,11 +984,11 @@ function saveData() {
 
 
   clearTimeout(
-    window.saveMessageTimer
+    window.saveTimer
   );
 
 
-  window.saveMessageTimer =
+  window.saveTimer =
     setTimeout(
       () => {
 
@@ -1146,47 +1003,66 @@ function saveData() {
 
 
 
-function formatDate(
-  dateString
+function getDateForDay(
+  dayNumber
 ) {
 
   const date =
     new Date(
-      dateString +
-      "T00:00:00"
+      START_DATE
     );
 
 
+  date.setDate(
+    date.getDate() +
+    dayNumber -
+    1
+  );
+
+
+  return date;
+
+}
+
+
+
+function formatDate(
+  date
+) {
+
   const month =
-    date.getMonth() + 1;
+    String(
+      date.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
 
 
   const day =
-    date.getDate();
-
-
-  const weekday =
-    [
-      "日",
-      "一",
-      "二",
-      "三",
-      "四",
-      "五",
-      "六"
-    ][
-      date.getDay()
-    ];
+    String(
+      date.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
 
 
   return (
     month +
     "/" +
-    day +
-    "（" +
-    weekday +
-    "）"
+    day
   );
+
+}
+
+
+
+function currentDayData() {
+
+  return plan.days[
+    currentDay - 1
+  ];
 
 }
 
@@ -1204,11 +1080,14 @@ function renderDayButtons() {
     "";
 
 
-  tripData.forEach(
-    (
-      day,
-      index
-    ) => {
+  plan.days.forEach(
+    dayData => {
+
+
+      const date =
+        getDateForDay(
+          dayData.day
+        );
 
 
       const button =
@@ -1220,7 +1099,8 @@ function renderDayButtons() {
       button.className =
         "day-button" +
         (
-          index === currentDay
+          currentDay ===
+          dayData.day
           ? " active"
           : ""
         );
@@ -1228,13 +1108,15 @@ function renderDayButtons() {
 
       button.innerHTML =
         `
+
           <strong>
-            Day ${index + 1}
+            Day ${dayData.day}
           </strong>
 
           <span>
-            ${formatDate(day.date)}
+            ${formatDate(date)}
           </span>
+
         `;
 
 
@@ -1242,26 +1124,9 @@ function renderDayButtons() {
         () => {
 
           currentDay =
-            index;
+            dayData.day;
 
           render();
-
-          setTimeout(
-            () => {
-
-              document
-                .querySelector(
-                  ".day-button.active"
-                )
-                ?.scrollIntoView({
-                  behavior: "smooth",
-                  inline: "center",
-                  block: "nearest"
-                });
-
-            },
-            50
-          );
 
         };
 
@@ -1277,30 +1142,30 @@ function renderDayButtons() {
 
 
 
-function renderDayHeader() {
+function renderDayInfo() {
 
   const day =
-    tripData[
+    currentDayData();
+
+
+  const date =
+    getDateForDay(
       currentDay
-    ];
-
-
-  document.getElementById(
-    "dayNumber"
-  ).textContent =
-    "DAY " +
-    (
-      currentDay +
-      1
     );
 
 
   document.getElementById(
     "dayDate"
   ).textContent =
-    formatDate(
-      day.date
-    );
+    "2026 / " +
+    formatDate(date);
+
+
+  document.getElementById(
+    "dayHeading"
+  ).textContent =
+    "Day " +
+    currentDay;
 
 
   const title =
@@ -1339,7 +1204,7 @@ function renderDayHeader() {
       day.title =
         title.value;
 
-      saveData();
+      savePlan();
 
     };
 
@@ -1350,7 +1215,7 @@ function renderDayHeader() {
       day.city =
         city.value;
 
-      saveData();
+      savePlan();
 
     };
 
@@ -1361,7 +1226,7 @@ function renderDayHeader() {
       day.note =
         note.value;
 
-      saveData();
+      savePlan();
 
     };
 
@@ -1369,425 +1234,31 @@ function renderDayHeader() {
 
 
 
-function createActivityCard(
-  activity,
-  index
-) {
+function newActivity() {
 
-  const card =
-    document.createElement(
-      "div"
-    );
+  return {
 
+    id:
+      Date.now().toString(36) +
+      Math.random()
+        .toString(36)
+        .slice(2),
 
-  card.className =
-    "activity";
+    time: "",
 
+    type: "景點",
 
-  card.innerHTML =
-    `
+    title: "",
 
-      <div class="activity-top">
+    status: "暫定",
 
-        <input
-          class="field time-field activity-time"
-          type="text"
-          inputmode="numeric"
-          maxlength="5"
-          placeholder="07:30"
-          value="${escapeAttribute(activity.time || "")}"
-        >
+    place: "",
 
+    maps: "",
 
-        <select
-          class="field activity-type"
-        >
-          ${buildTypeOptions(activity.type)}
-        </select>
+    note: ""
 
-
-        <input
-          class="field title-field activity-title"
-          type="text"
-          placeholder="景點 / 行程名稱"
-          value="${escapeAttribute(activity.title || "")}"
-        >
-
-      </div>
-
-
-
-      <div class="activity-details">
-
-        <textarea
-          class="field activity-note"
-          placeholder="備註，例如：門票時間、停車、注意事項、交通方式……"
-        >${escapeHtml(activity.note || "")}</textarea>
-
-
-        <div class="map-row">
-
-          <input
-            class="field activity-map"
-            type="url"
-            placeholder="Google Maps 連結"
-            value="${escapeAttribute(activity.map || "")}"
-          >
-
-
-          <button
-            class="map-button"
-          >
-            📍 導航
-          </button>
-
-        </div>
-
-      </div>
-
-
-
-      <div class="activity-actions">
-
-        <button
-          class="action-button move-up"
-        >
-          ↑ 上移
-        </button>
-
-
-        <button
-          class="action-button move-down"
-        >
-          ↓ 下移
-        </button>
-
-
-        <button
-          class="action-button delete-button"
-        >
-          🗑 刪除
-        </button>
-
-      </div>
-
-    `;
-
-
-
-  const timeInput =
-    card.querySelector(
-      ".activity-time"
-    );
-
-
-  const typeInput =
-    card.querySelector(
-      ".activity-type"
-    );
-
-
-  const titleInput =
-    card.querySelector(
-      ".activity-title"
-    );
-
-
-  const noteInput =
-    card.querySelector(
-      ".activity-note"
-    );
-
-
-  const mapInput =
-    card.querySelector(
-      ".activity-map"
-    );
-
-
-  const mapButton =
-    card.querySelector(
-      ".map-button"
-    );
-
-
-
-  timeInput.addEventListener(
-    "input",
-    () => {
-
-      let value =
-        timeInput.value
-          .replace(
-            /[^0-9]/g,
-            ""
-          )
-          .slice(
-            0,
-            4
-          );
-
-
-      if (
-        value.length >= 3
-      ) {
-
-        value =
-          value.slice(
-            0,
-            2
-          ) +
-          ":" +
-          value.slice(
-            2
-          );
-
-      }
-
-
-      timeInput.value =
-        value;
-
-
-      activity.time =
-        value;
-
-
-      saveData();
-
-    }
-  );
-
-
-
-  function update() {
-
-    activity.time =
-      timeInput.value;
-
-
-    activity.type =
-      typeInput.value;
-
-
-    activity.title =
-      titleInput.value;
-
-
-    activity.note =
-      noteInput.value;
-
-
-    activity.map =
-      mapInput.value;
-
-
-    updateMapButton();
-
-    saveData();
-
-  }
-
-
-
-  function updateMapButton() {
-
-    mapButton.disabled =
-      !mapInput.value.trim();
-
-  }
-
-
-
-  typeInput.onchange =
-    update;
-
-
-  titleInput.oninput =
-    update;
-
-
-  noteInput.oninput =
-    update;
-
-
-  mapInput.oninput =
-    update;
-
-
-
-  mapButton.onclick =
-    () => {
-
-      const url =
-        mapInput.value.trim();
-
-
-      if (!url) {
-        return;
-      }
-
-
-      window.open(
-        url,
-        "_blank",
-        "noopener"
-      );
-
-    };
-
-
-
-  card.querySelector(
-    ".move-up"
-  ).onclick =
-    () => {
-
-      if (
-        index === 0
-      ) {
-        return;
-      }
-
-
-      const list =
-        tripData[
-          currentDay
-        ].activities;
-
-
-      [
-        list[index - 1],
-        list[index]
-      ] =
-      [
-        list[index],
-        list[index - 1]
-      ];
-
-
-      saveData();
-
-      renderActivities();
-
-    };
-
-
-
-  card.querySelector(
-    ".move-down"
-  ).onclick =
-    () => {
-
-      const list =
-        tripData[
-          currentDay
-        ].activities;
-
-
-      if (
-        index ===
-        list.length - 1
-      ) {
-        return;
-      }
-
-
-      [
-        list[index],
-        list[index + 1]
-      ] =
-      [
-        list[index + 1],
-        list[index]
-      ];
-
-
-      saveData();
-
-      renderActivities();
-
-    };
-
-
-
-  card.querySelector(
-    ".delete-button"
-  ).onclick =
-    () => {
-
-      const okay =
-        confirm(
-          "確定要刪除這個行程嗎？"
-        );
-
-
-      if (!okay) {
-        return;
-      }
-
-
-      tripData[
-        currentDay
-      ].activities.splice(
-        index,
-        1
-      );
-
-
-      saveData();
-
-      renderActivities();
-
-    };
-
-
-  updateMapButton();
-
-
-  return card;
-
-}
-
-
-
-function buildTypeOptions(
-  selected
-) {
-
-  const types =
-    [
-      "景點",
-      "門票",
-      "餐廳",
-      "自駕",
-      "交通",
-      "航班",
-      "住宿",
-      "租車",
-      "轉機",
-      "購物",
-      "其他"
-    ];
-
-
-  return types
-    .map(
-      type =>
-        `
-          <option
-            value="${type}"
-            ${
-              type === selected
-              ? "selected"
-              : ""
-            }
-          >
-            ${type}
-          </option>
-        `
-    )
-    .join("");
+  };
 
 }
 
@@ -1802,9 +1273,15 @@ function renderActivities() {
 
 
   const activities =
-    tripData[
-      currentDay
-    ].activities;
+    currentDayData()
+      .activities;
+
+
+  document.getElementById(
+    "activityCount"
+  ).textContent =
+    activities.length +
+    " 個";
 
 
   container.innerHTML =
@@ -1821,16 +1298,14 @@ function renderActivities() {
         <div class="empty">
 
           <div class="empty-icon">
-            🗓️
+            📅
           </div>
 
           <strong>
-            這天還沒有行程
+            這一天還沒有行程
           </strong>
 
-          <p>
-            按右上方「＋ 新增行程」開始安排。
-          </p>
+          按「＋ 新增行程」開始安排。
 
         </div>
 
@@ -1862,13 +1337,580 @@ function renderActivities() {
 
 
 
-function render() {
+function createActivityCard(
+  activity,
+  index
+) {
 
-  renderDayButtons();
+  const card =
+    document.createElement(
+      "div"
+    );
 
-  renderDayHeader();
 
-  renderActivities();
+  card.className =
+    "activity-card";
+
+
+  card.innerHTML =
+    `
+
+      <div class="activity-top">
+
+        <input
+          class="time-input"
+          placeholder="16:45"
+          maxlength="5"
+          value="${escapeAttribute(activity.time)}"
+        >
+
+
+        <input
+          class="activity-title"
+          placeholder="行程 / 景點名稱"
+          value="${escapeAttribute(activity.title)}"
+        >
+
+
+        <button
+          class="delete-button"
+          title="刪除"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <div class="grid">
+
+
+        <div class="field-wrap">
+
+          <label>
+            類型
+          </label>
+
+          <select
+            class="field activity-type"
+          >
+            ${typeOptions(activity.type)}
+          </select>
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            狀態
+          </label>
+
+          <select
+            class="field activity-status"
+          >
+
+            <option
+              value="暫定"
+              ${activity.status === "暫定" ? "selected" : ""}
+            >
+              🟡 暫定
+            </option>
+
+            <option
+              value="已確認"
+              ${activity.status === "已確認" ? "selected" : ""}
+            >
+              ✅ 已確認
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            地名 / 地址
+          </label>
+
+          <input
+            class="field activity-place"
+            placeholder="例如：Lago di Braies, Italy"
+            value="${escapeAttribute(activity.place)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            Google Maps 分享連結（選填）
+          </label>
+
+          <input
+            class="field activity-maps"
+            placeholder="如果已經有 Maps 連結可以貼這裡"
+            value="${escapeAttribute(activity.maps)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            備註
+          </label>
+
+          <textarea
+            class="field activity-note"
+            placeholder="門票、停車、交通、健行、注意事項……"
+          >${escapeHtml(activity.note)}</textarea>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="actions">
+
+        <button
+          class="action-button map-button open-map"
+        >
+          📍 Google Maps
+        </button>
+
+
+        <button
+          class="action-button move-up"
+        >
+          ↑ 上移
+        </button>
+
+
+        <button
+          class="action-button move-down"
+        >
+          ↓ 下移
+        </button>
+
+      </div>
+
+    `;
+
+
+
+  const time =
+    card.querySelector(
+      ".time-input"
+    );
+
+
+  const title =
+    card.querySelector(
+      ".activity-title"
+    );
+
+
+  const type =
+    card.querySelector(
+      ".activity-type"
+    );
+
+
+  const status =
+    card.querySelector(
+      ".activity-status"
+    );
+
+
+  const place =
+    card.querySelector(
+      ".activity-place"
+    );
+
+
+  const maps =
+    card.querySelector(
+      ".activity-maps"
+    );
+
+
+  const note =
+    card.querySelector(
+      ".activity-note"
+    );
+
+
+
+  function updateStatusStyle() {
+
+    status.classList.remove(
+      "status-confirmed",
+      "status-tentative"
+    );
+
+
+    if (
+      status.value ===
+      "已確認"
+    ) {
+
+      status.classList.add(
+        "status-confirmed"
+      );
+
+    }
+
+    else {
+
+      status.classList.add(
+        "status-tentative"
+      );
+
+    }
+
+  }
+
+
+
+  time.oninput =
+    () => {
+
+      let value =
+        time.value
+          .replace(
+            /[^0-9:]/g,
+            ""
+          );
+
+
+      if (
+        /^\d{4}$/.test(value)
+      ) {
+
+        value =
+          value.slice(
+            0,
+            2
+          ) +
+          ":" +
+          value.slice(2);
+
+      }
+
+
+      time.value =
+        value;
+
+
+      activity.time =
+        value;
+
+
+      savePlan();
+
+    };
+
+
+
+  title.oninput =
+    () => {
+
+      activity.title =
+        title.value;
+
+      savePlan();
+
+    };
+
+
+  type.onchange =
+    () => {
+
+      activity.type =
+        type.value;
+
+      savePlan();
+
+    };
+
+
+  status.onchange =
+    () => {
+
+      activity.status =
+        status.value;
+
+      updateStatusStyle();
+
+      savePlan();
+
+    };
+
+
+  place.oninput =
+    () => {
+
+      activity.place =
+        place.value;
+
+      savePlan();
+
+    };
+
+
+  maps.oninput =
+    () => {
+
+      activity.maps =
+        maps.value;
+
+      savePlan();
+
+    };
+
+
+  note.oninput =
+    () => {
+
+      activity.note =
+        note.value;
+
+      savePlan();
+
+    };
+
+
+
+  card.querySelector(
+    ".open-map"
+  ).onclick =
+    () => {
+
+      openMaps(
+        activity
+      );
+
+    };
+
+
+
+  card.querySelector(
+    ".move-up"
+  ).onclick =
+    () => {
+
+      if (
+        index === 0
+      ) {
+        return;
+      }
+
+
+      const activities =
+        currentDayData()
+          .activities;
+
+
+      [
+        activities[index - 1],
+        activities[index]
+      ] =
+      [
+        activities[index],
+        activities[index - 1]
+      ];
+
+
+      savePlan();
+
+      render();
+
+    };
+
+
+
+  card.querySelector(
+    ".move-down"
+  ).onclick =
+    () => {
+
+      const activities =
+        currentDayData()
+          .activities;
+
+
+      if (
+        index ===
+        activities.length - 1
+      ) {
+        return;
+      }
+
+
+      [
+        activities[index],
+        activities[index + 1]
+      ] =
+      [
+        activities[index + 1],
+        activities[index]
+      ];
+
+
+      savePlan();
+
+      render();
+
+    };
+
+
+
+  card.querySelector(
+    ".delete-button"
+  ).onclick =
+    () => {
+
+      const okay =
+        confirm(
+          "確定要刪除這個行程嗎？"
+        );
+
+
+      if (!okay) {
+        return;
+      }
+
+
+      currentDayData()
+        .activities
+        .splice(
+          index,
+          1
+        );
+
+
+      savePlan();
+
+      render();
+
+    };
+
+
+  updateStatusStyle();
+
+
+  return card;
+
+}
+
+
+
+function typeOptions(
+  selected
+) {
+
+  const options = [
+
+    ["景點","📍 景點"],
+
+    ["交通","🚗 交通"],
+
+    ["住宿","🏨 住宿"],
+
+    ["門票","🎫 門票"],
+
+    ["餐飲","🍝 餐飲"],
+
+    ["停車","🅿️ 停車"],
+
+    ["咖啡","☕ 咖啡"],
+
+    ["購物","🛍️ 購物"],
+
+    ["其他","📌 其他"]
+
+  ];
+
+
+  return options
+    .map(
+      option =>
+        `
+
+          <option
+            value="${option[0]}"
+            ${
+              option[0] === selected
+              ? "selected"
+              : ""
+            }
+          >
+            ${option[1]}
+          </option>
+
+        `
+    )
+    .join("");
+
+}
+
+
+
+function openMaps(
+  activity
+) {
+
+  if (
+    activity.maps &&
+    activity.maps.trim()
+  ) {
+
+    window.open(
+      activity.maps.trim(),
+      "_blank",
+      "noopener"
+    );
+
+    return;
+
+  }
+
+
+  const query =
+    activity.place.trim() ||
+    activity.title.trim();
+
+
+  if (!query) {
+
+    alert(
+      "先填地點名稱或地址"
+    );
+
+    return;
+
+  }
+
+
+  const url =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(
+      query
+    );
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener"
+  );
 
 }
 
@@ -1879,22 +1921,16 @@ document.getElementById(
 ).onclick =
   () => {
 
-    tripData[
-      currentDay
-    ].activities.push(
-      {
-        time: "",
-        type: "景點",
-        title: "",
-        note: "",
-        map: ""
-      }
-    );
+    currentDayData()
+      .activities
+      .push(
+        newActivity()
+      );
 
 
-    saveData();
+    savePlan();
 
-    renderActivities();
+    render();
 
 
     setTimeout(
@@ -1902,110 +1938,71 @@ document.getElementById(
 
         const cards =
           document.querySelectorAll(
-            ".activity"
+            ".activity-card"
           );
 
 
-        const lastCard =
+        const last =
           cards[
             cards.length - 1
           ];
 
 
-        lastCard
+        last
           ?.scrollIntoView({
             behavior: "smooth",
             block: "center"
           });
 
 
-        lastCard
+        last
           ?.querySelector(
             ".activity-title"
           )
           ?.focus();
 
       },
-      50
+      70
     );
 
   };
 
 
 
-document.getElementById(
-  "resetDay"
-).onclick =
-  () => {
+function render() {
 
-    const okay =
-      confirm(
-        "確定要把今天恢復成最初版本嗎？你自己修改的內容會消失。"
-      );
+  renderDayButtons();
 
+  renderDayInfo();
 
-    if (!okay) {
-      return;
-    }
+  renderActivities();
 
-
-    tripData[
-      currentDay
-    ] =
-      JSON.parse(
-        JSON.stringify(
-          defaultDays[
-            currentDay
-          ]
-        )
-      );
-
-
-    saveData();
-
-    render();
-
-  };
+}
 
 
 
 function escapeHtml(
-  text
+  text = ""
 ) {
 
   return String(text)
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
+    .replaceAll("&","&amp;")
 
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
+    .replaceAll("<","&lt;")
 
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
+    .replaceAll(">","&gt;")
 
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
+    .replaceAll('"',"&quot;")
 
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("'","&#039;");
 
 }
 
 
 
 function escapeAttribute(
-  text
+  text = ""
 ) {
 
   return escapeHtml(
@@ -2016,7 +2013,7 @@ function escapeAttribute(
 
 
 
-loadData();
+loadPlan();
 
 render();
 
