@@ -1,0 +1,1850 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>待辦事項｜Travel Hub</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #827d75;
+      --line: #e8e2d9;
+      --accent: #9a7350;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --danger: #a65a52;
+      --green-soft: #e7eee7;
+      --red-soft: #f4e4e2;
+      --yellow-soft: #f4eddc;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(900px, calc(100% - 24px));
+      margin: auto;
+    }
+
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      background: rgba(244,241,235,0.93);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      min-height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 700;
+    }
+
+    .back-icon {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      display: grid;
+      place-items: center;
+
+      box-shadow: var(--shadow);
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* PAGE */
+
+    .page-head {
+      padding: 20px 0 14px;
+    }
+
+    .page-head h1 {
+      margin: 0 0 5px;
+      font-size: 28px;
+    }
+
+    .page-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    /* SUMMARY */
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+
+      gap: 10px;
+    }
+
+    .summary-card {
+      background: white;
+
+      border-radius: 19px;
+
+      padding: 16px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .summary-card .label {
+      color: var(--muted);
+      font-size: 11px;
+
+      margin-bottom: 7px;
+    }
+
+    .summary-card strong {
+      font-size: 25px;
+    }
+
+    .summary-card.dark {
+      background: var(--dark);
+      color: white;
+    }
+
+    .summary-card.dark .label {
+      color: rgba(255,255,255,0.65);
+    }
+
+
+    /* ADD */
+
+    .add-panel {
+      margin-top: 16px;
+
+      background: white;
+
+      border-radius: 21px;
+
+      padding: 15px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .add-grid {
+      display: grid;
+
+      grid-template-columns:
+        150px
+        1fr
+        135px
+        auto;
+
+      gap: 8px;
+    }
+
+    .field {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      border-radius: 13px;
+
+      padding: 11px 12px;
+
+      background: #fbfaf8;
+
+      outline: none;
+    }
+
+    .field:focus {
+      background: white;
+      border-color: #baa48f;
+    }
+
+    .add-button {
+      border: 0;
+
+      border-radius: 13px;
+
+      padding: 0 15px;
+
+      background: var(--accent-soft);
+
+      color: #72543b;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+    }
+
+
+    /* FILTER */
+
+    .filters {
+      display: flex;
+
+      gap: 8px;
+
+      overflow-x: auto;
+
+      padding: 18px 0 10px;
+
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-button {
+      flex: 0 0 auto;
+
+      border: 0;
+
+      padding: 9px 13px;
+
+      border-radius: 100px;
+
+      background: white;
+
+      color: var(--muted);
+
+      box-shadow: var(--shadow);
+
+      font-size: 12px;
+    }
+
+    .filter-button.active {
+      background: var(--dark);
+      color: white;
+    }
+
+
+    /* TODO */
+
+    .todo-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .todo-card {
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 15px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .todo-main {
+      display: grid;
+
+      grid-template-columns:
+        auto
+        1fr
+        auto;
+
+      gap: 11px;
+
+      align-items: start;
+    }
+
+    .todo-check {
+      width: 22px;
+      height: 22px;
+
+      margin-top: 4px;
+
+      accent-color: var(--accent);
+    }
+
+    .todo-title {
+      width: 100%;
+
+      border: 0;
+      outline: none;
+
+      background: transparent;
+
+      color: var(--text);
+
+      font-size: 16px;
+      font-weight: 750;
+
+      padding: 2px 0;
+    }
+
+    .todo-title.done {
+      color: #aaa49c;
+
+      text-decoration: line-through;
+    }
+
+    .delete-button {
+      border: 0;
+
+      background: transparent;
+
+      color: var(--danger);
+
+      font-size: 18px;
+    }
+
+
+    /* META */
+
+    .meta-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap: 8px;
+
+      margin-top: 12px;
+    }
+
+    .mini-field-wrap {
+      display: grid;
+      gap: 4px;
+    }
+
+    .mini-field-wrap label {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .mini-field {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      border-radius: 11px;
+
+      padding: 8px 9px;
+
+      background: #fbfaf8;
+
+      outline: none;
+
+      font-size: 12px;
+    }
+
+
+    /* PRIORITY */
+
+    .priority-high {
+      background: var(--red-soft);
+    }
+
+    .priority-medium {
+      background: var(--yellow-soft);
+    }
+
+    .priority-low {
+      background: var(--green-soft);
+    }
+
+
+    /* NOTE */
+
+    .note {
+      width: 100%;
+
+      margin-top: 10px;
+
+      min-height: 65px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 13px;
+
+      padding: 10px;
+
+      resize: vertical;
+
+      background: #fbfaf8;
+
+      outline: none;
+
+      line-height: 1.55;
+
+      font-size: 12px;
+    }
+
+    .note:focus {
+      background: white;
+      border-color: #baa48f;
+    }
+
+
+    /* DUE */
+
+    .due-warning {
+      margin-top: 9px;
+
+      padding: 8px 10px;
+
+      border-radius: 11px;
+
+      background: var(--red-soft);
+
+      color: #89524d;
+
+      font-size: 11px;
+
+      display: none;
+    }
+
+
+    /* EMPTY */
+
+    .empty {
+      padding: 40px 20px;
+
+      text-align: center;
+
+      border-radius: 22px;
+
+      border: 1px dashed #cbbeb0;
+
+      background: rgba(255,255,255,0.4);
+
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 9px;
+    }
+
+    .empty strong {
+      display: block;
+
+      color: var(--text);
+
+      margin-bottom: 5px;
+    }
+
+
+    /* NAV */
+
+    nav {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 100;
+
+      height: 72px;
+
+      display: grid;
+
+      grid-template-columns: repeat(5,1fr);
+
+      background: rgba(255,255,255,0.94);
+
+      backdrop-filter: blur(18px);
+
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-link {
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 3px;
+
+      color: #79756e;
+
+      font-size: 11px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-link.active {
+      color: var(--text);
+
+      font-weight: 700;
+    }
+
+
+    @media (max-width: 700px) {
+
+      .summary-grid {
+        grid-template-columns: repeat(3,1fr);
+      }
+
+      .add-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .add-button {
+        min-height: 44px;
+      }
+
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        待辦事項
+      </div>
+
+    </a>
+
+
+    <div
+      class="save-status"
+      id="saveStatus"
+    >
+      自動儲存
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+  <section class="page-head">
+
+    <h1>
+      ✅ 待辦事項
+    </h1>
+
+    <p>
+      管理出發前需要預約、確認與處理的事情
+    </p>
+
+  </section>
+
+
+
+  <section class="summary-grid">
+
+    <div class="summary-card dark">
+
+      <div class="label">
+        待完成
+      </div>
+
+      <strong id="pendingCount">
+        0
+      </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="label">
+        已完成
+      </div>
+
+      <strong id="doneCount">
+        0
+      </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="label">
+        總計
+      </div>
+
+      <strong id="totalCount">
+        0
+      </strong>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="add-panel">
+
+    <div class="add-grid">
+
+
+      <select
+        class="field"
+        id="newCategory"
+      >
+
+        <option value="門票">
+          🎫 門票
+        </option>
+
+        <option value="住宿">
+          🏨 住宿
+        </option>
+
+        <option value="交通">
+          🚗 交通
+        </option>
+
+        <option value="文件">
+          📄 文件
+        </option>
+
+        <option value="付款">
+          💳 付款
+        </option>
+
+        <option value="行程">
+          📅 行程
+        </option>
+
+        <option value="行李">
+          🧳 行李
+        </option>
+
+        <option value="其他">
+          📌 其他
+        </option>
+
+      </select>
+
+
+      <input
+        class="field"
+        id="newTitle"
+        placeholder="新增待辦事項"
+      >
+
+
+      <select
+        class="field"
+        id="newPriority"
+      >
+
+        <option value="高">
+          🔴 高優先
+        </option>
+
+        <option value="中" selected>
+          🟡 中優先
+        </option>
+
+        <option value="低">
+          🟢 低優先
+        </option>
+
+      </select>
+
+
+      <button
+        class="add-button"
+        id="addTodo"
+      >
+        ＋ 新增
+      </button>
+
+
+    </div>
+
+  </section>
+
+
+
+  <div
+    class="filters"
+    id="filters"
+  ></div>
+
+
+
+  <div
+    class="todo-list"
+    id="todoList"
+  ></div>
+
+
+</main>
+
+
+
+<nav>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="itinerary.html"
+  >
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+
+  <a
+    class="nav-link active"
+    href="todo.html"
+  >
+    <span class="nav-icon">✅</span>
+    待辦
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="tickets.html"
+  >
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="car.html"
+  >
+    <span class="nav-icon">🚗</span>
+    租車
+  </a>
+
+</nav>
+
+
+
+<script>
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026Todos";
+
+
+const categoryIcons = {
+
+  "門票": "🎫",
+
+  "住宿": "🏨",
+
+  "交通": "🚗",
+
+  "文件": "📄",
+
+  "付款": "💳",
+
+  "行程": "📅",
+
+  "行李": "🧳",
+
+  "其他": "📌"
+
+};
+
+
+let todos = [];
+
+let currentFilter =
+  "待完成";
+
+
+
+function loadData() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!saved) {
+
+    todos = [];
+
+    return;
+
+  }
+
+
+  try {
+
+    todos =
+      JSON.parse(saved);
+
+  }
+
+  catch {
+
+    todos = [];
+
+  }
+
+}
+
+
+
+function saveData() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(todos)
+  );
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
+    );
+
+
+  status.textContent =
+    "已儲存 ✓";
+
+
+  clearTimeout(
+    window.saveTimer
+  );
+
+
+  window.saveTimer =
+    setTimeout(
+      () => {
+
+        status.textContent =
+          "自動儲存";
+
+      },
+      1200
+    );
+
+}
+
+
+
+function updateSummary() {
+
+  const total =
+    todos.length;
+
+
+  const done =
+    todos.filter(
+      todo =>
+        todo.done
+    ).length;
+
+
+  const pending =
+    total - done;
+
+
+  document.getElementById(
+    "pendingCount"
+  ).textContent =
+    pending;
+
+
+  document.getElementById(
+    "doneCount"
+  ).textContent =
+    done;
+
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    total;
+
+}
+
+
+
+function renderFilters() {
+
+  const container =
+    document.getElementById(
+      "filters"
+    );
+
+
+  const options =
+    [
+      "待完成",
+      "全部",
+      "已完成"
+    ];
+
+
+  container.innerHTML =
+    "";
+
+
+  options.forEach(
+    option => {
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "filter-button" +
+        (
+          currentFilter === option
+          ? " active"
+          : ""
+        );
+
+
+      button.textContent =
+        option;
+
+
+      button.onclick =
+        () => {
+
+          currentFilter =
+            option;
+
+          render();
+
+        };
+
+
+      container.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+
+function renderTodos() {
+
+  const container =
+    document.getElementById(
+      "todoList"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  let visible =
+    todos
+      .map(
+        (
+          todo,
+          index
+        ) => ({
+          todo,
+          index
+        })
+      );
+
+
+  if (
+    currentFilter ===
+    "待完成"
+  ) {
+
+    visible =
+      visible.filter(
+        entry =>
+          !entry.todo.done
+      );
+
+  }
+
+
+  if (
+    currentFilter ===
+    "已完成"
+  ) {
+
+    visible =
+      visible.filter(
+        entry =>
+          entry.todo.done
+      );
+
+  }
+
+
+  visible.sort(
+    (
+      a,
+      b
+    ) => {
+
+      const priorityRank = {
+        "高": 0,
+        "中": 1,
+        "低": 2
+      };
+
+
+      if (
+        priorityRank[a.todo.priority] !==
+        priorityRank[b.todo.priority]
+      ) {
+
+        return (
+          priorityRank[a.todo.priority] -
+          priorityRank[b.todo.priority]
+        );
+
+      }
+
+
+      if (
+        a.todo.dueDate &&
+        b.todo.dueDate
+      ) {
+
+        return (
+          a.todo.dueDate.localeCompare(
+            b.todo.dueDate
+          )
+        );
+
+      }
+
+
+      return 0;
+
+    }
+  );
+
+
+  if (
+    visible.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            ✅
+          </div>
+
+          <strong>
+            目前沒有待辦
+          </strong>
+
+          需要處理的事情可以從上方新增。
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  visible.forEach(
+    entry => {
+
+      container.appendChild(
+        createTodoCard(
+          entry.todo,
+          entry.index
+        )
+      );
+
+    }
+  );
+
+}
+
+
+
+function createTodoCard(
+  todo,
+  index
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "todo-card";
+
+
+  card.innerHTML =
+    `
+
+      <div class="todo-main">
+
+        <input
+          class="todo-check"
+          type="checkbox"
+          ${todo.done ? "checked" : ""}
+        >
+
+
+        <input
+          class="todo-title ${todo.done ? "done" : ""}"
+          value="${escapeAttribute(todo.title)}"
+          placeholder="待辦事項"
+        >
+
+
+        <button
+          class="delete-button"
+          title="刪除"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <div class="meta-grid">
+
+
+        <div class="mini-field-wrap">
+
+          <label>
+            分類
+          </label>
+
+          <select
+            class="mini-field category"
+          >
+
+            ${categoryOptions(todo.category)}
+
+          </select>
+
+        </div>
+
+
+
+        <div class="mini-field-wrap">
+
+          <label>
+            截止日期
+          </label>
+
+          <input
+            class="mini-field due-date"
+            type="date"
+            value="${escapeAttribute(todo.dueDate || "")}"
+          >
+
+        </div>
+
+
+
+        <div class="mini-field-wrap">
+
+          <label>
+            優先度
+          </label>
+
+          <select
+            class="mini-field priority"
+          >
+
+            ${priorityOptions(todo.priority)}
+
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+
+      <textarea
+        class="note"
+        placeholder="備註，例如：開放售票日期、需要準備的資料、網站、提醒事項……"
+      >${escapeHtml(todo.note || "")}</textarea>
+
+
+      <div
+        class="due-warning"
+      ></div>
+
+    `;
+
+
+
+  const checkbox =
+    card.querySelector(
+      ".todo-check"
+    );
+
+
+  const title =
+    card.querySelector(
+      ".todo-title"
+    );
+
+
+  const category =
+    card.querySelector(
+      ".category"
+    );
+
+
+  const dueDate =
+    card.querySelector(
+      ".due-date"
+    );
+
+
+  const priority =
+    card.querySelector(
+      ".priority"
+    );
+
+
+  const note =
+    card.querySelector(
+      ".note"
+    );
+
+
+  const warning =
+    card.querySelector(
+      ".due-warning"
+    );
+
+
+
+  function updatePriorityStyle() {
+
+    priority.classList.remove(
+      "priority-high",
+      "priority-medium",
+      "priority-low"
+    );
+
+
+    if (
+      priority.value ===
+      "高"
+    ) {
+
+      priority.classList.add(
+        "priority-high"
+      );
+
+    }
+
+
+    else if (
+      priority.value ===
+      "中"
+    ) {
+
+      priority.classList.add(
+        "priority-medium"
+      );
+
+    }
+
+
+    else {
+
+      priority.classList.add(
+        "priority-low"
+      );
+
+    }
+
+  }
+
+
+
+  function updateDueWarning() {
+
+    warning.style.display =
+      "none";
+
+
+    if (
+      todo.done ||
+      !todo.dueDate
+    ) {
+
+      return;
+
+    }
+
+
+    const today =
+      new Date();
+
+
+    today.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
+
+    const due =
+      new Date(
+        todo.dueDate +
+        "T00:00:00"
+      );
+
+
+    const difference =
+      Math.ceil(
+        (
+          due -
+          today
+        ) /
+        (
+          1000 *
+          60 *
+          60 *
+          24
+        )
+      );
+
+
+    if (
+      difference < 0
+    ) {
+
+      warning.textContent =
+        "⚠️ 已超過截止日期";
+
+
+      warning.style.display =
+        "block";
+
+    }
+
+
+    else if (
+      difference === 0
+    ) {
+
+      warning.textContent =
+        "⚠️ 今天截止";
+
+
+      warning.style.display =
+        "block";
+
+    }
+
+
+    else if (
+      difference <= 7
+    ) {
+
+      warning.textContent =
+        "⏰ 距離截止還有 " +
+        difference +
+        " 天";
+
+
+      warning.style.display =
+        "block";
+
+    }
+
+  }
+
+
+
+  checkbox.onchange =
+    () => {
+
+      todo.done =
+        checkbox.checked;
+
+
+      title.classList.toggle(
+        "done",
+        todo.done
+      );
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+
+  title.oninput =
+    () => {
+
+      todo.title =
+        title.value;
+
+      saveData();
+
+    };
+
+
+
+  category.onchange =
+    () => {
+
+      todo.category =
+        category.value;
+
+      saveData();
+
+    };
+
+
+
+  dueDate.onchange =
+    () => {
+
+      todo.dueDate =
+        dueDate.value;
+
+      saveData();
+
+      updateDueWarning();
+
+    };
+
+
+
+  priority.onchange =
+    () => {
+
+      todo.priority =
+        priority.value;
+
+      saveData();
+
+      updatePriorityStyle();
+
+    };
+
+
+
+  note.oninput =
+    () => {
+
+      todo.note =
+        note.value;
+
+      saveData();
+
+    };
+
+
+
+  card.querySelector(
+    ".delete-button"
+  ).onclick =
+    () => {
+
+      const okay =
+        confirm(
+          "確定要刪除這個待辦事項嗎？"
+        );
+
+
+      if (!okay) {
+        return;
+      }
+
+
+      todos.splice(
+        index,
+        1
+      );
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+
+  updatePriorityStyle();
+
+  updateDueWarning();
+
+
+  return card;
+
+}
+
+
+
+function addTodo() {
+
+  const titleInput =
+    document.getElementById(
+      "newTitle"
+    );
+
+
+  const title =
+    titleInput.value.trim();
+
+
+  if (!title) {
+    return;
+  }
+
+
+  const category =
+    document.getElementById(
+      "newCategory"
+    ).value;
+
+
+  const priority =
+    document.getElementById(
+      "newPriority"
+    ).value;
+
+
+  todos.push(
+    {
+
+      title,
+
+      category,
+
+      priority,
+
+      dueDate: "",
+
+      note: "",
+
+      done: false
+
+    }
+  );
+
+
+  titleInput.value =
+    "";
+
+
+  currentFilter =
+    "待完成";
+
+
+  saveData();
+
+  render();
+
+
+  titleInput.focus();
+
+}
+
+
+
+document.getElementById(
+  "addTodo"
+).onclick =
+  addTodo;
+
+
+
+document.getElementById(
+  "newTitle"
+).addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Enter"
+    ) {
+
+      addTodo();
+
+    }
+
+  }
+);
+
+
+
+function categoryOptions(
+  selected
+) {
+
+  return Object.keys(
+    categoryIcons
+  )
+  .map(
+    category =>
+      `
+
+        <option
+          value="${category}"
+          ${
+            selected === category
+            ? "selected"
+            : ""
+          }
+        >
+
+          ${categoryIcons[category]}
+          ${category}
+
+        </option>
+
+      `
+  )
+  .join("");
+
+}
+
+
+
+function priorityOptions(
+  selected
+) {
+
+  const options =
+    [
+      "高",
+      "中",
+      "低"
+    ];
+
+
+  return options
+    .map(
+      option =>
+        `
+
+          <option
+            value="${option}"
+            ${
+              selected === option
+              ? "selected"
+              : ""
+            }
+          >
+
+            ${
+              option === "高"
+              ? "🔴 高"
+              : option === "中"
+              ? "🟡 中"
+              : "🟢 低"
+            }
+
+          </option>
+
+        `
+    )
+    .join("");
+
+}
+
+
+
+function render() {
+
+  updateSummary();
+
+  renderFilters();
+
+  renderTodos();
+
+}
+
+
+
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function escapeAttribute(
+  text = ""
+) {
+
+  return escapeHtml(
+    text
+  );
+
+}
+
+
+
+loadData();
+
+render();
+
+
+</script>
+
+
+</body>
+
+</html>
