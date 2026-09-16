@@ -29,7 +29,6 @@
       --dark: #2e2d29;
       --green-soft: #e6eee7;
       --yellow-soft: #f4eddc;
-      --red-soft: #f3e4e2;
       --blue-soft: #e6edf3;
       --danger: #a65a52;
       --shadow: 0 8px 28px rgba(52,45,36,0.06);
@@ -84,7 +83,7 @@
       top: 0;
       z-index: 80;
 
-      background: rgba(244,241,235,0.93);
+      background: rgba(244,241,235,0.94);
 
       backdrop-filter: blur(18px);
 
@@ -132,12 +131,11 @@
     /* PAGE */
 
     .page-head {
-      padding: 20px 0 10px;
+      padding: 20px 0 9px;
     }
 
     .page-head h1 {
       margin: 0 0 5px;
-
       font-size: 28px;
     }
 
@@ -154,6 +152,12 @@
     /* DAYS */
 
     .day-scroll {
+      position: sticky;
+
+      top: 70px;
+
+      z-index: 60;
+
       display: flex;
 
       gap: 7px;
@@ -162,15 +166,9 @@
 
       padding: 10px 0 14px;
 
-      scrollbar-width: none;
-
-      position: sticky;
-
-      top: 70px;
-
-      z-index: 60;
-
       background: var(--bg);
+
+      scrollbar-width: none;
     }
 
     .day-scroll::-webkit-scrollbar {
@@ -180,13 +178,13 @@
     .day-button {
       flex: 0 0 auto;
 
-      border: 0;
-
       min-width: 72px;
 
-      padding: 9px 10px;
+      border: 0;
 
       border-radius: 14px;
+
+      padding: 9px 10px;
 
       background: white;
 
@@ -233,11 +231,13 @@
       border-radius: 23px;
 
       box-shadow: var(--shadow);
+    }
 
+    .day-top {
       display: flex;
 
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
 
       gap: 15px;
     }
@@ -250,6 +250,14 @@
       margin: 3px 0 0;
 
       font-size: 22px;
+    }
+
+    .day-city {
+      margin-top: 5px;
+
+      color: rgba(255,255,255,0.72);
+
+      font-size: 12px;
     }
 
     .route-button {
@@ -273,8 +281,21 @@
       cursor: default;
     }
 
+    .day-note {
+      margin-top: 12px;
 
-    /* MAP PREVIEW */
+      padding-top: 12px;
+
+      border-top: 1px solid rgba(255,255,255,0.12);
+
+      color: rgba(255,255,255,0.72);
+
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+
+    /* MAP */
 
     .map-panel {
       margin-top: 13px;
@@ -313,6 +334,7 @@
       height: 350px;
 
       border: 0;
+
       border-radius: 17px;
 
       background: #ece8e2;
@@ -335,7 +357,6 @@
       color: var(--muted);
 
       font-size: 12px;
-
       line-height: 1.6;
     }
 
@@ -377,15 +398,15 @@
     }
 
 
-    /* STOP */
+    /* ACTIVITY */
 
-    .stop-list {
+    .activity-list {
       display: grid;
 
       gap: 11px;
     }
 
-    .stop-card {
+    .activity-card {
       background: white;
 
       border-radius: 21px;
@@ -395,7 +416,7 @@
       box-shadow: var(--shadow);
     }
 
-    .stop-top {
+    .activity-top {
       display: grid;
 
       grid-template-columns: auto 1fr auto;
@@ -405,7 +426,7 @@
       align-items: center;
     }
 
-    .stop-number {
+    .activity-number {
       width: 35px;
       height: 35px;
 
@@ -416,14 +437,14 @@
 
       background: var(--accent-soft);
 
-      color: #73543b;
+      color: #72543b;
 
       font-weight: 800;
 
       font-size: 12px;
     }
 
-    .stop-name {
+    .activity-title {
       width: 100%;
 
       border: 0;
@@ -433,9 +454,8 @@
 
       color: var(--text);
 
-      font-weight: 800;
-
       font-size: 17px;
+      font-weight: 800;
     }
 
     .delete-button {
@@ -454,15 +474,16 @@
     .grid {
       display: grid;
 
-      grid-template-columns: repeat(2,1fr);
+      grid-template-columns: repeat(3,1fr);
 
-      gap: 9px;
+      gap: 8px;
 
       margin-top: 12px;
     }
 
     .field-wrap {
       display: grid;
+
       gap: 5px;
     }
 
@@ -491,9 +512,9 @@
     }
 
     .field:focus {
-      background: white;
-
       border-color: #baa48f;
+
+      background: white;
     }
 
     textarea.field {
@@ -581,23 +602,22 @@
     }
 
 
-    /* NOTICE */
+    /* SYNC */
 
-    .notice {
+    .sync-box {
       margin-top: 18px;
 
       padding: 14px 15px;
 
       border-radius: 17px;
 
-      background: var(--yellow-soft);
+      background: var(--green-soft);
 
       font-size: 12px;
-
       line-height: 1.6;
     }
 
-    .notice strong {
+    .sync-box strong {
       display: block;
 
       margin-bottom: 3px;
@@ -654,11 +674,9 @@
     }
 
 
-    @media (max-width: 650px) {
+    @media (max-width: 700px) {
 
-      .day-card {
-        align-items: flex-start;
-
+      .day-top {
         flex-direction: column;
       }
 
@@ -712,7 +730,7 @@
       class="save-status"
       id="saveStatus"
     >
-      自動儲存
+      共用資料
     </div>
 
   </div>
@@ -731,7 +749,7 @@
     </h1>
 
     <p>
-      每天的景點、住宿、停車與路線都可以隨時修改
+      與每日行程共用同一份資料，這裡修改後行程頁也會一起更新
     </p>
 
   </section>
@@ -747,25 +765,41 @@
 
   <section class="day-card">
 
-    <div>
+    <div class="day-top">
 
-      <small id="dayDate">
-        -
-      </small>
+      <div>
 
-      <h2 id="dayTitle">
-        Day 1
-      </h2>
+        <small id="dayDate">
+          -
+        </small>
+
+        <h2 id="dayTitle">
+          Day 1
+        </h2>
+
+        <div
+          class="day-city"
+          id="dayCity"
+        ></div>
+
+      </div>
+
+
+      <button
+        class="route-button"
+        id="openDayRoute"
+      >
+        🚙 開啟今日路線
+      </button>
 
     </div>
 
 
-    <button
-      class="route-button"
-      id="openDayRoute"
-    >
-      🚙 開啟今日路線
-    </button>
+    <div
+      class="day-note"
+      id="dayNote"
+      style="display:none"
+    ></div>
 
   </section>
 
@@ -780,7 +814,7 @@
       </strong>
 
       <span id="previewLabel">
-        點景點的「預覽」
+        點地點的「預覽」
       </span>
 
     </div>
@@ -806,10 +840,10 @@
     <div>
 
       <strong>
-        今日地點
+        今日地點 / 行程
       </strong>
 
-      <span id="stopCount">
+      <span id="activityCount">
         0 個
       </span>
 
@@ -818,7 +852,7 @@
 
     <button
       class="add-button"
-      id="addStop"
+      id="addActivity"
     >
       ＋ 新增地點
     </button>
@@ -828,19 +862,19 @@
 
 
   <div
-    class="stop-list"
-    id="stopList"
+    class="activity-list"
+    id="activityList"
   ></div>
 
 
 
-  <div class="notice">
+  <div class="sync-box">
 
     <strong>
-      🟡 暫定行程也可以放
+      🔗 已與每日行程同步
     </strong>
 
-    尚未決定的西多洛米蒂景點可以先標成「暫定」，之後直接刪除、換地點或重新排序，不需要再改 HTML。
+    這裡和「每日行程」現在讀的是同一份資料。你在任何一頁修改名稱、地址、狀態、備註或順序，另一頁重新打開後就會看到相同內容。
 
   </div>
 
@@ -903,7 +937,7 @@
 
 
 const STORAGE_KEY =
-  "travelHubItaly2026Map";
+  "travelHubItaly2026SharedPlanV1";
 
 
 const START_DATE =
@@ -916,23 +950,48 @@ let currentDay =
   1;
 
 
-let days =
-  Array.from(
-    {
-      length: 21
-    },
-    (
-      _,
-      index
-    ) => ({
-      day: index + 1,
-      stops: []
-    })
-  );
+let plan =
+  createEmptyPlan();
 
 
 
-function loadData() {
+function createEmptyPlan() {
+
+  return {
+
+    version: 1,
+
+    days:
+      Array.from(
+        {
+          length: 21
+        },
+        (
+          _,
+          index
+        ) => ({
+
+          day:
+            index + 1,
+
+          title: "",
+
+          city: "",
+
+          note: "",
+
+          activities: []
+
+        })
+      )
+
+  };
+
+}
+
+
+
+function loadPlan() {
 
   const saved =
     localStorage.getItem(
@@ -952,11 +1011,14 @@ function loadData() {
 
 
     if (
-      Array.isArray(parsed) &&
-      parsed.length === 21
+      parsed &&
+      Array.isArray(
+        parsed.days
+      ) &&
+      parsed.days.length === 21
     ) {
 
-      days =
+      plan =
         parsed;
 
     }
@@ -969,11 +1031,11 @@ function loadData() {
 
 
 
-function saveData() {
+function savePlan() {
 
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(days)
+    JSON.stringify(plan)
   );
 
 
@@ -984,7 +1046,7 @@ function saveData() {
 
 
   status.textContent =
-    "已儲存 ✓";
+    "已同步 ✓";
 
 
   clearTimeout(
@@ -997,7 +1059,7 @@ function saveData() {
       () => {
 
         status.textContent =
-          "自動儲存";
+          "共用資料";
 
       },
       1200
@@ -1062,6 +1124,16 @@ function formatDate(
 
 
 
+function currentDayData() {
+
+  return plan.days[
+    currentDay - 1
+  ];
+
+}
+
+
+
 function renderDayButtons() {
 
   const container =
@@ -1074,7 +1146,7 @@ function renderDayButtons() {
     "";
 
 
-  days.forEach(
+  plan.days.forEach(
     dayData => {
 
 
@@ -1139,29 +1211,16 @@ function renderDayButtons() {
 
 
 
-function currentDayData() {
+function renderDayHeader() {
 
-  return days[
-    currentDay - 1
-  ];
+  const day =
+    currentDayData();
 
-}
-
-
-
-function renderHeader() {
 
   const date =
     getDateForDay(
       currentDay
     );
-
-
-  document.getElementById(
-    "dayTitle"
-  ).textContent =
-    "Day " +
-    currentDay;
 
 
   document.getElementById(
@@ -1171,41 +1230,109 @@ function renderHeader() {
     formatDate(date);
 
 
-  const count =
-    currentDayData()
-      .stops
-      .length;
-
-
   document.getElementById(
-    "stopCount"
+    "dayTitle"
   ).textContent =
-    count +
-    " 個";
+    day.title
+    ? (
+        "Day " +
+        currentDay +
+        " · " +
+        day.title
+      )
+    : (
+        "Day " +
+        currentDay
+      );
+
+
+  const city =
+    document.getElementById(
+      "dayCity"
+    );
+
+
+  city.textContent =
+    day.city || "";
+
+
+  city.style.display =
+    day.city
+    ? "block"
+    : "none";
+
+
+  const note =
+    document.getElementById(
+      "dayNote"
+    );
+
+
+  note.textContent =
+    day.note || "";
+
+
+  note.style.display =
+    day.note
+    ? "block"
+    : "none";
+
+
+  const usablePlaces =
+    day.activities.filter(
+      hasMapLocation
+    );
 
 
   document.getElementById(
     "openDayRoute"
   ).disabled =
-    count < 2;
+    usablePlaces.length < 2;
 
 }
 
 
 
-function newStop() {
+function hasMapLocation(
+  activity
+) {
+
+  return Boolean(
+    (
+      activity.place &&
+      activity.place.trim()
+    ) ||
+    (
+      activity.title &&
+      activity.title.trim()
+    )
+  );
+
+}
+
+
+
+function newActivity() {
 
   return {
 
-    name: "",
+    id:
+      Date.now().toString(36) +
+      Math.random()
+        .toString(36)
+        .slice(2),
 
-    place: "",
-
-    customMaps: "",
+    time: "",
 
     type: "景點",
 
+    title: "",
+
     status: "暫定",
+
+    place: "",
+
+    maps: "",
 
     note: ""
 
@@ -1215,17 +1342,24 @@ function newStop() {
 
 
 
-function renderStops() {
+function renderActivities() {
 
   const container =
     document.getElementById(
-      "stopList"
+      "activityList"
     );
 
 
-  const stops =
+  const activities =
     currentDayData()
-      .stops;
+      .activities;
+
+
+  document.getElementById(
+    "activityCount"
+  ).textContent =
+    activities.length +
+    " 個";
 
 
   container.innerHTML =
@@ -1233,7 +1367,7 @@ function renderStops() {
 
 
   if (
-    stops.length === 0
+    activities.length === 0
   ) {
 
     container.innerHTML =
@@ -1246,10 +1380,10 @@ function renderStops() {
           </div>
 
           <strong>
-            今天還沒有加入地點
+            今天還沒有地點
           </strong>
 
-          按「＋ 新增地點」開始建立今天的路線。
+          可以在這裡新增，也可以回每日行程新增。
 
         </div>
 
@@ -1261,15 +1395,15 @@ function renderStops() {
   }
 
 
-  stops.forEach(
+  activities.forEach(
     (
-      stop,
+      activity,
       index
     ) => {
 
       container.appendChild(
-        createStopCard(
-          stop,
+        createActivityCard(
+          activity,
           index
         )
       );
@@ -1281,8 +1415,8 @@ function renderStops() {
 
 
 
-function createStopCard(
-  stop,
+function createActivityCard(
+  activity,
   index
 ) {
 
@@ -1293,23 +1427,23 @@ function createStopCard(
 
 
   card.className =
-    "stop-card";
+    "activity-card";
 
 
   card.innerHTML =
     `
 
-      <div class="stop-top">
+      <div class="activity-top">
 
-        <div class="stop-number">
+        <div class="activity-number">
           ${index + 1}
         </div>
 
 
         <input
-          class="stop-name"
-          placeholder="地點名稱"
-          value="${escapeAttribute(stop.name)}"
+          class="activity-title"
+          placeholder="行程 / 地點名稱"
+          value="${escapeAttribute(activity.title)}"
         >
 
 
@@ -1330,28 +1464,15 @@ function createStopCard(
         <div class="field-wrap">
 
           <label>
-            狀態
+            時間
           </label>
 
-          <select
-            class="field stop-status"
+          <input
+            class="field activity-time"
+            placeholder="16:45"
+            maxlength="5"
+            value="${escapeAttribute(activity.time)}"
           >
-
-            <option
-              value="暫定"
-              ${stop.status === "暫定" ? "selected" : ""}
-            >
-              🟡 暫定
-            </option>
-
-            <option
-              value="已確認"
-              ${stop.status === "已確認" ? "selected" : ""}
-            >
-              ✅ 已確認
-            </option>
-
-          </select>
 
         </div>
 
@@ -1364,9 +1485,39 @@ function createStopCard(
           </label>
 
           <select
-            class="field stop-type"
+            class="field activity-type"
           >
-            ${typeOptions(stop.type)}
+            ${typeOptions(activity.type)}
+          </select>
+
+        </div>
+
+
+
+        <div class="field-wrap">
+
+          <label>
+            狀態
+          </label>
+
+          <select
+            class="field activity-status"
+          >
+
+            <option
+              value="暫定"
+              ${activity.status === "暫定" ? "selected" : ""}
+            >
+              🟡 暫定
+            </option>
+
+            <option
+              value="已確認"
+              ${activity.status === "已確認" ? "selected" : ""}
+            >
+              ✅ 已確認
+            </option>
+
           </select>
 
         </div>
@@ -1376,13 +1527,13 @@ function createStopCard(
         <div class="field-wrap full">
 
           <label>
-            Google Maps 搜尋地名 / 地址
+            地名 / 地址
           </label>
 
           <input
-            class="field stop-place"
+            class="field activity-place"
             placeholder="例如：Lago di Braies, Italy"
-            value="${escapeAttribute(stop.place)}"
+            value="${escapeAttribute(activity.place)}"
           >
 
         </div>
@@ -1392,13 +1543,13 @@ function createStopCard(
         <div class="field-wrap full">
 
           <label>
-            Google Maps 連結（選填）
+            Google Maps 分享連結（選填）
           </label>
 
           <input
-            class="field custom-maps"
-            placeholder="如果你已經有 Maps 分享連結，可以直接貼"
-            value="${escapeAttribute(stop.customMaps)}"
+            class="field activity-maps"
+            placeholder="有 Maps 分享連結可以直接貼"
+            value="${escapeAttribute(activity.maps)}"
           >
 
         </div>
@@ -1412,9 +1563,9 @@ function createStopCard(
           </label>
 
           <textarea
-            class="field stop-note"
-            placeholder="停車、營業時間、門票、健行、注意事項……"
-          >${escapeHtml(stop.note)}</textarea>
+            class="field activity-note"
+            placeholder="停車、門票、交通、健行、注意事項……"
+          >${escapeHtml(activity.note)}</textarea>
 
         </div>
 
@@ -1458,39 +1609,45 @@ function createStopCard(
 
 
 
-  const name =
+  const title =
     card.querySelector(
-      ".stop-name"
+      ".activity-title"
     );
 
 
-  const status =
+  const time =
     card.querySelector(
-      ".stop-status"
+      ".activity-time"
     );
 
 
   const type =
     card.querySelector(
-      ".stop-type"
+      ".activity-type"
+    );
+
+
+  const status =
+    card.querySelector(
+      ".activity-status"
     );
 
 
   const place =
     card.querySelector(
-      ".stop-place"
+      ".activity-place"
     );
 
 
-  const customMaps =
+  const maps =
     card.querySelector(
-      ".custom-maps"
+      ".activity-maps"
     );
 
 
   const note =
     card.querySelector(
-      ".stop-note"
+      ".activity-note"
     );
 
 
@@ -1526,70 +1683,118 @@ function createStopCard(
 
 
 
-  name.oninput =
+  title.oninput =
     () => {
 
-      stop.name =
-        name.value;
+      activity.title =
+        title.value;
 
-      saveData();
+      savePlan();
+
+      renderDayHeader();
 
     };
 
 
-  status.onchange =
+
+  time.oninput =
     () => {
 
-      stop.status =
-        status.value;
+      let value =
+        time.value.replace(
+          /[^0-9:]/g,
+          ""
+        );
 
-      updateStatusStyle();
 
-      saveData();
+      if (
+        /^\d{4}$/.test(value)
+      ) {
+
+        value =
+          value.slice(
+            0,
+            2
+          ) +
+          ":" +
+          value.slice(2);
+
+      }
+
+
+      time.value =
+        value;
+
+
+      activity.time =
+        value;
+
+
+      savePlan();
 
     };
+
 
 
   type.onchange =
     () => {
 
-      stop.type =
+      activity.type =
         type.value;
 
-      saveData();
+      savePlan();
 
     };
+
+
+
+  status.onchange =
+    () => {
+
+      activity.status =
+        status.value;
+
+      updateStatusStyle();
+
+      savePlan();
+
+    };
+
 
 
   place.oninput =
     () => {
 
-      stop.place =
+      activity.place =
         place.value;
 
-      saveData();
+      savePlan();
+
+      renderDayHeader();
 
     };
 
 
-  customMaps.oninput =
+
+  maps.oninput =
     () => {
 
-      stop.customMaps =
-        customMaps.value;
+      activity.maps =
+        maps.value;
 
-      saveData();
+      savePlan();
 
     };
+
 
 
   note.oninput =
     () => {
 
-      stop.note =
+      activity.note =
         note.value;
 
-      saveData();
+      savePlan();
 
     };
 
@@ -1600,8 +1805,8 @@ function createStopCard(
   ).onclick =
     () => {
 
-      previewStop(
-        stop
+      previewActivity(
+        activity
       );
 
     };
@@ -1613,8 +1818,8 @@ function createStopCard(
   ).onclick =
     () => {
 
-      openStopInMaps(
-        stop
+      openMaps(
+        activity
       );
 
     };
@@ -1633,22 +1838,22 @@ function createStopCard(
       }
 
 
-      const stops =
+      const activities =
         currentDayData()
-          .stops;
+          .activities;
 
 
       [
-        stops[index - 1],
-        stops[index]
+        activities[index - 1],
+        activities[index]
       ] =
       [
-        stops[index],
-        stops[index - 1]
+        activities[index],
+        activities[index - 1]
       ];
 
 
-      saveData();
+      savePlan();
 
       render();
 
@@ -1661,30 +1866,30 @@ function createStopCard(
   ).onclick =
     () => {
 
-      const stops =
+      const activities =
         currentDayData()
-          .stops;
+          .activities;
 
 
       if (
         index ===
-        stops.length - 1
+        activities.length - 1
       ) {
         return;
       }
 
 
       [
-        stops[index],
-        stops[index + 1]
+        activities[index],
+        activities[index + 1]
       ] =
       [
-        stops[index + 1],
-        stops[index]
+        activities[index + 1],
+        activities[index]
       ];
 
 
-      saveData();
+      savePlan();
 
       render();
 
@@ -1699,7 +1904,7 @@ function createStopCard(
 
       const okay =
         confirm(
-          "確定要刪除這個地點嗎？"
+          "確定要刪除這個行程嗎？行程頁也會一起刪除。"
         );
 
 
@@ -1709,14 +1914,14 @@ function createStopCard(
 
 
       currentDayData()
-        .stops
+        .activities
         .splice(
           index,
           1
         );
 
 
-      saveData();
+      savePlan();
 
       clearPreview();
 
@@ -1739,16 +1944,25 @@ function typeOptions(
 ) {
 
   const options = [
-    ["景點", "📍 景點"],
-    ["住宿", "🏨 住宿"],
-    ["停車", "🅿️ 停車"],
-    ["餐廳", "🍝 餐廳"],
-    ["咖啡", "☕ 咖啡"],
-    ["加油", "⛽ 加油"],
-    ["機場", "✈️ 機場"],
-    ["車站", "🚉 車站"],
-    ["購物", "🛍️ 購物"],
-    ["其他", "📌 其他"]
+
+    ["景點","📍 景點"],
+
+    ["交通","🚗 交通"],
+
+    ["住宿","🏨 住宿"],
+
+    ["門票","🎫 門票"],
+
+    ["餐飲","🍝 餐飲"],
+
+    ["停車","🅿️ 停車"],
+
+    ["咖啡","☕ 咖啡"],
+
+    ["購物","🛍️ 購物"],
+
+    ["其他","📌 其他"]
+
   ];
 
 
@@ -1760,8 +1974,7 @@ function typeOptions(
           <option
             value="${option[0]}"
             ${
-              option[0] ===
-              selected
+              option[0] === selected
               ? "selected"
               : ""
             }
@@ -1778,18 +1991,18 @@ function typeOptions(
 
 
 document.getElementById(
-  "addStop"
+  "addActivity"
 ).onclick =
   () => {
 
     currentDayData()
-      .stops
+      .activities
       .push(
-        newStop()
+        newActivity()
       );
 
 
-    saveData();
+    savePlan();
 
     render();
 
@@ -1799,7 +2012,7 @@ document.getElementById(
 
         const cards =
           document.querySelectorAll(
-            ".stop-card"
+            ".activity-card"
           );
 
 
@@ -1818,89 +2031,40 @@ document.getElementById(
 
         last
           ?.querySelector(
-            ".stop-name"
+            ".activity-title"
           )
           ?.focus();
 
       },
-      80
+      70
     );
 
   };
 
 
 
-function mapsSearchUrl(
-  stop
+function activityQuery(
+  activity
 ) {
-
-  if (
-    stop.customMaps &&
-    stop.customMaps.trim()
-  ) {
-
-    return stop.customMaps.trim();
-
-  }
-
-
-  const query =
-    stop.place.trim() ||
-    stop.name.trim();
-
-
-  if (!query) {
-    return "";
-  }
-
 
   return (
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(query)
+    activity.place?.trim() ||
+    activity.title?.trim() ||
+    ""
   );
 
 }
 
 
 
-function openStopInMaps(
-  stop
-) {
-
-  const url =
-    mapsSearchUrl(
-      stop
-    );
-
-
-  if (!url) {
-
-    alert(
-      "先填地點名稱或地址"
-    );
-
-    return;
-
-  }
-
-
-  window.open(
-    url,
-    "_blank",
-    "noopener"
-  );
-
-}
-
-
-
-function previewStop(
-  stop
+function previewActivity(
+  activity
 ) {
 
   const query =
-    stop.place.trim() ||
-    stop.name.trim();
+    activityQuery(
+      activity
+    );
 
 
   if (!query) {
@@ -1936,7 +2100,7 @@ function previewStop(
   document.getElementById(
     "previewLabel"
   ).textContent =
-    stop.name ||
+    activity.title ||
     query;
 
 
@@ -1969,7 +2133,61 @@ function clearPreview() {
   document.getElementById(
     "previewLabel"
   ).textContent =
-    "點景點的「預覽」";
+    "點地點的「預覽」";
+
+}
+
+
+
+function openMaps(
+  activity
+) {
+
+  if (
+    activity.maps &&
+    activity.maps.trim()
+  ) {
+
+    window.open(
+      activity.maps.trim(),
+      "_blank",
+      "noopener"
+    );
+
+    return;
+
+  }
+
+
+  const query =
+    activityQuery(
+      activity
+    );
+
+
+  if (!query) {
+
+    alert(
+      "先填地點名稱或地址"
+    );
+
+    return;
+
+  }
+
+
+  const url =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(
+      query
+    );
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener"
+  );
 
 }
 
@@ -1980,28 +2198,20 @@ document.getElementById(
 ).onclick =
   () => {
 
-    const stops =
+    const activities =
       currentDayData()
-        .stops
+        .activities
         .filter(
-          stop =>
-            (
-              stop.place &&
-              stop.place.trim()
-            ) ||
-            (
-              stop.name &&
-              stop.name.trim()
-            )
+          hasMapLocation
         );
 
 
     if (
-      stops.length < 2
+      activities.length < 2
     ) {
 
       alert(
-        "至少要有兩個地點才能建立路線"
+        "至少需要兩個有地點資料的行程"
       );
 
       return;
@@ -2010,10 +2220,11 @@ document.getElementById(
 
 
     const places =
-      stops.map(
-        stop =>
-          stop.place.trim() ||
-          stop.name.trim()
+      activities.map(
+        activity =>
+          activityQuery(
+            activity
+          )
       );
 
 
@@ -2073,9 +2284,9 @@ function render() {
 
   renderDayButtons();
 
-  renderHeader();
+  renderDayHeader();
 
-  renderStops();
+  renderActivities();
 
 }
 
@@ -2087,30 +2298,15 @@ function escapeHtml(
 
   return String(text)
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
+    .replaceAll("&","&amp;")
 
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
+    .replaceAll("<","&lt;")
 
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
+    .replaceAll(">","&gt;")
 
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
+    .replaceAll('"',"&quot;")
 
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("'","&#039;");
 
 }
 
@@ -2128,7 +2324,7 @@ function escapeAttribute(
 
 
 
-loadData();
+loadPlan();
 
 render();
 
