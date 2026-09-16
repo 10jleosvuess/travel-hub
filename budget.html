@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>旅行預算｜Travel Hub</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #827d75;
+      --line: #e8e2d9;
+      --accent: #9a7350;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --danger: #a65a52;
+      --green-soft: #e7eee7;
+      --orange-soft: #f4e7d6;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(950px, calc(100% - 24px));
+      margin: auto;
+    }
+
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      background: rgba(244,241,235,0.93);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      min-height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 700;
+    }
+
+    .back-icon {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      display: grid;
+      place-items: center;
+
+      box-shadow: var(--shadow);
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* PAGE */
+
+    .page-head {
+      padding: 20px 0 14px;
+    }
+
+    .page-head h1 {
+      margin: 0 0 5px;
+
+      font-size: 28px;
+    }
+
+    .page-head p {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+
+    /* BUDGET SETTING */
+
+    .budget-setting {
+      background: var(--dark);
+      color: white;
+
+      border-radius: 24px;
+
+      padding: 20px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .budget-setting label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: rgba(255,255,255,0.65);
+
+      font-size: 11px;
+    }
+
+    .budget-input-row {
+      display: grid;
+
+      grid-template-columns: 1fr 110px;
+
+      gap: 8px;
+    }
+
+    .budget-field {
+      width: 100%;
+
+      border: 1px solid rgba(255,255,255,0.13);
+
+      border-radius: 14px;
+
+      padding: 12px;
+
+      background: rgba(255,255,255,0.1);
+
+      color: white;
+
+      outline: none;
+    }
+
+    .budget-field::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .budget-field option {
+      color: #222;
+    }
+
+
+    /* SUMMARY */
+
+    .summary-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3,1fr);
+
+      gap: 10px;
+
+      margin-top: 13px;
+    }
+
+    .summary-card {
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 16px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .summary-label {
+      color: var(--muted);
+
+      font-size: 11px;
+
+      margin-bottom: 8px;
+    }
+
+    .summary-card strong {
+      display: block;
+
+      font-size: 23px;
+
+      word-break: break-word;
+    }
+
+    .remaining-positive {
+      color: #526b53;
+    }
+
+    .remaining-negative {
+      color: var(--danger);
+    }
+
+
+    /* SECTION */
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .section-title {
+      display: flex;
+
+      align-items: flex-end;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 10px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+
+      font-size: 19px;
+    }
+
+    .section-title span {
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+
+    /* ADD EXPENSE */
+
+    .panel {
+      background: white;
+
+      border-radius: 22px;
+
+      padding: 16px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .add-grid {
+      display: grid;
+
+      grid-template-columns: repeat(2,1fr);
+
+      gap: 9px;
+    }
+
+    .field-wrap {
+      display: grid;
+
+      gap: 5px;
+    }
+
+    .field-wrap.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .field {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      border-radius: 13px;
+
+      padding: 11px 12px;
+
+      background: #fbfaf8;
+
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: #baa48f;
+
+      background: white;
+    }
+
+    textarea.field {
+      min-height: 75px;
+
+      resize: vertical;
+
+      line-height: 1.55;
+    }
+
+    .add-button {
+      width: 100%;
+
+      margin-top: 11px;
+
+      border: 0;
+
+      border-radius: 14px;
+
+      padding: 12px;
+
+      background: var(--accent-soft);
+
+      color: #72543b;
+
+      font-weight: 750;
+    }
+
+
+    /* CATEGORY SUMMARY */
+
+    .category-grid {
+      display: grid;
+
+      grid-template-columns: repeat(4,1fr);
+
+      gap: 9px;
+    }
+
+    .category-card {
+      background: white;
+
+      border-radius: 17px;
+
+      padding: 13px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .category-card .icon {
+      font-size: 22px;
+
+      margin-bottom: 7px;
+    }
+
+    .category-card strong {
+      display: block;
+
+      margin-bottom: 3px;
+
+      font-size: 14px;
+    }
+
+    .category-card span {
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+
+    /* EXPENSE */
+
+    .expense-list {
+      display: grid;
+
+      gap: 10px;
+    }
+
+    .expense-card {
+      background: white;
+
+      border-radius: 19px;
+
+      padding: 15px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .expense-top {
+      display: grid;
+
+      grid-template-columns: 1fr auto;
+
+      gap: 10px;
+    }
+
+    .expense-title {
+      width: 100%;
+
+      border: 0;
+      outline: none;
+
+      background: transparent;
+
+      font-size: 16px;
+      font-weight: 750;
+    }
+
+    .expense-amount {
+      font-size: 16px;
+      font-weight: 800;
+
+      white-space: nowrap;
+    }
+
+    .expense-meta {
+      margin-top: 8px;
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+    }
+
+    .meta-pill {
+      padding: 5px 8px;
+
+      border-radius: 100px;
+
+      background: #f2eee8;
+
+      color: #6e665e;
+
+      font-size: 10px;
+    }
+
+    .expense-note {
+      width: 100%;
+
+      margin-top: 10px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 12px;
+
+      padding: 9px;
+
+      background: #fbfaf8;
+
+      outline: none;
+
+      resize: vertical;
+
+      min-height: 55px;
+
+      font-size: 12px;
+
+      line-height: 1.5;
+    }
+
+    .expense-actions {
+      display: flex;
+
+      gap: 7px;
+
+      margin-top: 10px;
+    }
+
+    .action-button {
+      border: 0;
+
+      border-radius: 10px;
+
+      padding: 7px 9px;
+
+      background: #f1eee9;
+
+      font-size: 11px;
+    }
+
+    .delete-button {
+      margin-left: auto;
+
+      color: var(--danger);
+    }
+
+
+    /* EMPTY */
+
+    .empty {
+      padding: 38px 20px;
+
+      text-align: center;
+
+      border-radius: 21px;
+
+      border: 1px dashed #cbbeb0;
+
+      background: rgba(255,255,255,0.4);
+
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 38px;
+
+      margin-bottom: 8px;
+    }
+
+
+    /* NOTICE */
+
+    .notice {
+      margin-top: 18px;
+
+      padding: 14px 15px;
+
+      border-radius: 17px;
+
+      background: var(--orange-soft);
+
+      font-size: 12px;
+
+      line-height: 1.6;
+    }
+
+    .notice strong {
+      display: block;
+
+      margin-bottom: 3px;
+    }
+
+
+    /* NAV */
+
+    nav {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 100;
+
+      height: 72px;
+
+      display: grid;
+
+      grid-template-columns: repeat(5,1fr);
+
+      background: rgba(255,255,255,0.94);
+
+      backdrop-filter: blur(18px);
+
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-link {
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 3px;
+
+      color: #79756e;
+
+      font-size: 11px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-link.active {
+      color: var(--text);
+
+      font-weight: 700;
+    }
+
+
+    @media (max-width: 750px) {
+
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .category-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+      .add-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-wrap.full {
+        grid-column: auto;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        旅行預算
+      </div>
+
+    </a>
+
+
+    <div
+      class="save-status"
+      id="saveStatus"
+    >
+      自動儲存
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+  <section class="page-head">
+
+    <h1>
+      💰 旅行預算
+    </h1>
+
+    <p>
+      管理總預算、支出與付款紀錄
+    </p>
+
+  </section>
+
+
+
+  <section class="budget-setting">
+
+    <label>
+      整趟旅行總預算
+    </label>
+
+    <div class="budget-input-row">
+
+      <input
+        class="budget-field"
+        id="totalBudget"
+        inputmode="decimal"
+        placeholder="例如 400000"
+      >
+
+
+      <select
+        class="budget-field"
+        id="budgetCurrency"
+      >
+
+        <option value="TWD">
+          TWD
+        </option>
+
+        <option value="EUR">
+          EUR
+        </option>
+
+        <option value="USD">
+          USD
+        </option>
+
+      </select>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="summary-grid">
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        總預算
+      </div>
+
+      <strong id="summaryBudget">
+        -
+      </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        已記錄支出
+      </div>
+
+      <strong id="summarySpent">
+        -
+      </strong>
+
+    </div>
+
+
+    <div class="summary-card">
+
+      <div class="summary-label">
+        剩餘
+      </div>
+
+      <strong
+        id="summaryRemaining"
+        class="remaining-positive"
+      >
+        -
+      </strong>
+
+    </div>
+
+
+  </section>
+
+
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        ＋ 新增支出
+      </h2>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="add-grid">
+
+
+        <div class="field-wrap full">
+
+          <label>
+            項目
+          </label>
+
+          <input
+            class="field"
+            id="newTitle"
+            placeholder="例如：飯店、門票、油錢"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            分類
+          </label>
+
+          <select
+            class="field"
+            id="newCategory"
+          >
+
+            <option value="住宿">
+              🏨 住宿
+            </option>
+
+            <option value="交通">
+              🚗 交通
+            </option>
+
+            <option value="門票">
+              🎫 門票
+            </option>
+
+            <option value="餐飲">
+              🍝 餐飲
+            </option>
+
+            <option value="停車">
+              🅿️ 停車
+            </option>
+
+            <option value="加油">
+              ⛽ 加油
+            </option>
+
+            <option value="購物">
+              🛍️ 購物
+            </option>
+
+            <option value="其他">
+              📦 其他
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            日期
+          </label>
+
+          <input
+            class="field"
+            id="newDate"
+            type="date"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            金額
+          </label>
+
+          <input
+            class="field"
+            id="newAmount"
+            inputmode="decimal"
+            placeholder="0"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            幣別
+          </label>
+
+          <select
+            class="field"
+            id="newCurrency"
+          >
+
+            <option value="TWD">
+              TWD
+            </option>
+
+            <option value="EUR">
+              EUR
+            </option>
+
+            <option value="USD">
+              USD
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            誰付款
+          </label>
+
+          <input
+            class="field"
+            id="newPayer"
+            placeholder="例如：爸爸 / 我"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            付款方式
+          </label>
+
+          <select
+            class="field"
+            id="newPaymentMethod"
+          >
+
+            <option value="信用卡">
+              信用卡
+            </option>
+
+            <option value="現金">
+              現金
+            </option>
+
+            <option value="轉帳">
+              轉帳
+            </option>
+
+            <option value="Apple Pay">
+              Apple Pay
+            </option>
+
+            <option value="其他">
+              其他
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            備註
+          </label>
+
+          <textarea
+            class="field"
+            id="newNote"
+            placeholder="例如：四人總價、已付款、可退款、誰需要分攤……"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="add-button"
+        id="addExpense"
+      >
+        ＋ 加入支出
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        分類統計
+      </h2>
+
+      <span>
+        依目前記錄
+      </span>
+
+    </div>
+
+
+    <div
+      class="category-grid"
+      id="categoryGrid"
+    ></div>
+
+  </section>
+
+
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        支出紀錄
+      </h2>
+
+      <span id="expenseCount">
+        0 筆
+      </span>
+
+    </div>
+
+
+    <div
+      class="expense-list"
+      id="expenseList"
+    ></div>
+
+  </section>
+
+
+
+  <div class="notice">
+
+    <strong>
+      💱 不同幣別
+    </strong>
+
+    目前這版先各自記錄 TWD、EUR、USD，不會自動拿即時匯率亂換算。之後我們可以再加「即時匯率 + 全部換算成台幣」功能。
+
+  </div>
+
+
+</main>
+
+
+
+<nav>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="itinerary.html"
+  >
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+
+  <a
+    class="nav-link active"
+    href="budget.html"
+  >
+    <span class="nav-icon">💰</span>
+    預算
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="tickets.html"
+  >
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="car.html"
+  >
+    <span class="nav-icon">🚗</span>
+    租車
+  </a>
+
+</nav>
+
+
+
+<script>
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026Budget";
+
+
+const categoryIcons = {
+
+  "住宿": "🏨",
+
+  "交通": "🚗",
+
+  "門票": "🎫",
+
+  "餐飲": "🍝",
+
+  "停車": "🅿️",
+
+  "加油": "⛽",
+
+  "購物": "🛍️",
+
+  "其他": "📦"
+
+};
+
+
+let data = {
+
+  totalBudget: "",
+
+  budgetCurrency: "TWD",
+
+  expenses: []
+
+};
+
+
+
+function loadData() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!saved) {
+    return;
+  }
+
+
+  try {
+
+    data =
+      Object.assign(
+        data,
+        JSON.parse(saved)
+      );
+
+  }
+
+  catch {}
+
+}
+
+
+
+function saveData() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
+    );
+
+
+  status.textContent =
+    "已儲存 ✓";
+
+
+  clearTimeout(
+    window.saveTimer
+  );
+
+
+  window.saveTimer =
+    setTimeout(
+      () => {
+
+        status.textContent =
+          "自動儲存";
+
+      },
+      1200
+    );
+
+}
+
+
+
+function money(
+  amount,
+  currency
+) {
+
+  const number =
+    Number(amount || 0);
+
+
+  return (
+    currency +
+    " " +
+    number.toLocaleString()
+  );
+
+}
+
+
+
+function updateSummary() {
+
+  const budget =
+    Number(
+      data.totalBudget || 0
+    );
+
+
+  const currency =
+    data.budgetCurrency;
+
+
+  const sameCurrencyExpenses =
+    data.expenses.filter(
+      expense =>
+        expense.currency ===
+        currency
+    );
+
+
+  const spent =
+    sameCurrencyExpenses.reduce(
+      (
+        sum,
+        expense
+      ) =>
+        sum +
+        Number(
+          expense.amount || 0
+        ),
+      0
+    );
+
+
+  const remaining =
+    budget - spent;
+
+
+  document.getElementById(
+    "summaryBudget"
+  ).textContent =
+    budget
+    ? money(
+        budget,
+        currency
+      )
+    : "-";
+
+
+  document.getElementById(
+    "summarySpent"
+  ).textContent =
+    money(
+      spent,
+      currency
+    );
+
+
+  const remainingElement =
+    document.getElementById(
+      "summaryRemaining"
+    );
+
+
+  remainingElement.textContent =
+    budget
+    ? money(
+        remaining,
+        currency
+      )
+    : "-";
+
+
+  remainingElement.classList.toggle(
+    "remaining-negative",
+    remaining < 0
+  );
+
+
+  remainingElement.classList.toggle(
+    "remaining-positive",
+    remaining >= 0
+  );
+
+}
+
+
+
+function renderCategories() {
+
+  const container =
+    document.getElementById(
+      "categoryGrid"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  Object.keys(
+    categoryIcons
+  ).forEach(
+    category => {
+
+
+      const expenses =
+        data.expenses.filter(
+          expense =>
+            expense.category ===
+            category
+        );
+
+
+      if (
+        expenses.length === 0
+      ) {
+        return;
+      }
+
+
+      const currencyTotals =
+        {};
+
+
+      expenses.forEach(
+        expense => {
+
+          const currency =
+            expense.currency;
+
+
+          currencyTotals[currency] =
+            (
+              currencyTotals[currency] ||
+              0
+            ) +
+            Number(
+              expense.amount || 0
+            );
+
+        }
+      );
+
+
+      const summary =
+        Object.entries(
+          currencyTotals
+        )
+        .map(
+          (
+            [
+              currency,
+              total
+            ]
+          ) =>
+            money(
+              total,
+              currency
+            )
+        )
+        .join("・");
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "category-card";
+
+
+      card.innerHTML =
+        `
+
+          <div class="icon">
+            ${categoryIcons[category]}
+          </div>
+
+          <strong>
+            ${category}
+          </strong>
+
+          <span>
+            ${summary}
+          </span>
+
+        `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+
+  if (
+    container.children.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty" style="grid-column:1/-1">
+
+          還沒有支出資料
+
+        </div>
+
+      `;
+
+  }
+
+}
+
+
+
+function renderExpenses() {
+
+  const container =
+    document.getElementById(
+      "expenseList"
+    );
+
+
+  document.getElementById(
+    "expenseCount"
+  ).textContent =
+    data.expenses.length +
+    " 筆";
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    data.expenses.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            💰
+          </div>
+
+          還沒有加入任何支出
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  data.expenses
+    .slice()
+    .reverse()
+    .forEach(
+      expense => {
+
+
+        const realIndex =
+          data.expenses.indexOf(
+            expense
+          );
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "expense-card";
+
+
+        card.innerHTML =
+          `
+
+            <div class="expense-top">
+
+              <input
+                class="expense-title"
+                value="${escapeAttribute(expense.title)}"
+              >
+
+              <div class="expense-amount">
+                ${money(expense.amount, expense.currency)}
+              </div>
+
+            </div>
+
+
+            <div class="expense-meta">
+
+              <span class="meta-pill">
+                ${categoryIcons[expense.category] || "📦"}
+                ${expense.category}
+              </span>
+
+              ${
+                expense.date
+                ? `
+                  <span class="meta-pill">
+                    📅 ${expense.date}
+                  </span>
+                `
+                : ""
+              }
+
+              ${
+                expense.payer
+                ? `
+                  <span class="meta-pill">
+                    👤 ${escapeHtml(expense.payer)}
+                  </span>
+                `
+                : ""
+              }
+
+              ${
+                expense.paymentMethod
+                ? `
+                  <span class="meta-pill">
+                    💳 ${escapeHtml(expense.paymentMethod)}
+                  </span>
+                `
+                : ""
+              }
+
+            </div>
+
+
+            <textarea
+              class="expense-note"
+              placeholder="備註"
+            >${escapeHtml(expense.note || "")}</textarea>
+
+
+            <div class="expense-actions">
+
+              <button
+                class="action-button move-up"
+              >
+                ↑ 上移
+              </button>
+
+              <button
+                class="action-button move-down"
+              >
+                ↓ 下移
+              </button>
+
+              <button
+                class="action-button delete-button"
+              >
+                🗑 刪除
+              </button>
+
+            </div>
+
+          `;
+
+
+
+        const title =
+          card.querySelector(
+            ".expense-title"
+          );
+
+
+        const note =
+          card.querySelector(
+            ".expense-note"
+          );
+
+
+        title.oninput =
+          () => {
+
+            expense.title =
+              title.value;
+
+            saveData();
+
+          };
+
+
+        note.oninput =
+          () => {
+
+            expense.note =
+              note.value;
+
+            saveData();
+
+          };
+
+
+        card.querySelector(
+          ".delete-button"
+        ).onclick =
+          () => {
+
+            const okay =
+              confirm(
+                "確定要刪除這筆支出嗎？"
+              );
+
+
+            if (!okay) {
+              return;
+            }
+
+
+            data.expenses.splice(
+              realIndex,
+              1
+            );
+
+
+            saveData();
+
+            render();
+
+          };
+
+
+        card.querySelector(
+          ".move-up"
+        ).onclick =
+          () => {
+
+            if (
+              realIndex === 0
+            ) {
+              return;
+            }
+
+
+            [
+              data.expenses[
+                realIndex - 1
+              ],
+              data.expenses[
+                realIndex
+              ]
+            ] =
+            [
+              data.expenses[
+                realIndex
+              ],
+              data.expenses[
+                realIndex - 1
+              ]
+            ];
+
+
+            saveData();
+
+            render();
+
+          };
+
+
+        card.querySelector(
+          ".move-down"
+        ).onclick =
+          () => {
+
+            if (
+              realIndex ===
+              data.expenses.length - 1
+            ) {
+              return;
+            }
+
+
+            [
+              data.expenses[
+                realIndex
+              ],
+              data.expenses[
+                realIndex + 1
+              ]
+            ] =
+            [
+              data.expenses[
+                realIndex + 1
+              ],
+              data.expenses[
+                realIndex
+              ]
+            ];
+
+
+            saveData();
+
+            render();
+
+          };
+
+
+        container.appendChild(
+          card
+        );
+
+      }
+    );
+
+}
+
+
+
+function addExpense() {
+
+  const title =
+    document.getElementById(
+      "newTitle"
+    ).value.trim();
+
+
+  const amount =
+    document.getElementById(
+      "newAmount"
+    ).value.trim();
+
+
+  if (
+    !title ||
+    !amount
+  ) {
+
+    alert(
+      "至少要填項目名稱和金額"
+    );
+
+    return;
+
+  }
+
+
+  data.expenses.push(
+    {
+
+      title,
+
+      category:
+        document.getElementById(
+          "newCategory"
+        ).value,
+
+      date:
+        document.getElementById(
+          "newDate"
+        ).value,
+
+      amount,
+
+      currency:
+        document.getElementById(
+          "newCurrency"
+        ).value,
+
+      payer:
+        document.getElementById(
+          "newPayer"
+        ).value.trim(),
+
+      paymentMethod:
+        document.getElementById(
+          "newPaymentMethod"
+        ).value,
+
+      note:
+        document.getElementById(
+          "newNote"
+        ).value.trim()
+
+    }
+  );
+
+
+  document.getElementById(
+    "newTitle"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "newAmount"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "newNote"
+  ).value =
+    "";
+
+
+  saveData();
+
+  render();
+
+}
+
+
+
+document.getElementById(
+  "addExpense"
+).onclick =
+  addExpense;
+
+
+
+document.getElementById(
+  "totalBudget"
+).oninput =
+  event => {
+
+    data.totalBudget =
+      event.target.value;
+
+    saveData();
+
+    updateSummary();
+
+  };
+
+
+
+document.getElementById(
+  "budgetCurrency"
+).onchange =
+  event => {
+
+    data.budgetCurrency =
+      event.target.value;
+
+    saveData();
+
+    updateSummary();
+
+  };
+
+
+
+function render() {
+
+  updateSummary();
+
+  renderCategories();
+
+  renderExpenses();
+
+}
+
+
+
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function escapeAttribute(
+  text = ""
+) {
+
+  return escapeHtml(
+    text
+  );
+
+}
+
+
+
+loadData();
+
+
+document.getElementById(
+  "totalBudget"
+).value =
+  data.totalBudget || "";
+
+
+document.getElementById(
+  "budgetCurrency"
+).value =
+  data.budgetCurrency || "TWD";
+
+
+render();
+
+
+</script>
+
+
+</body>
+
+</html>
