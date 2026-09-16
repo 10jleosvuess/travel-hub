@@ -71,6 +71,7 @@
     }
 
 
+
     /* HEADER */
 
     header {
@@ -122,6 +123,7 @@
     }
 
 
+
     /* DAY SELECTOR */
 
     .day-scroll {
@@ -142,7 +144,7 @@
     .day-button {
       flex: 0 0 auto;
 
-      min-width: 72px;
+      min-width: 76px;
 
       border: 0;
 
@@ -159,11 +161,8 @@
 
     .day-button strong {
       display: block;
-
       font-size: 14px;
-
       color: var(--text);
-
       margin-bottom: 3px;
     }
 
@@ -179,6 +178,7 @@
     .day-button.active strong {
       color: white;
     }
+
 
 
     /* DAY HERO */
@@ -199,14 +199,12 @@
     .day-number {
       color: rgba(255,255,255,0.65);
       font-size: 12px;
-
       margin-bottom: 7px;
     }
 
     .day-date {
       font-size: 13px;
       color: rgba(255,255,255,0.68);
-
       margin-bottom: 12px;
     }
 
@@ -250,6 +248,7 @@
     }
 
 
+
     /* SECTION */
 
     .section {
@@ -285,6 +284,7 @@
     }
 
 
+
     /* ACTIVITY */
 
     .activity-list {
@@ -306,7 +306,7 @@
       display: grid;
 
       grid-template-columns:
-        95px 120px 1fr;
+        105px 125px 1fr;
 
       gap: 9px;
     }
@@ -328,6 +328,12 @@
     .field:focus {
       border-color: #bba58f;
       background: white;
+    }
+
+    .time-field {
+      text-align: center;
+      font-weight: 750;
+      letter-spacing: 0.5px;
     }
 
     .title-field {
@@ -402,6 +408,7 @@
     }
 
 
+
     /* EMPTY */
 
     .empty {
@@ -424,7 +431,8 @@
     }
 
 
-    /* DAY NOTE */
+
+    /* NOTE */
 
     .note-card {
       background: white;
@@ -452,6 +460,7 @@
     }
 
 
+
     /* RESET */
 
     .danger-zone {
@@ -471,6 +480,7 @@
 
       font-size: 12px;
     }
+
 
 
     /* NAV */
@@ -520,12 +530,13 @@
     }
 
 
+
     /* MOBILE */
 
     @media (max-width: 650px) {
 
       .activity-top {
-        grid-template-columns: 85px 1fr;
+        grid-template-columns: 100px 1fr;
       }
 
       .title-field {
@@ -540,6 +551,7 @@
 
   </style>
 </head>
+
 
 
 <body>
@@ -588,9 +600,7 @@
 
 
 
-  <section
-    class="day-hero"
-  >
+  <section class="day-hero">
 
     <div
       class="day-number"
@@ -752,8 +762,7 @@ const defaultDays = [
     date: "2026-10-01",
     title: "出發 ✈️",
     city: "台北 → 河內",
-    note:
-      "Day 1。從台灣出發，河內轉機。之後可把航班、轉機休息或進市區的安排補進來。",
+    note: "從台灣出發，河內轉機。",
     activities: [
 
       {
@@ -780,8 +789,7 @@ const defaultDays = [
     date: "2026-10-02",
     title: "抵達義大利 🇮🇹",
     city: "Milano",
-    note:
-      "抵達米蘭。今天以入境、交通、入住與輕鬆市區行程為主。",
+    note: "抵達米蘭。",
     activities: [
 
       {
@@ -799,15 +807,6 @@ const defaultDays = [
         title: "前往住宿",
         note: "",
         map: ""
-      },
-
-      {
-        time: "",
-        type: "景點",
-        title: "米蘭市區",
-        note: "依抵達時間彈性安排。",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Duomo+di+Milano"
       }
 
     ]
@@ -825,7 +824,7 @@ const defaultDays = [
         time: "",
         type: "租車",
         title: "取車",
-        note: "記得完成取車驗車、拍照、油量與里程紀錄。",
+        note: "完成取車驗車、拍照、油量與里程紀錄。",
         map: ""
       },
 
@@ -844,8 +843,8 @@ const defaultDays = [
 
   {
     date: "2026-10-04",
-    title: "加爾達湖 → Brixen",
-    city: "Lake Garda / Brixen",
+    title: "加爾達湖 → Dolomites",
+    city: "Lake Garda / Dolomites",
     note: "",
     activities: []
   },
@@ -853,108 +852,45 @@ const defaultDays = [
 
   {
     date: "2026-10-05",
-    title: "Plose + Val di Funes",
-    city: "Brixen",
+    title: "Dolomites",
+    city: "Dolomites",
     note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "景點",
-        title: "Plose",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Plose+Italy"
-      },
-
-      {
-        time: "",
-        type: "景點",
-        title: "Val di Funes",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Val+di+Funes+Italy"
-      }
-
-    ]
+    activities: []
   },
 
 
   {
     date: "2026-10-06",
-    title: "Alpe di Siusi",
+    title: "Dolomites",
     city: "Dolomites",
     note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "景點",
-        title: "Alpe di Siusi",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Alpe+di+Siusi"
-      }
-
-    ]
+    activities: []
   },
 
 
   {
     date: "2026-10-07",
-    title: "Seceda",
+    title: "Dolomites",
     city: "Dolomites",
     note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "景點",
-        title: "Seceda",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Seceda+Italy"
-      }
-
-    ]
+    activities: []
   },
 
 
   {
     date: "2026-10-08",
-    title: "Braies + Tre Cime",
-    city: "Dolomites / Valle di Cadore",
-    note:
-      "今天移動到 Valle di Cadore。Tre Cime 停車與道路規定之後放入提醒。",
-    activities: [
-
-      {
-        time: "",
-        type: "景點",
-        title: "Lago di Braies",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Lago+di+Braies"
-      },
-
-      {
-        time: "",
-        type: "景點",
-        title: "Tre Cime di Lavaredo",
-        note: "確認停車預約。",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Tre+Cime+di+Lavaredo"
-      }
-
-    ]
+    title: "Dolomites",
+    city: "Dolomites",
+    note: "",
+    activities: []
   },
 
 
   {
     date: "2026-10-09",
     title: "Dolomites",
-    city: "Valle di Cadore",
-    note: "此日行程可再調整。",
+    city: "Dolomites",
+    note: "",
     activities: []
   },
 
@@ -964,27 +900,7 @@ const defaultDays = [
     title: "威尼斯 → 波隆那",
     city: "Venezia / Bologna",
     note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "景點",
-        title: "Venezia",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Venice+Italy"
-      },
-
-      {
-        time: "",
-        type: "住宿",
-        title: "前往 Bologna 住宿",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Bologna+Italy"
-      }
-
-    ]
+    activities: []
   },
 
 
@@ -992,15 +908,14 @@ const defaultDays = [
     date: "2026-10-11",
     title: "佛羅倫斯",
     city: "Firenze",
-    note:
-      "大衛像預約 16:45–17:00。",
+    note: "",
     activities: [
 
       {
         time: "16:45",
         type: "門票",
-        title: "Galleria dell'Accademia・大衛像",
-        note: "已預約入場時段。",
+        title: "大衛像",
+        note: "Galleria dell'Accademia。",
         map:
           "https://www.google.com/maps/search/?api=1&query=Galleria+dell'Accademia+Florence"
       }
@@ -1012,37 +927,16 @@ const defaultDays = [
   {
     date: "2026-10-12",
     title: "比薩 → 托斯卡尼",
-    city: "Pisa / Siena",
-    note:
-      "San Gimignano 可依時間安排。",
-    activities: [
-
-      {
-        time: "",
-        type: "景點",
-        title: "Pisa",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Leaning+Tower+of+Pisa"
-      },
-
-      {
-        time: "",
-        type: "自駕",
-        title: "前往 Siena",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Siena+Italy"
-      }
-
-    ]
+    city: "Pisa / Toscana",
+    note: "",
+    activities: []
   },
 
 
   {
     date: "2026-10-13",
-    title: "托斯卡尼 → Viterbo",
-    city: "Toscana / Viterbo",
+    title: "托斯卡尼",
+    city: "Toscana",
     note: "",
     activities: []
   },
@@ -1062,18 +956,7 @@ const defaultDays = [
     title: "前往羅馬",
     city: "Viterbo / Roma",
     note: "",
-    activities: [
-
-      {
-        time: "",
-        type: "自駕",
-        title: "前往 Roma",
-        note: "注意羅馬 ZTL 與還車動線。",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Rome+Italy"
-      }
-
-    ]
+    activities: []
   },
 
 
@@ -1088,10 +971,9 @@ const defaultDays = [
 
   {
     date: "2026-10-17",
-    title: "Villa Farnese + Villa d'Este",
+    title: "Lazio",
     city: "Lazio",
-    note:
-      "Villa Farnese → Villa d'Este。原規劃車程約 1.5 小時左右，實際行車時間之後再由地圖確認。",
+    note: "",
     activities: [
 
       {
@@ -1137,20 +1019,8 @@ const defaultDays = [
     date: "2026-10-19",
     title: "羅馬 / 梵蒂岡",
     city: "Roma / Vaticano",
-    note:
-      "梵蒂岡博物館日期與時間可依最後票券再調整。",
-    activities: [
-
-      {
-        time: "",
-        type: "門票",
-        title: "Musei Vaticani",
-        note: "",
-        map:
-          "https://www.google.com/maps/search/?api=1&query=Vatican+Museums"
-      }
-
-    ]
+    note: "",
+    activities: []
   },
 
 
@@ -1167,8 +1037,7 @@ const defaultDays = [
     date: "2026-10-21",
     title: "回程 ✈️",
     city: "Roma → Taipei",
-    note:
-      "前往 FCO，準備回程。",
+    note: "",
     activities: [
 
       {
@@ -1188,7 +1057,6 @@ const defaultDays = [
 
 
 let tripData;
-
 let currentDay = 0;
 
 
@@ -1386,12 +1254,9 @@ function renderDayButtons() {
                   ".day-button.active"
                 )
                 ?.scrollIntoView({
-                  behavior:
-                    "smooth",
-                  inline:
-                    "center",
-                  block:
-                    "nearest"
+                  behavior: "smooth",
+                  inline: "center",
+                  block: "nearest"
                 });
 
             },
@@ -1525,8 +1390,11 @@ function createActivityCard(
       <div class="activity-top">
 
         <input
-          class="field activity-time"
-          type="time"
+          class="field time-field activity-time"
+          type="text"
+          inputmode="numeric"
+          maxlength="5"
+          placeholder="07:30"
           value="${escapeAttribute(activity.time || "")}"
         >
 
@@ -1534,9 +1402,7 @@ function createActivityCard(
         <select
           class="field activity-type"
         >
-
           ${buildTypeOptions(activity.type)}
-
         </select>
 
 
@@ -1646,6 +1512,54 @@ function createActivityCard(
 
 
 
+  timeInput.addEventListener(
+    "input",
+    () => {
+
+      let value =
+        timeInput.value
+          .replace(
+            /[^0-9]/g,
+            ""
+          )
+          .slice(
+            0,
+            4
+          );
+
+
+      if (
+        value.length >= 3
+      ) {
+
+        value =
+          value.slice(
+            0,
+            2
+          ) +
+          ":" +
+          value.slice(
+            2
+          );
+
+      }
+
+
+      timeInput.value =
+        value;
+
+
+      activity.time =
+        value;
+
+
+      saveData();
+
+    }
+  );
+
+
+
   function update() {
 
     activity.time =
@@ -1683,10 +1597,6 @@ function createActivityCard(
 
   }
 
-
-
-  timeInput.oninput =
-    update;
 
 
   typeInput.onchange =
@@ -2004,10 +1914,8 @@ document.getElementById(
 
         lastCard
           ?.scrollIntoView({
-            behavior:
-              "smooth",
-            block:
-              "center"
+            behavior: "smooth",
+            block: "center"
           });
 
 
