@@ -71,7 +71,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-
       gap: 12px;
     }
 
@@ -89,7 +88,6 @@
       place-items: center;
 
       border-radius: 15px;
-
       background: white;
 
       box-shadow: var(--shadow);
@@ -99,7 +97,6 @@
 
     .brand h1 {
       margin: 0;
-
       font-size: 23px;
     }
 
@@ -107,7 +104,6 @@
       margin: 3px 0 0;
 
       color: var(--muted);
-
       font-size: 12px;
     }
 
@@ -132,7 +128,6 @@
       min-height: 280px;
 
       border-radius: 28px;
-
       padding: 26px;
 
       overflow: hidden;
@@ -183,7 +178,6 @@
 
     .hero-sub {
       color: rgba(255,255,255,0.84);
-
       font-size: 14px;
     }
 
@@ -225,13 +219,11 @@
 
     .section-head h2 {
       margin: 0;
-
       font-size: 20px;
     }
 
     .section-head span {
       color: var(--muted);
-
       font-size: 12px;
     }
 
@@ -299,7 +291,7 @@
     }
 
 
-    /* QUICK */
+    /* QUICK TOOLS */
 
     .quick-grid {
       display: grid;
@@ -347,7 +339,6 @@
 
     .quick-card h3 {
       margin: 0 0 5px;
-
       font-size: 16px;
     }
 
@@ -357,7 +348,6 @@
       color: var(--muted);
 
       font-size: 12px;
-
       line-height: 1.5;
     }
 
@@ -392,7 +382,6 @@
       color: var(--muted);
 
       font-size: 13px;
-
       line-height: 1.7;
     }
 
@@ -449,12 +438,11 @@
 
     .manage-card span {
       color: var(--muted);
-
       font-size: 11px;
     }
 
 
-    /* WEATHER */
+    /* COMING */
 
     .notice {
       padding: 16px;
@@ -464,7 +452,6 @@
       background: var(--orange-soft);
 
       font-size: 12px;
-
       line-height: 1.65;
     }
 
@@ -522,7 +509,6 @@
 
     .nav-link.active {
       color: var(--text);
-
       font-weight: 700;
     }
 
@@ -583,7 +569,6 @@
     }
 
   </style>
-
 </head>
 
 
@@ -714,15 +699,15 @@
       <div class="status-card">
 
         <div class="label">
-          網站狀態
+          已完成工具
         </div>
 
         <strong>
-          4 Tools
+          7 Tools
         </strong>
 
         <p>
-          行程・住宿・門票・租車
+          行程・住宿・門票・租車・清單・待辦・預算
         </p>
 
       </div>
@@ -734,7 +719,7 @@
 
 
 
-  <!-- QUICK TOOLS -->
+  <!-- QUICK -->
 
   <section class="section">
 
@@ -839,6 +824,69 @@
 
 
       <a
+        class="quick-card"
+        href="packing.html"
+      >
+
+        <div class="quick-icon">
+          🧳
+        </div>
+
+        <h3>
+          必帶清單
+        </h3>
+
+        <p>
+          分類、打包進度與新增物品
+        </p>
+
+      </a>
+
+
+
+      <a
+        class="quick-card"
+        href="todo.html"
+      >
+
+        <div class="quick-icon">
+          ✅
+        </div>
+
+        <h3>
+          待辦事項
+        </h3>
+
+        <p>
+          預約、截止日期與優先度
+        </p>
+
+      </a>
+
+
+
+      <a
+        class="quick-card"
+        href="budget.html"
+      >
+
+        <div class="quick-icon">
+          💰
+        </div>
+
+        <h3>
+          旅行預算
+        </h3>
+
+        <p>
+          總預算、支出與付款紀錄
+        </p>
+
+      </a>
+
+
+
+      <a
         class="quick-card coming"
         href="#"
       >
@@ -865,36 +913,15 @@
       >
 
         <div class="quick-icon">
-          🧳
+          🌦️
         </div>
 
         <h3>
-          必帶清單
+          即時天氣
         </h3>
 
         <p>
-          行李、證件與重要用品
-        </p>
-
-      </a>
-
-
-
-      <a
-        class="quick-card coming"
-        href="#"
-      >
-
-        <div class="quick-icon">
-          💰
-        </div>
-
-        <h3>
-          預算
-        </h3>
-
-        <p>
-          支出、付款與多人分帳
+          每日城市氣溫與降雨預報
         </p>
 
       </a>
@@ -915,7 +942,7 @@
         </h3>
 
         <p>
-          航班、保險與重要旅行資料
+          航班、保險與其他重要資料
         </p>
 
       </a>
@@ -951,7 +978,7 @@
       </strong>
 
       <p>
-        等我們把 Day 1～Day 21 的住宿地點、景點、移動方式與已預約時間全部核對完成，再把正確版本加入首頁，避免網站混入舊版行程。
+        等我們一起核對 Day 1～Day 21 的住宿、景點、交通與已預約時間後，再把正式版本放進網站。
       </p>
 
     </div>
@@ -971,7 +998,7 @@
       </h2>
 
       <span>
-        已完成的工具
+        已可使用
       </span>
 
     </div>
@@ -1021,7 +1048,7 @@
           </strong>
 
           <span>
-            日期、地址、付款與 PDF
+            日期、地址、付款與確認文件
           </span>
 
         </div>
@@ -1046,7 +1073,7 @@
           </strong>
 
           <span>
-            預約、時間、票券與注意事項
+            預約、入場時間與票券
           </span>
 
         </div>
@@ -1079,32 +1106,96 @@
       </a>
 
 
+
+      <a
+        class="manage-card"
+        href="packing.html"
+      >
+
+        <div class="manage-icon">
+          🧳
+        </div>
+
+        <div>
+
+          <strong>
+            打包行李
+          </strong>
+
+          <span>
+            查看已打包進度
+          </span>
+
+        </div>
+
+      </a>
+
+
+
+      <a
+        class="manage-card"
+        href="todo.html"
+      >
+
+        <div class="manage-icon">
+          ✅
+        </div>
+
+        <div>
+
+          <strong>
+            處理待辦
+          </strong>
+
+          <span>
+            追蹤截止日與未完成事項
+          </span>
+
+        </div>
+
+      </a>
+
+
+
+      <a
+        class="manage-card"
+        href="budget.html"
+      >
+
+        <div class="manage-icon">
+          💰
+        </div>
+
+        <div>
+
+          <strong>
+            記錄旅費
+          </strong>
+
+          <span>
+            預算、支出與付款紀錄
+          </span>
+
+        </div>
+
+      </a>
+
+
     </div>
 
   </section>
 
 
 
-  <!-- WEATHER -->
-
   <section class="section">
-
-    <div class="section-head">
-
-      <h2>
-        即時資訊
-      </h2>
-
-    </div>
-
 
     <div class="notice">
 
       <strong>
-        🌦 天氣功能尚未加入
+        下一階段
       </strong>
 
-      之後會依每日所在地，自動顯示天氣、最高最低溫、降雨機率、體感溫度與日落時間。
+      接下來會加入 Google 地圖、每日即時天氣、文件中心與跨裝置同步。真正行程資料會先跟你核對後才寫進網站。
 
     </div>
 
