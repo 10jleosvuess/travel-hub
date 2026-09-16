@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>匯入 Italy 2026｜Travel Hub</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #817d75;
+      --line: #e8e2d9;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --green-soft: #e6eee7;
+      --yellow-soft: #f4eddc;
+      --danger-soft: #f3e4e2;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    body {
+      margin: 0;
+
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(850px, calc(100% - 24px));
+      margin: auto;
+
+      padding: 25px 0 50px;
+    }
+
+    .back {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      margin-bottom: 18px;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+
+      font-size: 30px;
+    }
+
+    .intro {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.7;
+    }
+
+    .warning {
+      margin-top: 18px;
+
+      padding: 15px;
+
+      border-radius: 18px;
+
+      background: var(--yellow-soft);
+
+      font-size: 12px;
+
+      line-height: 1.65;
+    }
+
+    .warning strong {
+      display: block;
+
+      margin-bottom: 3px;
+    }
+
+    .action-card {
+      margin-top: 18px;
+
+      padding: 18px;
+
+      border-radius: 22px;
+
+      background: var(--dark);
+
+      color: white;
+
+      box-shadow: var(--shadow);
+    }
+
+    .action-card h2 {
+      margin: 0 0 6px;
+
+      font-size: 20px;
+    }
+
+    .action-card p {
+      margin: 0 0 15px;
+
+      color: rgba(255,255,255,0.67);
+
+      font-size: 12px;
+
+      line-height: 1.6;
+    }
+
+    .import-button {
+      width: 100%;
+
+      border: 0;
+
+      border-radius: 14px;
+
+      padding: 13px;
+
+      background: white;
+
+      color: var(--dark);
+
+      font-weight: 800;
+    }
+
+    .restore-button {
+      width: 100%;
+
+      margin-top: 8px;
+
+      border: 1px solid rgba(255,255,255,0.2);
+
+      border-radius: 14px;
+
+      padding: 11px;
+
+      background: transparent;
+
+      color: white;
+    }
+
+    .restore-button:disabled {
+      opacity: 0.35;
+
+      cursor: default;
+    }
+
+    .status {
+      margin-top: 11px;
+
+      min-height: 20px;
+
+      font-size: 12px;
+
+      color: #dfe9df;
+    }
+
+    .links {
+      display: none;
+
+      grid-template-columns: 1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 12px;
+    }
+
+    .open-link {
+      text-align: center;
+
+      padding: 11px;
+
+      border-radius: 13px;
+
+      background: rgba(255,255,255,0.12);
+
+      font-size: 12px;
+
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 25px;
+    }
+
+    .section h2 {
+      margin: 0 0 10px;
+
+      font-size: 19px;
+    }
+
+    .day-list {
+      display: grid;
+
+      gap: 8px;
+    }
+
+    .day {
+      background: white;
+
+      border-radius: 16px;
+
+      padding: 13px 14px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .day-top {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 8px;
+    }
+
+    .day strong {
+      font-size: 14px;
+    }
+
+    .date {
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .city {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+    .activities {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 5px;
+
+      margin-top: 8px;
+    }
+
+    .pill {
+      padding: 5px 8px;
+
+      border-radius: 100px;
+
+      font-size: 10px;
+    }
+
+    .confirmed {
+      background: var(--green-soft);
+    }
+
+    .tentative {
+      background: var(--yellow-soft);
+    }
+
+    .none {
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    @media (max-width: 550px) {
+
+      .links {
+        grid-template-columns: 1fr;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+<main class="container">
+
+  <a
+    class="back"
+    href="index.html"
+  >
+    ← 回 Travel Hub
+  </a>
+
+
+  <h1>
+    🇮🇹 Italy 2026 行程匯入
+  </h1>
+
+  <p class="intro">
+    這是我們剛剛核對過的版本。已確定的內容會標成 ✅，還可能調整的行程會標成 🟡 暫定。
+  </p>
+
+
+  <div class="warning">
+
+    <strong>
+      ⚠️ 按下匯入後會取代目前共用行程
+    </strong>
+
+    你剛剛 Day 8 用來測試的 TEST 也會被正式行程取代。匯入前的資料會自動備份，所以如果真的不對，還可以按「還原匯入前資料」。
+
+  </div>
+
+
+  <section class="action-card">
+
+    <h2>
+      一鍵匯入
+    </h2>
+
+    <p>
+      匯入後「每日行程」與「旅行地圖」會一起出現這份內容。
+    </p>
+
+
+    <button
+      class="import-button"
+      id="importButton"
+    >
+      ✨ 匯入 Italy 2026
+    </button>
+
+
+    <button
+      class="restore-button"
+      id="restoreButton"
+    >
+      ↩ 還原匯入前資料
+    </button>
+
+
+    <div
+      class="status"
+      id="status"
+    ></div>
+
+
+    <div
+      class="links"
+      id="links"
+    >
+
+      <a
+        class="open-link"
+        href="itinerary.html"
+      >
+        📅 開啟每日行程
+      </a>
+
+
+      <a
+        class="open-link"
+        href="map.html"
+      >
+        🗺️ 開啟旅行地圖
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <section class="section">
+
+    <h2>
+      準備匯入的 21 天
+    </h2>
+
+    <div
+      class="day-list"
+      id="dayList"
+    ></div>
+
+  </section>
+
+</main>
+
+
+<script>
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026SharedPlanV1";
+
+
+const BACKUP_KEY =
+  "travelHubItaly2026SharedPlanV1Backup";
+
+
+function activity(
+  time,
+  type,
+  title,
+  status,
+  place = "",
+  note = ""
+) {
+
+  return {
+
+    id:
+      Math.random()
+        .toString(36)
+        .slice(2) +
+      Date.now()
+        .toString(36),
+
+    time,
+
+    type,
+
+    title,
+
+    status,
+
+    place,
+
+    maps: "",
+
+    note
+
+  };
+
+}
+
+
+
+const plan = {
+
+  version: 1,
+
+  days: [
+
+
+    /* DAY 1 */
+
+    {
+      day: 1,
+
+      title:
+        "台北出發・越南轉機",
+
+      city:
+        "Transit",
+
+      note:
+        "10/1 為整趟旅行 Day 1。",
+
+      activities: [
+
+        activity(
+          "",
+          "交通",
+          "台北出發",
+          "已確認",
+          "",
+          ""
+        ),
+
+        activity(
+          "",
+          "交通",
+          "越南轉機",
+          "已確認",
+          "",
+          ""
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 2 */
+
+    {
+      day: 2,
+
+      title:
+        "抵達 Milan",
+
+      city:
+        "Milan",
+
+      note: "",
+
+      activities: [
+
+        activity(
+          "",
+          "交通",
+          "抵達 Milan",
+          "已確認",
+          "Milan, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 3 */
+
+    {
+      day: 3,
+
+      title:
+        "Milan 市區取車 → Garda",
+
+      city:
+        "Lake Garda",
+
+      note:
+        "在 Milan 市區取車，開始自駕。",
+
+      activities: [
+
+        activity(
+          "",
+          "交通",
+          "Milan 市區取車",
+          "已確認",
+          "Milan, Italy"
+        ),
+
+        activity(
+          "",
+          "交通",
+          "前往 Lake Garda",
+          "已確認",
+          "Lake Garda, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 4 */
+
+    {
+      day: 4,
+
+      title:
+        "Garda → Ortisei",
+
+      city:
+        "Ortisei",
+
+      note: "",
+
+      activities: [
+
+        activity(
+          "",
+          "交通",
+          "前往 Ortisei",
+          "已確認",
+          "Ortisei, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 5 */
+
+    {
+      day: 5,
+
+      title:
+        "西多洛米蒂",
+
+      city:
+        "Ortisei",
+
+      note:
+        "西多行程尚未完全確定，之後可直接修改。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "西多洛米蒂行程",
+          "暫定",
+          "",
+          "景點之後再決定。"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 6 */
+
+    {
+      day: 6,
+
+      title:
+        "西多洛米蒂",
+
+      city:
+        "Ortisei",
+
+      note:
+        "西多行程尚未完全確定。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "西多洛米蒂行程",
+          "暫定",
+          "",
+          "景點之後再決定。"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 7 */
+
+    {
+      day: 7,
+
+      title:
+        "西多洛米蒂",
+
+      city:
+        "Ortisei",
+
+      note:
+        "西多行程尚未完全確定。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "西多洛米蒂行程",
+          "暫定",
+          "",
+          "景點之後再決定。"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 8 */
+
+    {
+      day: 8,
+
+      title:
+        "Lago di Braies",
+
+      city:
+        "Dolomites",
+
+      note: "",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Lago di Braies",
+          "已確認",
+          "Lago di Braies, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 9 */
+
+    {
+      day: 9,
+
+      title:
+        "Auronzo di Cadore",
+
+      city:
+        "Auronzo di Cadore",
+
+      note:
+        "東多洛米蒂細節之後再補。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Auronzo di Cadore",
+          "已確認",
+          "Auronzo di Cadore, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 10 */
+
+    {
+      day: 10,
+
+      title:
+        "Venice → Bologna",
+
+      city:
+        "Bologna",
+
+      note:
+        "晚上住 Bologna。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Venice",
+          "已確認",
+          "Venice, Italy"
+        ),
+
+        activity(
+          "",
+          "交通",
+          "前往 Bologna",
+          "已確認",
+          "Bologna, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 11 */
+
+    {
+      day: 11,
+
+      title:
+        "Bologna 午餐 → Florence",
+
+      city:
+        "Florence",
+
+      note:
+        "上午仍在 Bologna，吃完午餐後再前往 Florence。",
+
+      activities: [
+
+        activity(
+          "",
+          "餐飲",
+          "Bologna 午餐",
+          "已確認",
+          "Bologna, Italy"
+        ),
+
+        activity(
+          "",
+          "交通",
+          "Bologna → Florence",
+          "已確認",
+          "Florence, Italy"
+        ),
+
+        activity(
+          "16:45",
+          "門票",
+          "Galleria dell'Accademia・David",
+          "已確認",
+          "Galleria dell'Accademia di Firenze",
+          "預約時段約 16:45–17:00。"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 12 */
+
+    {
+      day: 12,
+
+      title:
+        "Florence",
+
+      city:
+        "Florence",
+
+      note:
+        "整天留給 Florence。",
+
+      activities: []
+    },
+
+
+
+    /* DAY 13 */
+
+    {
+      day: 13,
+
+      title:
+        "Pisa → Chianti",
+
+      city:
+        "Castellina in Chianti",
+
+      note:
+        "入住 Borgo di Pietrafitta。San Gimignano 視當天時間與體力決定。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Pisa",
+          "已確認",
+          "Pisa, Italy"
+        ),
+
+        activity(
+          "",
+          "景點",
+          "San Gimignano",
+          "暫定",
+          "San Gimignano, Italy",
+          "有時間再去，不硬塞。"
+        ),
+
+        activity(
+          "",
+          "住宿",
+          "Borgo di Pietrafitta",
+          "已確認",
+          "Borgo di Pietrafitta, Castellina in Chianti, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 14 */
+
+    {
+      day: 14,
+
+      title:
+        "Siena・Chianti",
+
+      city:
+        "Castellina in Chianti",
+
+      note:
+        "以 Borgo di Pietrafitta 為基地。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Siena",
+          "暫定",
+          "Siena, Italy"
+        ),
+
+        activity(
+          "",
+          "景點",
+          "Chianti",
+          "暫定",
+          "Chianti, Tuscany, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 15 */
+
+    {
+      day: 15,
+
+      title:
+        "Val d'Orcia → Viterbo",
+
+      city:
+        "Viterbo",
+
+      note:
+        "退房後一路往南玩。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Pienza",
+          "暫定",
+          "Pienza, Italy"
+        ),
+
+        activity(
+          "",
+          "景點",
+          "Bagno Vignoni",
+          "暫定",
+          "Bagno Vignoni, Italy"
+        ),
+
+        activity(
+          "",
+          "交通",
+          "前往 Viterbo",
+          "暫定",
+          "Viterbo, Italy"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 16 */
+
+    {
+      day: 16,
+
+      title:
+        "天空之城",
+
+      city:
+        "Viterbo",
+
+      note: "",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Civita di Bagnoregio",
+          "已確認",
+          "Civita di Bagnoregio, Italy"
+        ),
+
+        activity(
+          "",
+          "景點",
+          "Viterbo",
+          "暫定",
+          "Viterbo, Italy",
+          "天空之城之後視時間安排。"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 17 */
+
+    {
+      day: 17,
+
+      title:
+        "Caprarola → Tivoli → Vatican",
+
+      city:
+        "Rome",
+
+      note:
+        "兩個花園完成後前往梵蒂岡一帶還車。",
+
+      activities: [
+
+        activity(
+          "",
+          "景點",
+          "Palazzo Farnese",
+          "已確認",
+          "Palazzo Farnese, Caprarola, Italy"
+        ),
+
+        activity(
+          "",
+          "景點",
+          "Villa d'Este",
+          "已確認",
+          "Villa d'Este, Tivoli, Italy"
+        ),
+
+        activity(
+          "",
+          "交通",
+          "梵蒂岡還車",
+          "已確認",
+          "Vatican City"
+        )
+
+      ]
+    },
+
+
+
+    /* DAY 18 */
+
+    {
+      day: 18,
+
+      title:
+        "Rome",
+
+      city:
+        "Rome",
+
+      note:
+        "羅馬細節之後再排。",
+
+      activities: []
+    },
+
+
+
+    /* DAY 19 */
+
+    {
+      day: 19,
+
+      title:
+        "Rome",
+
+      city:
+        "Rome",
+
+      note:
+        "羅馬細節之後再排。",
+
+      activities: []
+    },
+
+
+
+    /* DAY 20 */
+
+    {
+      day: 20,
+
+      title:
+        "Rome",
+
+      city:
+        "Rome",
+
+      note:
+        "羅馬細節之後再排。",
+
+      activities: []
+    },
+
+
+
+    /* DAY 21 */
+
+    {
+      day: 21,
+
+      title:
+        "回程",
+
+      city:
+        "Rome",
+
+      note: "",
+
+      activities: [
+
+        activity(
+          "",
+          "交通",
+          "回程",
+          "已確認",
+          "Rome, Italy"
+        )
+
+      ]
+    }
+
+  ]
+
+};
+
+
+
+const dates = [
+
+  "10/01","10/02","10/03","10/04","10/05",
+  "10/06","10/07","10/08","10/09","10/10",
+  "10/11","10/12","10/13","10/14","10/15",
+  "10/16","10/17","10/18","10/19","10/20",
+  "10/21"
+
+];
+
+
+
+function renderPreview() {
+
+  const container =
+    document.getElementById(
+      "dayList"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  plan.days.forEach(
+    (
+      day,
+      index
+    ) => {
+
+
+      const element =
+        document.createElement(
+          "div"
+        );
+
+
+      element.className =
+        "day";
+
+
+      let activityHtml =
+        "";
+
+
+      if (
+        day.activities.length === 0
+      ) {
+
+        activityHtml =
+          `
+            <span class="none">
+              細節之後再補
+            </span>
+          `;
+
+      }
+
+      else {
+
+        activityHtml =
+          day.activities
+            .map(
+              item =>
+                `
+
+                  <span
+                    class="pill ${
+                      item.status === "已確認"
+                      ? "confirmed"
+                      : "tentative"
+                    }"
+                  >
+
+                    ${
+                      item.status === "已確認"
+                      ? "✅"
+                      : "🟡"
+                    }
+
+                    ${escapeHtml(item.title)}
+
+                    ${
+                      item.time
+                      ? " · " + escapeHtml(item.time)
+                      : ""
+                    }
+
+                  </span>
+
+                `
+            )
+            .join("");
+
+      }
+
+
+      element.innerHTML =
+        `
+
+          <div class="day-top">
+
+            <strong>
+              Day ${day.day} · ${escapeHtml(day.title)}
+            </strong>
+
+            <span class="date">
+              ${dates[index]}
+            </span>
+
+          </div>
+
+
+          <div class="city">
+            ${escapeHtml(day.city)}
+          </div>
+
+
+          <div class="activities">
+            ${activityHtml}
+          </div>
+
+        `;
+
+
+      container.appendChild(
+        element
+      );
+
+    }
+  );
+
+}
+
+
+
+document.getElementById(
+  "importButton"
+).onclick =
+  () => {
+
+
+    const okay =
+      confirm(
+        "確定匯入 Italy 2026 嗎？目前共用行程會先自動備份，再換成正式版本。"
+      );
+
+
+    if (!okay) {
+      return;
+    }
+
+
+    const oldData =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+
+    if (oldData) {
+
+      localStorage.setItem(
+        BACKUP_KEY,
+        oldData
+      );
+
+    }
+
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(plan)
+    );
+
+
+    document.getElementById(
+      "status"
+    ).textContent =
+      "✅ 匯入完成！每日行程與地圖已更新。";
+
+
+    document.getElementById(
+      "links"
+    ).style.display =
+      "grid";
+
+
+    updateRestoreButton();
+
+  };
+
+
+
+document.getElementById(
+  "restoreButton"
+).onclick =
+  () => {
+
+
+    const backup =
+      localStorage.getItem(
+        BACKUP_KEY
+      );
+
+
+    if (!backup) {
+      return;
+    }
+
+
+    const okay =
+      confirm(
+        "確定要還原匯入前的共用行程嗎？"
+      );
+
+
+    if (!okay) {
+      return;
+    }
+
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      backup
+    );
+
+
+    document.getElementById(
+      "status"
+    ).textContent =
+      "↩ 已還原匯入前資料。";
+
+
+    document.getElementById(
+      "links"
+    ).style.display =
+      "grid";
+
+  };
+
+
+
+function updateRestoreButton() {
+
+  const button =
+    document.getElementById(
+      "restoreButton"
+    );
+
+
+  button.disabled =
+    !localStorage.getItem(
+      BACKUP_KEY
+    );
+
+}
+
+
+
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+
+    .replaceAll("&","&amp;")
+
+    .replaceAll("<","&lt;")
+
+    .replaceAll(">","&gt;")
+
+    .replaceAll('"',"&quot;")
+
+    .replaceAll("'","&#039;");
+
+}
+
+
+
+renderPreview();
+
+updateRestoreButton();
+
+
+</script>
+
+</body>
+
+</html>
