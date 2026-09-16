@@ -1,0 +1,3512 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>租車｜Travel Hub</title>
+
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #827d75;
+      --line: #e8e2d9;
+      --accent: #9a7350;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --danger: #a65a52;
+      --green-soft: #e7eee7;
+      --orange-soft: #f4e7d6;
+      --blue-soft: #e7edf2;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      background: var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+
+    }
+
+
+    input,
+    textarea,
+    select,
+    button {
+      font: inherit;
+    }
+
+
+    button {
+      cursor: pointer;
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    .container {
+
+      width:
+        min(
+          1000px,
+          calc(100% - 24px)
+        );
+
+      margin: auto;
+
+    }
+
+
+
+    /* HEADER */
+
+    header {
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 50;
+
+      background:
+        rgba(
+          244,
+          241,
+          235,
+          0.93
+        );
+
+      backdrop-filter:
+        blur(18px);
+
+      border-bottom:
+        1px solid
+        rgba(0,0,0,0.04);
+
+    }
+
+
+    .topbar {
+
+      min-height: 70px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content:
+        space-between;
+
+      gap: 12px;
+
+    }
+
+
+    .back {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      font-weight: 700;
+
+    }
+
+
+    .back-icon {
+
+      width: 40px;
+
+      height: 40px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      display: grid;
+
+      place-items: center;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+
+    .save-status {
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+    }
+
+
+
+    /* PAGE */
+
+    .page-head {
+
+      padding:
+        20px 0 14px;
+
+    }
+
+
+    .page-head h1 {
+
+      margin:
+        0 0 5px;
+
+      font-size:
+        28px;
+
+    }
+
+
+    .page-head p {
+
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+      line-height:
+        1.6;
+
+    }
+
+
+    .section {
+
+      margin-top:
+        20px;
+
+    }
+
+
+    .section-title {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content:
+        space-between;
+
+      gap: 10px;
+
+      margin-bottom:
+        10px;
+
+    }
+
+
+    .section-title h2 {
+
+      margin: 0;
+
+      font-size:
+        19px;
+
+    }
+
+
+    .section-title span {
+
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+
+    }
+
+
+    .panel {
+
+      background:
+        var(--card);
+
+      border-radius:
+        23px;
+
+      padding:
+        18px;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+
+
+    /* FIELDS */
+
+    .grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2, 1fr);
+
+      gap:
+        10px;
+
+    }
+
+
+    .grid.three {
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+    }
+
+
+    .field-wrap {
+
+      display: grid;
+
+      gap:
+        5px;
+
+    }
+
+
+    .field-wrap.full {
+
+      grid-column:
+        1 / -1;
+
+    }
+
+
+    label {
+
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+
+      padding-left:
+        2px;
+
+    }
+
+
+    .field {
+
+      width:
+        100%;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        14px;
+
+      padding:
+        11px 12px;
+
+      background:
+        #fbfaf8;
+
+      outline:
+        none;
+
+    }
+
+
+    .field:focus {
+
+      border-color:
+        #bba58f;
+
+      background:
+        white;
+
+    }
+
+
+    textarea.field {
+
+      min-height:
+        90px;
+
+      resize:
+        vertical;
+
+      line-height:
+        1.6;
+
+    }
+
+
+    .subline {
+
+      margin-top:
+        14px;
+
+      padding-top:
+        14px;
+
+      border-top:
+        1px solid
+        var(--line);
+
+    }
+
+
+
+    /* LINKS */
+
+    .link-row {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      gap:
+        8px;
+
+    }
+
+
+    .open-button {
+
+      border:
+        0;
+
+      border-radius:
+        14px;
+
+      padding:
+        0 15px;
+
+      min-width:
+        90px;
+
+      background:
+        var(--green-soft);
+
+      font-weight:
+        700;
+
+      white-space:
+        nowrap;
+
+    }
+
+
+    .pdf-button {
+
+      background:
+        #eee8f3;
+
+    }
+
+
+    .open-button:disabled {
+
+      opacity:
+        0.35;
+
+      cursor:
+        default;
+
+    }
+
+
+
+    /* CHECKLIST */
+
+    .checklist {
+
+      display:
+        grid;
+
+      gap:
+        8px;
+
+    }
+
+
+    .check-item {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        auto 1fr auto;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      background:
+        #fbfaf8;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        14px;
+
+      padding:
+        10px 11px;
+
+    }
+
+
+    .check-item input[type="checkbox"] {
+
+      width:
+        20px;
+
+      height:
+        20px;
+
+      accent-color:
+        var(--accent);
+
+    }
+
+
+    .check-text {
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      outline:
+        none;
+
+      background:
+        transparent;
+
+      color:
+        var(--text);
+
+    }
+
+
+    .check-text.done {
+
+      color:
+        #aaa49c;
+
+      text-decoration:
+        line-through;
+
+    }
+
+
+    .tiny-delete {
+
+      border:
+        0;
+
+      background:
+        transparent;
+
+      color:
+        var(--danger);
+
+      font-size:
+        16px;
+
+    }
+
+
+    .add-row {
+
+      margin-top:
+        10px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      gap:
+        8px;
+
+    }
+
+
+    .add-button {
+
+      border:
+        0;
+
+      border-radius:
+        13px;
+
+      padding:
+        10px 14px;
+
+      background:
+        var(--accent-soft);
+
+      color:
+        #72543b;
+
+      font-weight:
+        700;
+
+    }
+
+
+
+    /* RULES */
+
+    .rule-list {
+
+      display:
+        grid;
+
+      gap:
+        8px;
+
+    }
+
+
+    .rule-item {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        120px 1fr auto;
+
+      gap:
+        8px;
+
+      align-items:
+        start;
+
+      padding:
+        10px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        15px;
+
+      background:
+        #fbfaf8;
+
+    }
+
+
+    .rule-category {
+
+      border:
+        0;
+
+      outline:
+        none;
+
+      background:
+        transparent;
+
+      font-weight:
+        750;
+
+      color:
+        var(--accent);
+
+    }
+
+
+    .rule-text {
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      outline:
+        none;
+
+      background:
+        transparent;
+
+      resize:
+        vertical;
+
+      min-height:
+        42px;
+
+      line-height:
+        1.5;
+
+    }
+
+
+
+    /* PHOTOS */
+
+    .photo-upload {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        9px;
+
+      margin-bottom:
+        13px;
+
+    }
+
+
+    .upload-label {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        7px;
+
+      padding:
+        11px 14px;
+
+      border-radius:
+        14px;
+
+      background:
+        var(--accent-soft);
+
+      color:
+        #72543b;
+
+      font-weight:
+        700;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    .upload-label input {
+
+      display:
+        none;
+
+    }
+
+
+    .photo-note {
+
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+
+      line-height:
+        1.5;
+
+    }
+
+
+    .photo-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(150px, 1fr)
+        );
+
+      gap:
+        10px;
+
+    }
+
+
+    .photo-card {
+
+      background:
+        #faf8f5;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        17px;
+
+      overflow:
+        hidden;
+
+    }
+
+
+    .photo-card img {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      aspect-ratio:
+        4 / 3;
+
+      object-fit:
+        cover;
+
+      background:
+        #eee;
+
+    }
+
+
+    .photo-body {
+
+      padding:
+        9px;
+
+    }
+
+
+    .photo-caption {
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      outline:
+        none;
+
+      background:
+        transparent;
+
+      font-size:
+        12px;
+
+      color:
+        var(--text);
+
+    }
+
+
+    .photo-meta {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        5px;
+
+      margin-top:
+        7px;
+
+    }
+
+
+    .photo-name {
+
+      overflow:
+        hidden;
+
+      text-overflow:
+        ellipsis;
+
+      white-space:
+        nowrap;
+
+      color:
+        var(--muted);
+
+      font-size:
+        10px;
+
+    }
+
+
+    .photo-delete {
+
+      border:
+        0;
+
+      background:
+        transparent;
+
+      color:
+        var(--danger);
+
+      font-size:
+        11px;
+
+      white-space:
+        nowrap;
+
+    }
+
+
+    .photo-empty {
+
+      grid-column:
+        1 / -1;
+
+      padding:
+        25px 12px;
+
+      text-align:
+        center;
+
+      color:
+        var(--muted);
+
+      border:
+        1px dashed
+        #cbbeb0;
+
+      border-radius:
+        17px;
+
+      font-size:
+        12px;
+
+    }
+
+
+
+    /* NOTICE */
+
+    .notice {
+
+      margin-top:
+        12px;
+
+      padding:
+        14px 15px;
+
+      border-radius:
+        17px;
+
+      background:
+        var(--orange-soft);
+
+      font-size:
+        12px;
+
+      line-height:
+        1.65;
+
+    }
+
+
+    .notice strong {
+
+      display:
+        block;
+
+      margin-bottom:
+        3px;
+
+    }
+
+
+    .blue-notice {
+
+      background:
+        var(--blue-soft);
+
+    }
+
+
+
+    /* NAV */
+
+    nav {
+
+      position:
+        fixed;
+
+      left: 0;
+
+      right: 0;
+
+      bottom: 0;
+
+      height:
+        72px;
+
+      z-index:
+        100;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(5, 1fr);
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.94
+        );
+
+      backdrop-filter:
+        blur(18px);
+
+      border-top:
+        1px solid
+        rgba(0,0,0,0.06);
+
+    }
+
+
+    .nav-link {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        3px;
+
+      color:
+        #79756e;
+
+      font-size:
+        11px;
+
+    }
+
+
+    .nav-icon {
+
+      font-size:
+        20px;
+
+    }
+
+
+    .nav-link.active {
+
+      color:
+        var(--text);
+
+      font-weight:
+        700;
+
+    }
+
+
+
+    @media (max-width: 700px) {
+
+      .grid,
+      .grid.three {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .link-row {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .open-button {
+
+        min-height:
+          44px;
+
+      }
+
+
+      .rule-item {
+
+        grid-template-columns:
+          1fr auto;
+
+      }
+
+
+      .rule-category {
+
+        grid-column:
+          1 / -1;
+
+      }
+
+
+      .photo-grid {
+
+        grid-template-columns:
+          repeat(2, 1fr);
+
+      }
+
+    }
+
+
+    @media (max-width: 400px) {
+
+      .photo-grid {
+
+        grid-template-columns:
+          1fr 1fr;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        租車 / 自駕
+      </div>
+
+    </a>
+
+
+    <div
+      class="save-status"
+      id="saveStatus"
+    >
+      自動儲存
+    </div>
+
+  </div>
+
+</header>
+
+
+
+
+<main class="container">
+
+
+  <section class="page-head">
+
+    <h1>
+      🚗 租車 / 自駕
+    </h1>
+
+    <p>
+      管理租車資料、取還車檢查、照片與駕駛提醒
+    </p>
+
+  </section>
+
+
+
+
+  <!-- RENTAL INFO -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        租車基本資料
+      </h2>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="grid three">
+
+
+        <div class="field-wrap">
+
+          <label>
+            租車公司
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="company"
+            placeholder="Rental company"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            車型
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="carModel"
+            placeholder="例如 SUV"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            車牌
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="plate"
+            placeholder="取車後填寫"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            訂單編號
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="bookingNumber"
+            placeholder="Booking reference"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            燃料 / 油種
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="fuelType"
+            placeholder="取車時確認"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            里程限制
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="mileagePolicy"
+            placeholder="不限 / 每日限制..."
+          >
+
+        </div>
+
+      </div>
+
+
+
+      <div class="subline">
+
+        <div class="grid">
+
+
+          <div class="field-wrap">
+
+            <label>
+              保險內容
+            </label>
+
+            <textarea
+              class="field auto-save"
+              data-key="insurance"
+              placeholder="例如保險方案、自負額、輪胎玻璃是否涵蓋……"
+            ></textarea>
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              加油 / 還車規則
+            </label>
+
+            <textarea
+              class="field auto-save"
+              data-key="fuelPolicy"
+              placeholder="例如取車滿油、還車需滿油等，以合約為準"
+            ></textarea>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="subline">
+
+        <div class="field-wrap">
+
+          <label>
+            📄 租車確認單 / 合約
+          </label>
+
+          <div class="link-row">
+
+            <input
+              class="field auto-save"
+              id="rentalPdf"
+              data-key="rentalPdf"
+              placeholder="私人 PDF 連結"
+            >
+
+            <button
+              class="open-button pdf-button"
+              id="openRentalPdf"
+            >
+              📄 查看文件
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- PICKUP / RETURN -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        📍 取車與還車
+      </h2>
+
+    </div>
+
+
+    <div class="panel">
+
+
+      <div class="grid">
+
+
+        <div class="field-wrap">
+
+          <label>
+            取車日期
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="pickupDate"
+            type="date"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            取車時間
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="pickupTime"
+            placeholder="例如 10:00"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            取車地點
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="pickupLocation"
+            placeholder="地址 / 機場 / 門市"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            取車 Google Maps
+          </label>
+
+          <div class="link-row">
+
+            <input
+              class="field auto-save"
+              id="pickupMaps"
+              data-key="pickupMaps"
+              placeholder="貼上 Google Maps 連結"
+            >
+
+            <button
+              class="open-button"
+              id="openPickupMaps"
+            >
+              📍 導航
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="subline">
+
+        <div class="grid">
+
+
+          <div class="field-wrap">
+
+            <label>
+              還車日期
+            </label>
+
+            <input
+              class="field auto-save"
+              data-key="returnDate"
+              type="date"
+            >
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              還車時間
+            </label>
+
+            <input
+              class="field auto-save"
+              data-key="returnTime"
+              placeholder="例如 18:00"
+            >
+
+          </div>
+
+
+          <div class="field-wrap full">
+
+            <label>
+              還車地點
+            </label>
+
+            <input
+              class="field auto-save"
+              data-key="returnLocation"
+              placeholder="地址 / 機場 / 門市"
+            >
+
+          </div>
+
+
+          <div class="field-wrap full">
+
+            <label>
+              還車 Google Maps
+            </label>
+
+            <div class="link-row">
+
+              <input
+                class="field auto-save"
+                id="returnMaps"
+                data-key="returnMaps"
+                placeholder="貼上 Google Maps 連結"
+              >
+
+              <button
+                class="open-button"
+                id="openReturnMaps"
+              >
+                📍 導航
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- PICKUP CHECKLIST -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        ✅ 取車檢查清單
+      </h2>
+
+      <span>
+        現場照著做
+      </span>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div
+        class="checklist"
+        id="pickupChecklist"
+      ></div>
+
+
+      <div class="add-row">
+
+        <input
+          class="field"
+          id="newPickupItem"
+          placeholder="新增取車檢查項目"
+        >
+
+        <button
+          class="add-button"
+          id="addPickupItem"
+        >
+          ＋ 新增
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- PICKUP PHOTOS -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        📷 取車照片
+      </h2>
+
+      <span>
+        車況證據
+      </span>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="photo-upload">
+
+        <label class="upload-label">
+
+          📷 加入取車照片
+
+          <input
+            id="pickupPhotoInput"
+            type="file"
+            accept="image/*"
+            multiple
+          >
+
+        </label>
+
+      </div>
+
+
+      <div class="photo-note">
+        建議拍車頭、車尾、左右側、輪圈、擋風玻璃、車頂、儀表板、油量、里程與既有損傷。
+      </div>
+
+
+      <div
+        class="photo-grid"
+        id="pickupPhotos"
+        style="margin-top:12px"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- RETURN CHECKLIST -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        ✅ 還車檢查清單
+      </h2>
+
+      <span>
+        離開前確認
+      </span>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div
+        class="checklist"
+        id="returnChecklist"
+      ></div>
+
+
+      <div class="add-row">
+
+        <input
+          class="field"
+          id="newReturnItem"
+          placeholder="新增還車檢查項目"
+        >
+
+        <button
+          class="add-button"
+          id="addReturnItem"
+        >
+          ＋ 新增
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- RETURN PHOTOS -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        📷 還車照片
+      </h2>
+
+      <span>
+        留存還車車況
+      </span>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="photo-upload">
+
+        <label class="upload-label">
+
+          📷 加入還車照片
+
+          <input
+            id="returnPhotoInput"
+            type="file"
+            accept="image/*"
+            multiple
+          >
+
+        </label>
+
+      </div>
+
+
+      <div class="photo-note">
+        建議再次拍車身四周、輪圈、內裝、油量、里程、停車位置與鑰匙交還狀態。
+      </div>
+
+
+      <div
+        class="photo-grid"
+        id="returnPhotos"
+        style="margin-top:12px"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- DRIVING RULES -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        ⚠️ 駕駛規則與提醒
+      </h2>
+
+      <span>
+        之後一起補正式規則
+      </span>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div
+        class="rule-list"
+        id="ruleList"
+      ></div>
+
+
+      <div class="add-row">
+
+        <input
+          class="field"
+          id="newRuleText"
+          placeholder="例如：某城市 ZTL 注意事項"
+        >
+
+        <button
+          class="add-button"
+          id="addRule"
+        >
+          ＋ 新增提醒
+        </button>
+
+      </div>
+
+
+      <div class="notice">
+
+        <strong>
+          🇮🇹 義大利實際駕駛規則
+        </strong>
+
+        這裡目前只先建立提醒系統。之後在正式填入速限、ZTL、停車顏色、高速公路與其他規則前，我們會再一起確認最新資訊。
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- EMERGENCY -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        🆘 故障 / 事故處理
+      </h2>
+
+    </div>
+
+
+    <div class="panel">
+
+      <div class="grid">
+
+
+        <div class="field-wrap">
+
+          <label>
+            租車公司緊急電話
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="rentalEmergencyPhone"
+            placeholder="+39..."
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            道路救援電話
+          </label>
+
+          <input
+            class="field auto-save"
+            data-key="roadsidePhone"
+            placeholder="Roadside assistance"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            事故 / 故障處理備註
+          </label>
+
+          <textarea
+            class="field auto-save"
+            data-key="emergencyNote"
+            placeholder="之後可以放：先確保安全、聯絡誰、需要拍哪些照片、租車公司要求的事故流程等。"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+
+      <div class="blue-notice notice">
+
+        <strong>
+          📸 發生爭議時
+        </strong>
+
+        取車與還車照片最好都保留原始檔，不要只留下社群軟體壓縮過的版本。網站內的照片之後也會改成雲端備份。
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+
+  <!-- GENERAL NOTE -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>
+        📝 租車備註
+      </h2>
+
+    </div>
+
+
+    <div class="panel">
+
+      <textarea
+        class="field auto-save"
+        data-key="generalNote"
+        placeholder="其他租車、自駕、停車或加油備註……"
+      ></textarea>
+
+    </div>
+
+  </section>
+
+
+
+
+  <div class="notice">
+
+    <strong>
+      💾 目前資料儲存位置
+    </strong>
+
+    文字與清單現在存在這台裝置的瀏覽器；照片則存在這台瀏覽器的 IndexedDB。換手機或換電腦暫時看不到，之後接 Supabase 後才會跨裝置同步。
+
+  </div>
+
+
+</main>
+
+
+
+
+<nav>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+
+    <span class="nav-icon">
+      🏠
+    </span>
+
+    今天
+
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="itinerary.html"
+  >
+
+    <span class="nav-icon">
+      📅
+    </span>
+
+    行程
+
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="#"
+  >
+
+    <span class="nav-icon">
+      🗺️
+    </span>
+
+    地圖
+
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="tickets.html"
+  >
+
+    <span class="nav-icon">
+      🎫
+    </span>
+
+    票券
+
+  </a>
+
+
+  <a
+    class="nav-link active"
+    href="car.html"
+  >
+
+    <span class="nav-icon">
+      🚗
+    </span>
+
+    租車
+
+  </a>
+
+</nav>
+
+
+
+
+<script>
+
+
+/* -----------------------------
+   BASIC DATA
+----------------------------- */
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026Car";
+
+
+const defaultData = {
+
+  company: "",
+  carModel: "",
+  plate: "",
+  bookingNumber: "",
+  fuelType: "",
+  mileagePolicy: "",
+  insurance: "",
+  fuelPolicy: "",
+  rentalPdf: "",
+
+  pickupDate: "",
+  pickupTime: "",
+  pickupLocation: "",
+  pickupMaps: "",
+
+  returnDate: "",
+  returnTime: "",
+  returnLocation: "",
+  returnMaps: "",
+
+  rentalEmergencyPhone: "",
+  roadsidePhone: "",
+  emergencyNote: "",
+  generalNote: "",
+
+  pickupChecklist: [
+
+    {
+      text: "拍攝車身四周照片 / 影片",
+      done: false
+    },
+
+    {
+      text: "檢查既有刮痕、凹痕並確認已記錄",
+      done: false
+    },
+
+    {
+      text: "檢查擋風玻璃與車窗",
+      done: false
+    },
+
+    {
+      text: "檢查輪胎與輪圈",
+      done: false
+    },
+
+    {
+      text: "拍攝油量與里程",
+      done: false
+    },
+
+    {
+      text: "確認儀表板沒有異常警示燈",
+      done: false
+    },
+
+    {
+      text: "確認車內設備、空調與導航",
+      done: false
+    },
+
+    {
+      text: "確認備胎 / 補胎工具與隨車用品",
+      done: false
+    },
+
+    {
+      text: "確認保險與道路救援聯絡方式",
+      done: false
+    }
+
+  ],
+
+
+  returnChecklist: [
+
+    {
+      text: "依租車合約確認油量",
+      done: false
+    },
+
+    {
+      text: "拍攝還車時油量與里程",
+      done: false
+    },
+
+    {
+      text: "再次拍攝車身四周",
+      done: false
+    },
+
+    {
+      text: "拍攝輪圈、玻璃與車頂",
+      done: false
+    },
+
+    {
+      text: "清空個人物品與垃圾",
+      done: false
+    },
+
+    {
+      text: "確認停車位置與還車方式",
+      done: false
+    },
+
+    {
+      text: "確認鑰匙已交還",
+      done: false
+    },
+
+    {
+      text: "保存還車證明 / 收據",
+      done: false
+    }
+
+  ],
+
+
+  rules: [
+
+    {
+      category: "ZTL",
+      text: "之後填入實際會經過城市的限制區提醒。"
+    },
+
+    {
+      category: "停車",
+      text: "之後整理停車標誌、停車場與住宿停車資訊。"
+    },
+
+    {
+      category: "高速公路",
+      text: "之後整理收費方式與需要注意的路段。"
+    },
+
+    {
+      category: "加油",
+      text: "取車時確認油種，避免加錯油。"
+    },
+
+    {
+      category: "導航",
+      text: "進入市區前確認路線是否經過限制道路。"
+    }
+
+  ]
+
+};
+
+
+let carData;
+
+
+
+function cloneDefaults() {
+
+  return JSON.parse(
+    JSON.stringify(defaultData)
+  );
+
+}
+
+
+
+function loadData() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!saved) {
+
+    carData =
+      cloneDefaults();
+
+    return;
+
+  }
+
+
+  try {
+
+    carData =
+      Object.assign(
+        cloneDefaults(),
+        JSON.parse(saved)
+      );
+
+  }
+
+  catch {
+
+    carData =
+      cloneDefaults();
+
+  }
+
+}
+
+
+
+function saveData() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(carData)
+  );
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
+    );
+
+
+  status.textContent =
+    "已儲存 ✓";
+
+
+  clearTimeout(
+    window.saveTimer
+  );
+
+
+  window.saveTimer =
+    setTimeout(
+      () => {
+
+        status.textContent =
+          "自動儲存";
+
+      },
+      1200
+    );
+
+}
+
+
+
+/* -----------------------------
+   FORM FIELDS
+----------------------------- */
+
+
+function bindFields() {
+
+  document
+    .querySelectorAll(
+      ".auto-save"
+    )
+    .forEach(
+      element => {
+
+        const key =
+          element.dataset.key;
+
+
+        element.value =
+          carData[key] || "";
+
+
+        element.addEventListener(
+          "input",
+          () => {
+
+            carData[key] =
+              element.value;
+
+            saveData();
+
+            updateLinkButtons();
+
+          }
+        );
+
+      }
+    );
+
+}
+
+
+
+function updateLinkButtons() {
+
+  const rentalPdf =
+    carData.rentalPdf || "";
+
+
+  const pickupMaps =
+    carData.pickupMaps || "";
+
+
+  const returnMaps =
+    carData.returnMaps || "";
+
+
+  document.getElementById(
+    "openRentalPdf"
+  ).disabled =
+    !rentalPdf.trim();
+
+
+  document.getElementById(
+    "openPickupMaps"
+  ).disabled =
+    !pickupMaps.trim();
+
+
+  document.getElementById(
+    "openReturnMaps"
+  ).disabled =
+    !returnMaps.trim();
+
+}
+
+
+
+document.getElementById(
+  "openRentalPdf"
+).onclick =
+  () => openLink(
+    carData.rentalPdf
+  );
+
+
+document.getElementById(
+  "openPickupMaps"
+).onclick =
+  () => openLink(
+    carData.pickupMaps
+  );
+
+
+document.getElementById(
+  "openReturnMaps"
+).onclick =
+  () => openLink(
+    carData.returnMaps
+  );
+
+
+
+function openLink(
+  url
+) {
+
+  if (
+    !url ||
+    !url.trim()
+  ) {
+    return;
+  }
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener"
+  );
+
+}
+
+
+
+/* -----------------------------
+   CHECKLISTS
+----------------------------- */
+
+
+function renderChecklist(
+  type
+) {
+
+  const isPickup =
+    type ===
+    "pickupChecklist";
+
+
+  const container =
+    document.getElementById(
+      isPickup
+      ? "pickupChecklist"
+      : "returnChecklist"
+    );
+
+
+  const list =
+    carData[type];
+
+
+  container.innerHTML =
+    "";
+
+
+  list.forEach(
+    (
+      item,
+      index
+    ) => {
+
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "check-item";
+
+
+      row.innerHTML =
+        `
+
+          <input
+            type="checkbox"
+            ${item.done ? "checked" : ""}
+          >
+
+          <input
+            class="check-text ${item.done ? "done" : ""}"
+            value="${escapeAttribute(item.text)}"
+          >
+
+          <button
+            class="tiny-delete"
+            title="刪除"
+          >
+            ×
+          </button>
+
+        `;
+
+
+      const checkbox =
+        row.querySelector(
+          'input[type="checkbox"]'
+        );
+
+
+      const text =
+        row.querySelector(
+          ".check-text"
+        );
+
+
+      checkbox.onchange =
+        () => {
+
+          item.done =
+            checkbox.checked;
+
+
+          text.classList.toggle(
+            "done",
+            item.done
+          );
+
+
+          saveData();
+
+        };
+
+
+      text.oninput =
+        () => {
+
+          item.text =
+            text.value;
+
+          saveData();
+
+        };
+
+
+      row.querySelector(
+        ".tiny-delete"
+      ).onclick =
+        () => {
+
+          list.splice(
+            index,
+            1
+          );
+
+
+          saveData();
+
+          renderChecklist(
+            type
+          );
+
+        };
+
+
+      container.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+
+function addChecklistItem(
+  type,
+  inputId
+) {
+
+  const input =
+    document.getElementById(
+      inputId
+    );
+
+
+  const text =
+    input.value.trim();
+
+
+  if (!text) {
+    return;
+  }
+
+
+  carData[type].push(
+    {
+      text,
+      done: false
+    }
+  );
+
+
+  input.value =
+    "";
+
+
+  saveData();
+
+  renderChecklist(
+    type
+  );
+
+}
+
+
+
+document.getElementById(
+  "addPickupItem"
+).onclick =
+  () => addChecklistItem(
+    "pickupChecklist",
+    "newPickupItem"
+  );
+
+
+document.getElementById(
+  "addReturnItem"
+).onclick =
+  () => addChecklistItem(
+    "returnChecklist",
+    "newReturnItem"
+  );
+
+
+
+/* -----------------------------
+   RULES
+----------------------------- */
+
+
+function renderRules() {
+
+  const container =
+    document.getElementById(
+      "ruleList"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  carData.rules.forEach(
+    (
+      rule,
+      index
+    ) => {
+
+
+      const row =
+        document.createElement(
+          "div"
+        );
+
+
+      row.className =
+        "rule-item";
+
+
+      row.innerHTML =
+        `
+
+          <input
+            class="rule-category"
+            placeholder="分類"
+            value="${escapeAttribute(rule.category)}"
+          >
+
+          <textarea
+            class="rule-text"
+            placeholder="提醒內容"
+          >${escapeHtml(rule.text)}</textarea>
+
+          <button
+            class="tiny-delete"
+          >
+            ×
+          </button>
+
+        `;
+
+
+      const category =
+        row.querySelector(
+          ".rule-category"
+        );
+
+
+      const text =
+        row.querySelector(
+          ".rule-text"
+        );
+
+
+      category.oninput =
+        () => {
+
+          rule.category =
+            category.value;
+
+          saveData();
+
+        };
+
+
+      text.oninput =
+        () => {
+
+          rule.text =
+            text.value;
+
+          saveData();
+
+        };
+
+
+      row.querySelector(
+        ".tiny-delete"
+      ).onclick =
+        () => {
+
+          carData.rules.splice(
+            index,
+            1
+          );
+
+
+          saveData();
+
+          renderRules();
+
+        };
+
+
+      container.appendChild(
+        row
+      );
+
+    }
+  );
+
+}
+
+
+
+document.getElementById(
+  "addRule"
+).onclick =
+  () => {
+
+    const input =
+      document.getElementById(
+        "newRuleText"
+      );
+
+
+    const text =
+      input.value.trim();
+
+
+    if (!text) {
+      return;
+    }
+
+
+    carData.rules.push(
+      {
+        category:
+          "提醒",
+        text
+      }
+    );
+
+
+    input.value =
+      "";
+
+
+    saveData();
+
+    renderRules();
+
+  };
+
+
+
+/* -----------------------------
+   PHOTO DATABASE
+----------------------------- */
+
+
+const DB_NAME =
+  "TravelHubPhotoDB";
+
+
+const DB_VERSION =
+  1;
+
+
+const PHOTO_STORE =
+  "carPhotos";
+
+
+let photoDB;
+
+
+
+function openPhotoDatabase() {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+
+      const request =
+        indexedDB.open(
+          DB_NAME,
+          DB_VERSION
+        );
+
+
+      request.onupgradeneeded =
+        event => {
+
+          const db =
+            event.target.result;
+
+
+          if (
+            !db.objectStoreNames.contains(
+              PHOTO_STORE
+            )
+          ) {
+
+            const store =
+              db.createObjectStore(
+                PHOTO_STORE,
+                {
+                  keyPath: "id",
+                  autoIncrement: true
+                }
+              );
+
+
+            store.createIndex(
+              "group",
+              "group",
+              {
+                unique: false
+              }
+            );
+
+          }
+
+        };
+
+
+      request.onsuccess =
+        () => {
+
+          photoDB =
+            request.result;
+
+          resolve(
+            photoDB
+          );
+
+        };
+
+
+      request.onerror =
+        () => {
+
+          reject(
+            request.error
+          );
+
+        };
+
+    }
+  );
+
+}
+
+
+
+function addPhotoRecord(
+  group,
+  file
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+
+      const transaction =
+        photoDB.transaction(
+          PHOTO_STORE,
+          "readwrite"
+        );
+
+
+      const store =
+        transaction.objectStore(
+          PHOTO_STORE
+        );
+
+
+      const request =
+        store.add(
+          {
+
+            group,
+
+            name:
+              file.name,
+
+            type:
+              file.type,
+
+            blob:
+              file,
+
+            caption:
+              "",
+
+            createdAt:
+              Date.now()
+
+          }
+        );
+
+
+      request.onsuccess =
+        () => resolve();
+
+
+      request.onerror =
+        () => reject(
+          request.error
+        );
+
+    }
+  );
+
+}
+
+
+
+function getPhotos(
+  group
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+
+      const transaction =
+        photoDB.transaction(
+          PHOTO_STORE,
+          "readonly"
+        );
+
+
+      const store =
+        transaction.objectStore(
+          PHOTO_STORE
+        );
+
+
+      const index =
+        store.index(
+          "group"
+        );
+
+
+      const request =
+        index.getAll(
+          group
+        );
+
+
+      request.onsuccess =
+        () => resolve(
+          request.result || []
+        );
+
+
+      request.onerror =
+        () => reject(
+          request.error
+        );
+
+    }
+  );
+
+}
+
+
+
+function deletePhotoRecord(
+  id
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+
+      const transaction =
+        photoDB.transaction(
+          PHOTO_STORE,
+          "readwrite"
+        );
+
+
+      const store =
+        transaction.objectStore(
+          PHOTO_STORE
+        );
+
+
+      const request =
+        store.delete(
+          id
+        );
+
+
+      request.onsuccess =
+        () => resolve();
+
+
+      request.onerror =
+        () => reject(
+          request.error
+        );
+
+    }
+  );
+
+}
+
+
+
+function updatePhotoCaption(
+  photo
+) {
+
+  return new Promise(
+    (
+      resolve,
+      reject
+    ) => {
+
+
+      const transaction =
+        photoDB.transaction(
+          PHOTO_STORE,
+          "readwrite"
+        );
+
+
+      const store =
+        transaction.objectStore(
+          PHOTO_STORE
+        );
+
+
+      const request =
+        store.put(
+          photo
+        );
+
+
+      request.onsuccess =
+        () => resolve();
+
+
+      request.onerror =
+        () => reject(
+          request.error
+        );
+
+    }
+  );
+
+}
+
+
+
+/* -----------------------------
+   PHOTO UI
+----------------------------- */
+
+
+async function handlePhotoUpload(
+  group,
+  input
+) {
+
+  const files =
+    Array.from(
+      input.files || []
+    );
+
+
+  if (
+    files.length === 0
+  ) {
+    return;
+  }
+
+
+  for (
+    const file
+    of files
+  ) {
+
+    if (
+      !file.type.startsWith(
+        "image/"
+      )
+    ) {
+      continue;
+    }
+
+
+    await addPhotoRecord(
+      group,
+      file
+    );
+
+  }
+
+
+  input.value =
+    "";
+
+
+  await renderPhotos(
+    group
+  );
+
+}
+
+
+
+async function renderPhotos(
+  group
+) {
+
+  const container =
+    document.getElementById(
+      group === "pickup"
+      ? "pickupPhotos"
+      : "returnPhotos"
+    );
+
+
+  const photos =
+    await getPhotos(
+      group
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    photos.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="photo-empty">
+
+          還沒有照片
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  photos
+    .sort(
+      (
+        a,
+        b
+      ) =>
+        a.createdAt -
+        b.createdAt
+    )
+    .forEach(
+      photo => {
+
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+
+        card.className =
+          "photo-card";
+
+
+        const imageUrl =
+          URL.createObjectURL(
+            photo.blob
+          );
+
+
+        card.innerHTML =
+          `
+
+            <img
+              src="${imageUrl}"
+              alt=""
+            >
+
+
+            <div class="photo-body">
+
+              <input
+                class="photo-caption"
+                placeholder="例如：右後輪刮痕"
+                value="${escapeAttribute(photo.caption || "")}"
+              >
+
+
+              <div class="photo-meta">
+
+                <div class="photo-name">
+                  ${escapeHtml(photo.name)}
+                </div>
+
+                <button
+                  class="photo-delete"
+                >
+                  刪除
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+
+        const caption =
+          card.querySelector(
+            ".photo-caption"
+          );
+
+
+        let captionTimer;
+
+
+        caption.oninput =
+          () => {
+
+            clearTimeout(
+              captionTimer
+            );
+
+
+            photo.caption =
+              caption.value;
+
+
+            captionTimer =
+              setTimeout(
+                async () => {
+
+                  await updatePhotoCaption(
+                    photo
+                  );
+
+                },
+                400
+              );
+
+          };
+
+
+        card.querySelector(
+          ".photo-delete"
+        ).onclick =
+          async () => {
+
+            const okay =
+              confirm(
+                "確定要刪除這張照片嗎？"
+              );
+
+
+            if (!okay) {
+              return;
+            }
+
+
+            await deletePhotoRecord(
+              photo.id
+            );
+
+
+            URL.revokeObjectURL(
+              imageUrl
+            );
+
+
+            await renderPhotos(
+              group
+            );
+
+          };
+
+
+        container.appendChild(
+          card
+        );
+
+      }
+    );
+
+}
+
+
+
+document.getElementById(
+  "pickupPhotoInput"
+).addEventListener(
+  "change",
+  event => {
+
+    handlePhotoUpload(
+      "pickup",
+      event.target
+    );
+
+  }
+);
+
+
+
+document.getElementById(
+  "returnPhotoInput"
+).addEventListener(
+  "change",
+  event => {
+
+    handlePhotoUpload(
+      "return",
+      event.target
+    );
+
+  }
+);
+
+
+
+/* -----------------------------
+   ESCAPE TEXT
+----------------------------- */
+
+
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function escapeAttribute(
+  text = ""
+) {
+
+  return escapeHtml(
+    text
+  );
+
+}
+
+
+
+/* -----------------------------
+   START
+----------------------------- */
+
+
+async function init() {
+
+  loadData();
+
+  bindFields();
+
+  renderChecklist(
+    "pickupChecklist"
+  );
+
+  renderChecklist(
+    "returnChecklist"
+  );
+
+  renderRules();
+
+  updateLinkButtons();
+
+
+  try {
+
+    await openPhotoDatabase();
+
+    await renderPhotos(
+      "pickup"
+    );
+
+    await renderPhotos(
+      "return"
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    document.getElementById(
+      "pickupPhotos"
+    ).innerHTML =
+      '<div class="photo-empty">此瀏覽器暫時無法使用照片儲存功能。</div>';
+
+
+    document.getElementById(
+      "returnPhotos"
+    ).innerHTML =
+      '<div class="photo-empty">此瀏覽器暫時無法使用照片儲存功能。</div>';
+
+  }
+
+}
+
+
+
+init();
+
+
+</script>
+
+
+</body>
+
+</html>
