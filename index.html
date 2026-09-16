@@ -19,43 +19,24 @@
       box-sizing: border-box;
     }
 
-
     :root {
-
       --bg: #f4f1eb;
-
       --card: #ffffff;
-
       --text: #292824;
-
       --muted: #817d75;
-
       --line: #e8e2d9;
-
       --accent: #9a7350;
-
       --accent-soft: #eee4d8;
-
-      --green-soft: #e6efe6;
-
-      --green: #49644b;
-
+      --dark: #2e2d29;
       --orange-soft: #f4e7d6;
-
-      --shadow:
-        0 8px 30px
-        rgba(52, 45, 36, 0.06);
-
+      --shadow: 0 8px 30px rgba(52,45,36,0.06);
     }
-
 
     html {
       scroll-behavior: smooth;
     }
 
-
     body {
-
       margin: 0;
 
       font-family:
@@ -65,1244 +46,532 @@
         "Noto Sans TC",
         sans-serif;
 
-      background:
-        var(--bg);
+      background: var(--bg);
+      color: var(--text);
 
-      color:
-        var(--text);
-
-      padding-bottom:
-        90px;
-
+      padding-bottom: 90px;
     }
 
-
-    button,
     a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
       font: inherit;
     }
 
-
-    a {
-
-      color: inherit;
-
-      text-decoration: none;
-
-    }
-
-
     .container {
-
-      width:
-        min(
-          1100px,
-          calc(100% - 28px)
-        );
-
-      margin:
-        auto;
-
+      width: min(1100px, calc(100% - 28px));
+      margin: auto;
     }
 
+
+    /* HEADER */
 
     header {
-
-      padding:
-        24px 0 18px;
-
+      padding: 24px 0 18px;
     }
-
 
     .topbar {
-
       display: flex;
-
       align-items: center;
-
-      justify-content:
-        space-between;
+      justify-content: space-between;
 
       gap: 12px;
-
     }
-
 
     .brand {
-
       display: flex;
-
       align-items: center;
-
       gap: 11px;
-
     }
 
-
     .brand-logo {
-
       width: 45px;
-
       height: 45px;
 
       display: grid;
+      place-items: center;
 
-      place-items:
-        center;
+      border-radius: 15px;
 
-      border-radius:
-        15px;
+      background: white;
 
-      background:
-        white;
+      box-shadow: var(--shadow);
 
-      box-shadow:
-        var(--shadow);
-
-      font-size:
-        23px;
-
+      font-size: 23px;
     }
-
 
     .brand h1 {
-
       margin: 0;
-
-      font-size:
-        23px;
-
-      letter-spacing:
-        -0.4px;
-
+      font-size: 23px;
     }
-
 
     .brand p {
+      margin: 3px 0 0;
 
-      margin:
-        3px 0 0;
+      color: var(--muted);
 
-      color:
-        var(--muted);
-
-      font-size:
-        12px;
-
+      font-size: 12px;
     }
-
 
     .profile {
-
       width: 42px;
-
       height: 42px;
 
-      border-radius:
-        50%;
+      border-radius: 50%;
 
-      background:
-        var(--accent-soft);
+      background: var(--accent-soft);
 
-      display:
-        grid;
+      display: grid;
+      place-items: center;
 
-      place-items:
-        center;
-
-      font-size:
-        19px;
-
+      font-size: 19px;
     }
-
 
 
     /* HERO */
 
     .hero {
+      min-height: 280px;
 
-      position:
-        relative;
+      border-radius: 28px;
 
-      overflow:
-        hidden;
+      padding: 26px;
 
-      min-height:
-        280px;
-
-      border-radius:
-        28px;
-
-      padding:
-        26px;
+      overflow: hidden;
 
       background:
-
         linear-gradient(
           135deg,
           rgba(79,66,52,0.88),
           rgba(117,91,66,0.75)
         ),
-
         url(
           "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1600&q=80"
         )
         center / cover;
 
-      color:
-        white;
+      color: white;
 
-      box-shadow:
-        var(--shadow);
+      box-shadow: var(--shadow);
 
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      justify-content:
-        space-between;
-
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-
 
     .hero-badge {
+      align-self: flex-start;
 
-      align-self:
-        flex-start;
+      padding: 7px 11px;
 
-      padding:
-        7px 11px;
+      border-radius: 100px;
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.17
-        );
+      background: rgba(255,255,255,0.17);
 
-      backdrop-filter:
-        blur(10px);
+      backdrop-filter: blur(10px);
 
-      border:
-        1px solid
-        rgba(
-          255,
-          255,
-          255,
-          0.22
-        );
+      border: 1px solid rgba(255,255,255,0.22);
 
-      border-radius:
-        100px;
-
-      font-size:
-        12px;
-
+      font-size: 12px;
     }
-
 
     .hero h2 {
+      margin: 32px 0 6px;
 
-      font-size:
-        clamp(
-          32px,
-          7vw,
-          55px
-        );
+      font-size: clamp(32px, 7vw, 55px);
 
-      margin:
-        32px 0 6px;
-
-      letter-spacing:
-        -1.5px;
-
+      letter-spacing: -1.5px;
     }
-
 
     .hero-sub {
-
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          0.84
-        );
-
-      font-size:
-        14px;
-
+      color: rgba(255,255,255,0.84);
+      font-size: 14px;
     }
-
 
     .hero-bottom {
+      margin-top: 28px;
 
-      margin-top:
-        28px;
+      display: flex;
+      flex-wrap: wrap;
 
-      display:
-        flex;
-
-      flex-wrap:
-        wrap;
-
-      gap:
-        10px;
-
+      gap: 10px;
     }
-
 
     .hero-pill {
+      padding: 10px 13px;
 
-      padding:
-        10px 13px;
+      border-radius: 14px;
 
-      border-radius:
-        14px;
+      background: rgba(255,255,255,0.14);
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.14
-        );
+      backdrop-filter: blur(12px);
 
-      backdrop-filter:
-        blur(12px);
-
-      font-size:
-        13px;
-
+      font-size: 13px;
     }
-
-
-
-    /* SECTIONS */
-
-    .section {
-
-      margin-top:
-        24px;
-
-    }
-
-
-    .section-head {
-
-      display:
-        flex;
-
-      align-items:
-        flex-end;
-
-      justify-content:
-        space-between;
-
-      margin-bottom:
-        12px;
-
-    }
-
-
-    .section-head h2 {
-
-      margin:
-        0;
-
-      font-size:
-        20px;
-
-    }
-
-
-    .section-head span {
-
-      color:
-        var(--muted);
-
-      font-size:
-        12px;
-
-    }
-
 
 
     /* STATUS */
 
-    .status-grid {
-
-      display:
-        grid;
-
-      grid-template-columns:
-        1.4fr 1fr 1fr;
-
-      gap:
-        12px;
-
+    .section {
+      margin-top: 24px;
     }
 
+    .status-grid {
+      display: grid;
+
+      grid-template-columns: 1.4fr 1fr 1fr;
+
+      gap: 12px;
+    }
 
     .status-card {
+      background: white;
 
-      background:
-        var(--card);
+      border-radius: 20px;
 
-      border-radius:
-        20px;
+      padding: 18px;
 
-      padding:
-        18px;
+      min-height: 125px;
 
-      box-shadow:
-        var(--shadow);
-
-      min-height:
-        125px;
-
+      box-shadow: var(--shadow);
     }
-
 
     .status-card .label {
+      color: var(--muted);
 
-      font-size:
-        12px;
+      font-size: 12px;
 
-      color:
-        var(--muted);
-
-      margin-bottom:
-        11px;
-
+      margin-bottom: 11px;
     }
-
 
     .status-card strong {
+      display: block;
 
-      display:
-        block;
+      font-size: 25px;
 
-      font-size:
-        25px;
-
-      margin-bottom:
-        6px;
-
+      margin-bottom: 6px;
     }
-
 
     .status-card p {
+      margin: 0;
 
-      margin:
-        0;
+      color: var(--muted);
 
-      color:
-        var(--muted);
+      font-size: 13px;
 
-      font-size:
-        13px;
-
-      line-height:
-        1.5;
-
+      line-height: 1.5;
     }
-
 
     .countdown {
-
-      background:
-        #2e2d29;
-
-      color:
-        white;
-
+      background: var(--dark);
+      color: white;
     }
-
 
     .countdown .label,
     .countdown p {
-
-      color:
-        rgba(
-          255,
-          255,
-          255,
-          0.67
-        );
-
+      color: rgba(255,255,255,0.67);
     }
-
 
     .countdown strong {
-
-      font-size:
-        36px;
-
+      font-size: 36px;
     }
 
 
+    /* SECTION TITLE */
 
-    /* QUICK TOOLS */
+    .section-head {
+      display: flex;
+
+      align-items: flex-end;
+      justify-content: space-between;
+
+      margin-bottom: 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* QUICK CARDS */
 
     .quick-grid {
+      display: grid;
 
-      display:
-        grid;
+      grid-template-columns: repeat(4, 1fr);
 
-      grid-template-columns:
-        repeat(
-          4,
-          1fr
-        );
-
-      gap:
-        12px;
-
+      gap: 12px;
     }
-
 
     .quick-card {
+      display: block;
 
-      border:
-        none;
+      background: white;
 
-      cursor:
-        pointer;
+      border-radius: 21px;
 
-      text-align:
-        left;
+      padding: 18px;
 
-      background:
-        var(--card);
+      min-height: 130px;
 
-      border-radius:
-        21px;
+      box-shadow: var(--shadow);
 
-      padding:
-        18px;
-
-      min-height:
-        130px;
-
-      box-shadow:
-        var(--shadow);
-
-      transition:
-        0.18s ease;
-
+      transition: 0.18s ease;
     }
-
 
     .quick-card:hover {
-
-      transform:
-        translateY(-3px);
-
+      transform: translateY(-3px);
     }
-
 
     .quick-icon {
+      width: 45px;
+      height: 45px;
 
-      width:
-        45px;
+      border-radius: 15px;
 
-      height:
-        45px;
+      background: var(--accent-soft);
 
-      border-radius:
-        15px;
+      display: grid;
+      place-items: center;
 
-      background:
-        var(--accent-soft);
+      font-size: 22px;
 
-      display:
-        grid;
-
-      place-items:
-        center;
-
-      font-size:
-        22px;
-
-      margin-bottom:
-        13px;
-
+      margin-bottom: 13px;
     }
-
 
     .quick-card h3 {
+      margin: 0 0 5px;
 
-      margin:
-        0 0 5px;
-
-      font-size:
-        16px;
-
+      font-size: 16px;
     }
-
 
     .quick-card p {
+      margin: 0;
 
-      margin:
-        0;
+      color: var(--muted);
 
-      color:
-        var(--muted);
+      font-size: 12px;
 
-      font-size:
-        12px;
+      line-height: 1.5;
+    }
 
-      line-height:
-        1.5;
-
+    .coming {
+      opacity: 0.62;
     }
 
 
+    /* ROUTE PLACEHOLDER */
 
-    /* ROUTE */
+    .route-placeholder {
+      background: white;
 
-    .route-card {
+      border-radius: 22px;
 
-      background:
-        var(--card);
+      padding: 24px;
 
-      border-radius:
-        22px;
+      box-shadow: var(--shadow);
+    }
 
-      padding:
-        20px;
+    .route-placeholder strong {
+      display: block;
 
-      box-shadow:
-        var(--shadow);
+      margin-bottom: 7px;
 
+      font-size: 16px;
+    }
+
+    .route-placeholder p {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.7;
     }
 
 
-    .route {
-
-      display:
-        flex;
-
-      overflow-x:
-        auto;
-
-      padding:
-        3px 0 8px;
-
-      scrollbar-width:
-        none;
-
-    }
-
-
-    .route::-webkit-scrollbar {
-
-      display:
-        none;
-
-    }
-
-
-    .route-stop {
-
-      min-width:
-        135px;
-
-      position:
-        relative;
-
-      padding:
-        0 17px 0 24px;
-
-    }
-
-
-    .route-stop:first-child {
-
-      padding-left:
-        8px;
-
-    }
-
-
-    .route-stop:not(:last-child)::after {
-
-      content:
-        "";
-
-      position:
-        absolute;
-
-      top:
-        9px;
-
-      right:
-        -2px;
-
-      width:
-        23px;
-
-      height:
-        1px;
-
-      background:
-        #cfc5ba;
-
-    }
-
-
-    .route-dot {
-
-      width:
-        18px;
-
-      height:
-        18px;
-
-      border:
-        5px solid
-        var(--accent-soft);
-
-      border-radius:
-        50%;
-
-      background:
-        var(--accent);
-
-      margin-bottom:
-        9px;
-
-    }
-
-
-    .route-stop strong {
-
-      display:
-        block;
-
-      font-size:
-        13px;
-
-      margin-bottom:
-        3px;
-
-    }
-
-
-    .route-stop span {
-
-      color:
-        var(--muted);
-
-      font-size:
-        11px;
-
-    }
-
-
-
-    /* BOTTOM PANELS */
+    /* INFO */
 
     .info-columns {
+      display: grid;
 
-      display:
-        grid;
+      grid-template-columns: 1.15fr 0.85fr;
 
-      grid-template-columns:
-        1.15fr 0.85fr;
-
-      gap:
-        14px;
-
+      gap: 14px;
     }
-
 
     .panel {
+      background: white;
 
-      background:
-        var(--card);
+      border-radius: 22px;
 
-      border-radius:
-        22px;
+      padding: 20px;
 
-      padding:
-        20px;
-
-      box-shadow:
-        var(--shadow);
-
+      box-shadow: var(--shadow);
     }
 
+    .panel h3 {
+      margin: 0 0 13px;
 
-    .panel-title {
-
-      display:
-        flex;
-
-      align-items:
-        center;
-
-      justify-content:
-        space-between;
-
-      margin-bottom:
-        14px;
-
+      font-size: 17px;
     }
-
-
-    .panel-title h3 {
-
-      margin:
-        0;
-
-      font-size:
-        17px;
-
-    }
-
-
-    .small-link {
-
-      font-size:
-        12px;
-
-      color:
-        var(--accent);
-
-    }
-
-
-
-    /* TODO */
-
-    .todo {
-
-      padding:
-        13px 0;
-
-      display:
-        flex;
-
-      gap:
-        11px;
-
-      align-items:
-        flex-start;
-
-      border-bottom:
-        1px solid
-        var(--line);
-
-    }
-
-
-    .todo:last-child {
-
-      border-bottom:
-        none;
-
-      padding-bottom:
-        0;
-
-    }
-
-
-    .todo:first-of-type {
-
-      padding-top:
-        3px;
-
-    }
-
-
-    .todo-box {
-
-      flex:
-        0 0 auto;
-
-      width:
-        20px;
-
-      height:
-        20px;
-
-      border-radius:
-        7px;
-
-      border:
-        2px solid
-        #c7b8a7;
-
-      margin-top:
-        1px;
-
-    }
-
-
-    .todo strong {
-
-      display:
-        block;
-
-      font-size:
-        14px;
-
-      margin-bottom:
-        4px;
-
-    }
-
-
-    .todo p {
-
-      margin:
-        0;
-
-      color:
-        var(--muted);
-
-      font-size:
-        12px;
-
-      line-height:
-        1.5;
-
-    }
-
-
-
-    /* WEATHER */
-
-    .weather-placeholder {
-
-      padding:
-        18px;
-
-      border-radius:
-        18px;
-
-      background:
-        #eef1f3;
-
-      min-height:
-        165px;
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      justify-content:
-        center;
-
-    }
-
-
-    .weather-placeholder
-    .weather-icon {
-
-      font-size:
-        38px;
-
-      margin-bottom:
-        12px;
-
-    }
-
-
-    .weather-placeholder strong {
-
-      font-size:
-        18px;
-
-      margin-bottom:
-        5px;
-
-    }
-
-
-    .weather-placeholder p {
-
-      margin:
-        0;
-
-      font-size:
-        12px;
-
-      color:
-        var(--muted);
-
-      line-height:
-        1.6;
-
-    }
-
 
     .notice {
+      padding: 15px 16px;
 
-      margin-top:
-        14px;
+      border-radius: 18px;
 
-      background:
-        var(--orange-soft);
+      background: var(--orange-soft);
 
-      border-radius:
-        18px;
+      font-size: 12px;
 
-      padding:
-        15px 16px;
-
-      font-size:
-        12px;
-
-      line-height:
-        1.65;
-
+      line-height: 1.65;
     }
-
 
     .notice strong {
+      display: block;
 
-      display:
-        block;
-
-      margin-bottom:
-        3px;
-
+      margin-bottom: 3px;
     }
 
+    .mini-link {
+      display: block;
+
+      padding: 13px 0;
+
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mini-link:last-child {
+      border-bottom: 0;
+    }
+
+    .mini-link strong {
+      display: block;
+
+      margin-bottom: 4px;
+
+      font-size: 14px;
+    }
+
+    .mini-link span {
+      color: var(--muted);
+
+      font-size: 12px;
+    }
 
 
     /* NAV */
 
     nav {
+      position: fixed;
 
-      position:
-        fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
 
-      bottom:
-        0;
+      height: 72px;
 
-      left:
-        0;
+      z-index: 100;
 
-      right:
-        0;
+      display: grid;
 
-      z-index:
-        100;
+      grid-template-columns: repeat(5, 1fr);
 
-      height:
-        72px;
+      background: rgba(255,255,255,0.94);
 
-      display:
-        grid;
+      backdrop-filter: blur(18px);
 
-      grid-template-columns:
-        repeat(
-          5,
-          1fr
-        );
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
 
-      background:
-        rgba(
-          255,
-          255,
-          255,
-          0.92
-        );
+    .nav-link {
+      display: flex;
 
-      backdrop-filter:
-        blur(18px);
+      flex-direction: column;
 
-      border-top:
-        1px solid
-        rgba(
-          0,
-          0,
-          0,
-          0.06
-        );
+      justify-content: center;
+      align-items: center;
 
-      padding-bottom:
-        env(
-          safe-area-inset-bottom
-        );
+      gap: 3px;
 
+      color: #79756e;
+
+      font-size: 11px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-link.active {
+      color: var(--text);
+
+      font-weight: 700;
     }
 
 
-    .nav-item {
-
-      border:
-        0;
-
-      background:
-        none;
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      justify-content:
-        center;
-
-      align-items:
-        center;
-
-      gap:
-        3px;
-
-      color:
-        #79756e;
-
-      font-size:
-        11px;
-
-    }
-
-
-    .nav-item .nav-icon {
-
-      font-size:
-        20px;
-
-    }
-
-
-    .nav-item.active {
-
-      color:
-        var(--text);
-
-      font-weight:
-        650;
-
-    }
-
-
-
-    /* TABLET */
-
-    @media
-    (max-width: 800px) {
+    @media (max-width: 800px) {
 
       .status-grid {
-
-        grid-template-columns:
-          1fr 1fr;
-
+        grid-template-columns: 1fr 1fr;
       }
-
 
       .countdown {
-
-        grid-column:
-          span 2;
-
+        grid-column: span 2;
       }
-
 
       .quick-grid {
-
-        grid-template-columns:
-          repeat(
-            2,
-            1fr
-          );
-
+        grid-template-columns: repeat(2, 1fr);
       }
 
-
       .info-columns {
-
-        grid-template-columns:
-          1fr;
-
+        grid-template-columns: 1fr;
       }
 
     }
 
 
-
-    /* MOBILE */
-
-    @media
-    (max-width: 520px) {
+    @media (max-width: 520px) {
 
       .container {
-
-        width:
-          min(
-            100% - 20px,
-            1100px
-          );
-
+        width: min(100% - 20px, 1100px);
       }
-
 
       header {
-
-        padding-top:
-          16px;
-
+        padding-top: 16px;
       }
-
 
       .hero {
+        min-height: 260px;
 
-        border-radius:
-          23px;
+        border-radius: 23px;
 
-        padding:
-          21px;
-
-        min-height:
-          260px;
-
+        padding: 21px;
       }
-
 
       .hero h2 {
-
-        margin-top:
-          38px;
-
+        margin-top: 38px;
       }
-
 
       .status-card {
-
-        padding:
-          15px;
-
+        padding: 15px;
       }
-
 
       .quick-card {
+        min-height: 120px;
 
-        min-height:
-          120px;
-
-        padding:
-          16px;
-
-      }
-
-
-      .section {
-
-        margin-top:
-          20px;
-
+        padding: 16px;
       }
 
     }
@@ -1316,23 +585,15 @@
 <body>
 
 
-
 <header>
 
-  <div
-    class="container topbar"
-  >
-
+  <div class="container topbar">
 
     <div class="brand">
 
-
-      <div
-        class="brand-logo"
-      >
+      <div class="brand-logo">
         ✈️
       </div>
-
 
       <div>
 
@@ -1346,15 +607,12 @@
 
       </div>
 
-
     </div>
-
 
 
     <div class="profile">
       🇮🇹
     </div>
-
 
   </div>
 
@@ -1362,1259 +620,602 @@
 
 
 
-
 <main class="container">
 
 
-
-  <!-- HERO -->
-
   <section class="hero">
 
-
-    <div
-      class="hero-badge"
-    >
+    <div class="hero-badge">
       NEXT TRIP
     </div>
 
 
-
     <div>
-
 
       <h2>
         Italy 2026
       </h2>
 
-
-      <div
-        class="hero-sub"
-      >
+      <div class="hero-sub">
         義大利北到南自駕旅行
       </div>
 
 
+      <div class="hero-bottom">
 
-      <div
-        class="hero-bottom"
-      >
-
-
-        <div
-          class="hero-pill"
-        >
+        <div class="hero-pill">
           📅 10/01 — 10/21
         </div>
 
-
-        <div
-          class="hero-pill"
-        >
+        <div class="hero-pill">
           👨‍👩‍👧‍👦 4 人
         </div>
 
-
-        <div
-          class="hero-pill"
-        >
+        <div class="hero-pill">
           🚗 10/03 — 10/17
         </div>
 
-
       </div>
 
-
     </div>
-
 
   </section>
 
 
 
-
-  <!-- TRIP STATUS -->
-
   <section class="section">
 
-
-    <div
-      class="status-grid"
-    >
+    <div class="status-grid">
 
 
-
-      <div
-        class="status-card countdown"
-      >
-
+      <div class="status-card countdown">
 
         <div class="label">
           距離出發
         </div>
 
-
-        <strong
-          id="countdownNumber"
-        >
+        <strong id="countdownNumber">
           --
         </strong>
 
-
-        <p
-          id="countdownText"
-        >
-          正在計算旅程時間
+        <p id="countdownText">
+          正在計算
         </p>
-
 
       </div>
 
 
-
-
-      <div
-        class="status-card"
-      >
-
+      <div class="status-card">
 
         <div class="label">
           旅程日期
         </div>
 
-
         <strong>
           21 Days
         </strong>
-
 
         <p>
           2026/10/01 — 10/21
         </p>
 
-
       </div>
 
 
-
-
-      <div
-        class="status-card"
-      >
-
+      <div class="status-card">
 
         <div class="label">
           主要交通
         </div>
 
-
         <strong>
           🚗 Road Trip
         </strong>
 
-
         <p>
-          米蘭取車・羅馬還車
+          義大利自駕旅行
         </p>
-
 
       </div>
 
 
     </div>
 
-
   </section>
 
 
 
-
-
-  <!-- QUICK TOOLS -->
-
   <section class="section">
 
-
-    <div
-      class="section-head"
-    >
-
+    <div class="section-head">
 
       <h2>
         快捷入口
       </h2>
 
-
       <span>
         Travel tools
       </span>
 
-
     </div>
 
 
-
-
-    <div
-      class="quick-grid"
-    >
-
-
+    <div class="quick-grid">
 
 
       <a
         class="quick-card"
-        href="#itinerary"
+        href="itinerary.html"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           📅
         </div>
-
 
         <h3>
           每日行程
         </h3>
 
-
         <p>
-          查看時間、景點與每日安排
+          時間、景點、備註與導航
         </p>
-
 
       </a>
 
 
 
-
-
       <a
-        class="quick-card"
-        href="#map"
+        class="quick-card coming"
+        href="#"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           🗺️
         </div>
-
 
         <h3>
           Google 地圖
         </h3>
 
-
         <p>
-          景點、住宿、停車與路線
+          之後建立景點與路線地圖
         </p>
-
 
       </a>
 
 
 
-
-
       <a
         class="quick-card"
-        href="#hotel"
+        href="stays.html"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           🏨
         </div>
-
 
         <h3>
           住宿
         </h3>
 
-
         <p>
-          地址、入住資訊與確認單
+          入住資訊、地址與確認單
         </p>
-
 
       </a>
 
 
 
-
-
       <a
-        class="quick-card"
-        href="#ticket"
+        class="quick-card coming"
+        href="#"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           🎫
         </div>
-
 
         <h3>
           門票
         </h3>
 
-
         <p>
           入場時間、PDF 與 QR Code
         </p>
-
 
       </a>
 
 
 
-
-
       <a
-        class="quick-card"
-        href="#car"
+        class="quick-card coming"
+        href="#"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           🚗
         </div>
-
 
         <h3>
           租車
         </h3>
 
-
         <p>
-          取還車、照片、規則與保險
+          驗車、照片、規則與還車
         </p>
-
 
       </a>
 
 
 
-
-
       <a
-        class="quick-card"
-        href="#packing"
+        class="quick-card coming"
+        href="#"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           🧳
         </div>
-
 
         <h3>
           必帶清單
         </h3>
 
-
         <p>
-          行李打包與重要用品
+          行李與重要用品
         </p>
-
 
       </a>
 
 
 
-
-
       <a
-        class="quick-card"
-        href="#budget"
+        class="quick-card coming"
+        href="#"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           💰
         </div>
-
 
         <h3>
           預算
         </h3>
 
-
         <p>
-          住宿、交通與旅費紀錄
+          支出、付款與總預算
         </p>
-
 
       </a>
 
 
 
-
-
       <a
-        class="quick-card"
-        href="#documents"
+        class="quick-card coming"
+        href="#"
       >
 
-
-        <div
-          class="quick-icon"
-        >
+        <div class="quick-icon">
           📁
         </div>
-
 
         <h3>
           文件
         </h3>
 
-
         <p>
           航班、保險與重要資料
         </p>
-
 
       </a>
 
 
     </div>
 
-
   </section>
 
 
 
+  <section class="section">
 
-
-  <!-- ROUTE -->
-
-  <section
-    class="section"
-    id="itinerary"
-  >
-
-
-    <div
-      class="section-head"
-    >
-
+    <div class="section-head">
 
       <h2>
         旅程路線
       </h2>
 
-
       <span>
-        由北到南
+        Italy 2026
       </span>
 
-
     </div>
 
 
-
-
-    <div
-      class="route-card"
-    >
-
-
-      <div
-        class="route"
-      >
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Milano
-          </strong>
-
-          <span>
-            10/02 — 03
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Garda
-          </strong>
-
-          <span>
-            10/03 — 04
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Brixen
-          </strong>
-
-          <span>
-            10/04 — 08
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Dolomites
-          </strong>
-
-          <span>
-            10/08 — 10
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Venezia
-          </strong>
-
-          <span>
-            10/10
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Bologna
-          </strong>
-
-          <span>
-            10/10
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Firenze
-          </strong>
-
-          <span>
-            10/11
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Toscana
-          </strong>
-
-          <span>
-            10/12 — 15
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Viterbo
-          </strong>
-
-          <span>
-            10/13 — 15
-          </span>
-
-        </div>
-
-
-
-
-
-        <div
-          class="route-stop"
-        >
-
-          <div
-            class="route-dot"
-          ></div>
-
-          <strong>
-            Roma
-          </strong>
-
-          <span>
-            10/15 — 21
-          </span>
-
-        </div>
-
-
-
-      </div>
-
+    <div class="route-placeholder">
+
+      <strong>
+        🗺️ 完整路線稍後加入
+      </strong>
+
+      <p>
+        我們會先一起核對 Day 1～Day 21 的住宿地點、景點與交通，再把正確版本放到這裡。
+      </p>
 
     </div>
-
 
   </section>
 
 
-
-
-
-  <!-- TODO + WEATHER -->
 
   <section class="section">
 
-
-    <div
-      class="info-columns"
-    >
+    <div class="info-columns">
 
 
+      <div class="panel">
+
+        <h3>
+          快速管理
+        </h3>
 
 
-      <div
-        class="panel"
-      >
-
-
-        <div
-          class="panel-title"
+        <a
+          class="mini-link"
+          href="itinerary.html"
         >
 
+          <strong>
+            📅 編輯每日行程
+          </strong>
 
-          <h3>
-            ✅ 出發前待辦
-          </h3>
-
-
-          <span
-            class="small-link"
-          >
-            之後可編輯
+          <span>
+            新增景點、修改時間與備註
           </span>
 
-
-        </div>
-
+        </a>
 
 
-
-
-
-        <div
-          class="todo"
+        <a
+          class="mini-link"
+          href="stays.html"
         >
 
-
-          <div
-            class="todo-box"
-          ></div>
-
-
-          <div>
-
-
-            <strong>
-              確認所有門票
-            </strong>
-
-
-            <p>
-              入場日期、時間、人數與 PDF
-            </p>
-
-
-          </div>
-
-
-        </div>
-
-
-
-
-
-
-        <div
-          class="todo"
-        >
-
-
-          <div
-            class="todo-box"
-          ></div>
-
-
-          <div>
-
-
-            <strong>
-              整理租車資料
-            </strong>
-
-
-            <p>
-              保險、取車文件、國際駕照與還車規則
-            </p>
-
-
-          </div>
-
-
-        </div>
-
-
-
-
-
-
-        <div
-          class="todo"
-        >
-
-
-          <div
-            class="todo-box"
-          ></div>
-
-
-          <div>
-
-
-            <strong>
-              建立必帶清單
-            </strong>
-
-
-            <p>
-              證件、衣物、藥品、電子用品與車用品
-            </p>
-
-
-          </div>
-
-
-        </div>
-
-
-
-
-
-
-        <div
-          class="todo"
-        >
-
-
-          <div
-            class="todo-box"
-          ></div>
-
-
-          <div>
-
-
-            <strong>
-              上傳住宿確認資料
-            </strong>
-
-
-            <p>
-              每間住宿會有自己的 PDF / 文件按鈕
-            </p>
-
-
-          </div>
-
-
-        </div>
-
+          <strong>
+            🏨 管理住宿
+          </strong>
+
+          <span>
+            新增住宿、地址、付款與確認單
+          </span>
+
+        </a>
 
       </div>
 
 
 
+      <div class="panel">
+
+        <h3>
+          🌦 即時天氣
+        </h3>
 
 
-
-      <div
-        class="panel"
-      >
-
-
-        <div
-          class="panel-title"
-        >
-
-
-          <h3>
-            🌦 即時天氣
-          </h3>
-
-
-          <span
-            class="small-link"
-          >
-            Coming next
-          </span>
-
-
-        </div>
-
-
-
-
-
-
-        <div
-          class="weather-placeholder"
-        >
-
-
-          <div
-            class="weather-icon"
-          >
-            ☀️
-          </div>
-
+        <div class="notice">
 
           <strong>
-            天氣功能準備中
+            天氣功能稍後加入
           </strong>
 
-
-          <p>
-            之後會依每天所在地，自動顯示即時天氣、降雨機率、體感溫度與日落時間。
-          </p>
-
+          之後會依每天所在城市，自動顯示即時溫度、降雨機率、體感溫度與日落時間。
 
         </div>
-
-
-
-
-
-
-        <div
-          class="notice"
-        >
-
-
-          <strong>
-            💡 自動切換旅行狀態
-          </strong>
-
-
-          出發前顯示倒數；10 月 1 日開始後會自動顯示 Day 1、Day 2、Day 3……直到旅程結束。
-
-
-        </div>
-
 
       </div>
 
 
     </div>
 
-
   </section>
-
-
-
-
-  <!-- FUTURE SECTIONS -->
-
-  <section
-    class="section"
-    id="hotel"
-  ></section>
-
-
-  <section
-    id="ticket"
-  ></section>
-
-
-  <section
-    id="car"
-  ></section>
-
-
-  <section
-    id="packing"
-  ></section>
-
-
-  <section
-    id="budget"
-  ></section>
-
-
-  <section
-    id="documents"
-  ></section>
-
-
-  <section
-    id="map"
-  ></section>
-
 
 
 </main>
 
 
 
-
-
-<!-- BOTTOM NAVIGATION -->
-
 <nav>
 
 
-  <button
-    class="nav-item active"
+  <a
+    class="nav-link active"
+    href="index.html"
   >
 
-    <span
-      class="nav-icon"
-    >
+    <span class="nav-icon">
       🏠
     </span>
 
     今天
 
-  </button>
+  </a>
 
 
-
-
-  <button
-    class="nav-item"
+  <a
+    class="nav-link"
+    href="itinerary.html"
   >
 
-    <span
-      class="nav-icon"
-    >
+    <span class="nav-icon">
       📅
     </span>
 
     行程
 
-  </button>
+  </a>
 
 
-
-
-  <button
-    class="nav-item"
+  <a
+    class="nav-link"
+    href="#"
   >
 
-    <span
-      class="nav-icon"
-    >
+    <span class="nav-icon">
       🗺️
     </span>
 
     地圖
 
-  </button>
+  </a>
 
 
-
-
-  <button
-    class="nav-item"
+  <a
+    class="nav-link"
+    href="#"
   >
 
-    <span
-      class="nav-icon"
-    >
+    <span class="nav-icon">
       🎫
     </span>
 
     票券
 
-  </button>
+  </a>
 
 
-
-
-  <button
-    class="nav-item"
+  <a
+    class="nav-link"
+    href="stays.html"
   >
 
-    <span
-      class="nav-icon"
-    >
-      ☰
+    <span class="nav-icon">
+      🏨
     </span>
 
-    更多
+    住宿
 
-  </button>
+  </a>
 
 
 </nav>
 
 
 
-
-
 <script>
 
 
-  /* 整趟旅行從 10/01 出發 */
-
-  const tripStart =
-    new Date(
-      "2026-10-01T00:00:00"
-    );
-
-
-  const tripEnd =
-    new Date(
-      "2026-10-21T23:59:59"
-    );
-
-
-
-  const today =
-    new Date();
-
-
-  today.setHours(
-    0,
-    0,
-    0,
-    0
+const tripStart =
+  new Date(
+    "2026-10-01T00:00:00"
   );
 
 
+const tripEnd =
+  new Date(
+    "2026-10-21T23:59:59"
+  );
 
-  const countdownNumber =
-    document.getElementById(
-      "countdownNumber"
+
+const today =
+  new Date();
+
+
+today.setHours(
+  0,
+  0,
+  0,
+  0
+);
+
+
+const number =
+  document.getElementById(
+    "countdownNumber"
+  );
+
+
+const text =
+  document.getElementById(
+    "countdownText"
+  );
+
+
+if (
+  today <
+  tripStart
+) {
+
+  const difference =
+    tripStart -
+    today;
+
+
+  const days =
+    Math.ceil(
+      difference /
+      (
+        1000 *
+        60 *
+        60 *
+        24
+      )
     );
 
 
-  const countdownText =
-    document.getElementById(
-      "countdownText"
-    );
+  number.textContent =
+    days + " 天";
 
 
+  text.textContent =
+    "Italy 2026 即將出發";
+
+}
 
 
-  /* 出發前 */
+else if (
+  today <=
+  tripEnd
+) {
 
-  if (
-    today <
-    tripStart
-  ) {
-
-
-    const difference =
-      tripStart -
-      today;
+  const difference =
+    today -
+    tripStart;
 
 
-    const days =
-      Math.ceil(
-
-        difference /
-
-        (
-          1000 *
-          60 *
-          60 *
-          24
-        )
-
-      );
+  const day =
+    Math.floor(
+      difference /
+      (
+        1000 *
+        60 *
+        60 *
+        24
+      )
+    ) + 1;
 
 
-    countdownNumber.textContent =
-      days + " 天";
+  number.textContent =
+    "Day " + day;
 
 
-    countdownText.textContent =
-      "義大利之旅即將出發";
+  text.textContent =
+    "旅程進行中 🇮🇹";
+
+}
 
 
-  }
+else {
+
+  number.textContent =
+    "Completed";
 
 
+  text.textContent =
+    "Italy 2026 已完成";
 
-  /* 旅行期間 */
-
-  else if (
-    today <=
-    tripEnd
-  ) {
-
-
-    const difference =
-      today -
-      tripStart;
-
-
-    const dayNumber =
-      Math.floor(
-
-        difference /
-
-        (
-          1000 *
-          60 *
-          60 *
-          24
-        )
-
-      ) + 1;
-
-
-    countdownNumber.textContent =
-      "Day " +
-      dayNumber;
-
-
-    countdownText.textContent =
-      "Italy 2026 旅程進行中 🇮🇹";
-
-
-  }
-
-
-
-  /* 旅行結束 */
-
-  else {
-
-
-    countdownNumber.textContent =
-      "Completed";
-
-
-    countdownText.textContent =
-      "Italy 2026 已完成";
-
-
-  }
+}
 
 
 </script>
-
-
 
 
 </body>
