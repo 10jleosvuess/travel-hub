@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Travel Hub</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   "Noto Sans TC", sans-serif;
+      background: #f7f4ef;
+      color: #312f2b;
+    }
+
+    header {
+      padding: 30px 20px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    header p {
+      color: #777;
+      margin-top: 8px;
+    }
+
+    main {
+      padding: 0 18px 100px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .hero {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+    }
+
+    .hero h2 {
+      margin-top: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 18px;
+      min-height: 110px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+    }
+
+    .icon {
+      font-size: 28px;
+      margin-bottom: 9px;
+    }
+
+    .card h3 {
+      margin: 0 0 5px;
+      font-size: 17px;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 13px;
+      color: #777;
+    }
+
+    nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      background: rgba(255,255,255,0.96);
+
+      display: flex;
+      justify-content: space-around;
+
+      border-top: 1px solid #ddd;
+
+      padding: 10px 5px 14px;
+    }
+
+    nav div {
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+    }
+
+    nav span {
+      display: block;
+      font-size: 22px;
+      margin-bottom: 3px;
+    }
+
+    @media (min-width: 700px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>✈️ My Travel Hub</h1>
+  <p>我的私人旅行管理中心</p>
+</header>
+
+<main>
+
+  <section class="hero">
+    <h2>下一趟旅程</h2>
+    <p>之後這裡會自動顯示旅程、倒數、今天行程與天氣。</p>
+  </section>
+
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="icon">📅</div>
+      <h3>每日行程</h3>
+      <p>時間、景點與每日安排</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🗺️</div>
+      <h3>地圖</h3>
+      <p>景點、住宿、停車位置</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🏨</div>
+      <h3>住宿</h3>
+      <p>入住資料、地址與確認單</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🎫</div>
+      <h3>門票</h3>
+      <p>門票時間與相關文件</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🚗</div>
+      <h3>租車 / 交通</h3>
+      <p>租車、驗車照片與駕駛提醒</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🌦️</div>
+      <h3>天氣</h3>
+      <p>旅程中的即時天氣</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🧳</div>
+      <h3>必帶清單</h3>
+      <p>打包、增加與刪除項目</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">✅</div>
+      <h3>待辦事項</h3>
+      <p>尚未訂購與需要處理事項</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">💰</div>
+      <h3>旅行預算</h3>
+      <p>預算、支出與付款紀錄</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">📁</div>
+      <h3>文件</h3>
+      <p>保險、航班與旅行資料</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">🆘</div>
+      <h3>緊急資訊</h3>
+      <p>保險、救援與重要電話</p>
+    </div>
+
+  </div>
+
+</main>
+
+
+<nav>
+
+  <div>
+    <span>🏠</span>
+    今天
+  </div>
+
+  <div>
+    <span>📅</span>
+    行程
+  </div>
+
+  <div>
+    <span>🗺️</span>
+    地圖
+  </div>
+
+  <div>
+    <span>🎫</span>
+    票券
+  </div>
+
+  <div>
+    <span>☰</span>
+    更多
+  </div>
+
+</nav>
+
+</body>
+</html>
