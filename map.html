@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>旅行地圖｜Travel Hub</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #827d75;
+      --line: #e8e2d9;
+      --accent: #9a7350;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --green-soft: #e6eee7;
+      --yellow-soft: #f4eddc;
+      --red-soft: #f3e4e2;
+      --blue-soft: #e6edf3;
+      --danger: #a65a52;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1000px, calc(100% - 24px));
+      margin: auto;
+    }
+
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+
+      background: rgba(244,241,235,0.93);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      min-height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 700;
+    }
+
+    .back-icon {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      display: grid;
+      place-items: center;
+
+      box-shadow: var(--shadow);
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* PAGE */
+
+    .page-head {
+      padding: 20px 0 10px;
+    }
+
+    .page-head h1 {
+      margin: 0 0 5px;
+
+      font-size: 28px;
+    }
+
+    .page-head p {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+
+    /* DAYS */
+
+    .day-scroll {
+      display: flex;
+
+      gap: 7px;
+
+      overflow-x: auto;
+
+      padding: 10px 0 14px;
+
+      scrollbar-width: none;
+
+      position: sticky;
+
+      top: 70px;
+
+      z-index: 60;
+
+      background: var(--bg);
+    }
+
+    .day-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .day-button {
+      flex: 0 0 auto;
+
+      border: 0;
+
+      min-width: 72px;
+
+      padding: 9px 10px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      color: var(--muted);
+
+      box-shadow: var(--shadow);
+    }
+
+    .day-button strong {
+      display: block;
+
+      color: var(--text);
+
+      font-size: 12px;
+    }
+
+    .day-button span {
+      display: block;
+
+      margin-top: 2px;
+
+      font-size: 10px;
+    }
+
+    .day-button.active {
+      background: var(--dark);
+      color: white;
+    }
+
+    .day-button.active strong {
+      color: white;
+    }
+
+
+    /* DAY HEADER */
+
+    .day-card {
+      background: var(--dark);
+
+      color: white;
+
+      padding: 18px;
+
+      border-radius: 23px;
+
+      box-shadow: var(--shadow);
+
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      gap: 15px;
+    }
+
+    .day-card small {
+      color: rgba(255,255,255,0.62);
+    }
+
+    .day-card h2 {
+      margin: 3px 0 0;
+
+      font-size: 22px;
+    }
+
+    .route-button {
+      border: 0;
+
+      border-radius: 13px;
+
+      padding: 11px 13px;
+
+      background: white;
+
+      color: var(--dark);
+
+      font-weight: 750;
+
+      white-space: nowrap;
+    }
+
+    .route-button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+
+    /* MAP PREVIEW */
+
+    .map-panel {
+      margin-top: 13px;
+
+      background: white;
+
+      border-radius: 22px;
+
+      padding: 12px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .map-title {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 3px 4px 11px;
+    }
+
+    .map-title strong {
+      font-size: 14px;
+    }
+
+    .map-title span {
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .map-frame {
+      width: 100%;
+      height: 350px;
+
+      border: 0;
+      border-radius: 17px;
+
+      background: #ece8e2;
+    }
+
+    .map-empty {
+      height: 250px;
+
+      border-radius: 17px;
+
+      background: #f4f1ec;
+
+      display: grid;
+      place-items: center;
+
+      padding: 25px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 12px;
+
+      line-height: 1.6;
+    }
+
+
+    /* TOOLBAR */
+
+    .toolbar {
+      margin: 18px 0 11px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .toolbar strong {
+      font-size: 18px;
+    }
+
+    .toolbar span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .add-button {
+      border: 0;
+
+      border-radius: 13px;
+
+      padding: 10px 13px;
+
+      background: var(--accent-soft);
+
+      color: #72543b;
+
+      font-weight: 750;
+    }
+
+
+    /* STOP */
+
+    .stop-list {
+      display: grid;
+
+      gap: 11px;
+    }
+
+    .stop-card {
+      background: white;
+
+      border-radius: 21px;
+
+      padding: 15px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .stop-top {
+      display: grid;
+
+      grid-template-columns: auto 1fr auto;
+
+      gap: 10px;
+
+      align-items: center;
+    }
+
+    .stop-number {
+      width: 35px;
+      height: 35px;
+
+      border-radius: 12px;
+
+      display: grid;
+      place-items: center;
+
+      background: var(--accent-soft);
+
+      color: #73543b;
+
+      font-weight: 800;
+
+      font-size: 12px;
+    }
+
+    .stop-name {
+      width: 100%;
+
+      border: 0;
+      outline: none;
+
+      background: transparent;
+
+      color: var(--text);
+
+      font-weight: 800;
+
+      font-size: 17px;
+    }
+
+    .delete-button {
+      border: 0;
+
+      background: transparent;
+
+      color: var(--danger);
+
+      font-size: 20px;
+    }
+
+
+    /* FORM */
+
+    .grid {
+      display: grid;
+
+      grid-template-columns: repeat(2,1fr);
+
+      gap: 9px;
+
+      margin-top: 12px;
+    }
+
+    .field-wrap {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field-wrap.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .field {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      border-radius: 12px;
+
+      padding: 10px 11px;
+
+      background: #fbfaf8;
+
+      outline: none;
+    }
+
+    .field:focus {
+      background: white;
+
+      border-color: #baa48f;
+    }
+
+    textarea.field {
+      min-height: 68px;
+
+      resize: vertical;
+
+      line-height: 1.5;
+    }
+
+    .status-confirmed {
+      background: var(--green-soft);
+    }
+
+    .status-tentative {
+      background: var(--yellow-soft);
+    }
+
+
+    /* ACTIONS */
+
+    .actions {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 7px;
+
+      margin-top: 11px;
+
+      padding-top: 11px;
+
+      border-top: 1px solid var(--line);
+    }
+
+    .action-button {
+      border: 0;
+
+      padding: 8px 10px;
+
+      border-radius: 10px;
+
+      background: #f1eee9;
+
+      font-size: 11px;
+    }
+
+    .map-action {
+      background: var(--green-soft);
+    }
+
+    .preview-action {
+      background: var(--blue-soft);
+    }
+
+
+    /* EMPTY */
+
+    .empty {
+      padding: 38px 20px;
+
+      text-align: center;
+
+      border: 1px dashed #cbbeb0;
+
+      border-radius: 21px;
+
+      color: var(--muted);
+
+      background: rgba(255,255,255,0.4);
+    }
+
+    .empty-icon {
+      font-size: 38px;
+
+      margin-bottom: 8px;
+    }
+
+    .empty strong {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color: var(--text);
+    }
+
+
+    /* NOTICE */
+
+    .notice {
+      margin-top: 18px;
+
+      padding: 14px 15px;
+
+      border-radius: 17px;
+
+      background: var(--yellow-soft);
+
+      font-size: 12px;
+
+      line-height: 1.6;
+    }
+
+    .notice strong {
+      display: block;
+
+      margin-bottom: 3px;
+    }
+
+
+    /* NAV */
+
+    nav {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      height: 72px;
+
+      z-index: 100;
+
+      display: grid;
+
+      grid-template-columns: repeat(5,1fr);
+
+      background: rgba(255,255,255,0.94);
+
+      backdrop-filter: blur(18px);
+
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-link {
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 3px;
+
+      color: #79756e;
+
+      font-size: 11px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-link.active {
+      color: var(--text);
+
+      font-weight: 700;
+    }
+
+
+    @media (max-width: 650px) {
+
+      .day-card {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+      .route-button {
+        width: 100%;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-wrap.full {
+        grid-column: auto;
+      }
+
+      .map-frame {
+        height: 280px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        旅行地圖
+      </div>
+
+    </a>
+
+
+    <div
+      class="save-status"
+      id="saveStatus"
+    >
+      自動儲存
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+  <section class="page-head">
+
+    <h1>
+      🗺️ 旅行地圖
+    </h1>
+
+    <p>
+      每天的景點、住宿、停車與路線都可以隨時修改
+    </p>
+
+  </section>
+
+
+
+  <div
+    class="day-scroll"
+    id="dayScroll"
+  ></div>
+
+
+
+  <section class="day-card">
+
+    <div>
+
+      <small id="dayDate">
+        -
+      </small>
+
+      <h2 id="dayTitle">
+        Day 1
+      </h2>
+
+    </div>
+
+
+    <button
+      class="route-button"
+      id="openDayRoute"
+    >
+      🚙 開啟今日路線
+    </button>
+
+  </section>
+
+
+
+  <section class="map-panel">
+
+    <div class="map-title">
+
+      <strong>
+        📍 地圖預覽
+      </strong>
+
+      <span id="previewLabel">
+        點景點的「預覽」
+      </span>
+
+    </div>
+
+
+    <div id="mapContainer">
+
+      <div class="map-empty">
+
+        點下面任一地點的「🗺️ 預覽」，<br>
+        這裡就會顯示 Google Maps。
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <div class="toolbar">
+
+    <div>
+
+      <strong>
+        今日地點
+      </strong>
+
+      <span id="stopCount">
+        0 個
+      </span>
+
+    </div>
+
+
+    <button
+      class="add-button"
+      id="addStop"
+    >
+      ＋ 新增地點
+    </button>
+
+  </div>
+
+
+
+  <div
+    class="stop-list"
+    id="stopList"
+  ></div>
+
+
+
+  <div class="notice">
+
+    <strong>
+      🟡 暫定行程也可以放
+    </strong>
+
+    尚未決定的西多洛米蒂景點可以先標成「暫定」，之後直接刪除、換地點或重新排序，不需要再改 HTML。
+
+  </div>
+
+
+</main>
+
+
+
+<nav>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="itinerary.html"
+  >
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+
+  <a
+    class="nav-link active"
+    href="map.html"
+  >
+    <span class="nav-icon">🗺️</span>
+    地圖
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="tickets.html"
+  >
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="car.html"
+  >
+    <span class="nav-icon">🚗</span>
+    租車
+  </a>
+
+</nav>
+
+
+
+<script>
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026Map";
+
+
+const START_DATE =
+  new Date(
+    "2026-10-01T00:00:00"
+  );
+
+
+let currentDay =
+  1;
+
+
+let days =
+  Array.from(
+    {
+      length: 21
+    },
+    (
+      _,
+      index
+    ) => ({
+      day: index + 1,
+      stops: []
+    })
+  );
+
+
+
+function loadData() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!saved) {
+    return;
+  }
+
+
+  try {
+
+    const parsed =
+      JSON.parse(saved);
+
+
+    if (
+      Array.isArray(parsed) &&
+      parsed.length === 21
+    ) {
+
+      days =
+        parsed;
+
+    }
+
+  }
+
+  catch {}
+
+}
+
+
+
+function saveData() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(days)
+  );
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
+    );
+
+
+  status.textContent =
+    "已儲存 ✓";
+
+
+  clearTimeout(
+    window.saveTimer
+  );
+
+
+  window.saveTimer =
+    setTimeout(
+      () => {
+
+        status.textContent =
+          "自動儲存";
+
+      },
+      1200
+    );
+
+}
+
+
+
+function getDateForDay(
+  dayNumber
+) {
+
+  const date =
+    new Date(
+      START_DATE
+    );
+
+
+  date.setDate(
+    date.getDate() +
+    dayNumber -
+    1
+  );
+
+
+  return date;
+
+}
+
+
+
+function formatDate(
+  date
+) {
+
+  const month =
+    String(
+      date.getMonth() + 1
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  const day =
+    String(
+      date.getDate()
+    ).padStart(
+      2,
+      "0"
+    );
+
+
+  return (
+    month +
+    "/" +
+    day
+  );
+
+}
+
+
+
+function renderDayButtons() {
+
+  const container =
+    document.getElementById(
+      "dayScroll"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  days.forEach(
+    dayData => {
+
+
+      const date =
+        getDateForDay(
+          dayData.day
+        );
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "day-button" +
+        (
+          currentDay ===
+          dayData.day
+          ? " active"
+          : ""
+        );
+
+
+      button.innerHTML =
+        `
+
+          <strong>
+            Day ${dayData.day}
+          </strong>
+
+          <span>
+            ${formatDate(date)}
+          </span>
+
+        `;
+
+
+      button.onclick =
+        () => {
+
+          currentDay =
+            dayData.day;
+
+
+          clearPreview();
+
+          render();
+
+        };
+
+
+      container.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+
+function currentDayData() {
+
+  return days[
+    currentDay - 1
+  ];
+
+}
+
+
+
+function renderHeader() {
+
+  const date =
+    getDateForDay(
+      currentDay
+    );
+
+
+  document.getElementById(
+    "dayTitle"
+  ).textContent =
+    "Day " +
+    currentDay;
+
+
+  document.getElementById(
+    "dayDate"
+  ).textContent =
+    "2026 / " +
+    formatDate(date);
+
+
+  const count =
+    currentDayData()
+      .stops
+      .length;
+
+
+  document.getElementById(
+    "stopCount"
+  ).textContent =
+    count +
+    " 個";
+
+
+  document.getElementById(
+    "openDayRoute"
+  ).disabled =
+    count < 2;
+
+}
+
+
+
+function newStop() {
+
+  return {
+
+    name: "",
+
+    place: "",
+
+    customMaps: "",
+
+    type: "景點",
+
+    status: "暫定",
+
+    note: ""
+
+  };
+
+}
+
+
+
+function renderStops() {
+
+  const container =
+    document.getElementById(
+      "stopList"
+    );
+
+
+  const stops =
+    currentDayData()
+      .stops;
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    stops.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            📍
+          </div>
+
+          <strong>
+            今天還沒有加入地點
+          </strong>
+
+          按「＋ 新增地點」開始建立今天的路線。
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  stops.forEach(
+    (
+      stop,
+      index
+    ) => {
+
+      container.appendChild(
+        createStopCard(
+          stop,
+          index
+        )
+      );
+
+    }
+  );
+
+}
+
+
+
+function createStopCard(
+  stop,
+  index
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "stop-card";
+
+
+  card.innerHTML =
+    `
+
+      <div class="stop-top">
+
+        <div class="stop-number">
+          ${index + 1}
+        </div>
+
+
+        <input
+          class="stop-name"
+          placeholder="地點名稱"
+          value="${escapeAttribute(stop.name)}"
+        >
+
+
+        <button
+          class="delete-button"
+          title="刪除"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+
+      <div class="grid">
+
+
+        <div class="field-wrap">
+
+          <label>
+            狀態
+          </label>
+
+          <select
+            class="field stop-status"
+          >
+
+            <option
+              value="暫定"
+              ${stop.status === "暫定" ? "selected" : ""}
+            >
+              🟡 暫定
+            </option>
+
+            <option
+              value="已確認"
+              ${stop.status === "已確認" ? "selected" : ""}
+            >
+              ✅ 已確認
+            </option>
+
+          </select>
+
+        </div>
+
+
+
+        <div class="field-wrap">
+
+          <label>
+            類型
+          </label>
+
+          <select
+            class="field stop-type"
+          >
+            ${typeOptions(stop.type)}
+          </select>
+
+        </div>
+
+
+
+        <div class="field-wrap full">
+
+          <label>
+            Google Maps 搜尋地名 / 地址
+          </label>
+
+          <input
+            class="field stop-place"
+            placeholder="例如：Lago di Braies, Italy"
+            value="${escapeAttribute(stop.place)}"
+          >
+
+        </div>
+
+
+
+        <div class="field-wrap full">
+
+          <label>
+            Google Maps 連結（選填）
+          </label>
+
+          <input
+            class="field custom-maps"
+            placeholder="如果你已經有 Maps 分享連結，可以直接貼"
+            value="${escapeAttribute(stop.customMaps)}"
+          >
+
+        </div>
+
+
+
+        <div class="field-wrap full">
+
+          <label>
+            備註
+          </label>
+
+          <textarea
+            class="field stop-note"
+            placeholder="停車、營業時間、門票、健行、注意事項……"
+          >${escapeHtml(stop.note)}</textarea>
+
+        </div>
+
+
+      </div>
+
+
+
+      <div class="actions">
+
+        <button
+          class="action-button preview-action"
+        >
+          🗺️ 預覽
+        </button>
+
+
+        <button
+          class="action-button map-action"
+        >
+          📍 Google Maps
+        </button>
+
+
+        <button
+          class="action-button move-up"
+        >
+          ↑ 上移
+        </button>
+
+
+        <button
+          class="action-button move-down"
+        >
+          ↓ 下移
+        </button>
+
+      </div>
+
+    `;
+
+
+
+  const name =
+    card.querySelector(
+      ".stop-name"
+    );
+
+
+  const status =
+    card.querySelector(
+      ".stop-status"
+    );
+
+
+  const type =
+    card.querySelector(
+      ".stop-type"
+    );
+
+
+  const place =
+    card.querySelector(
+      ".stop-place"
+    );
+
+
+  const customMaps =
+    card.querySelector(
+      ".custom-maps"
+    );
+
+
+  const note =
+    card.querySelector(
+      ".stop-note"
+    );
+
+
+
+  function updateStatusStyle() {
+
+    status.classList.remove(
+      "status-confirmed",
+      "status-tentative"
+    );
+
+
+    if (
+      status.value ===
+      "已確認"
+    ) {
+
+      status.classList.add(
+        "status-confirmed"
+      );
+
+    }
+
+    else {
+
+      status.classList.add(
+        "status-tentative"
+      );
+
+    }
+
+  }
+
+
+
+  name.oninput =
+    () => {
+
+      stop.name =
+        name.value;
+
+      saveData();
+
+    };
+
+
+  status.onchange =
+    () => {
+
+      stop.status =
+        status.value;
+
+      updateStatusStyle();
+
+      saveData();
+
+    };
+
+
+  type.onchange =
+    () => {
+
+      stop.type =
+        type.value;
+
+      saveData();
+
+    };
+
+
+  place.oninput =
+    () => {
+
+      stop.place =
+        place.value;
+
+      saveData();
+
+    };
+
+
+  customMaps.oninput =
+    () => {
+
+      stop.customMaps =
+        customMaps.value;
+
+      saveData();
+
+    };
+
+
+  note.oninput =
+    () => {
+
+      stop.note =
+        note.value;
+
+      saveData();
+
+    };
+
+
+
+  card.querySelector(
+    ".preview-action"
+  ).onclick =
+    () => {
+
+      previewStop(
+        stop
+      );
+
+    };
+
+
+
+  card.querySelector(
+    ".map-action"
+  ).onclick =
+    () => {
+
+      openStopInMaps(
+        stop
+      );
+
+    };
+
+
+
+  card.querySelector(
+    ".move-up"
+  ).onclick =
+    () => {
+
+      if (
+        index === 0
+      ) {
+        return;
+      }
+
+
+      const stops =
+        currentDayData()
+          .stops;
+
+
+      [
+        stops[index - 1],
+        stops[index]
+      ] =
+      [
+        stops[index],
+        stops[index - 1]
+      ];
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+
+  card.querySelector(
+    ".move-down"
+  ).onclick =
+    () => {
+
+      const stops =
+        currentDayData()
+          .stops;
+
+
+      if (
+        index ===
+        stops.length - 1
+      ) {
+        return;
+      }
+
+
+      [
+        stops[index],
+        stops[index + 1]
+      ] =
+      [
+        stops[index + 1],
+        stops[index]
+      ];
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+
+  card.querySelector(
+    ".delete-button"
+  ).onclick =
+    () => {
+
+      const okay =
+        confirm(
+          "確定要刪除這個地點嗎？"
+        );
+
+
+      if (!okay) {
+        return;
+      }
+
+
+      currentDayData()
+        .stops
+        .splice(
+          index,
+          1
+        );
+
+
+      saveData();
+
+      clearPreview();
+
+      render();
+
+    };
+
+
+  updateStatusStyle();
+
+
+  return card;
+
+}
+
+
+
+function typeOptions(
+  selected
+) {
+
+  const options = [
+    ["景點", "📍 景點"],
+    ["住宿", "🏨 住宿"],
+    ["停車", "🅿️ 停車"],
+    ["餐廳", "🍝 餐廳"],
+    ["咖啡", "☕ 咖啡"],
+    ["加油", "⛽ 加油"],
+    ["機場", "✈️ 機場"],
+    ["車站", "🚉 車站"],
+    ["購物", "🛍️ 購物"],
+    ["其他", "📌 其他"]
+  ];
+
+
+  return options
+    .map(
+      option =>
+        `
+
+          <option
+            value="${option[0]}"
+            ${
+              option[0] ===
+              selected
+              ? "selected"
+              : ""
+            }
+          >
+            ${option[1]}
+          </option>
+
+        `
+    )
+    .join("");
+
+}
+
+
+
+document.getElementById(
+  "addStop"
+).onclick =
+  () => {
+
+    currentDayData()
+      .stops
+      .push(
+        newStop()
+      );
+
+
+    saveData();
+
+    render();
+
+
+    setTimeout(
+      () => {
+
+        const cards =
+          document.querySelectorAll(
+            ".stop-card"
+          );
+
+
+        const last =
+          cards[
+            cards.length - 1
+          ];
+
+
+        last
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+
+        last
+          ?.querySelector(
+            ".stop-name"
+          )
+          ?.focus();
+
+      },
+      80
+    );
+
+  };
+
+
+
+function mapsSearchUrl(
+  stop
+) {
+
+  if (
+    stop.customMaps &&
+    stop.customMaps.trim()
+  ) {
+
+    return stop.customMaps.trim();
+
+  }
+
+
+  const query =
+    stop.place.trim() ||
+    stop.name.trim();
+
+
+  if (!query) {
+    return "";
+  }
+
+
+  return (
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(query)
+  );
+
+}
+
+
+
+function openStopInMaps(
+  stop
+) {
+
+  const url =
+    mapsSearchUrl(
+      stop
+    );
+
+
+  if (!url) {
+
+    alert(
+      "先填地點名稱或地址"
+    );
+
+    return;
+
+  }
+
+
+  window.open(
+    url,
+    "_blank",
+    "noopener"
+  );
+
+}
+
+
+
+function previewStop(
+  stop
+) {
+
+  const query =
+    stop.place.trim() ||
+    stop.name.trim();
+
+
+  if (!query) {
+
+    alert(
+      "先填地點名稱或地址"
+    );
+
+    return;
+
+  }
+
+
+  const container =
+    document.getElementById(
+      "mapContainer"
+    );
+
+
+  container.innerHTML =
+    `
+
+      <iframe
+        class="map-frame"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed"
+      ></iframe>
+
+    `;
+
+
+  document.getElementById(
+    "previewLabel"
+  ).textContent =
+    stop.name ||
+    query;
+
+
+  container.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+}
+
+
+
+function clearPreview() {
+
+  document.getElementById(
+    "mapContainer"
+  ).innerHTML =
+    `
+
+      <div class="map-empty">
+
+        點下面任一地點的「🗺️ 預覽」，<br>
+        這裡就會顯示 Google Maps。
+
+      </div>
+
+    `;
+
+
+  document.getElementById(
+    "previewLabel"
+  ).textContent =
+    "點景點的「預覽」";
+
+}
+
+
+
+document.getElementById(
+  "openDayRoute"
+).onclick =
+  () => {
+
+    const stops =
+      currentDayData()
+        .stops
+        .filter(
+          stop =>
+            (
+              stop.place &&
+              stop.place.trim()
+            ) ||
+            (
+              stop.name &&
+              stop.name.trim()
+            )
+        );
+
+
+    if (
+      stops.length < 2
+    ) {
+
+      alert(
+        "至少要有兩個地點才能建立路線"
+      );
+
+      return;
+
+    }
+
+
+    const places =
+      stops.map(
+        stop =>
+          stop.place.trim() ||
+          stop.name.trim()
+      );
+
+
+    const origin =
+      places[0];
+
+
+    const destination =
+      places[
+        places.length - 1
+      ];
+
+
+    const middle =
+      places.slice(
+        1,
+        -1
+      );
+
+
+    let url =
+      "https://www.google.com/maps/dir/?api=1" +
+      "&origin=" +
+      encodeURIComponent(origin) +
+      "&destination=" +
+      encodeURIComponent(destination);
+
+
+    if (
+      middle.length > 0
+    ) {
+
+      url +=
+        "&waypoints=" +
+        encodeURIComponent(
+          middle.join("|")
+        );
+
+    }
+
+
+    url +=
+      "&travelmode=driving";
+
+
+    window.open(
+      url,
+      "_blank",
+      "noopener"
+    );
+
+  };
+
+
+
+function render() {
+
+  renderDayButtons();
+
+  renderHeader();
+
+  renderStops();
+
+}
+
+
+
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function escapeAttribute(
+  text = ""
+) {
+
+  return escapeHtml(
+    text
+  );
+
+}
+
+
+
+loadData();
+
+render();
+
+
+</script>
+
+
+</body>
+
+</html>
