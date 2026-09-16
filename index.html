@@ -2,7 +2,6 @@
 <html lang="zh-Hant">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -11,7 +10,6 @@
   >
 
   <title>Travel Hub</title>
-
 
   <style>
 
@@ -55,10 +53,6 @@
     a {
       color: inherit;
       text-decoration: none;
-    }
-
-    button {
-      font: inherit;
     }
 
     .container {
@@ -105,6 +99,7 @@
 
     .brand h1 {
       margin: 0;
+
       font-size: 23px;
     }
 
@@ -122,10 +117,10 @@
 
       border-radius: 50%;
 
-      background: var(--accent-soft);
-
       display: grid;
       place-items: center;
+
+      background: var(--accent-soft);
 
       font-size: 19px;
     }
@@ -188,6 +183,7 @@
 
     .hero-sub {
       color: rgba(255,255,255,0.84);
+
       font-size: 14px;
     }
 
@@ -213,11 +209,34 @@
     }
 
 
-    /* STATUS */
+    /* GENERAL */
 
     .section {
       margin-top: 24px;
     }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+
+      margin-bottom: 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+
+      font-size: 20px;
+    }
+
+    .section-head span {
+      color: var(--muted);
+
+      font-size: 12px;
+    }
+
+
+    /* STATUS */
 
     .status-grid {
       display: grid;
@@ -240,19 +259,19 @@
     }
 
     .status-card .label {
+      margin-bottom: 11px;
+
       color: var(--muted);
 
       font-size: 12px;
-
-      margin-bottom: 11px;
     }
 
     .status-card strong {
       display: block;
 
-      font-size: 25px;
-
       margin-bottom: 6px;
+
+      font-size: 25px;
     }
 
     .status-card p {
@@ -280,34 +299,12 @@
     }
 
 
-    /* SECTION TITLE */
-
-    .section-head {
-      display: flex;
-
-      align-items: flex-end;
-      justify-content: space-between;
-
-      margin-bottom: 12px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .section-head span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-
-    /* QUICK CARDS */
+    /* QUICK */
 
     .quick-grid {
       display: grid;
 
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4,1fr);
 
       gap: 12px;
     }
@@ -321,7 +318,7 @@
 
       padding: 18px;
 
-      min-height: 130px;
+      min-height: 135px;
 
       box-shadow: var(--shadow);
 
@@ -338,10 +335,10 @@
 
       border-radius: 15px;
 
-      background: var(--accent-soft);
-
       display: grid;
       place-items: center;
+
+      background: var(--accent-soft);
 
       font-size: 22px;
 
@@ -365,11 +362,11 @@
     }
 
     .coming {
-      opacity: 0.62;
+      opacity: 0.55;
     }
 
 
-    /* ROUTE PLACEHOLDER */
+    /* ROUTE */
 
     .route-placeholder {
       background: white;
@@ -400,36 +397,69 @@
     }
 
 
-    /* INFO */
+    /* MANAGE */
 
-    .info-columns {
+    .manage-grid {
       display: grid;
 
-      grid-template-columns: 1.15fr 0.85fr;
+      grid-template-columns: repeat(2,1fr);
 
-      gap: 14px;
+      gap: 12px;
     }
 
-    .panel {
+    .manage-card {
+      display: flex;
+
+      align-items: center;
+
+      gap: 13px;
+
       background: white;
 
-      border-radius: 22px;
+      border-radius: 19px;
 
-      padding: 20px;
+      padding: 16px;
 
       box-shadow: var(--shadow);
     }
 
-    .panel h3 {
-      margin: 0 0 13px;
+    .manage-icon {
+      width: 43px;
+      height: 43px;
 
-      font-size: 17px;
+      flex: 0 0 auto;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 14px;
+
+      background: var(--accent-soft);
+
+      font-size: 21px;
     }
 
-    .notice {
-      padding: 15px 16px;
+    .manage-card strong {
+      display: block;
 
-      border-radius: 18px;
+      margin-bottom: 4px;
+
+      font-size: 14px;
+    }
+
+    .manage-card span {
+      color: var(--muted);
+
+      font-size: 11px;
+    }
+
+
+    /* WEATHER */
+
+    .notice {
+      padding: 16px;
+
+      border-radius: 19px;
 
       background: var(--orange-soft);
 
@@ -441,33 +471,9 @@
     .notice strong {
       display: block;
 
-      margin-bottom: 3px;
-    }
-
-    .mini-link {
-      display: block;
-
-      padding: 13px 0;
-
-      border-bottom: 1px solid var(--line);
-    }
-
-    .mini-link:last-child {
-      border-bottom: 0;
-    }
-
-    .mini-link strong {
-      display: block;
-
       margin-bottom: 4px;
 
       font-size: 14px;
-    }
-
-    .mini-link span {
-      color: var(--muted);
-
-      font-size: 12px;
     }
 
 
@@ -476,17 +482,17 @@
     nav {
       position: fixed;
 
-      bottom: 0;
       left: 0;
       right: 0;
-
-      height: 72px;
+      bottom: 0;
 
       z-index: 100;
 
+      height: 72px;
+
       display: grid;
 
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5,1fr);
 
       background: rgba(255,255,255,0.94);
 
@@ -500,8 +506,8 @@
 
       flex-direction: column;
 
-      justify-content: center;
       align-items: center;
+      justify-content: center;
 
       gap: 3px;
 
@@ -532,10 +538,10 @@
       }
 
       .quick-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2,1fr);
       }
 
-      .info-columns {
+      .manage-grid {
         grid-template-columns: 1fr;
       }
 
@@ -545,7 +551,7 @@
     @media (max-width: 520px) {
 
       .container {
-        width: min(100% - 20px, 1100px);
+        width: min(100% - 20px,1100px);
       }
 
       header {
@@ -555,9 +561,9 @@
       .hero {
         min-height: 260px;
 
-        border-radius: 23px;
-
         padding: 21px;
+
+        border-radius: 23px;
       }
 
       .hero h2 {
@@ -569,9 +575,9 @@
       }
 
       .quick-card {
-        min-height: 120px;
-
         padding: 16px;
+
+        min-height: 125px;
       }
 
     }
@@ -579,7 +585,6 @@
   </style>
 
 </head>
-
 
 
 <body>
@@ -623,6 +628,8 @@
 <main class="container">
 
 
+  <!-- HERO -->
+
   <section class="hero">
 
     <div class="hero-badge">
@@ -662,6 +669,8 @@
   </section>
 
 
+
+  <!-- STATUS -->
 
   <section class="section">
 
@@ -705,15 +714,15 @@
       <div class="status-card">
 
         <div class="label">
-          主要交通
+          網站狀態
         </div>
 
         <strong>
-          🚗 Road Trip
+          4 Tools
         </strong>
 
         <p>
-          義大利自駕旅行
+          行程・住宿・門票・租車
         </p>
 
       </div>
@@ -724,6 +733,8 @@
   </section>
 
 
+
+  <!-- QUICK TOOLS -->
 
   <section class="section">
 
@@ -765,27 +776,6 @@
 
 
       <a
-        class="quick-card coming"
-        href="#"
-      >
-
-        <div class="quick-icon">
-          🗺️
-        </div>
-
-        <h3>
-          Google 地圖
-        </h3>
-
-        <p>
-          之後建立景點與路線地圖
-        </p>
-
-      </a>
-
-
-
-      <a
         class="quick-card"
         href="stays.html"
       >
@@ -799,7 +789,7 @@
         </h3>
 
         <p>
-          入住資訊、地址與確認單
+          地址、入住資訊、付款與確認單
         </p>
 
       </a>
@@ -807,8 +797,8 @@
 
 
       <a
-        class="quick-card coming"
-        href="#"
+        class="quick-card"
+        href="tickets.html"
       >
 
         <div class="quick-icon">
@@ -820,7 +810,28 @@
         </h3>
 
         <p>
-          入場時間、PDF 與 QR Code
+          入場時間、PDF、QR Code 與導航
+        </p>
+
+      </a>
+
+
+
+      <a
+        class="quick-card"
+        href="car.html"
+      >
+
+        <div class="quick-icon">
+          🚗
+        </div>
+
+        <h3>
+          租車 / 自駕
+        </h3>
+
+        <p>
+          驗車、照片、規則與事故備援
         </p>
 
       </a>
@@ -833,15 +844,15 @@
       >
 
         <div class="quick-icon">
-          🚗
+          🗺️
         </div>
 
         <h3>
-          租車
+          Google 地圖
         </h3>
 
         <p>
-          驗車、照片、規則與還車
+          景點、住宿、停車與每日路線
         </p>
 
       </a>
@@ -862,7 +873,7 @@
         </h3>
 
         <p>
-          行李與重要用品
+          行李、證件與重要用品
         </p>
 
       </a>
@@ -883,7 +894,7 @@
         </h3>
 
         <p>
-          支出、付款與總預算
+          支出、付款與多人分帳
         </p>
 
       </a>
@@ -904,7 +915,7 @@
         </h3>
 
         <p>
-          航班、保險與重要資料
+          航班、保險與重要旅行資料
         </p>
 
       </a>
@@ -915,6 +926,8 @@
   </section>
 
 
+
+  <!-- ROUTE -->
 
   <section class="section">
 
@@ -934,11 +947,11 @@
     <div class="route-placeholder">
 
       <strong>
-        🗺️ 完整路線稍後加入
+        🗺️ 完整路線尚未匯入
       </strong>
 
       <p>
-        我們會先一起核對 Day 1～Day 21 的住宿地點、景點與交通，再把正確版本放到這裡。
+        等我們把 Day 1～Day 21 的住宿地點、景點、移動方式與已預約時間全部核對完成，再把正確版本加入首頁，避免網站混入舊版行程。
       </p>
 
     </div>
@@ -947,72 +960,151 @@
 
 
 
+  <!-- MANAGEMENT -->
+
   <section class="section">
 
-    <div class="info-columns">
+    <div class="section-head">
+
+      <h2>
+        快速管理
+      </h2>
+
+      <span>
+        已完成的工具
+      </span>
+
+    </div>
 
 
-      <div class="panel">
-
-        <h3>
-          快速管理
-        </h3>
+    <div class="manage-grid">
 
 
-        <a
-          class="mini-link"
-          href="itinerary.html"
-        >
+      <a
+        class="manage-card"
+        href="itinerary.html"
+      >
+
+        <div class="manage-icon">
+          📅
+        </div>
+
+        <div>
 
           <strong>
-            📅 編輯每日行程
+            編輯每日行程
           </strong>
 
           <span>
-            新增景點、修改時間與備註
+            新增、刪除、排序與修改時間
           </span>
-
-        </a>
-
-
-        <a
-          class="mini-link"
-          href="stays.html"
-        >
-
-          <strong>
-            🏨 管理住宿
-          </strong>
-
-          <span>
-            新增住宿、地址、付款與確認單
-          </span>
-
-        </a>
-
-      </div>
-
-
-
-      <div class="panel">
-
-        <h3>
-          🌦 即時天氣
-        </h3>
-
-
-        <div class="notice">
-
-          <strong>
-            天氣功能稍後加入
-          </strong>
-
-          之後會依每天所在城市，自動顯示即時溫度、降雨機率、體感溫度與日落時間。
 
         </div>
 
-      </div>
+      </a>
 
+
+
+      <a
+        class="manage-card"
+        href="stays.html"
+      >
+
+        <div class="manage-icon">
+          🏨
+        </div>
+
+        <div>
+
+          <strong>
+            管理住宿
+          </strong>
+
+          <span>
+            日期、地址、付款與 PDF
+          </span>
+
+        </div>
+
+      </a>
+
+
+
+      <a
+        class="manage-card"
+        href="tickets.html"
+      >
+
+        <div class="manage-icon">
+          🎫
+        </div>
+
+        <div>
+
+          <strong>
+            管理門票
+          </strong>
+
+          <span>
+            預約、時間、票券與注意事項
+          </span>
+
+        </div>
+
+      </a>
+
+
+
+      <a
+        class="manage-card"
+        href="car.html"
+      >
+
+        <div class="manage-icon">
+          🚗
+        </div>
+
+        <div>
+
+          <strong>
+            管理租車
+          </strong>
+
+          <span>
+            取還車檢查、照片與駕駛提醒
+          </span>
+
+        </div>
+
+      </a>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- WEATHER -->
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <h2>
+        即時資訊
+      </h2>
+
+    </div>
+
+
+    <div class="notice">
+
+      <strong>
+        🌦 天氣功能尚未加入
+      </strong>
+
+      之後會依每日所在地，自動顯示天氣、最高最低溫、降雨機率、體感溫度與日落時間。
 
     </div>
 
@@ -1056,21 +1148,21 @@
 
   <a
     class="nav-link"
-    href="#"
+    href="stays.html"
   >
 
     <span class="nav-icon">
-      🗺️
+      🏨
     </span>
 
-    地圖
+    住宿
 
   </a>
 
 
   <a
     class="nav-link"
-    href="#"
+    href="tickets.html"
   >
 
     <span class="nav-icon">
@@ -1084,14 +1176,14 @@
 
   <a
     class="nav-link"
-    href="stays.html"
+    href="car.html"
   >
 
     <span class="nav-icon">
-      🏨
+      🚗
     </span>
 
-    住宿
+    租車
 
   </a>
 
