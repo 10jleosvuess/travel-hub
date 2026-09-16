@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>必帶清單｜Travel Hub</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #827d75;
+      --line: #e8e2d9;
+      --accent: #9a7350;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --danger: #a65a52;
+      --green-soft: #e7eee7;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+
+      margin: 0;
+
+      background: var(--bg);
+
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+
+    }
+
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+
+      width:
+        min(
+          900px,
+          calc(100% - 24px)
+        );
+
+      margin: auto;
+
+    }
+
+
+    /* HEADER */
+
+    header {
+
+      position: sticky;
+
+      top: 0;
+
+      z-index: 50;
+
+      background:
+        rgba(244,241,235,0.93);
+
+      backdrop-filter:
+        blur(18px);
+
+      border-bottom:
+        1px solid
+        rgba(0,0,0,0.04);
+
+    }
+
+    .topbar {
+
+      min-height: 70px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content:
+        space-between;
+
+      gap: 12px;
+
+    }
+
+    .back {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      font-weight: 700;
+
+    }
+
+    .back-icon {
+
+      width: 40px;
+
+      height: 40px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      display: grid;
+
+      place-items: center;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+    .save-status {
+
+      color:
+        var(--muted);
+
+      font-size: 12px;
+
+    }
+
+
+    /* PAGE */
+
+    .page-head {
+
+      padding:
+        20px 0 15px;
+
+    }
+
+    .page-head h1 {
+
+      margin:
+        0 0 5px;
+
+      font-size:
+        28px;
+
+    }
+
+    .page-head p {
+
+      margin: 0;
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+    }
+
+
+    /* PROGRESS */
+
+    .progress-card {
+
+      background:
+        var(--dark);
+
+      color:
+        white;
+
+      border-radius:
+        24px;
+
+      padding:
+        20px;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+    .progress-top {
+
+      display:
+        flex;
+
+      align-items:
+        flex-end;
+
+      justify-content:
+        space-between;
+
+      gap: 12px;
+
+    }
+
+    .progress-label {
+
+      color:
+        rgba(255,255,255,0.65);
+
+      font-size:
+        12px;
+
+      margin-bottom:
+        6px;
+
+    }
+
+    .progress-number {
+
+      font-size:
+        32px;
+
+      font-weight:
+        800;
+
+    }
+
+    .progress-percent {
+
+      color:
+        rgba(255,255,255,0.75);
+
+      font-size:
+        14px;
+
+    }
+
+    .progress-track {
+
+      height:
+        9px;
+
+      margin-top:
+        15px;
+
+      border-radius:
+        100px;
+
+      background:
+        rgba(255,255,255,0.14);
+
+      overflow:
+        hidden;
+
+    }
+
+    .progress-bar {
+
+      width:
+        0%;
+
+      height:
+        100%;
+
+      border-radius:
+        100px;
+
+      background:
+        white;
+
+      transition:
+        width 0.25s ease;
+
+    }
+
+
+    /* ADD */
+
+    .add-panel {
+
+      margin-top:
+        16px;
+
+      background:
+        white;
+
+      padding:
+        15px;
+
+      border-radius:
+        20px;
+
+      box-shadow:
+        var(--shadow);
+
+    }
+
+    .add-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        160px 1fr auto;
+
+      gap:
+        8px;
+
+    }
+
+    .field {
+
+      width:
+        100%;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius:
+        13px;
+
+      padding:
+        11px 12px;
+
+      background:
+        #fbfaf8;
+
+      outline:
+        none;
+
+    }
+
+    .field:focus {
+
+      border-color:
+        #baa48f;
+
+      background:
+        white;
+
+    }
+
+    .add-button {
+
+      border:
+        0;
+
+      border-radius:
+        13px;
+
+      padding:
+        0 15px;
+
+      background:
+        var(--accent-soft);
+
+      color:
+        #72543b;
+
+      font-weight:
+        700;
+
+      white-space:
+        nowrap;
+
+    }
+
+
+    /* FILTER */
+
+    .filter-row {
+
+      display:
+        flex;
+
+      gap:
+        8px;
+
+      overflow-x:
+        auto;
+
+      padding:
+        18px 0 10px;
+
+      scrollbar-width:
+        none;
+
+    }
+
+    .filter-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-button {
+
+      flex:
+        0 0 auto;
+
+      border:
+        0;
+
+      padding:
+        9px 12px;
+
+      border-radius:
+        100px;
+
+      background:
+        white;
+
+      color:
+        var(--muted);
+
+      box-shadow:
+        var(--shadow);
+
+      font-size:
+        12px;
+
+    }
+
+    .filter-button.active {
+
+      background:
+        var(--dark);
+
+      color:
+        white;
+
+    }
+
+
+    /* CATEGORY */
+
+    .category {
+
+      margin-top:
+        13px;
+
+    }
+
+    .category-head {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      margin-bottom:
+        8px;
+
+    }
+
+    .category-head h2 {
+
+      margin:
+        0;
+
+      font-size:
+        17px;
+
+    }
+
+    .category-count {
+
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+
+    }
+
+    .item-list {
+
+      display:
+        grid;
+
+      gap:
+        7px;
+
+    }
+
+
+    /* ITEM */
+
+    .item {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        auto 1fr auto;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      background:
+        white;
+
+      border-radius:
+        15px;
+
+      padding:
+        11px 12px;
+
+      box-shadow:
+        0 4px 18px
+        rgba(52,45,36,0.04);
+
+    }
+
+    .item input[type="checkbox"] {
+
+      width:
+        21px;
+
+      height:
+        21px;
+
+      accent-color:
+        var(--accent);
+
+    }
+
+    .item-name {
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      outline:
+        none;
+
+      background:
+        transparent;
+
+      color:
+        var(--text);
+
+    }
+
+    .item-name.done {
+
+      color:
+        #aaa49c;
+
+      text-decoration:
+        line-through;
+
+    }
+
+    .delete-button {
+
+      border:
+        0;
+
+      background:
+        transparent;
+
+      color:
+        var(--danger);
+
+      font-size:
+        18px;
+
+    }
+
+
+    /* EMPTY */
+
+    .empty {
+
+      padding:
+        35px 20px;
+
+      text-align:
+        center;
+
+      color:
+        var(--muted);
+
+      border:
+        1px dashed
+        #cbbeb0;
+
+      border-radius:
+        20px;
+
+      background:
+        rgba(255,255,255,0.4);
+
+      margin-top:
+        15px;
+
+    }
+
+    .empty-icon {
+
+      font-size:
+        38px;
+
+      margin-bottom:
+        8px;
+
+    }
+
+
+    /* NAV */
+
+    nav {
+
+      position:
+        fixed;
+
+      left: 0;
+
+      right: 0;
+
+      bottom: 0;
+
+      z-index:
+        100;
+
+      height:
+        72px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(5,1fr);
+
+      background:
+        rgba(255,255,255,0.94);
+
+      backdrop-filter:
+        blur(18px);
+
+      border-top:
+        1px solid
+        rgba(0,0,0,0.06);
+
+    }
+
+    .nav-link {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        3px;
+
+      color:
+        #79756e;
+
+      font-size:
+        11px;
+
+    }
+
+    .nav-icon {
+
+      font-size:
+        20px;
+
+    }
+
+    .nav-link.active {
+
+      color:
+        var(--text);
+
+      font-weight:
+        700;
+
+    }
+
+
+    @media (max-width: 650px) {
+
+      .add-grid {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+      .add-button {
+
+        min-height:
+          44px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+
+<body>
+
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        必帶清單
+      </div>
+
+    </a>
+
+
+    <div
+      class="save-status"
+      id="saveStatus"
+    >
+      自動儲存
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+  <section class="page-head">
+
+    <h1>
+      🧳 必帶清單
+    </h1>
+
+    <p>
+      出發前打包，旅行中也可以隨時新增需要的東西
+    </p>
+
+  </section>
+
+
+
+  <section class="progress-card">
+
+    <div class="progress-top">
+
+      <div>
+
+        <div class="progress-label">
+          打包進度
+        </div>
+
+        <div
+          class="progress-number"
+          id="progressNumber"
+        >
+          0 / 0
+        </div>
+
+      </div>
+
+
+      <div
+        class="progress-percent"
+        id="progressPercent"
+      >
+        0%
+      </div>
+
+    </div>
+
+
+    <div class="progress-track">
+
+      <div
+        class="progress-bar"
+        id="progressBar"
+      ></div>
+
+    </div>
+
+  </section>
+
+
+
+  <section class="add-panel">
+
+    <div class="add-grid">
+
+
+      <select
+        class="field"
+        id="newCategory"
+      >
+
+        <option value="證件">
+          📄 證件
+        </option>
+
+        <option value="衣物">
+          👕 衣物
+        </option>
+
+        <option value="盥洗">
+          🧴 盥洗
+        </option>
+
+        <option value="電子">
+          🔌 電子用品
+        </option>
+
+        <option value="藥品">
+          💊 藥品
+        </option>
+
+        <option value="相機">
+          📷 相機
+        </option>
+
+        <option value="車用">
+          🚗 車上用品
+        </option>
+
+        <option value="隨身">
+          🎒 隨身用品
+        </option>
+
+        <option value="其他">
+          📦 其他
+        </option>
+
+      </select>
+
+
+      <input
+        class="field"
+        id="newItem"
+        placeholder="新增必帶物品"
+      >
+
+
+      <button
+        class="add-button"
+        id="addItem"
+      >
+        ＋ 新增
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <div
+    class="filter-row"
+    id="filters"
+  ></div>
+
+
+
+  <div
+    id="packingContent"
+  ></div>
+
+
+</main>
+
+
+
+<nav>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="itinerary.html"
+  >
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+
+  <a
+    class="nav-link active"
+    href="packing.html"
+  >
+    <span class="nav-icon">🧳</span>
+    清單
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="tickets.html"
+  >
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="car.html"
+  >
+    <span class="nav-icon">🚗</span>
+    租車
+  </a>
+
+</nav>
+
+
+
+<script>
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026Packing";
+
+
+const categoryIcons = {
+
+  "證件": "📄",
+
+  "衣物": "👕",
+
+  "盥洗": "🧴",
+
+  "電子": "🔌",
+
+  "藥品": "💊",
+
+  "相機": "📷",
+
+  "車用": "🚗",
+
+  "隨身": "🎒",
+
+  "其他": "📦"
+
+};
+
+
+const defaultItems = [
+
+  {
+    category: "證件",
+    name: "護照",
+    done: false
+  },
+
+  {
+    category: "證件",
+    name: "國際駕照",
+    done: false
+  },
+
+  {
+    category: "證件",
+    name: "台灣駕照",
+    done: false
+  },
+
+  {
+    category: "證件",
+    name: "信用卡 / 金融卡",
+    done: false
+  },
+
+  {
+    category: "電子",
+    name: "手機充電器",
+    done: false
+  },
+
+  {
+    category: "電子",
+    name: "行動電源",
+    done: false
+  },
+
+  {
+    category: "電子",
+    name: "轉接插頭",
+    done: false
+  },
+
+  {
+    category: "隨身",
+    name: "錢包",
+    done: false
+  },
+
+  {
+    category: "隨身",
+    name: "耳機",
+    done: false
+  }
+
+];
+
+
+let items;
+
+let currentFilter =
+  "全部";
+
+
+
+function cloneDefaults() {
+
+  return JSON.parse(
+    JSON.stringify(defaultItems)
+  );
+
+}
+
+
+
+function loadData() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!saved) {
+
+    items =
+      cloneDefaults();
+
+    return;
+
+  }
+
+
+  try {
+
+    items =
+      JSON.parse(saved);
+
+  }
+
+  catch {
+
+    items =
+      cloneDefaults();
+
+  }
+
+}
+
+
+
+function saveData() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(items)
+  );
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
+    );
+
+
+  status.textContent =
+    "已儲存 ✓";
+
+
+  clearTimeout(
+    window.saveTimer
+  );
+
+
+  window.saveTimer =
+    setTimeout(
+      () => {
+
+        status.textContent =
+          "自動儲存";
+
+      },
+      1200
+    );
+
+}
+
+
+
+function updateProgress() {
+
+  const total =
+    items.length;
+
+
+  const done =
+    items.filter(
+      item =>
+        item.done
+    ).length;
+
+
+  const percent =
+    total === 0
+    ? 0
+    : Math.round(
+        done /
+        total *
+        100
+      );
+
+
+  document.getElementById(
+    "progressNumber"
+  ).textContent =
+    done +
+    " / " +
+    total;
+
+
+  document.getElementById(
+    "progressPercent"
+  ).textContent =
+    percent +
+    "%";
+
+
+  document.getElementById(
+    "progressBar"
+  ).style.width =
+    percent +
+    "%";
+
+}
+
+
+
+function renderFilters() {
+
+  const container =
+    document.getElementById(
+      "filters"
+    );
+
+
+  const categories =
+    [
+      "全部",
+      ...Object.keys(
+        categoryIcons
+      )
+    ];
+
+
+  container.innerHTML =
+    "";
+
+
+  categories.forEach(
+    category => {
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "filter-button" +
+        (
+          currentFilter === category
+          ? " active"
+          : ""
+        );
+
+
+      button.textContent =
+        category === "全部"
+        ? "全部"
+        : (
+            categoryIcons[
+              category
+            ] +
+            " " +
+            category
+          );
+
+
+      button.onclick =
+        () => {
+
+          currentFilter =
+            category;
+
+          render();
+
+        };
+
+
+      container.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+
+function renderItems() {
+
+  const container =
+    document.getElementById(
+      "packingContent"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  const categories =
+    Object.keys(
+      categoryIcons
+    );
+
+
+  let visibleCount =
+    0;
+
+
+  categories.forEach(
+    category => {
+
+
+      if (
+        currentFilter !== "全部" &&
+        currentFilter !== category
+      ) {
+        return;
+      }
+
+
+      const categoryItems =
+        items
+          .map(
+            (
+              item,
+              index
+            ) => ({
+              item,
+              index
+            })
+          )
+          .filter(
+            entry =>
+              entry.item.category ===
+              category
+          );
+
+
+      if (
+        categoryItems.length === 0
+      ) {
+        return;
+      }
+
+
+      visibleCount +=
+        categoryItems.length;
+
+
+      const doneCount =
+        categoryItems.filter(
+          entry =>
+            entry.item.done
+        ).length;
+
+
+      const section =
+        document.createElement(
+          "section"
+        );
+
+
+      section.className =
+        "category";
+
+
+      section.innerHTML =
+        `
+
+          <div class="category-head">
+
+            <h2>
+              ${categoryIcons[category]}
+              ${category}
+            </h2>
+
+            <div class="category-count">
+              ${doneCount} / ${categoryItems.length}
+            </div>
+
+          </div>
+
+          <div class="item-list"></div>
+
+        `;
+
+
+      const list =
+        section.querySelector(
+          ".item-list"
+        );
+
+
+      categoryItems.forEach(
+        entry => {
+
+          list.appendChild(
+            createItemRow(
+              entry.item,
+              entry.index
+            )
+          );
+
+        }
+      );
+
+
+      container.appendChild(
+        section
+      );
+
+    }
+  );
+
+
+  if (
+    visibleCount === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            🧳
+          </div>
+
+          這個分類目前沒有項目
+
+        </div>
+
+      `;
+
+  }
+
+}
+
+
+
+function createItemRow(
+  item,
+  index
+) {
+
+  const row =
+    document.createElement(
+      "div"
+    );
+
+
+  row.className =
+    "item";
+
+
+  row.innerHTML =
+    `
+
+      <input
+        type="checkbox"
+        ${item.done ? "checked" : ""}
+      >
+
+
+      <input
+        class="item-name ${item.done ? "done" : ""}"
+        value="${escapeAttribute(item.name)}"
+      >
+
+
+      <button
+        class="delete-button"
+        title="刪除"
+      >
+        ×
+      </button>
+
+    `;
+
+
+  const checkbox =
+    row.querySelector(
+      'input[type="checkbox"]'
+    );
+
+
+  const name =
+    row.querySelector(
+      ".item-name"
+    );
+
+
+  checkbox.onchange =
+    () => {
+
+      item.done =
+        checkbox.checked;
+
+
+      name.classList.toggle(
+        "done",
+        item.done
+      );
+
+
+      saveData();
+
+      updateProgress();
+
+      renderFilters();
+
+    };
+
+
+  name.oninput =
+    () => {
+
+      item.name =
+        name.value;
+
+      saveData();
+
+    };
+
+
+  row.querySelector(
+    ".delete-button"
+  ).onclick =
+    () => {
+
+      items.splice(
+        index,
+        1
+      );
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+  return row;
+
+}
+
+
+
+function render() {
+
+  updateProgress();
+
+  renderFilters();
+
+  renderItems();
+
+}
+
+
+
+document.getElementById(
+  "addItem"
+).onclick =
+  addNewItem;
+
+
+document.getElementById(
+  "newItem"
+).addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Enter"
+    ) {
+
+      addNewItem();
+
+    }
+
+  }
+);
+
+
+
+function addNewItem() {
+
+  const category =
+    document.getElementById(
+      "newCategory"
+    ).value;
+
+
+  const input =
+    document.getElementById(
+      "newItem"
+    );
+
+
+  const name =
+    input.value.trim();
+
+
+  if (!name) {
+    return;
+  }
+
+
+  items.push(
+    {
+      category,
+      name,
+      done: false
+    }
+  );
+
+
+  input.value =
+    "";
+
+
+  currentFilter =
+    category;
+
+
+  saveData();
+
+  render();
+
+
+  input.focus();
+
+}
+
+
+
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function escapeAttribute(
+  text = ""
+) {
+
+  return escapeHtml(
+    text
+  );
+
+}
+
+
+
+loadData();
+
+render();
+
+
+</script>
+
+
+</body>
+
+</html>
