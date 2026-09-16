@@ -12,6 +12,8 @@
 
   <title>旅行地圖｜Travel Hub</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
 
     * {
@@ -30,6 +32,7 @@
       --green-soft: #e6eee7;
       --yellow-soft: #f4eddc;
       --blue-soft: #e6edf3;
+      --red-soft: #f3e4e2;
       --danger: #a65a52;
       --shadow: 0 8px 28px rgba(52,45,36,0.06);
     }
@@ -122,9 +125,41 @@
       box-shadow: var(--shadow);
     }
 
+    .right-header {
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+    }
+
     .save-status {
       color: var(--muted);
-      font-size: 12px;
+
+      font-size: 11px;
+
+      white-space: nowrap;
+    }
+
+    .cloud-dot {
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: #aaa;
+    }
+
+    .cloud-dot.online {
+      background: #6d9270;
+    }
+
+    .cloud-dot.saving {
+      background: #c69a56;
+    }
+
+    .cloud-dot.error {
+      background: #b8665f;
     }
 
 
@@ -136,6 +171,7 @@
 
     .page-head h1 {
       margin: 0 0 5px;
+
       font-size: 28px;
     }
 
@@ -145,7 +181,37 @@
       color: var(--muted);
 
       font-size: 13px;
+
       line-height: 1.55;
+    }
+
+
+    /* SYNC */
+
+    .sync-banner {
+      display: none;
+
+      margin-bottom: 12px;
+
+      padding: 11px 13px;
+
+      border-radius: 14px;
+
+      font-size: 11px;
+
+      line-height: 1.55;
+    }
+
+    .sync-banner.show {
+      display: block;
+    }
+
+    .sync-banner.success {
+      background: var(--green-soft);
+    }
+
+    .sync-banner.error {
+      background: var(--red-soft);
     }
 
 
@@ -211,6 +277,7 @@
 
     .day-button.active {
       background: var(--dark);
+
       color: white;
     }
 
@@ -219,7 +286,7 @@
     }
 
 
-    /* DAY HEADER */
+    /* DAY */
 
     .day-card {
       background: var(--dark);
@@ -278,6 +345,7 @@
 
     .route-button:disabled {
       opacity: 0.4;
+
       cursor: default;
     }
 
@@ -291,6 +359,7 @@
       color: rgba(255,255,255,0.72);
 
       font-size: 12px;
+
       line-height: 1.55;
     }
 
@@ -326,11 +395,13 @@
 
     .map-title span {
       color: var(--muted);
+
       font-size: 10px;
     }
 
     .map-frame {
       width: 100%;
+
       height: 350px;
 
       border: 0;
@@ -357,6 +428,7 @@
       color: var(--muted);
 
       font-size: 12px;
+
       line-height: 1.6;
     }
 
@@ -380,6 +452,7 @@
 
     .toolbar span {
       color: var(--muted);
+
       font-size: 11px;
     }
 
@@ -448,6 +521,7 @@
       width: 100%;
 
       border: 0;
+
       outline: none;
 
       background: transparent;
@@ -455,6 +529,7 @@
       color: var(--text);
 
       font-size: 17px;
+
       font-weight: 800;
     }
 
@@ -469,7 +544,7 @@
     }
 
 
-    /* FORM */
+    /* FIELDS */
 
     .grid {
       display: grid;
@@ -602,28 +677,6 @@
     }
 
 
-    /* SYNC */
-
-    .sync-box {
-      margin-top: 18px;
-
-      padding: 14px 15px;
-
-      border-radius: 17px;
-
-      background: var(--green-soft);
-
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    .sync-box strong {
-      display: block;
-
-      margin-bottom: 3px;
-    }
-
-
     /* NAV */
 
     nav {
@@ -726,11 +779,20 @@
     </a>
 
 
-    <div
-      class="save-status"
-      id="saveStatus"
-    >
-      共用資料
+    <div class="right-header">
+
+      <div
+        class="cloud-dot"
+        id="cloudDot"
+      ></div>
+
+      <div
+        class="save-status"
+        id="saveStatus"
+      >
+        連線中…
+      </div>
+
     </div>
 
   </div>
@@ -749,10 +811,16 @@
     </h1>
 
     <p>
-      與每日行程共用同一份資料，這裡修改後行程頁也會一起更新
+      與每日行程共用同一份 Supabase 雲端資料
     </p>
 
   </section>
+
+
+  <div
+    class="sync-banner"
+    id="syncBanner"
+  ></div>
 
 
 
@@ -867,18 +935,6 @@
   ></div>
 
 
-
-  <div class="sync-box">
-
-    <strong>
-      🔗 已與每日行程同步
-    </strong>
-
-    這裡和「每日行程」現在讀的是同一份資料。你在任何一頁修改名稱、地址、狀態、備註或順序，另一頁重新打開後就會看到相同內容。
-
-  </div>
-
-
 </main>
 
 
@@ -936,8 +992,44 @@
 <script>
 
 
+/* =========================
+   SUPABASE
+========================= */
+
+
+const SUPABASE_URL =
+  "https://vexzdnyinfmzvcyotiuo.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
+  );
+
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+
 const STORAGE_KEY =
   "travelHubItaly2026SharedPlanV1";
+
+
+const TRIP_KEY =
+  "italy-2026";
 
 
 const START_DATE =
@@ -950,8 +1042,15 @@ let currentDay =
   1;
 
 
+let currentUser =
+  null;
+
+
 let plan =
   createEmptyPlan();
+
+
+let cloudSaveTimer;
 
 
 
@@ -991,7 +1090,80 @@ function createEmptyPlan() {
 
 
 
-function loadPlan() {
+/* =========================
+   STATUS
+========================= */
+
+
+function setCloudStatus(
+  text,
+  type
+) {
+
+  document.getElementById(
+    "saveStatus"
+  ).textContent =
+    text;
+
+
+  const dot =
+    document.getElementById(
+      "cloudDot"
+    );
+
+
+  dot.className =
+    "cloud-dot";
+
+
+  if (type) {
+    dot.classList.add(type);
+  }
+
+}
+
+
+
+function showBanner(
+  text,
+  type = "success"
+) {
+
+  const banner =
+    document.getElementById(
+      "syncBanner"
+    );
+
+
+  banner.textContent =
+    text;
+
+
+  banner.className =
+    "sync-banner show " +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      banner.className =
+        "sync-banner";
+
+    },
+    4500
+  );
+
+}
+
+
+
+/* =========================
+   LOCAL BACKUP
+========================= */
+
+
+function loadLocalPlan() {
 
   const saved =
     localStorage.getItem(
@@ -1000,7 +1172,7 @@ function loadPlan() {
 
 
   if (!saved) {
-    return;
+    return null;
   }
 
 
@@ -1012,14 +1184,11 @@ function loadPlan() {
 
     if (
       parsed &&
-      Array.isArray(
-        parsed.days
-      ) &&
+      Array.isArray(parsed.days) &&
       parsed.days.length === 21
     ) {
 
-      plan =
-        parsed;
+      return parsed;
 
     }
 
@@ -1027,46 +1196,303 @@ function loadPlan() {
 
   catch {}
 
+
+  return null;
+
 }
 
 
 
-function savePlan() {
+function saveLocalPlan() {
 
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify(plan)
   );
 
-
-  const status =
-    document.getElementById(
-      "saveStatus"
-    );
+}
 
 
-  status.textContent =
-    "已同步 ✓";
+
+/* =========================
+   CLOUD
+========================= */
 
 
-  clearTimeout(
-    window.saveTimer
+async function loadCloudPlan() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("travel_plans")
+      .select("data, updated_at")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "trip_key",
+        TRIP_KEY
+      )
+      .maybeSingle();
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return data;
+
+}
+
+
+
+async function uploadPlanNow() {
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  saveLocalPlan();
+
+
+  setCloudStatus(
+    "同步中…",
+    "saving"
   );
 
 
-  window.saveTimer =
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("travel_plans")
+      .upsert(
+        {
+
+          user_id:
+            currentUser.id,
+
+          trip_key:
+            TRIP_KEY,
+
+          data:
+            plan,
+
+          updated_at:
+            new Date()
+              .toISOString()
+
+        },
+        {
+          onConflict:
+            "user_id,trip_key"
+        }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    setCloudStatus(
+      "同步失敗",
+      "error"
+    );
+
+
+    return;
+
+  }
+
+
+  setCloudStatus(
+    "已同步 ☁️",
+    "online"
+  );
+
+}
+
+
+
+function scheduleCloudSave() {
+
+  saveLocalPlan();
+
+
+  setCloudStatus(
+    "等待同步…",
+    "saving"
+  );
+
+
+  clearTimeout(
+    cloudSaveTimer
+  );
+
+
+  cloudSaveTimer =
     setTimeout(
       () => {
 
-        status.textContent =
-          "共用資料";
+        uploadPlanNow();
 
       },
-      1200
+      650
     );
 
 }
 
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+
+async function initializeCloud() {
+
+  setCloudStatus(
+    "登入確認中…"
+  );
+
+
+  const {
+    data: sessionData
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  const session =
+    sessionData.session;
+
+
+  if (!session) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  currentUser =
+    session.user;
+
+
+  setCloudStatus(
+    "讀取雲端…",
+    "saving"
+  );
+
+
+  const localPlan =
+    loadLocalPlan();
+
+
+  try {
+
+    const cloudRow =
+      await loadCloudPlan();
+
+
+    if (
+      cloudRow &&
+      cloudRow.data
+    ) {
+
+      plan =
+        cloudRow.data;
+
+
+      saveLocalPlan();
+
+
+      setCloudStatus(
+        "已同步 ☁️",
+        "online"
+      );
+
+
+      showBanner(
+        "☁️ 已載入 Italy 2026 雲端行程。"
+      );
+
+    }
+
+    else if (localPlan) {
+
+      plan =
+        localPlan;
+
+
+      await uploadPlanNow();
+
+
+      showBanner(
+        "☁️ 已將本機資料同步到 Supabase。"
+      );
+
+    }
+
+    else {
+
+      plan =
+        createEmptyPlan();
+
+
+      await uploadPlanNow();
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+
+    if (localPlan) {
+
+      plan =
+        localPlan;
+
+    }
+
+
+    setCloudStatus(
+      "離線備份模式",
+      "error"
+    );
+
+
+    showBanner(
+      "⚠️ Supabase 暫時無法連線，目前使用瀏覽器備份。",
+      "error"
+    );
+
+  }
+
+
+  render();
+
+}
+
+
+
+/* =========================
+   DATE
+========================= */
 
 
 function getDateForDay(
@@ -1099,7 +1525,8 @@ function formatDate(
   const month =
     String(
       date.getMonth() + 1
-    ).padStart(
+    )
+    .padStart(
       2,
       "0"
     );
@@ -1108,7 +1535,8 @@ function formatDate(
   const day =
     String(
       date.getDate()
-    ).padStart(
+    )
+    .padStart(
       2,
       "0"
     );
@@ -1132,6 +1560,11 @@ function currentDayData() {
 
 }
 
+
+
+/* =========================
+   DAY BUTTONS
+========================= */
 
 
 function renderDayButtons() {
@@ -1211,6 +1644,11 @@ function renderDayButtons() {
 
 
 
+/* =========================
+   HEADER
+========================= */
+
+
 function renderDayHeader() {
 
   const day =
@@ -1278,7 +1716,7 @@ function renderDayHeader() {
     : "none";
 
 
-  const usablePlaces =
+  const places =
     day.activities.filter(
       hasMapLocation
     );
@@ -1287,7 +1725,7 @@ function renderDayHeader() {
   document.getElementById(
     "openDayRoute"
   ).disabled =
-    usablePlaces.length < 2;
+    places.length < 2;
 
 }
 
@@ -1298,13 +1736,8 @@ function hasMapLocation(
 ) {
 
   return Boolean(
-    (
-      activity.place &&
-      activity.place.trim()
-    ) ||
-    (
-      activity.title &&
-      activity.title.trim()
+    activityQuery(
+      activity
     )
   );
 
@@ -1312,12 +1745,18 @@ function hasMapLocation(
 
 
 
+/* =========================
+   ACTIVITIES
+========================= */
+
+
 function newActivity() {
 
   return {
 
     id:
-      Date.now().toString(36) +
+      Date.now()
+        .toString(36) +
       Math.random()
         .toString(36)
         .slice(2),
@@ -1383,7 +1822,7 @@ function renderActivities() {
             今天還沒有地點
           </strong>
 
-          可以在這裡新增，也可以回每日行程新增。
+          可以在地圖或每日行程新增。
 
         </div>
 
@@ -1449,7 +1888,6 @@ function createActivityCard(
 
         <button
           class="delete-button"
-          title="刪除"
         >
           ×
         </button>
@@ -1660,24 +2098,11 @@ function createActivityCard(
     );
 
 
-    if (
-      status.value ===
-      "已確認"
-    ) {
-
-      status.classList.add(
-        "status-confirmed"
-      );
-
-    }
-
-    else {
-
-      status.classList.add(
-        "status-tentative"
-      );
-
-    }
+    status.classList.add(
+      status.value === "已確認"
+      ? "status-confirmed"
+      : "status-tentative"
+    );
 
   }
 
@@ -1689,7 +2114,7 @@ function createActivityCard(
       activity.title =
         title.value;
 
-      savePlan();
+      scheduleCloudSave();
 
       renderDayHeader();
 
@@ -1712,10 +2137,7 @@ function createActivityCard(
       ) {
 
         value =
-          value.slice(
-            0,
-            2
-          ) +
+          value.slice(0,2) +
           ":" +
           value.slice(2);
 
@@ -1730,7 +2152,7 @@ function createActivityCard(
         value;
 
 
-      savePlan();
+      scheduleCloudSave();
 
     };
 
@@ -1742,7 +2164,7 @@ function createActivityCard(
       activity.type =
         type.value;
 
-      savePlan();
+      scheduleCloudSave();
 
     };
 
@@ -1756,7 +2178,7 @@ function createActivityCard(
 
       updateStatusStyle();
 
-      savePlan();
+      scheduleCloudSave();
 
     };
 
@@ -1768,7 +2190,7 @@ function createActivityCard(
       activity.place =
         place.value;
 
-      savePlan();
+      scheduleCloudSave();
 
       renderDayHeader();
 
@@ -1782,7 +2204,7 @@ function createActivityCard(
       activity.maps =
         maps.value;
 
-      savePlan();
+      scheduleCloudSave();
 
     };
 
@@ -1794,7 +2216,7 @@ function createActivityCard(
       activity.note =
         note.value;
 
-      savePlan();
+      scheduleCloudSave();
 
     };
 
@@ -1831,9 +2253,7 @@ function createActivityCard(
   ).onclick =
     () => {
 
-      if (
-        index === 0
-      ) {
+      if (index === 0) {
         return;
       }
 
@@ -1853,7 +2273,7 @@ function createActivityCard(
       ];
 
 
-      savePlan();
+      scheduleCloudSave();
 
       render();
 
@@ -1889,7 +2309,7 @@ function createActivityCard(
       ];
 
 
-      savePlan();
+      scheduleCloudSave();
 
       render();
 
@@ -1921,7 +2341,7 @@ function createActivityCard(
         );
 
 
-      savePlan();
+      scheduleCloudSave();
 
       clearPreview();
 
@@ -1937,6 +2357,11 @@ function createActivityCard(
 
 }
 
+
+
+/* =========================
+   TYPES
+========================= */
 
 
 function typeOptions(
@@ -1990,6 +2415,11 @@ function typeOptions(
 
 
 
+/* =========================
+   ADD
+========================= */
+
+
 document.getElementById(
   "addActivity"
 ).onclick =
@@ -2002,45 +2432,17 @@ document.getElementById(
       );
 
 
-    savePlan();
+    scheduleCloudSave();
 
     render();
 
-
-    setTimeout(
-      () => {
-
-        const cards =
-          document.querySelectorAll(
-            ".activity-card"
-          );
-
-
-        const last =
-          cards[
-            cards.length - 1
-          ];
-
-
-        last
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-
-
-        last
-          ?.querySelector(
-            ".activity-title"
-          )
-          ?.focus();
-
-      },
-      70
-    );
-
   };
 
+
+
+/* =========================
+   MAP
+========================= */
 
 
 function activityQuery(
@@ -2078,13 +2480,9 @@ function previewActivity(
   }
 
 
-  const container =
-    document.getElementById(
-      "mapContainer"
-    );
-
-
-  container.innerHTML =
+  document.getElementById(
+    "mapContainer"
+  ).innerHTML =
     `
 
       <iframe
@@ -2102,12 +2500,6 @@ function previewActivity(
   ).textContent =
     activity.title ||
     query;
-
-
-  container.scrollIntoView({
-    behavior: "smooth",
-    block: "center"
-  });
 
 }
 
@@ -2176,21 +2568,20 @@ function openMaps(
   }
 
 
-  const url =
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(
-      query
-    );
-
-
   window.open(
-    url,
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(query),
     "_blank",
     "noopener"
   );
 
 }
 
+
+
+/* =========================
+   DAY ROUTE
+========================= */
 
 
 document.getElementById(
@@ -2280,6 +2671,11 @@ document.getElementById(
 
 
 
+/* =========================
+   RENDER
+========================= */
+
+
 function render() {
 
   renderDayButtons();
@@ -2290,6 +2686,11 @@ function render() {
 
 }
 
+
+
+/* =========================
+   ESCAPE
+========================= */
 
 
 function escapeHtml(
@@ -2324,9 +2725,12 @@ function escapeAttribute(
 
 
 
-loadPlan();
+/* =========================
+   START
+========================= */
 
-render();
+
+initializeCloud();
 
 
 </script>
