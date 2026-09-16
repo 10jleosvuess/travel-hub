@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>門票｜Travel Hub</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #827d75;
+      --line: #e8e2d9;
+      --accent: #9a7350;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --danger: #a65a52;
+      --green-soft: #e7eee7;
+      --purple-soft: #eee8f3;
+      --orange-soft: #f4e7d6;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(950px, calc(100% - 24px));
+      margin: auto;
+    }
+
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      background: rgba(244,241,235,0.93);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      min-height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 700;
+    }
+
+    .back-icon {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 14px;
+      background: white;
+
+      display: grid;
+      place-items: center;
+
+      box-shadow: var(--shadow);
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* PAGE HEAD */
+
+    .page-head {
+      padding: 20px 0 12px;
+    }
+
+    .page-head h1 {
+      margin: 0 0 5px;
+      font-size: 28px;
+    }
+
+    .page-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+
+    /* TOOLBAR */
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin: 12px 0 18px;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .add-button {
+      border: 0;
+
+      padding: 11px 15px;
+
+      border-radius: 14px;
+
+      background: var(--accent-soft);
+      color: #72543b;
+
+      font-weight: 700;
+    }
+
+
+    /* TICKET LIST */
+
+    .ticket-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .ticket-card {
+      background: white;
+
+      border-radius: 24px;
+
+      padding: 18px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .ticket-number {
+      font-size: 12px;
+      color: var(--muted);
+
+      margin-bottom: 6px;
+    }
+
+    .ticket-title {
+      width: 100%;
+
+      border: 0;
+      outline: none;
+
+      background: transparent;
+
+      font-size: 22px;
+      font-weight: 800;
+
+      color: var(--text);
+
+      padding: 0;
+    }
+
+    .ticket-title::placeholder {
+      color: #bbb3aa;
+    }
+
+    .ticket-location {
+      width: 100%;
+
+      border: 0;
+      outline: none;
+
+      background: transparent;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      margin-top: 5px;
+      padding: 0;
+    }
+
+
+    /* FORM */
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      gap: 10px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .field-wrap {
+      display: grid;
+      gap: 5px;
+    }
+
+    .field-wrap.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
+
+      font-size: 11px;
+
+      padding-left: 2px;
+    }
+
+    .field {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      border-radius: 14px;
+
+      padding: 11px 12px;
+
+      background: #fbfaf8;
+
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: #bba58f;
+      background: white;
+    }
+
+    textarea.field {
+      resize: vertical;
+
+      min-height: 85px;
+
+      line-height: 1.55;
+    }
+
+    .section-line {
+      margin-top: 14px;
+
+      padding-top: 14px;
+
+      border-top: 1px solid var(--line);
+    }
+
+
+    /* LINK BUTTONS */
+
+    .link-row {
+      display: grid;
+
+      grid-template-columns: 1fr auto;
+
+      gap: 8px;
+    }
+
+    .open-button {
+      border: 0;
+
+      border-radius: 14px;
+
+      padding: 0 14px;
+
+      min-width: 86px;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+
+      background: var(--green-soft);
+    }
+
+    .ticket-open {
+      background: var(--purple-soft);
+    }
+
+    .open-button:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+
+    /* ACTIONS */
+
+    .actions {
+      display: flex;
+
+      gap: 7px;
+
+      margin-top: 15px;
+
+      flex-wrap: wrap;
+    }
+
+    .action-button {
+      border: 0;
+
+      border-radius: 11px;
+
+      padding: 8px 10px;
+
+      background: #f1eee9;
+
+      font-size: 12px;
+    }
+
+    .delete-button {
+      color: var(--danger);
+
+      margin-left: auto;
+    }
+
+
+    /* EMPTY */
+
+    .empty {
+      padding: 45px 20px;
+
+      text-align: center;
+
+      border-radius: 24px;
+
+      border: 1px dashed #cabdac;
+
+      color: var(--muted);
+
+      background: rgba(255,255,255,0.45);
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .empty strong {
+      display: block;
+
+      color: var(--text);
+
+      margin-bottom: 5px;
+    }
+
+    .empty p {
+      margin: 0;
+
+      font-size: 13px;
+    }
+
+
+    /* NOTICE */
+
+    .notice {
+      margin-top: 22px;
+
+      padding: 15px;
+
+      border-radius: 18px;
+
+      background: var(--orange-soft);
+
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .notice strong {
+      display: block;
+
+      margin-bottom: 3px;
+    }
+
+
+    /* NAV */
+
+    nav {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      height: 72px;
+
+      z-index: 100;
+
+      display: grid;
+
+      grid-template-columns: repeat(5, 1fr);
+
+      background: rgba(255,255,255,0.94);
+
+      backdrop-filter: blur(18px);
+
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-link {
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 3px;
+
+      color: #79756e;
+
+      font-size: 11px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-link.active {
+      color: var(--text);
+
+      font-weight: 700;
+    }
+
+
+    @media (max-width: 650px) {
+
+      .grid,
+      .grid.three {
+        grid-template-columns: 1fr;
+      }
+
+      .link-row {
+        grid-template-columns: 1fr;
+      }
+
+      .open-button {
+        min-height: 44px;
+      }
+
+      .delete-button {
+        margin-left: 0;
+      }
+
+      .ticket-title {
+        font-size: 20px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        門票
+      </div>
+
+    </a>
+
+
+    <div
+      class="save-status"
+      id="saveStatus"
+    >
+      自動儲存
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+
+  <section class="page-head">
+
+    <h1>
+      🎫 門票
+    </h1>
+
+    <p>
+      管理景點門票、預約時間與相關文件
+    </p>
+
+  </section>
+
+
+  <div class="toolbar">
+
+    <div
+      class="count"
+      id="ticketCount"
+    >
+      0 張票券
+    </div>
+
+    <button
+      class="add-button"
+      id="addTicket"
+    >
+      ＋ 新增門票
+    </button>
+
+  </div>
+
+
+  <div
+    class="ticket-list"
+    id="ticketList"
+  ></div>
+
+
+  <div class="notice">
+
+    <strong>
+      🔐 門票與 QR Code
+    </strong>
+
+    目前 GitHub Pages 是公開網站，所以真正含 QR Code、訂單編號、姓名或付款資料的票券，不建議直接上傳到公開 Repository。之後我們再把私人 PDF / QR Code 接到安全的檔案空間。
+
+  </div>
+
+
+</main>
+
+
+<nav>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="itinerary.html"
+  >
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="#"
+  >
+    <span class="nav-icon">🗺️</span>
+    地圖
+  </a>
+
+
+  <a
+    class="nav-link active"
+    href="tickets.html"
+  >
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="stays.html"
+  >
+    <span class="nav-icon">🏨</span>
+    住宿
+  </a>
+
+</nav>
+
+
+<script>
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026Tickets";
+
+
+let tickets = [];
+
+
+function loadData() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!saved) {
+    tickets = [];
+    return;
+  }
+
+
+  try {
+
+    tickets =
+      JSON.parse(saved);
+
+  }
+
+  catch {
+
+    tickets = [];
+
+  }
+
+}
+
+
+function saveData() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(tickets)
+  );
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
+    );
+
+
+  status.textContent =
+    "已儲存 ✓";
+
+
+  clearTimeout(
+    window.saveTimer
+  );
+
+
+  window.saveTimer =
+    setTimeout(
+      () => {
+
+        status.textContent =
+          "自動儲存";
+
+      },
+      1200
+    );
+
+}
+
+
+function newTicket() {
+
+  return {
+
+    name: "",
+    location: "",
+
+    date: "",
+    time: "",
+
+    people: "4",
+
+    ticketStatus: "已預約",
+    paymentStatus: "未設定",
+
+    orderNumber: "",
+
+    amount: "",
+    currency: "EUR",
+
+    arriveEarly: "",
+
+    maps: "",
+    ticketLink: "",
+
+    note: ""
+
+  };
+
+}
+
+
+function render() {
+
+  const container =
+    document.getElementById(
+      "ticketList"
+    );
+
+
+  const count =
+    document.getElementById(
+      "ticketCount"
+    );
+
+
+  count.textContent =
+    tickets.length +
+    " 張票券";
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    tickets.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            🎟️
+          </div>
+
+          <strong>
+            還沒有加入門票
+          </strong>
+
+          <p>
+            按「＋ 新增門票」建立第一張票券。
+          </p>
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  tickets.forEach(
+    (
+      ticket,
+      index
+    ) => {
+
+      container.appendChild(
+        createTicketCard(
+          ticket,
+          index
+        )
+      );
+
+    }
+  );
+
+}
+
+
+function createTicketCard(
+  ticket,
+  index
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "ticket-card";
+
+
+  card.innerHTML =
+    `
+
+      <div class="ticket-number">
+        TICKET ${index + 1}
+      </div>
+
+
+      <input
+        class="ticket-title ticket-name"
+        placeholder="景點 / 門票名稱"
+        value="${escapeAttribute(ticket.name)}"
+      >
+
+
+      <input
+        class="ticket-location"
+        placeholder="城市 / 地區"
+        value="${escapeAttribute(ticket.location)}"
+      >
+
+
+
+      <div
+        class="grid"
+        style="margin-top:16px"
+      >
+
+        <div class="field-wrap">
+
+          <label>
+            日期
+          </label>
+
+          <input
+            class="field ticket-date"
+            type="date"
+            value="${escapeAttribute(ticket.date)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            入場時間
+          </label>
+
+          <input
+            class="field ticket-time"
+            placeholder="例如 16:45"
+            value="${escapeAttribute(ticket.time)}"
+          >
+
+        </div>
+
+      </div>
+
+
+
+      <div class="section-line">
+
+        <div class="grid three">
+
+
+          <div class="field-wrap">
+
+            <label>
+              人數
+            </label>
+
+            <input
+              class="field people"
+              inputmode="numeric"
+              placeholder="4"
+              value="${escapeAttribute(ticket.people)}"
+            >
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              票券狀態
+            </label>
+
+            <select
+              class="field ticket-status"
+            >
+              ${ticketStatusOptions(ticket.ticketStatus)}
+            </select>
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              付款狀態
+            </label>
+
+            <select
+              class="field payment-status"
+            >
+              ${paymentOptions(ticket.paymentStatus)}
+            </select>
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              訂單編號
+            </label>
+
+            <input
+              class="field order-number"
+              placeholder="Booking reference"
+              value="${escapeAttribute(ticket.orderNumber)}"
+            >
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              金額
+            </label>
+
+            <input
+              class="field amount"
+              inputmode="decimal"
+              placeholder="0"
+              value="${escapeAttribute(ticket.amount)}"
+            >
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              幣別
+            </label>
+
+            <select
+              class="field currency"
+            >
+              ${currencyOptions(ticket.currency)}
+            </select>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="section-line">
+
+        <div class="grid">
+
+
+          <div class="field-wrap">
+
+            <label>
+              建議提前抵達
+            </label>
+
+            <input
+              class="field arrive-early"
+              placeholder="例如 30 分鐘"
+              value="${escapeAttribute(ticket.arriveEarly)}"
+            >
+
+          </div>
+
+
+          <div class="field-wrap">
+
+            <label>
+              Google Maps
+            </label>
+
+            <div class="link-row">
+
+              <input
+                class="field maps"
+                placeholder="貼上 Google Maps 連結"
+                value="${escapeAttribute(ticket.maps)}"
+              >
+
+              <button
+                class="open-button maps-open"
+              >
+                📍 導航
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="section-line">
+
+        <div class="field-wrap">
+
+          <label>
+            📄 PDF / QR Code / 電子票連結
+          </label>
+
+          <div class="link-row">
+
+            <input
+              class="field ticket-link"
+              placeholder="私人票券連結"
+              value="${escapeAttribute(ticket.ticketLink)}"
+            >
+
+            <button
+              class="open-button ticket-open"
+            >
+              🎫 查看票券
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="section-line">
+
+        <div class="field-wrap">
+
+          <label>
+            注意事項
+          </label>
+
+          <textarea
+            class="field note"
+            placeholder="例如：護照姓名需一致、不可遲到、提前 30 分鐘排隊、入口位置、禁止攜帶物品……"
+          >${escapeHtml(ticket.note)}</textarea>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="actions">
+
+        <button
+          class="action-button move-up"
+        >
+          ↑ 上移
+        </button>
+
+
+        <button
+          class="action-button move-down"
+        >
+          ↓ 下移
+        </button>
+
+
+        <button
+          class="action-button delete-button"
+        >
+          🗑 刪除門票
+        </button>
+
+      </div>
+
+    `;
+
+
+  const fields = {
+
+    name:
+      card.querySelector(
+        ".ticket-name"
+      ),
+
+    location:
+      card.querySelector(
+        ".ticket-location"
+      ),
+
+    date:
+      card.querySelector(
+        ".ticket-date"
+      ),
+
+    time:
+      card.querySelector(
+        ".ticket-time"
+      ),
+
+    people:
+      card.querySelector(
+        ".people"
+      ),
+
+    ticketStatus:
+      card.querySelector(
+        ".ticket-status"
+      ),
+
+    paymentStatus:
+      card.querySelector(
+        ".payment-status"
+      ),
+
+    orderNumber:
+      card.querySelector(
+        ".order-number"
+      ),
+
+    amount:
+      card.querySelector(
+        ".amount"
+      ),
+
+    currency:
+      card.querySelector(
+        ".currency"
+      ),
+
+    arriveEarly:
+      card.querySelector(
+        ".arrive-early"
+      ),
+
+    maps:
+      card.querySelector(
+        ".maps"
+      ),
+
+    ticketLink:
+      card.querySelector(
+        ".ticket-link"
+      ),
+
+    note:
+      card.querySelector(
+        ".note"
+      )
+
+  };
+
+
+  Object.entries(
+    fields
+  ).forEach(
+    (
+      [
+        key,
+        element
+      ]
+    ) => {
+
+      const event =
+        element.tagName ===
+        "SELECT"
+        ? "change"
+        : "input";
+
+
+      element.addEventListener(
+        event,
+        () => {
+
+          ticket[key] =
+            element.value;
+
+          updateButtons();
+
+          saveData();
+
+        }
+      );
+
+    }
+  );
+
+
+  const mapsButton =
+    card.querySelector(
+      ".maps-open"
+    );
+
+
+  const ticketButton =
+    card.querySelector(
+      ".ticket-open"
+    );
+
+
+  function updateButtons() {
+
+    mapsButton.disabled =
+      !ticket.maps.trim();
+
+
+    ticketButton.disabled =
+      !ticket.ticketLink.trim();
+
+  }
+
+
+  mapsButton.onclick =
+    () => {
+
+      if (!ticket.maps) {
+        return;
+      }
+
+
+      window.open(
+        ticket.maps,
+        "_blank",
+        "noopener"
+      );
+
+    };
+
+
+  ticketButton.onclick =
+    () => {
+
+      if (!ticket.ticketLink) {
+        return;
+      }
+
+
+      window.open(
+        ticket.ticketLink,
+        "_blank",
+        "noopener"
+      );
+
+    };
+
+
+  card.querySelector(
+    ".move-up"
+  ).onclick =
+    () => {
+
+      if (
+        index === 0
+      ) {
+        return;
+      }
+
+
+      [
+        tickets[index - 1],
+        tickets[index]
+      ] =
+      [
+        tickets[index],
+        tickets[index - 1]
+      ];
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+  card.querySelector(
+    ".move-down"
+  ).onclick =
+    () => {
+
+      if (
+        index ===
+        tickets.length - 1
+      ) {
+        return;
+      }
+
+
+      [
+        tickets[index],
+        tickets[index + 1]
+      ] =
+      [
+        tickets[index + 1],
+        tickets[index]
+      ];
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+  card.querySelector(
+    ".delete-button"
+  ).onclick =
+    () => {
+
+      const okay =
+        confirm(
+          "確定要刪除這張門票嗎？"
+        );
+
+
+      if (!okay) {
+        return;
+      }
+
+
+      tickets.splice(
+        index,
+        1
+      );
+
+
+      saveData();
+
+      render();
+
+    };
+
+
+  updateButtons();
+
+
+  return card;
+
+}
+
+
+function ticketStatusOptions(
+  selected
+) {
+
+  const options =
+    [
+      "尚未預約",
+      "已預約",
+      "待確認",
+      "已取消",
+      "現場購票"
+    ];
+
+
+  return options
+    .map(
+      option =>
+        `
+          <option
+            value="${option}"
+            ${
+              option === selected
+              ? "selected"
+              : ""
+            }
+          >
+            ${option}
+          </option>
+        `
+    )
+    .join("");
+
+}
+
+
+function paymentOptions(
+  selected
+) {
+
+  const options =
+    [
+      "未設定",
+      "未付款",
+      "部分付款",
+      "已付款",
+      "現場付款"
+    ];
+
+
+  return options
+    .map(
+      option =>
+        `
+          <option
+            value="${option}"
+            ${
+              option === selected
+              ? "selected"
+              : ""
+            }
+          >
+            ${option}
+          </option>
+        `
+    )
+    .join("");
+
+}
+
+
+function currencyOptions(
+  selected
+) {
+
+  const options =
+    [
+      "EUR",
+      "TWD",
+      "USD",
+      "AUD",
+      "JPY",
+      "GBP"
+    ];
+
+
+  return options
+    .map(
+      option =>
+        `
+          <option
+            value="${option}"
+            ${
+              option === selected
+              ? "selected"
+              : ""
+            }
+          >
+            ${option}
+          </option>
+        `
+    )
+    .join("");
+
+}
+
+
+document.getElementById(
+  "addTicket"
+).onclick =
+  () => {
+
+    tickets.push(
+      newTicket()
+    );
+
+
+    saveData();
+
+    render();
+
+
+    setTimeout(
+      () => {
+
+        const cards =
+          document.querySelectorAll(
+            ".ticket-card"
+          );
+
+
+        const last =
+          cards[
+            cards.length - 1
+          ];
+
+
+        last
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+          });
+
+
+        last
+          ?.querySelector(
+            ".ticket-name"
+          )
+          ?.focus();
+
+      },
+      50
+    );
+
+  };
+
+
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+function escapeAttribute(
+  text = ""
+) {
+
+  return escapeHtml(
+    text
+  );
+
+}
+
+
+loadData();
+
+render();
+
+
+</script>
+
+
+</body>
+
+</html>
