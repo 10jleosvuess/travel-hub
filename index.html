@@ -1,36 +1,63 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Travel Hub</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
 
+
     :root {
+
       --bg: #f4f1eb;
+
       --card: #ffffff;
+
       --text: #292824;
+
       --muted: #817d75;
+
       --line: #e8e2d9;
+
       --accent: #9a7350;
+
       --accent-soft: #eee4d8;
+
       --green-soft: #e6efe6;
+
       --green: #49644b;
+
       --orange-soft: #f4e7d6;
-      --shadow: 0 8px 30px rgba(52, 45, 36, 0.06);
+
+      --shadow:
+        0 8px 30px
+        rgba(52, 45, 36, 0.06);
+
     }
+
 
     html {
       scroll-behavior: smooth;
     }
 
+
     body {
+
       margin: 0;
+
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -38,1208 +65,2558 @@
         "Noto Sans TC",
         sans-serif;
 
-      background: var(--bg);
-      color: var(--text);
-      padding-bottom: 90px;
+      background:
+        var(--bg);
+
+      color:
+        var(--text);
+
+      padding-bottom:
+        90px;
+
     }
+
 
     button,
     a {
       font: inherit;
     }
 
+
     a {
+
       color: inherit;
+
       text-decoration: none;
+
     }
+
 
     .container {
-      width: min(1100px, calc(100% - 28px));
-      margin: auto;
+
+      width:
+        min(
+          1100px,
+          calc(100% - 28px)
+        );
+
+      margin:
+        auto;
+
     }
+
 
     header {
-      padding: 24px 0 18px;
+
+      padding:
+        24px 0 18px;
+
     }
+
 
     .topbar {
+
       display: flex;
+
       align-items: center;
-      justify-content: space-between;
+
+      justify-content:
+        space-between;
+
       gap: 12px;
+
     }
+
 
     .brand {
+
       display: flex;
+
       align-items: center;
+
       gap: 11px;
+
     }
+
 
     .brand-logo {
+
       width: 45px;
+
       height: 45px;
-      display: grid;
-      place-items: center;
-
-      border-radius: 15px;
-      background: white;
-      box-shadow: var(--shadow);
-
-      font-size: 23px;
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 23px;
-      letter-spacing: -0.4px;
-    }
-
-    .brand p {
-      margin: 3px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .profile {
-      width: 42px;
-      height: 42px;
-
-      border-radius: 50%;
-      background: var(--accent-soft);
 
       display: grid;
-      place-items: center;
-      font-size: 19px;
-    }
 
-    .hero {
-      position: relative;
-      overflow: hidden;
+      place-items:
+        center;
 
-      min-height: 280px;
-
-      border-radius: 28px;
-
-      padding: 26px;
+      border-radius:
+        15px;
 
       background:
+        white;
+
+      box-shadow:
+        var(--shadow);
+
+      font-size:
+        23px;
+
+    }
+
+
+    .brand h1 {
+
+      margin: 0;
+
+      font-size:
+        23px;
+
+      letter-spacing:
+        -0.4px;
+
+    }
+
+
+    .brand p {
+
+      margin:
+        3px 0 0;
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+    }
+
+
+    .profile {
+
+      width: 42px;
+
+      height: 42px;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--accent-soft);
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      font-size:
+        19px;
+
+    }
+
+
+
+    /* HERO */
+
+    .hero {
+
+      position:
+        relative;
+
+      overflow:
+        hidden;
+
+      min-height:
+        280px;
+
+      border-radius:
+        28px;
+
+      padding:
+        26px;
+
+      background:
+
         linear-gradient(
           135deg,
-          rgba(79, 66, 52, 0.88),
-          rgba(117, 91, 66, 0.75)
+          rgba(79,66,52,0.88),
+          rgba(117,91,66,0.75)
         ),
-        url("https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1600&q=80")
-        center/cover;
 
-      color: white;
+        url(
+          "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1600&q=80"
+        )
+        center / cover;
 
-      box-shadow: var(--shadow);
+      color:
+        white;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      box-shadow:
+        var(--shadow);
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        space-between;
+
     }
+
 
     .hero-badge {
-      align-self: flex-start;
 
-      padding: 7px 11px;
+      align-self:
+        flex-start;
 
-      background: rgba(255,255,255,0.17);
-      backdrop-filter: blur(10px);
+      padding:
+        7px 11px;
 
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 100px;
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.17
+        );
 
-      font-size: 12px;
+      backdrop-filter:
+        blur(10px);
+
+      border:
+        1px solid
+        rgba(
+          255,
+          255,
+          255,
+          0.22
+        );
+
+      border-radius:
+        100px;
+
+      font-size:
+        12px;
+
     }
+
 
     .hero h2 {
-      font-size: clamp(32px, 7vw, 55px);
-      margin: 32px 0 6px;
-      letter-spacing: -1.5px;
+
+      font-size:
+        clamp(
+          32px,
+          7vw,
+          55px
+        );
+
+      margin:
+        32px 0 6px;
+
+      letter-spacing:
+        -1.5px;
+
     }
+
 
     .hero-sub {
-      color: rgba(255,255,255,0.84);
-      font-size: 14px;
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.84
+        );
+
+      font-size:
+        14px;
+
     }
+
 
     .hero-bottom {
-      margin-top: 28px;
 
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      margin-top:
+        28px;
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px;
+
     }
+
 
     .hero-pill {
-      padding: 10px 13px;
 
-      border-radius: 14px;
-      background: rgba(255,255,255,0.14);
-      backdrop-filter: blur(12px);
+      padding:
+        10px 13px;
 
-      font-size: 13px;
+      border-radius:
+        14px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.14
+        );
+
+      backdrop-filter:
+        blur(12px);
+
+      font-size:
+        13px;
+
     }
+
+
+
+    /* SECTIONS */
 
     .section {
-      margin-top: 24px;
+
+      margin-top:
+        24px;
+
     }
+
 
     .section-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
 
-      margin-bottom: 12px;
+      display:
+        flex;
+
+      align-items:
+        flex-end;
+
+      justify-content:
+        space-between;
+
+      margin-bottom:
+        12px;
+
     }
+
 
     .section-head h2 {
-      margin: 0;
-      font-size: 20px;
+
+      margin:
+        0;
+
+      font-size:
+        20px;
+
     }
+
 
     .section-head span {
-      color: var(--muted);
-      font-size: 12px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
     }
+
+
+
+    /* STATUS */
 
     .status-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 12px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1.4fr 1fr 1fr;
+
+      gap:
+        12px;
+
     }
+
 
     .status-card {
-      background: var(--card);
-      border-radius: 20px;
-      padding: 18px;
 
-      box-shadow: var(--shadow);
-      min-height: 125px;
+      background:
+        var(--card);
+
+      border-radius:
+        20px;
+
+      padding:
+        18px;
+
+      box-shadow:
+        var(--shadow);
+
+      min-height:
+        125px;
+
     }
+
 
     .status-card .label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 11px;
+
+      font-size:
+        12px;
+
+      color:
+        var(--muted);
+
+      margin-bottom:
+        11px;
+
     }
+
 
     .status-card strong {
-      display: block;
-      font-size: 25px;
-      margin-bottom: 6px;
+
+      display:
+        block;
+
+      font-size:
+        25px;
+
+      margin-bottom:
+        6px;
+
     }
+
 
     .status-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
+
+      margin:
+        0;
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+      line-height:
+        1.5;
+
     }
 
+
     .countdown {
-      background: #2e2d29;
-      color: white;
+
+      background:
+        #2e2d29;
+
+      color:
+        white;
+
     }
+
 
     .countdown .label,
     .countdown p {
-      color: rgba(255,255,255,0.67);
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.67
+        );
+
     }
+
 
     .countdown strong {
-      font-size: 36px;
+
+      font-size:
+        36px;
+
     }
+
+
+
+    /* QUICK TOOLS */
 
     .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          4,
+          1fr
+        );
+
+      gap:
+        12px;
+
     }
+
 
     .quick-card {
-      border: none;
-      cursor: pointer;
 
-      text-align: left;
+      border:
+        none;
 
-      background: var(--card);
-      border-radius: 21px;
-      padding: 18px;
+      cursor:
+        pointer;
 
-      min-height: 130px;
+      text-align:
+        left;
 
-      box-shadow: var(--shadow);
+      background:
+        var(--card);
 
-      transition: 0.18s ease;
+      border-radius:
+        21px;
+
+      padding:
+        18px;
+
+      min-height:
+        130px;
+
+      box-shadow:
+        var(--shadow);
+
+      transition:
+        0.18s ease;
+
     }
+
 
     .quick-card:hover {
-      transform: translateY(-3px);
+
+      transform:
+        translateY(-3px);
+
     }
+
 
     .quick-icon {
-      width: 45px;
-      height: 45px;
 
-      border-radius: 15px;
-      background: var(--accent-soft);
+      width:
+        45px;
 
-      display: grid;
-      place-items: center;
+      height:
+        45px;
 
-      font-size: 22px;
+      border-radius:
+        15px;
 
-      margin-bottom: 13px;
+      background:
+        var(--accent-soft);
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      font-size:
+        22px;
+
+      margin-bottom:
+        13px;
+
     }
+
 
     .quick-card h3 {
-      margin: 0 0 5px;
-      font-size: 16px;
+
+      margin:
+        0 0 5px;
+
+      font-size:
+        16px;
+
     }
+
 
     .quick-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
+
+      margin:
+        0;
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+      line-height:
+        1.5;
+
     }
+
+
+
+    /* ROUTE */
 
     .route-card {
-      background: var(--card);
-      border-radius: 22px;
-      padding: 20px;
 
-      box-shadow: var(--shadow);
+      background:
+        var(--card);
+
+      border-radius:
+        22px;
+
+      padding:
+        20px;
+
+      box-shadow:
+        var(--shadow);
+
     }
+
 
     .route {
-      display: flex;
-      overflow-x: auto;
-      padding: 3px 0 8px;
 
-      scrollbar-width: none;
+      display:
+        flex;
+
+      overflow-x:
+        auto;
+
+      padding:
+        3px 0 8px;
+
+      scrollbar-width:
+        none;
+
     }
+
 
     .route::-webkit-scrollbar {
-      display: none;
+
+      display:
+        none;
+
     }
+
 
     .route-stop {
-      min-width: 135px;
-      position: relative;
 
-      padding: 0 17px 0 24px;
+      min-width:
+        135px;
+
+      position:
+        relative;
+
+      padding:
+        0 17px 0 24px;
+
     }
+
 
     .route-stop:first-child {
-      padding-left: 8px;
+
+      padding-left:
+        8px;
+
     }
+
 
     .route-stop:not(:last-child)::after {
-      content: "";
-      position: absolute;
 
-      top: 9px;
-      right: -2px;
+      content:
+        "";
 
-      width: 23px;
-      height: 1px;
+      position:
+        absolute;
 
-      background: #cfc5ba;
+      top:
+        9px;
+
+      right:
+        -2px;
+
+      width:
+        23px;
+
+      height:
+        1px;
+
+      background:
+        #cfc5ba;
+
     }
+
 
     .route-dot {
-      width: 18px;
-      height: 18px;
 
-      border: 5px solid var(--accent-soft);
-      border-radius: 50%;
+      width:
+        18px;
 
-      background: var(--accent);
+      height:
+        18px;
 
-      margin-bottom: 9px;
+      border:
+        5px solid
+        var(--accent-soft);
+
+      border-radius:
+        50%;
+
+      background:
+        var(--accent);
+
+      margin-bottom:
+        9px;
+
     }
+
 
     .route-stop strong {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 3px;
+
+      display:
+        block;
+
+      font-size:
+        13px;
+
+      margin-bottom:
+        3px;
+
     }
+
 
     .route-stop span {
-      color: var(--muted);
-      font-size: 11px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        11px;
+
     }
+
+
+
+    /* BOTTOM PANELS */
 
     .info-columns {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 14px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1.15fr 0.85fr;
+
+      gap:
+        14px;
+
     }
+
 
     .panel {
-      background: var(--card);
-      border-radius: 22px;
-      padding: 20px;
 
-      box-shadow: var(--shadow);
+      background:
+        var(--card);
+
+      border-radius:
+        22px;
+
+      padding:
+        20px;
+
+      box-shadow:
+        var(--shadow);
+
     }
+
 
     .panel-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
 
-      margin-bottom: 14px;
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      margin-bottom:
+        14px;
+
     }
+
 
     .panel-title h3 {
-      margin: 0;
-      font-size: 17px;
+
+      margin:
+        0;
+
+      font-size:
+        17px;
+
     }
+
 
     .small-link {
-      font-size: 12px;
-      color: var(--accent);
+
+      font-size:
+        12px;
+
+      color:
+        var(--accent);
+
     }
+
+
+
+    /* TODO */
 
     .todo {
-      padding: 13px 0;
 
-      display: flex;
-      gap: 11px;
-      align-items: flex-start;
+      padding:
+        13px 0;
 
-      border-bottom: 1px solid var(--line);
+      display:
+        flex;
+
+      gap:
+        11px;
+
+      align-items:
+        flex-start;
+
+      border-bottom:
+        1px solid
+        var(--line);
+
     }
+
 
     .todo:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
+
+      border-bottom:
+        none;
+
+      padding-bottom:
+        0;
+
     }
+
 
     .todo:first-of-type {
-      padding-top: 3px;
+
+      padding-top:
+        3px;
+
     }
+
 
     .todo-box {
-      flex: 0 0 auto;
 
-      width: 20px;
-      height: 20px;
+      flex:
+        0 0 auto;
 
-      border-radius: 7px;
-      border: 2px solid #c7b8a7;
+      width:
+        20px;
 
-      margin-top: 1px;
+      height:
+        20px;
+
+      border-radius:
+        7px;
+
+      border:
+        2px solid
+        #c7b8a7;
+
+      margin-top:
+        1px;
+
     }
+
 
     .todo strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 4px;
+
+      display:
+        block;
+
+      font-size:
+        14px;
+
+      margin-bottom:
+        4px;
+
     }
+
 
     .todo p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
+
+      margin:
+        0;
+
+      color:
+        var(--muted);
+
+      font-size:
+        12px;
+
+      line-height:
+        1.5;
+
     }
+
+
+
+    /* WEATHER */
 
     .weather-placeholder {
-      padding: 18px;
 
-      border-radius: 18px;
-      background: #eef1f3;
+      padding:
+        18px;
 
-      min-height: 165px;
+      border-radius:
+        18px;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      background:
+        #eef1f3;
+
+      min-height:
+        165px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
     }
 
-    .weather-placeholder .weather-icon {
-      font-size: 38px;
-      margin-bottom: 12px;
+
+    .weather-placeholder
+    .weather-icon {
+
+      font-size:
+        38px;
+
+      margin-bottom:
+        12px;
+
     }
+
 
     .weather-placeholder strong {
-      font-size: 18px;
-      margin-bottom: 5px;
+
+      font-size:
+        18px;
+
+      margin-bottom:
+        5px;
+
     }
+
 
     .weather-placeholder p {
-      margin: 0;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.6;
+
+      margin:
+        0;
+
+      font-size:
+        12px;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.6;
+
     }
+
 
     .notice {
-      margin-top: 14px;
 
-      background: var(--orange-soft);
+      margin-top:
+        14px;
 
-      border-radius: 18px;
+      background:
+        var(--orange-soft);
 
-      padding: 15px 16px;
+      border-radius:
+        18px;
 
-      font-size: 12px;
-      line-height: 1.65;
+      padding:
+        15px 16px;
+
+      font-size:
+        12px;
+
+      line-height:
+        1.65;
+
     }
+
 
     .notice strong {
-      display: block;
-      margin-bottom: 3px;
+
+      display:
+        block;
+
+      margin-bottom:
+        3px;
+
     }
+
+
+
+    /* NAV */
 
     nav {
-      position: fixed;
 
-      bottom: 0;
-      left: 0;
-      right: 0;
+      position:
+        fixed;
 
-      z-index: 100;
+      bottom:
+        0;
 
-      height: 72px;
+      left:
+        0;
 
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      right:
+        0;
 
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(18px);
+      z-index:
+        100;
 
-      border-top: 1px solid rgba(0,0,0,0.06);
+      height:
+        72px;
 
-      padding-bottom: env(safe-area-inset-bottom);
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          5,
+          1fr
+        );
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.92
+        );
+
+      backdrop-filter:
+        blur(18px);
+
+      border-top:
+        1px solid
+        rgba(
+          0,
+          0,
+          0,
+          0.06
+        );
+
+      padding-bottom:
+        env(
+          safe-area-inset-bottom
+        );
+
     }
+
 
     .nav-item {
-      border: 0;
-      background: none;
 
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      border:
+        0;
 
-      gap: 3px;
+      background:
+        none;
 
-      color: #79756e;
+      display:
+        flex;
 
-      font-size: 11px;
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      gap:
+        3px;
+
+      color:
+        #79756e;
+
+      font-size:
+        11px;
+
     }
+
 
     .nav-item .nav-icon {
-      font-size: 20px;
+
+      font-size:
+        20px;
+
     }
+
 
     .nav-item.active {
-      color: var(--text);
-      font-weight: 650;
+
+      color:
+        var(--text);
+
+      font-weight:
+        650;
+
     }
 
-    @media (max-width: 800px) {
+
+
+    /* TABLET */
+
+    @media
+    (max-width: 800px) {
 
       .status-grid {
-        grid-template-columns: 1fr 1fr;
+
+        grid-template-columns:
+          1fr 1fr;
+
       }
+
 
       .countdown {
-        grid-column: span 2;
+
+        grid-column:
+          span 2;
+
       }
+
 
       .quick-grid {
-        grid-template-columns: repeat(2, 1fr);
+
+        grid-template-columns:
+          repeat(
+            2,
+            1fr
+          );
+
       }
+
 
       .info-columns {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
 
     }
 
-    @media (max-width: 520px) {
+
+
+    /* MOBILE */
+
+    @media
+    (max-width: 520px) {
 
       .container {
-        width: min(100% - 20px, 1100px);
+
+        width:
+          min(
+            100% - 20px,
+            1100px
+          );
+
       }
+
 
       header {
-        padding-top: 16px;
+
+        padding-top:
+          16px;
+
       }
+
 
       .hero {
-        border-radius: 23px;
-        padding: 21px;
-        min-height: 260px;
+
+        border-radius:
+          23px;
+
+        padding:
+          21px;
+
+        min-height:
+          260px;
+
       }
+
 
       .hero h2 {
-        margin-top: 38px;
+
+        margin-top:
+          38px;
+
       }
+
 
       .status-card {
-        padding: 15px;
+
+        padding:
+          15px;
+
       }
+
 
       .quick-card {
-        min-height: 120px;
-        padding: 16px;
+
+        min-height:
+          120px;
+
+        padding:
+          16px;
+
       }
 
+
       .section {
-        margin-top: 20px;
+
+        margin-top:
+          20px;
+
       }
 
     }
+
   </style>
+
 </head>
+
 
 
 <body>
 
+
+
 <header>
-  <div class="container topbar">
+
+  <div
+    class="container topbar"
+  >
+
 
     <div class="brand">
 
-      <div class="brand-logo">
+
+      <div
+        class="brand-logo"
+      >
         ✈️
       </div>
 
+
       <div>
-        <h1>Travel Hub</h1>
-        <p>我的私人旅行管理中心</p>
+
+        <h1>
+          Travel Hub
+        </h1>
+
+        <p>
+          我的私人旅行管理中心
+        </p>
+
       </div>
 
+
     </div>
+
+
 
     <div class="profile">
       🇮🇹
     </div>
 
+
   </div>
+
 </header>
+
+
 
 
 <main class="container">
 
+
+
+  <!-- HERO -->
+
   <section class="hero">
 
-    <div class="hero-badge">
+
+    <div
+      class="hero-badge"
+    >
       NEXT TRIP
     </div>
 
+
+
     <div>
 
-      <h2>Italy 2026</h2>
 
-      <div class="hero-sub">
-        20 天・義大利北到南自駕旅行
+      <h2>
+        Italy 2026
+      </h2>
+
+
+      <div
+        class="hero-sub"
+      >
+        義大利北到南自駕旅行
       </div>
 
-      <div class="hero-bottom">
 
-        <div class="hero-pill">
-          📅 10/02 — 10/21
+
+      <div
+        class="hero-bottom"
+      >
+
+
+        <div
+          class="hero-pill"
+        >
+          📅 10/01 — 10/21
         </div>
 
-        <div class="hero-pill">
+
+        <div
+          class="hero-pill"
+        >
           👨‍👩‍👧‍👦 4 人
         </div>
 
-        <div class="hero-pill">
+
+        <div
+          class="hero-pill"
+        >
           🚗 10/03 — 10/17
         </div>
 
+
       </div>
 
+
     </div>
+
 
   </section>
 
 
+
+
+  <!-- TRIP STATUS -->
+
   <section class="section">
 
-    <div class="status-grid">
 
-      <div class="status-card countdown">
+    <div
+      class="status-grid"
+    >
+
+
+
+      <div
+        class="status-card countdown"
+      >
+
 
         <div class="label">
           距離出發
         </div>
 
-        <strong id="countdownNumber">
+
+        <strong
+          id="countdownNumber"
+        >
           --
         </strong>
 
-        <p id="countdownText">
+
+        <p
+          id="countdownText"
+        >
           正在計算旅程時間
         </p>
+
 
       </div>
 
 
-      <div class="status-card">
+
+
+      <div
+        class="status-card"
+      >
+
 
         <div class="label">
           旅程日期
         </div>
 
+
         <strong>
-          20 Days
+          21 Days
         </strong>
 
+
         <p>
-          2026/10/02 — 10/21
+          2026/10/01 — 10/21
         </p>
+
 
       </div>
 
 
-      <div class="status-card">
+
+
+      <div
+        class="status-card"
+      >
+
 
         <div class="label">
           主要交通
         </div>
 
+
         <strong>
           🚗 Road Trip
         </strong>
+
 
         <p>
           米蘭取車・羅馬還車
         </p>
 
+
       </div>
 
+
     </div>
+
 
   </section>
 
 
+
+
+
+  <!-- QUICK TOOLS -->
+
   <section class="section">
 
-    <div class="section-head">
+
+    <div
+      class="section-head"
+    >
+
 
       <h2>
         快捷入口
       </h2>
 
+
       <span>
         Travel tools
       </span>
 
+
     </div>
 
 
-    <div class="quick-grid">
 
 
-      <a class="quick-card" href="#itinerary">
+    <div
+      class="quick-grid"
+    >
 
-        <div class="quick-icon">
+
+
+
+      <a
+        class="quick-card"
+        href="#itinerary"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           📅
         </div>
+
 
         <h3>
           每日行程
         </h3>
 
+
         <p>
           查看時間、景點與每日安排
         </p>
 
+
       </a>
 
 
-      <a class="quick-card" href="#map">
 
-        <div class="quick-icon">
+
+
+      <a
+        class="quick-card"
+        href="#map"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           🗺️
         </div>
+
 
         <h3>
           Google 地圖
         </h3>
 
+
         <p>
           景點、住宿、停車與路線
         </p>
 
+
       </a>
 
 
-      <a class="quick-card" href="#hotel">
 
-        <div class="quick-icon">
+
+
+      <a
+        class="quick-card"
+        href="#hotel"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           🏨
         </div>
+
 
         <h3>
           住宿
         </h3>
 
+
         <p>
           地址、入住資訊與確認單
         </p>
 
+
       </a>
 
 
-      <a class="quick-card" href="#ticket">
 
-        <div class="quick-icon">
+
+
+      <a
+        class="quick-card"
+        href="#ticket"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           🎫
         </div>
+
 
         <h3>
           門票
         </h3>
 
+
         <p>
           入場時間、PDF 與 QR Code
         </p>
 
+
       </a>
 
 
-      <a class="quick-card" href="#car">
 
-        <div class="quick-icon">
+
+
+      <a
+        class="quick-card"
+        href="#car"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           🚗
         </div>
+
 
         <h3>
           租車
         </h3>
 
+
         <p>
           取還車、照片、規則與保險
         </p>
 
+
       </a>
 
 
-      <a class="quick-card" href="#packing">
 
-        <div class="quick-icon">
+
+
+      <a
+        class="quick-card"
+        href="#packing"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           🧳
         </div>
+
 
         <h3>
           必帶清單
         </h3>
 
+
         <p>
           行李打包與重要用品
         </p>
 
+
       </a>
 
 
-      <a class="quick-card" href="#budget">
 
-        <div class="quick-icon">
+
+
+      <a
+        class="quick-card"
+        href="#budget"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           💰
         </div>
+
 
         <h3>
           預算
         </h3>
 
+
         <p>
           住宿、交通與旅費紀錄
         </p>
 
+
       </a>
 
 
-      <a class="quick-card" href="#documents">
 
-        <div class="quick-icon">
+
+
+      <a
+        class="quick-card"
+        href="#documents"
+      >
+
+
+        <div
+          class="quick-icon"
+        >
           📁
         </div>
+
 
         <h3>
           文件
         </h3>
 
+
         <p>
           航班、保險與重要資料
         </p>
 
+
       </a>
 
+
     </div>
+
 
   </section>
 
 
-  <section class="section" id="itinerary">
 
-    <div class="section-head">
+
+
+  <!-- ROUTE -->
+
+  <section
+    class="section"
+    id="itinerary"
+  >
+
+
+    <div
+      class="section-head"
+    >
+
 
       <h2>
         旅程路線
       </h2>
 
+
       <span>
         由北到南
       </span>
 
+
     </div>
 
 
-    <div class="route-card">
-
-      <div class="route">
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Milano</strong>
-          <span>10/02</span>
+    <div
+      class="route-card"
+    >
+
+
+      <div
+        class="route"
+      >
+
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Milano
+          </strong>
+
+          <span>
+            10/02 — 03
+          </span>
+
         </div>
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Garda</strong>
-          <span>10/03</span>
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Garda
+          </strong>
+
+          <span>
+            10/03 — 04
+          </span>
+
         </div>
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Brixen</strong>
-          <span>10/04 — 08</span>
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Brixen
+          </strong>
+
+          <span>
+            10/04 — 08
+          </span>
+
         </div>
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Dolomites</strong>
-          <span>10/08 — 10</span>
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Dolomites
+          </strong>
+
+          <span>
+            10/08 — 10
+          </span>
+
         </div>
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Venezia</strong>
-          <span>10/10</span>
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Venezia
+          </strong>
+
+          <span>
+            10/10
+          </span>
+
         </div>
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Firenze</strong>
-          <span>10/11</span>
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Bologna
+          </strong>
+
+          <span>
+            10/10
+          </span>
+
         </div>
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Toscana</strong>
-          <span>10/12 — 15</span>
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Firenze
+          </strong>
+
+          <span>
+            10/11
+          </span>
+
         </div>
 
 
-        <div class="route-stop">
-          <div class="route-dot"></div>
-          <strong>Roma</strong>
-          <span>10/15 — 21</span>
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Toscana
+          </strong>
+
+          <span>
+            10/12 — 15
+          </span>
+
         </div>
+
+
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Viterbo
+          </strong>
+
+          <span>
+            10/13 — 15
+          </span>
+
+        </div>
+
+
+
+
+
+        <div
+          class="route-stop"
+        >
+
+          <div
+            class="route-dot"
+          ></div>
+
+          <strong>
+            Roma
+          </strong>
+
+          <span>
+            10/15 — 21
+          </span>
+
+        </div>
+
 
 
       </div>
 
+
     </div>
+
 
   </section>
 
 
+
+
+
+  <!-- TODO + WEATHER -->
+
   <section class="section">
 
-    <div class="info-columns">
+
+    <div
+      class="info-columns"
+    >
 
 
-      <div class="panel">
 
-        <div class="panel-title">
+
+      <div
+        class="panel"
+      >
+
+
+        <div
+          class="panel-title"
+        >
+
 
           <h3>
             ✅ 出發前待辦
           </h3>
 
-          <span class="small-link">
+
+          <span
+            class="small-link"
+          >
             之後可編輯
           </span>
+
 
         </div>
 
 
-        <div class="todo">
 
-          <div class="todo-box"></div>
+
+
+
+        <div
+          class="todo"
+        >
+
+
+          <div
+            class="todo-box"
+          ></div>
+
 
           <div>
+
+
             <strong>
               確認所有門票
             </strong>
 
+
             <p>
               入場日期、時間、人數與 PDF
             </p>
+
+
           </div>
+
 
         </div>
 
 
-        <div class="todo">
 
-          <div class="todo-box"></div>
+
+
+
+        <div
+          class="todo"
+        >
+
+
+          <div
+            class="todo-box"
+          ></div>
+
 
           <div>
+
+
             <strong>
               整理租車資料
             </strong>
 
+
             <p>
               保險、取車文件、國際駕照與還車規則
             </p>
+
+
           </div>
+
 
         </div>
 
 
-        <div class="todo">
 
-          <div class="todo-box"></div>
+
+
+
+        <div
+          class="todo"
+        >
+
+
+          <div
+            class="todo-box"
+          ></div>
+
 
           <div>
+
+
             <strong>
               建立必帶清單
             </strong>
 
+
             <p>
               證件、衣物、藥品、電子用品與車用品
             </p>
+
+
           </div>
+
 
         </div>
 
 
-        <div class="todo">
 
-          <div class="todo-box"></div>
+
+
+
+        <div
+          class="todo"
+        >
+
+
+          <div
+            class="todo-box"
+          ></div>
+
 
           <div>
+
+
             <strong>
               上傳住宿確認資料
             </strong>
 
+
             <p>
               每間住宿會有自己的 PDF / 文件按鈕
             </p>
+
+
           </div>
 
+
         </div>
+
 
       </div>
 
 
-      <div class="panel">
 
-        <div class="panel-title">
+
+
+
+      <div
+        class="panel"
+      >
+
+
+        <div
+          class="panel-title"
+        >
+
 
           <h3>
             🌦 即時天氣
           </h3>
 
-          <span class="small-link">
+
+          <span
+            class="small-link"
+          >
             Coming next
           </span>
+
 
         </div>
 
 
-        <div class="weather-placeholder">
 
-          <div class="weather-icon">
+
+
+
+        <div
+          class="weather-placeholder"
+        >
+
+
+          <div
+            class="weather-icon"
+          >
             ☀️
           </div>
+
 
           <strong>
             天氣功能準備中
           </strong>
 
+
           <p>
             之後會依每天所在地，自動顯示即時天氣、降雨機率、體感溫度與日落時間。
           </p>
 
+
         </div>
 
 
-        <div class="notice">
+
+
+
+
+        <div
+          class="notice"
+        >
+
 
           <strong>
-            💡 之後會自動切換
+            💡 自動切換旅行狀態
           </strong>
 
-          出發前顯示倒數；旅行期間會自動顯示今天是 Day 幾、今天城市、行程與天氣。
+
+          出發前顯示倒數；10 月 1 日開始後會自動顯示 Day 1、Day 2、Day 3……直到旅程結束。
+
 
         </div>
+
 
       </div>
 
 
     </div>
 
+
   </section>
 
+
+
+
+  <!-- FUTURE SECTIONS -->
 
   <section
     class="section"
     id="hotel"
   ></section>
 
+
   <section
     id="ticket"
   ></section>
+
 
   <section
     id="car"
   ></section>
 
+
   <section
     id="packing"
   ></section>
+
 
   <section
     id="budget"
   ></section>
 
+
   <section
     id="documents"
   ></section>
+
 
   <section
     id="map"
   ></section>
 
 
+
 </main>
 
 
+
+
+
+<!-- BOTTOM NAVIGATION -->
+
 <nav>
 
-  <button class="nav-item active">
-    <span class="nav-icon">🏠</span>
+
+  <button
+    class="nav-item active"
+  >
+
+    <span
+      class="nav-icon"
+    >
+      🏠
+    </span>
+
     今天
+
   </button>
 
-  <button class="nav-item">
-    <span class="nav-icon">📅</span>
+
+
+
+  <button
+    class="nav-item"
+  >
+
+    <span
+      class="nav-icon"
+    >
+      📅
+    </span>
+
     行程
+
   </button>
 
-  <button class="nav-item">
-    <span class="nav-icon">🗺️</span>
+
+
+
+  <button
+    class="nav-item"
+  >
+
+    <span
+      class="nav-icon"
+    >
+      🗺️
+    </span>
+
     地圖
+
   </button>
 
-  <button class="nav-item">
-    <span class="nav-icon">🎫</span>
+
+
+
+  <button
+    class="nav-item"
+  >
+
+    <span
+      class="nav-icon"
+    >
+      🎫
+    </span>
+
     票券
+
   </button>
 
-  <button class="nav-item">
-    <span class="nav-icon">☰</span>
+
+
+
+  <button
+    class="nav-item"
+  >
+
+    <span
+      class="nav-icon"
+    >
+      ☰
+    </span>
+
     更多
+
   </button>
+
 
 </nav>
 
 
+
+
+
 <script>
 
+
+  /* 整趟旅行從 10/01 出發 */
+
   const tripStart =
-    new Date("2026-10-02T00:00:00");
+    new Date(
+      "2026-10-01T00:00:00"
+    );
+
 
   const tripEnd =
-    new Date("2026-10-21T23:59:59");
+    new Date(
+      "2026-10-21T23:59:59"
+    );
+
+
 
   const today =
     new Date();
 
-  today.setHours(0, 0, 0, 0);
+
+  today.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
 
 
   const countdownNumber =
-    document.getElementById("countdownNumber");
+    document.getElementById(
+      "countdownNumber"
+    );
+
 
   const countdownText =
-    document.getElementById("countdownText");
+    document.getElementById(
+      "countdownText"
+    );
 
 
-  if (today < tripStart) {
+
+
+  /* 出發前 */
+
+  if (
+    today <
+    tripStart
+  ) {
+
 
     const difference =
-      tripStart - today;
+      tripStart -
+      today;
+
 
     const days =
       Math.ceil(
+
         difference /
-        (1000 * 60 * 60 * 24)
+
+        (
+          1000 *
+          60 *
+          60 *
+          24
+        )
+
       );
+
 
     countdownNumber.textContent =
       days + " 天";
 
+
     countdownText.textContent =
       "義大利之旅即將出發";
 
+
   }
 
-  else if (today <= tripEnd) {
+
+
+  /* 旅行期間 */
+
+  else if (
+    today <=
+    tripEnd
+  ) {
+
 
     const difference =
-      today - tripStart;
+      today -
+      tripStart;
+
 
     const dayNumber =
       Math.floor(
+
         difference /
-        (1000 * 60 * 60 * 24)
+
+        (
+          1000 *
+          60 *
+          60 *
+          24
+        )
+
       ) + 1;
 
+
     countdownNumber.textContent =
-      "Day " + dayNumber;
+      "Day " +
+      dayNumber;
+
 
     countdownText.textContent =
-      "旅程進行中 🇮🇹";
+      "Italy 2026 旅程進行中 🇮🇹";
+
 
   }
 
+
+
+  /* 旅行結束 */
+
   else {
+
 
     countdownNumber.textContent =
       "Completed";
 
+
     countdownText.textContent =
       "Italy 2026 已完成";
 
+
   }
+
 
 </script>
 
 
+
+
 </body>
+
 </html>
