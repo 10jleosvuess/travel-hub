@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>每日行程｜Travel Hub</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #827d75;
+      --line: #e8e2d9;
+      --accent: #9a7350;
+      --accent-soft: #eee4d8;
+      --dark: #2e2d29;
+      --danger: #a65a52;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(950px, calc(100% - 24px));
+      margin: auto;
+    }
+
+
+    /* HEADER */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      background: rgba(244,241,235,0.92);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      min-height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 700;
+    }
+
+    .back-icon {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 14px;
+
+      background: white;
+
+      display: grid;
+      place-items: center;
+
+      box-shadow: var(--shadow);
+    }
+
+    .save-status {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+
+    /* DAY SELECTOR */
+
+    .day-scroll {
+      display: flex;
+      gap: 8px;
+
+      overflow-x: auto;
+
+      padding: 14px 0 10px;
+
+      scrollbar-width: none;
+    }
+
+    .day-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .day-button {
+      flex: 0 0 auto;
+
+      min-width: 72px;
+
+      border: 0;
+
+      background: white;
+
+      padding: 10px 12px;
+
+      border-radius: 16px;
+
+      box-shadow: var(--shadow);
+
+      color: var(--muted);
+    }
+
+    .day-button strong {
+      display: block;
+
+      font-size: 14px;
+
+      color: var(--text);
+
+      margin-bottom: 3px;
+    }
+
+    .day-button span {
+      font-size: 11px;
+    }
+
+    .day-button.active {
+      background: var(--dark);
+      color: rgba(255,255,255,0.72);
+    }
+
+    .day-button.active strong {
+      color: white;
+    }
+
+
+    /* DAY HERO */
+
+    .day-hero {
+      margin-top: 10px;
+
+      background: var(--dark);
+      color: white;
+
+      border-radius: 25px;
+
+      padding: 22px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .day-number {
+      color: rgba(255,255,255,0.65);
+      font-size: 12px;
+
+      margin-bottom: 7px;
+    }
+
+    .day-date {
+      font-size: 13px;
+      color: rgba(255,255,255,0.68);
+
+      margin-bottom: 12px;
+    }
+
+    .hero-input {
+      width: 100%;
+
+      border: 0;
+      outline: none;
+
+      background: transparent;
+      color: white;
+
+      font-weight: 800;
+      font-size: 27px;
+
+      padding: 0;
+    }
+
+    .hero-input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .city-input {
+      width: 100%;
+
+      border: 0;
+      outline: none;
+
+      background: transparent;
+
+      color: rgba(255,255,255,0.72);
+
+      font-size: 14px;
+
+      margin-top: 8px;
+      padding: 0;
+    }
+
+    .city-input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+
+    /* SECTION */
+
+    .section {
+      margin-top: 22px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 11px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .add-button {
+      border: 0;
+
+      padding: 9px 13px;
+
+      border-radius: 13px;
+
+      background: var(--accent-soft);
+
+      color: #72543b;
+
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+
+    /* ACTIVITY */
+
+    .activity-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .activity {
+      background: white;
+
+      border-radius: 22px;
+
+      padding: 16px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .activity-top {
+      display: grid;
+
+      grid-template-columns:
+        95px 120px 1fr;
+
+      gap: 9px;
+    }
+
+    .field {
+      border: 1px solid var(--line);
+
+      border-radius: 13px;
+
+      padding: 10px 11px;
+
+      background: #fbfaf8;
+
+      outline: none;
+
+      width: 100%;
+    }
+
+    .field:focus {
+      border-color: #bba58f;
+      background: white;
+    }
+
+    .title-field {
+      font-weight: 700;
+    }
+
+    textarea.field {
+      resize: vertical;
+      min-height: 72px;
+      line-height: 1.55;
+    }
+
+    .activity-details {
+      margin-top: 10px;
+
+      display: grid;
+      gap: 9px;
+    }
+
+    .map-row {
+      display: grid;
+
+      grid-template-columns:
+        1fr auto;
+
+      gap: 8px;
+    }
+
+    .map-button {
+      border: 0;
+
+      border-radius: 13px;
+
+      padding: 0 14px;
+
+      background: #e8efe7;
+
+      font-weight: 700;
+
+      white-space: nowrap;
+    }
+
+    .map-button:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .activity-actions {
+      display: flex;
+      gap: 7px;
+
+      margin-top: 12px;
+
+      flex-wrap: wrap;
+    }
+
+    .action-button {
+      border: 0;
+
+      border-radius: 11px;
+
+      background: #f1eee9;
+
+      padding: 8px 10px;
+
+      font-size: 12px;
+    }
+
+    .delete-button {
+      color: var(--danger);
+      margin-left: auto;
+    }
+
+
+    /* EMPTY */
+
+    .empty {
+      text-align: center;
+
+      padding: 40px 20px;
+
+      border: 1px dashed #cabdac;
+
+      border-radius: 22px;
+
+      color: var(--muted);
+
+      background: rgba(255,255,255,0.45);
+    }
+
+    .empty-icon {
+      font-size: 36px;
+      margin-bottom: 9px;
+    }
+
+
+    /* DAY NOTE */
+
+    .note-card {
+      background: white;
+
+      border-radius: 22px;
+
+      padding: 17px;
+
+      box-shadow: var(--shadow);
+    }
+
+    .note-card textarea {
+      width: 100%;
+
+      min-height: 100px;
+
+      border: 0;
+      outline: none;
+
+      resize: vertical;
+
+      color: var(--text);
+
+      line-height: 1.65;
+    }
+
+
+    /* RESET */
+
+    .danger-zone {
+      margin-top: 30px;
+
+      border-top: 1px solid var(--line);
+
+      padding-top: 20px;
+    }
+
+    .reset-button {
+      border: 0;
+
+      background: transparent;
+
+      color: var(--danger);
+
+      font-size: 12px;
+    }
+
+
+    /* NAV */
+
+    nav {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      height: 72px;
+
+      z-index: 100;
+
+      background: rgba(255,255,255,0.94);
+
+      backdrop-filter: blur(18px);
+
+      border-top: 1px solid rgba(0,0,0,0.06);
+
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+    }
+
+    .nav-link {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+
+      gap: 3px;
+
+      font-size: 11px;
+
+      color: #79756e;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-link.active {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 650px) {
+
+      .activity-top {
+        grid-template-columns: 85px 1fr;
+      }
+
+      .title-field {
+        grid-column: 1 / -1;
+      }
+
+      .delete-button {
+        margin-left: 0;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        每日行程
+      </div>
+
+    </a>
+
+
+    <div
+      class="save-status"
+      id="saveStatus"
+    >
+      已自動儲存
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+  <div
+    class="day-scroll"
+    id="dayScroll"
+  ></div>
+
+
+
+  <section
+    class="day-hero"
+  >
+
+    <div
+      class="day-number"
+      id="dayNumber"
+    >
+      DAY 1
+    </div>
+
+    <div
+      class="day-date"
+      id="dayDate"
+    ></div>
+
+
+    <input
+      class="hero-input"
+      id="dayTitle"
+      placeholder="今天去哪裡？"
+    >
+
+
+    <input
+      class="city-input"
+      id="dayCity"
+      placeholder="城市 / 地區"
+    >
+
+  </section>
+
+
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <h2>
+        今日行程
+      </h2>
+
+      <button
+        class="add-button"
+        id="addActivity"
+      >
+        ＋ 新增行程
+      </button>
+
+    </div>
+
+
+    <div
+      class="activity-list"
+      id="activityList"
+    ></div>
+
+  </section>
+
+
+
+  <section class="section">
+
+    <div class="section-head">
+
+      <h2>
+        📝 今日備註
+      </h2>
+
+    </div>
+
+
+    <div class="note-card">
+
+      <textarea
+        id="dayNote"
+        placeholder="例如：今天要早點出門、記得帶門票、山區可能很冷……"
+      ></textarea>
+
+    </div>
+
+  </section>
+
+
+
+  <div class="danger-zone">
+
+    <button
+      class="reset-button"
+      id="resetDay"
+    >
+      重設今天的行程
+    </button>
+
+  </div>
+
+
+</main>
+
+
+
+<nav>
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
+
+
+  <a
+    class="nav-link active"
+    href="itinerary.html"
+  >
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="#"
+  >
+    <span class="nav-icon">🗺️</span>
+    地圖
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="#"
+  >
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+
+  <a
+    class="nav-link"
+    href="index.html"
+  >
+    <span class="nav-icon">☰</span>
+    更多
+  </a>
+
+</nav>
+
+
+
+<script>
+
+
+const STORAGE_KEY =
+  "travelHubItaly2026Itinerary";
+
+
+const defaultDays = [
+
+  {
+    date: "2026-10-01",
+    title: "出發 ✈️",
+    city: "台北 → 河內",
+    note:
+      "Day 1。從台灣出發，河內轉機。之後可把航班、轉機休息或進市區的安排補進來。",
+    activities: [
+
+      {
+        time: "07:30",
+        type: "航班",
+        title: "TPE → HAN",
+        note: "前往河內轉機。",
+        map: ""
+      },
+
+      {
+        time: "",
+        type: "轉機",
+        title: "河內轉機",
+        note: "約 18 小時轉機，可安排休息或視情況進市區。",
+        map: ""
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-02",
+    title: "抵達義大利 🇮🇹",
+    city: "Milano",
+    note:
+      "抵達米蘭。今天以入境、交通、入住與輕鬆市區行程為主。",
+    activities: [
+
+      {
+        time: "",
+        type: "航班",
+        title: "抵達 Milano Malpensa",
+        note: "抵達 MXP、入境、領取行李。",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Milano+Malpensa+Airport"
+      },
+
+      {
+        time: "",
+        type: "住宿",
+        title: "前往住宿",
+        note: "",
+        map: ""
+      },
+
+      {
+        time: "",
+        type: "景點",
+        title: "米蘭市區",
+        note: "依抵達時間彈性安排。",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Duomo+di+Milano"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-03",
+    title: "米蘭 → 加爾達湖",
+    city: "Milano / Lake Garda",
+    note: "",
+    activities: [
+
+      {
+        time: "",
+        type: "租車",
+        title: "取車",
+        note: "記得完成取車驗車、拍照、油量與里程紀錄。",
+        map: ""
+      },
+
+      {
+        time: "",
+        type: "自駕",
+        title: "前往 Lake Garda",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Lake+Garda+Italy"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-04",
+    title: "加爾達湖 → Brixen",
+    city: "Lake Garda / Brixen",
+    note: "",
+    activities: []
+  },
+
+
+  {
+    date: "2026-10-05",
+    title: "Plose + Val di Funes",
+    city: "Brixen",
+    note: "",
+    activities: [
+
+      {
+        time: "",
+        type: "景點",
+        title: "Plose",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Plose+Italy"
+      },
+
+      {
+        time: "",
+        type: "景點",
+        title: "Val di Funes",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Val+di+Funes+Italy"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-06",
+    title: "Alpe di Siusi",
+    city: "Dolomites",
+    note: "",
+    activities: [
+
+      {
+        time: "",
+        type: "景點",
+        title: "Alpe di Siusi",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Alpe+di+Siusi"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-07",
+    title: "Seceda",
+    city: "Dolomites",
+    note: "",
+    activities: [
+
+      {
+        time: "",
+        type: "景點",
+        title: "Seceda",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Seceda+Italy"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-08",
+    title: "Braies + Tre Cime",
+    city: "Dolomites / Valle di Cadore",
+    note:
+      "今天移動到 Valle di Cadore。Tre Cime 停車與道路規定之後放入提醒。",
+    activities: [
+
+      {
+        time: "",
+        type: "景點",
+        title: "Lago di Braies",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Lago+di+Braies"
+      },
+
+      {
+        time: "",
+        type: "景點",
+        title: "Tre Cime di Lavaredo",
+        note: "確認停車預約。",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Tre+Cime+di+Lavaredo"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-09",
+    title: "Dolomites",
+    city: "Valle di Cadore",
+    note: "此日行程可再調整。",
+    activities: []
+  },
+
+
+  {
+    date: "2026-10-10",
+    title: "威尼斯 → 波隆那",
+    city: "Venezia / Bologna",
+    note: "",
+    activities: [
+
+      {
+        time: "",
+        type: "景點",
+        title: "Venezia",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Venice+Italy"
+      },
+
+      {
+        time: "",
+        type: "住宿",
+        title: "前往 Bologna 住宿",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Bologna+Italy"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-11",
+    title: "佛羅倫斯",
+    city: "Firenze",
+    note:
+      "大衛像預約 16:45–17:00。",
+    activities: [
+
+      {
+        time: "16:45",
+        type: "門票",
+        title: "Galleria dell'Accademia・大衛像",
+        note: "已預約入場時段。",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Galleria+dell'Accademia+Florence"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-12",
+    title: "比薩 → 托斯卡尼",
+    city: "Pisa / Siena",
+    note:
+      "San Gimignano 可依時間安排。",
+    activities: [
+
+      {
+        time: "",
+        type: "景點",
+        title: "Pisa",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Leaning+Tower+of+Pisa"
+      },
+
+      {
+        time: "",
+        type: "自駕",
+        title: "前往 Siena",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Siena+Italy"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-13",
+    title: "托斯卡尼 → Viterbo",
+    city: "Toscana / Viterbo",
+    note: "",
+    activities: []
+  },
+
+
+  {
+    date: "2026-10-14",
+    title: "Viterbo",
+    city: "Viterbo",
+    note: "",
+    activities: []
+  },
+
+
+  {
+    date: "2026-10-15",
+    title: "前往羅馬",
+    city: "Viterbo / Roma",
+    note: "",
+    activities: [
+
+      {
+        time: "",
+        type: "自駕",
+        title: "前往 Roma",
+        note: "注意羅馬 ZTL 與還車動線。",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Rome+Italy"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-16",
+    title: "羅馬",
+    city: "Roma",
+    note: "",
+    activities: []
+  },
+
+
+  {
+    date: "2026-10-17",
+    title: "Villa Farnese + Villa d'Este",
+    city: "Lazio",
+    note:
+      "Villa Farnese → Villa d'Este。原規劃車程約 1.5 小時左右，實際行車時間之後再由地圖確認。",
+    activities: [
+
+      {
+        time: "",
+        type: "景點",
+        title: "Villa Farnese",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Villa+Farnese+Caprarola"
+      },
+
+      {
+        time: "",
+        type: "景點",
+        title: "Villa d'Este",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Villa+d'Este+Tivoli"
+      },
+
+      {
+        time: "",
+        type: "租車",
+        title: "還車",
+        note: "完成還車檢查、油量、里程與車況照片。",
+        map: ""
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-18",
+    title: "羅馬",
+    city: "Roma",
+    note: "",
+    activities: []
+  },
+
+
+  {
+    date: "2026-10-19",
+    title: "羅馬 / 梵蒂岡",
+    city: "Roma / Vaticano",
+    note:
+      "梵蒂岡博物館日期與時間可依最後票券再調整。",
+    activities: [
+
+      {
+        time: "",
+        type: "門票",
+        title: "Musei Vaticani",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Vatican+Museums"
+      }
+
+    ]
+  },
+
+
+  {
+    date: "2026-10-20",
+    title: "羅馬",
+    city: "Roma",
+    note: "",
+    activities: []
+  },
+
+
+  {
+    date: "2026-10-21",
+    title: "回程 ✈️",
+    city: "Roma → Taipei",
+    note:
+      "前往 FCO，準備回程。",
+    activities: [
+
+      {
+        time: "",
+        type: "航班",
+        title: "前往 Fiumicino Airport",
+        note: "",
+        map:
+          "https://www.google.com/maps/search/?api=1&query=Rome+Fiumicino+Airport"
+      }
+
+    ]
+  }
+
+];
+
+
+
+let tripData;
+
+let currentDay = 0;
+
+
+
+function cloneDefaults() {
+
+  return JSON.parse(
+    JSON.stringify(defaultDays)
+  );
+
+}
+
+
+
+function loadData() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (saved) {
+
+    try {
+
+      tripData =
+        JSON.parse(saved);
+
+    }
+
+    catch {
+
+      tripData =
+        cloneDefaults();
+
+    }
+
+  }
+
+  else {
+
+    tripData =
+      cloneDefaults();
+
+  }
+
+}
+
+
+
+function saveData() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(tripData)
+  );
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
+    );
+
+
+  status.textContent =
+    "已儲存 ✓";
+
+
+  clearTimeout(
+    window.saveMessageTimer
+  );
+
+
+  window.saveMessageTimer =
+    setTimeout(
+      () => {
+
+        status.textContent =
+          "自動儲存";
+
+      },
+      1200
+    );
+
+}
+
+
+
+function formatDate(
+  dateString
+) {
+
+  const date =
+    new Date(
+      dateString +
+      "T00:00:00"
+    );
+
+
+  const month =
+    date.getMonth() + 1;
+
+
+  const day =
+    date.getDate();
+
+
+  const weekday =
+    [
+      "日",
+      "一",
+      "二",
+      "三",
+      "四",
+      "五",
+      "六"
+    ][
+      date.getDay()
+    ];
+
+
+  return (
+    month +
+    "/" +
+    day +
+    "（" +
+    weekday +
+    "）"
+  );
+
+}
+
+
+
+function renderDayButtons() {
+
+  const container =
+    document.getElementById(
+      "dayScroll"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  tripData.forEach(
+    (
+      day,
+      index
+    ) => {
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.className =
+        "day-button" +
+        (
+          index === currentDay
+          ? " active"
+          : ""
+        );
+
+
+      button.innerHTML =
+        `
+          <strong>
+            Day ${index + 1}
+          </strong>
+
+          <span>
+            ${formatDate(day.date)}
+          </span>
+        `;
+
+
+      button.onclick =
+        () => {
+
+          currentDay =
+            index;
+
+          render();
+
+          setTimeout(
+            () => {
+
+              document
+                .querySelector(
+                  ".day-button.active"
+                )
+                ?.scrollIntoView({
+                  behavior:
+                    "smooth",
+                  inline:
+                    "center",
+                  block:
+                    "nearest"
+                });
+
+            },
+            50
+          );
+
+        };
+
+
+      container.appendChild(
+        button
+      );
+
+    }
+  );
+
+}
+
+
+
+function renderDayHeader() {
+
+  const day =
+    tripData[
+      currentDay
+    ];
+
+
+  document.getElementById(
+    "dayNumber"
+  ).textContent =
+    "DAY " +
+    (
+      currentDay +
+      1
+    );
+
+
+  document.getElementById(
+    "dayDate"
+  ).textContent =
+    formatDate(
+      day.date
+    );
+
+
+  const title =
+    document.getElementById(
+      "dayTitle"
+    );
+
+
+  const city =
+    document.getElementById(
+      "dayCity"
+    );
+
+
+  const note =
+    document.getElementById(
+      "dayNote"
+    );
+
+
+  title.value =
+    day.title || "";
+
+
+  city.value =
+    day.city || "";
+
+
+  note.value =
+    day.note || "";
+
+
+  title.oninput =
+    () => {
+
+      day.title =
+        title.value;
+
+      saveData();
+
+    };
+
+
+  city.oninput =
+    () => {
+
+      day.city =
+        city.value;
+
+      saveData();
+
+    };
+
+
+  note.oninput =
+    () => {
+
+      day.note =
+        note.value;
+
+      saveData();
+
+    };
+
+}
+
+
+
+function createActivityCard(
+  activity,
+  index
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "activity";
+
+
+  card.innerHTML =
+    `
+
+      <div class="activity-top">
+
+        <input
+          class="field activity-time"
+          type="time"
+          value="${escapeAttribute(activity.time || "")}"
+        >
+
+
+        <select
+          class="field activity-type"
+        >
+
+          ${buildTypeOptions(activity.type)}
+
+        </select>
+
+
+        <input
+          class="field title-field activity-title"
+          type="text"
+          placeholder="景點 / 行程名稱"
+          value="${escapeAttribute(activity.title || "")}"
+        >
+
+      </div>
+
+
+
+      <div class="activity-details">
+
+        <textarea
+          class="field activity-note"
+          placeholder="備註，例如：門票時間、停車、注意事項、交通方式……"
+        >${escapeHtml(activity.note || "")}</textarea>
+
+
+        <div class="map-row">
+
+          <input
+            class="field activity-map"
+            type="url"
+            placeholder="Google Maps 連結"
+            value="${escapeAttribute(activity.map || "")}"
+          >
+
+
+          <button
+            class="map-button"
+          >
+            📍 導航
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="activity-actions">
+
+        <button
+          class="action-button move-up"
+        >
+          ↑ 上移
+        </button>
+
+
+        <button
+          class="action-button move-down"
+        >
+          ↓ 下移
+        </button>
+
+
+        <button
+          class="action-button delete-button"
+        >
+          🗑 刪除
+        </button>
+
+      </div>
+
+    `;
+
+
+
+  const timeInput =
+    card.querySelector(
+      ".activity-time"
+    );
+
+
+  const typeInput =
+    card.querySelector(
+      ".activity-type"
+    );
+
+
+  const titleInput =
+    card.querySelector(
+      ".activity-title"
+    );
+
+
+  const noteInput =
+    card.querySelector(
+      ".activity-note"
+    );
+
+
+  const mapInput =
+    card.querySelector(
+      ".activity-map"
+    );
+
+
+  const mapButton =
+    card.querySelector(
+      ".map-button"
+    );
+
+
+
+  function update() {
+
+    activity.time =
+      timeInput.value;
+
+
+    activity.type =
+      typeInput.value;
+
+
+    activity.title =
+      titleInput.value;
+
+
+    activity.note =
+      noteInput.value;
+
+
+    activity.map =
+      mapInput.value;
+
+
+    updateMapButton();
+
+    saveData();
+
+  }
+
+
+
+  function updateMapButton() {
+
+    mapButton.disabled =
+      !mapInput.value.trim();
+
+  }
+
+
+
+  timeInput.oninput =
+    update;
+
+
+  typeInput.onchange =
+    update;
+
+
+  titleInput.oninput =
+    update;
+
+
+  noteInput.oninput =
+    update;
+
+
+  mapInput.oninput =
+    update;
+
+
+
+  mapButton.onclick =
+    () => {
+
+      const url =
+        mapInput.value.trim();
+
+
+      if (!url) {
+        return;
+      }
+
+
+      window.open(
+        url,
+        "_blank",
+        "noopener"
+      );
+
+    };
+
+
+
+  card.querySelector(
+    ".move-up"
+  ).onclick =
+    () => {
+
+      if (
+        index === 0
+      ) {
+        return;
+      }
+
+
+      const list =
+        tripData[
+          currentDay
+        ].activities;
+
+
+      [
+        list[index - 1],
+        list[index]
+      ] =
+      [
+        list[index],
+        list[index - 1]
+      ];
+
+
+      saveData();
+
+      renderActivities();
+
+    };
+
+
+
+  card.querySelector(
+    ".move-down"
+  ).onclick =
+    () => {
+
+      const list =
+        tripData[
+          currentDay
+        ].activities;
+
+
+      if (
+        index ===
+        list.length - 1
+      ) {
+        return;
+      }
+
+
+      [
+        list[index],
+        list[index + 1]
+      ] =
+      [
+        list[index + 1],
+        list[index]
+      ];
+
+
+      saveData();
+
+      renderActivities();
+
+    };
+
+
+
+  card.querySelector(
+    ".delete-button"
+  ).onclick =
+    () => {
+
+      const okay =
+        confirm(
+          "確定要刪除這個行程嗎？"
+        );
+
+
+      if (!okay) {
+        return;
+      }
+
+
+      tripData[
+        currentDay
+      ].activities.splice(
+        index,
+        1
+      );
+
+
+      saveData();
+
+      renderActivities();
+
+    };
+
+
+  updateMapButton();
+
+
+  return card;
+
+}
+
+
+
+function buildTypeOptions(
+  selected
+) {
+
+  const types =
+    [
+      "景點",
+      "門票",
+      "餐廳",
+      "自駕",
+      "交通",
+      "航班",
+      "住宿",
+      "租車",
+      "轉機",
+      "購物",
+      "其他"
+    ];
+
+
+  return types
+    .map(
+      type =>
+        `
+          <option
+            value="${type}"
+            ${
+              type === selected
+              ? "selected"
+              : ""
+            }
+          >
+            ${type}
+          </option>
+        `
+    )
+    .join("");
+
+}
+
+
+
+function renderActivities() {
+
+  const container =
+    document.getElementById(
+      "activityList"
+    );
+
+
+  const activities =
+    tripData[
+      currentDay
+    ].activities;
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    activities.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+
+        <div class="empty">
+
+          <div class="empty-icon">
+            🗓️
+          </div>
+
+          <strong>
+            這天還沒有行程
+          </strong>
+
+          <p>
+            按右上方「＋ 新增行程」開始安排。
+          </p>
+
+        </div>
+
+      `;
+
+
+    return;
+
+  }
+
+
+  activities.forEach(
+    (
+      activity,
+      index
+    ) => {
+
+      container.appendChild(
+        createActivityCard(
+          activity,
+          index
+        )
+      );
+
+    }
+  );
+
+}
+
+
+
+function render() {
+
+  renderDayButtons();
+
+  renderDayHeader();
+
+  renderActivities();
+
+}
+
+
+
+document.getElementById(
+  "addActivity"
+).onclick =
+  () => {
+
+    tripData[
+      currentDay
+    ].activities.push(
+      {
+        time: "",
+        type: "景點",
+        title: "",
+        note: "",
+        map: ""
+      }
+    );
+
+
+    saveData();
+
+    renderActivities();
+
+
+    setTimeout(
+      () => {
+
+        const cards =
+          document.querySelectorAll(
+            ".activity"
+          );
+
+
+        const lastCard =
+          cards[
+            cards.length - 1
+          ];
+
+
+        lastCard
+          ?.scrollIntoView({
+            behavior:
+              "smooth",
+            block:
+              "center"
+          });
+
+
+        lastCard
+          ?.querySelector(
+            ".activity-title"
+          )
+          ?.focus();
+
+      },
+      50
+    );
+
+  };
+
+
+
+document.getElementById(
+  "resetDay"
+).onclick =
+  () => {
+
+    const okay =
+      confirm(
+        "確定要把今天恢復成最初版本嗎？你自己修改的內容會消失。"
+      );
+
+
+    if (!okay) {
+      return;
+    }
+
+
+    tripData[
+      currentDay
+    ] =
+      JSON.parse(
+        JSON.stringify(
+          defaultDays[
+            currentDay
+          ]
+        )
+      );
+
+
+    saveData();
+
+    render();
+
+  };
+
+
+
+function escapeHtml(
+  text
+) {
+
+  return String(text)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+
+function escapeAttribute(
+  text
+) {
+
+  return escapeHtml(
+    text
+  );
+
+}
+
+
+
+loadData();
+
+render();
+
+
+</script>
+
+
+</body>
+
+</html>
