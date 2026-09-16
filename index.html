@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -22,8 +23,6 @@
       --card: #ffffff;
       --text: #292824;
       --muted: #817d75;
-      --line: #e8e2d9;
-      --accent: #9a7350;
       --accent-soft: #eee4d8;
       --dark: #2e2d29;
       --orange-soft: #f4e7d6;
@@ -35,6 +34,7 @@
     }
 
     body {
+
       margin: 0;
 
       font-family:
@@ -45,9 +45,11 @@
         sans-serif;
 
       background: var(--bg);
+
       color: var(--text);
 
       padding-bottom: 90px;
+
     }
 
     a {
@@ -56,8 +58,15 @@
     }
 
     .container {
-      width: min(1100px, calc(100% - 28px));
+
+      width:
+        min(
+          1100px,
+          calc(100% - 28px)
+        );
+
       margin: auto;
+
     }
 
 
@@ -68,76 +77,104 @@
     }
 
     .topbar {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       gap: 12px;
+
     }
 
     .brand {
+
       display: flex;
+
       align-items: center;
+
       gap: 11px;
+
     }
 
     .brand-logo {
+
       width: 45px;
+
       height: 45px;
 
       display: grid;
+
       place-items: center;
 
       border-radius: 15px;
+
       background: white;
 
       box-shadow: var(--shadow);
 
       font-size: 23px;
+
     }
 
     .brand h1 {
+
       margin: 0;
+
       font-size: 23px;
+
     }
 
     .brand p {
+
       margin: 3px 0 0;
 
       color: var(--muted);
+
       font-size: 12px;
+
     }
 
     .profile {
+
       width: 42px;
+
       height: 42px;
 
       border-radius: 50%;
 
       display: grid;
+
       place-items: center;
 
       background: var(--accent-soft);
 
       font-size: 19px;
+
     }
 
 
     /* HERO */
 
     .hero {
+
       min-height: 280px;
 
       border-radius: 28px;
+
       padding: 26px;
 
       overflow: hidden;
 
       background:
+
         linear-gradient(
           135deg,
           rgba(79,66,52,0.88),
           rgba(117,91,66,0.75)
         ),
+
         url(
           "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1600&q=80"
         )
@@ -148,58 +185,95 @@
       box-shadow: var(--shadow);
 
       display: flex;
+
       flex-direction: column;
+
       justify-content: space-between;
+
     }
 
     .hero-badge {
+
       align-self: flex-start;
 
       padding: 7px 11px;
 
       border-radius: 100px;
 
-      background: rgba(255,255,255,0.17);
+      background:
+        rgba(255,255,255,0.17);
 
-      backdrop-filter: blur(10px);
+      backdrop-filter:
+        blur(10px);
 
-      border: 1px solid rgba(255,255,255,0.22);
+      border:
+        1px solid
+        rgba(255,255,255,0.22);
 
       font-size: 12px;
+
     }
 
     .hero h2 {
-      margin: 32px 0 6px;
 
-      font-size: clamp(32px, 7vw, 55px);
+      margin:
+        32px 0 6px;
 
-      letter-spacing: -1.5px;
+      font-size:
+        clamp(
+          32px,
+          7vw,
+          55px
+        );
+
+      letter-spacing:
+        -1.5px;
+
     }
 
     .hero-sub {
-      color: rgba(255,255,255,0.84);
-      font-size: 14px;
+
+      color:
+        rgba(255,255,255,0.84);
+
+      font-size:
+        14px;
+
     }
 
     .hero-bottom {
-      margin-top: 28px;
 
-      display: flex;
-      flex-wrap: wrap;
+      margin-top:
+        28px;
 
-      gap: 10px;
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        10px;
+
     }
 
     .hero-pill {
-      padding: 10px 13px;
 
-      border-radius: 14px;
+      padding:
+        10px 13px;
 
-      background: rgba(255,255,255,0.14);
+      border-radius:
+        14px;
 
-      backdrop-filter: blur(12px);
+      background:
+        rgba(255,255,255,0.14);
 
-      font-size: 13px;
+      backdrop-filter:
+        blur(12px);
+
+      font-size:
+        13px;
+
     }
 
 
@@ -210,35 +284,50 @@
     }
 
     .section-head {
+
       display: flex;
+
       align-items: flex-end;
-      justify-content: space-between;
+
+      justify-content:
+        space-between;
 
       margin-bottom: 12px;
+
     }
 
     .section-head h2 {
+
       margin: 0;
+
       font-size: 20px;
+
     }
 
     .section-head span {
+
       color: var(--muted);
+
       font-size: 12px;
+
     }
 
 
     /* STATUS */
 
     .status-grid {
+
       display: grid;
 
-      grid-template-columns: 1.4fr 1fr 1fr;
+      grid-template-columns:
+        1.4fr 1fr 1fr;
 
       gap: 12px;
+
     }
 
     .status-card {
+
       background: white;
 
       border-radius: 20px;
@@ -248,25 +337,31 @@
       min-height: 125px;
 
       box-shadow: var(--shadow);
+
     }
 
     .status-card .label {
+
       margin-bottom: 11px;
 
       color: var(--muted);
 
       font-size: 12px;
+
     }
 
     .status-card strong {
+
       display: block;
 
       margin-bottom: 6px;
 
       font-size: 25px;
+
     }
 
     .status-card p {
+
       margin: 0;
 
       color: var(--muted);
@@ -274,34 +369,47 @@
       font-size: 13px;
 
       line-height: 1.5;
+
     }
 
     .countdown {
+
       background: var(--dark);
+
       color: white;
+
     }
 
     .countdown .label,
     .countdown p {
-      color: rgba(255,255,255,0.67);
+
+      color:
+        rgba(255,255,255,0.67);
+
     }
 
     .countdown strong {
+
       font-size: 36px;
+
     }
 
 
-    /* QUICK TOOLS */
+    /* QUICK */
 
     .quick-grid {
+
       display: grid;
 
-      grid-template-columns: repeat(4,1fr);
+      grid-template-columns:
+        repeat(4,1fr);
 
       gap: 12px;
+
     }
 
     .quick-card {
+
       display: block;
 
       background: white;
@@ -314,41 +422,58 @@
 
       box-shadow: var(--shadow);
 
-      transition: 0.18s ease;
+      transition:
+        0.18s ease;
+
     }
 
     .quick-card:hover {
-      transform: translateY(-3px);
+
+      transform:
+        translateY(-3px);
+
     }
 
     .quick-icon {
+
       width: 45px;
+
       height: 45px;
 
       border-radius: 15px;
 
       display: grid;
+
       place-items: center;
 
-      background: var(--accent-soft);
+      background:
+        var(--accent-soft);
 
       font-size: 22px;
 
       margin-bottom: 13px;
+
     }
 
     .quick-card h3 {
-      margin: 0 0 5px;
+
+      margin:
+        0 0 5px;
+
       font-size: 16px;
+
     }
 
     .quick-card p {
+
       margin: 0;
 
       color: var(--muted);
 
       font-size: 12px;
+
       line-height: 1.5;
+
     }
 
     .coming {
@@ -359,6 +484,7 @@
     /* ROUTE */
 
     .route-placeholder {
+
       background: white;
 
       border-radius: 22px;
@@ -366,37 +492,75 @@
       padding: 24px;
 
       box-shadow: var(--shadow);
+
     }
 
     .route-placeholder strong {
+
       display: block;
 
       margin-bottom: 7px;
 
       font-size: 16px;
+
     }
 
     .route-placeholder p {
+
       margin: 0;
 
       color: var(--muted);
 
       font-size: 13px;
+
       line-height: 1.7;
+
+    }
+
+    .route-link {
+
+      display:
+        inline-flex;
+
+      margin-top:
+        13px;
+
+      padding:
+        10px 13px;
+
+      border-radius:
+        13px;
+
+      background:
+        var(--accent-soft);
+
+      color:
+        #72543b;
+
+      font-size:
+        12px;
+
+      font-weight:
+        750;
+
     }
 
 
-    /* MANAGE */
+    /* MANAGEMENT */
 
     .manage-grid {
+
       display: grid;
 
-      grid-template-columns: repeat(2,1fr);
+      grid-template-columns:
+        repeat(2,1fr);
 
       gap: 12px;
+
     }
 
     .manage-card {
+
       display: flex;
 
       align-items: center;
@@ -410,67 +574,87 @@
       padding: 16px;
 
       box-shadow: var(--shadow);
+
     }
 
     .manage-icon {
+
       width: 43px;
+
       height: 43px;
 
       flex: 0 0 auto;
 
       display: grid;
+
       place-items: center;
 
       border-radius: 14px;
 
-      background: var(--accent-soft);
+      background:
+        var(--accent-soft);
 
       font-size: 21px;
+
     }
 
     .manage-card strong {
+
       display: block;
 
       margin-bottom: 4px;
 
       font-size: 14px;
+
     }
 
     .manage-card span {
+
       color: var(--muted);
+
       font-size: 11px;
+
     }
 
 
-    /* COMING */
+    /* NOTICE */
 
     .notice {
+
       padding: 16px;
 
       border-radius: 19px;
 
-      background: var(--orange-soft);
+      background:
+        var(--orange-soft);
 
       font-size: 12px;
+
       line-height: 1.65;
+
     }
 
     .notice strong {
+
       display: block;
 
       margin-bottom: 4px;
 
       font-size: 14px;
+
     }
 
 
     /* NAV */
 
     nav {
+
       position: fixed;
 
       left: 0;
+
       right: 0;
+
       bottom: 0;
 
       z-index: 100;
@@ -479,21 +663,29 @@
 
       display: grid;
 
-      grid-template-columns: repeat(5,1fr);
+      grid-template-columns:
+        repeat(5,1fr);
 
-      background: rgba(255,255,255,0.94);
+      background:
+        rgba(255,255,255,0.94);
 
-      backdrop-filter: blur(18px);
+      backdrop-filter:
+        blur(18px);
 
-      border-top: 1px solid rgba(0,0,0,0.06);
+      border-top:
+        1px solid
+        rgba(0,0,0,0.06);
+
     }
 
     .nav-link {
+
       display: flex;
 
       flex-direction: column;
 
       align-items: center;
+
       justify-content: center;
 
       gap: 3px;
@@ -501,34 +693,52 @@
       color: #79756e;
 
       font-size: 11px;
+
     }
 
     .nav-icon {
+
       font-size: 20px;
+
     }
 
     .nav-link.active {
+
       color: var(--text);
+
       font-weight: 700;
+
     }
 
 
     @media (max-width: 800px) {
 
       .status-grid {
-        grid-template-columns: 1fr 1fr;
+
+        grid-template-columns:
+          1fr 1fr;
+
       }
 
       .countdown {
-        grid-column: span 2;
+
+        grid-column:
+          span 2;
+
       }
 
       .quick-grid {
-        grid-template-columns: repeat(2,1fr);
+
+        grid-template-columns:
+          repeat(2,1fr);
+
       }
 
       .manage-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
 
     }
@@ -537,7 +747,13 @@
     @media (max-width: 520px) {
 
       .container {
-        width: min(100% - 20px,1100px);
+
+        width:
+          min(
+            100% - 20px,
+            1100px
+          );
+
       }
 
       header {
@@ -545,30 +761,39 @@
       }
 
       .hero {
+
         min-height: 260px;
 
         padding: 21px;
 
         border-radius: 23px;
+
       }
 
       .hero h2 {
+
         margin-top: 38px;
+
       }
 
       .status-card {
+
         padding: 15px;
+
       }
 
       .quick-card {
+
         padding: 16px;
 
         min-height: 125px;
+
       }
 
     }
 
   </style>
+
 </head>
 
 
@@ -584,6 +809,7 @@
       <div class="brand-logo">
         ✈️
       </div>
+
 
       <div>
 
@@ -629,7 +855,7 @@
       </h2>
 
       <div class="hero-sub">
-        義大利北到南自駕旅行
+        義大利旅行
       </div>
 
 
@@ -640,11 +866,11 @@
         </div>
 
         <div class="hero-pill">
-          👨‍👩‍👧‍👦 4 人
+          🗺️ 21 Days
         </div>
 
         <div class="hero-pill">
-          🚗 10/03 — 10/17
+          🚗 Road Trip
         </div>
 
       </div>
@@ -703,11 +929,11 @@
         </div>
 
         <strong>
-          7 Tools
+          8 Tools
         </strong>
 
         <p>
-          行程・住宿・門票・租車・清單・待辦・預算
+          地圖功能已啟用
         </p>
 
       </div>
@@ -744,9 +970,7 @@
         href="itinerary.html"
       >
 
-        <div class="quick-icon">
-          📅
-        </div>
+        <div class="quick-icon">📅</div>
 
         <h3>
           每日行程
@@ -762,12 +986,29 @@
 
       <a
         class="quick-card"
+        href="map.html"
+      >
+
+        <div class="quick-icon">🗺️</div>
+
+        <h3>
+          旅行地圖
+        </h3>
+
+        <p>
+          每日地點、路線與 Google Maps
+        </p>
+
+      </a>
+
+
+
+      <a
+        class="quick-card"
         href="stays.html"
       >
 
-        <div class="quick-icon">
-          🏨
-        </div>
+        <div class="quick-icon">🏨</div>
 
         <h3>
           住宿
@@ -786,16 +1027,14 @@
         href="tickets.html"
       >
 
-        <div class="quick-icon">
-          🎫
-        </div>
+        <div class="quick-icon">🎫</div>
 
         <h3>
           門票
         </h3>
 
         <p>
-          入場時間、PDF、QR Code 與導航
+          入場時間、票券與導航
         </p>
 
       </a>
@@ -807,9 +1046,7 @@
         href="car.html"
       >
 
-        <div class="quick-icon">
-          🚗
-        </div>
+        <div class="quick-icon">🚗</div>
 
         <h3>
           租車 / 自駕
@@ -828,16 +1065,14 @@
         href="packing.html"
       >
 
-        <div class="quick-icon">
-          🧳
-        </div>
+        <div class="quick-icon">🧳</div>
 
         <h3>
           必帶清單
         </h3>
 
         <p>
-          分類、打包進度與新增物品
+          打包進度與旅行用品
         </p>
 
       </a>
@@ -849,9 +1084,7 @@
         href="todo.html"
       >
 
-        <div class="quick-icon">
-          ✅
-        </div>
+        <div class="quick-icon">✅</div>
 
         <h3>
           待辦事項
@@ -870,9 +1103,7 @@
         href="budget.html"
       >
 
-        <div class="quick-icon">
-          💰
-        </div>
+        <div class="quick-icon">💰</div>
 
         <h3>
           旅行預算
@@ -891,37 +1122,14 @@
         href="#"
       >
 
-        <div class="quick-icon">
-          🗺️
-        </div>
-
-        <h3>
-          Google 地圖
-        </h3>
-
-        <p>
-          景點、住宿、停車與每日路線
-        </p>
-
-      </a>
-
-
-
-      <a
-        class="quick-card coming"
-        href="#"
-      >
-
-        <div class="quick-icon">
-          🌦️
-        </div>
+        <div class="quick-icon">🌦️</div>
 
         <h3>
           即時天氣
         </h3>
 
         <p>
-          每日城市氣溫與降雨預報
+          每日氣溫、降雨與日落時間
         </p>
 
       </a>
@@ -933,16 +1141,14 @@
         href="#"
       >
 
-        <div class="quick-icon">
-          📁
-        </div>
+        <div class="quick-icon">📁</div>
 
         <h3>
-          文件
+          文件中心
         </h3>
 
         <p>
-          航班、保險與其他重要資料
+          航班、保險與重要旅行文件
         </p>
 
       </a>
@@ -974,12 +1180,20 @@
     <div class="route-placeholder">
 
       <strong>
-        🗺️ 完整路線尚未匯入
+        🗺️ 路線地圖已經可以使用
       </strong>
 
       <p>
-        等我們一起核對 Day 1～Day 21 的住宿、景點、交通與已預約時間後，再把正式版本放進網站。
+        現在可以逐日加入景點、住宿、停車與其他地點。尚未確定的行程可以先標成「暫定」，之後隨時修改。
       </p>
+
+
+      <a
+        class="route-link"
+        href="map.html"
+      >
+        開啟旅行地圖 →
+      </a>
 
     </div>
 
@@ -1023,7 +1237,32 @@
           </strong>
 
           <span>
-            新增、刪除、排序與修改時間
+            時間、活動、順序與導航
+          </span>
+
+        </div>
+
+      </a>
+
+
+
+      <a
+        class="manage-card"
+        href="map.html"
+      >
+
+        <div class="manage-icon">
+          🗺️
+        </div>
+
+        <div>
+
+          <strong>
+            編輯旅行地圖
+          </strong>
+
+          <span>
+            地點、每日路線與暫定行程
           </span>
 
         </div>
@@ -1073,7 +1312,7 @@
           </strong>
 
           <span>
-            預約、入場時間與票券
+            預約與入場資料
           </span>
 
         </div>
@@ -1098,7 +1337,7 @@
           </strong>
 
           <span>
-            取還車檢查、照片與駕駛提醒
+            取還車、照片與駕駛提醒
           </span>
 
         </div>
@@ -1123,7 +1362,7 @@
           </strong>
 
           <span>
-            查看已打包進度
+            查看打包進度
           </span>
 
         </div>
@@ -1148,7 +1387,7 @@
           </strong>
 
           <span>
-            追蹤截止日與未完成事項
+            截止日與未完成事項
           </span>
 
         </div>
@@ -1173,7 +1412,7 @@
           </strong>
 
           <span>
-            預算、支出與付款紀錄
+            預算、支出與付款
           </span>
 
         </div>
@@ -1195,7 +1434,7 @@
         下一階段
       </strong>
 
-      接下來會加入 Google 地圖、每日即時天氣、文件中心與跨裝置同步。真正行程資料會先跟你核對後才寫進網站。
+      下一步會把「每日行程」和「旅行地圖」真正串起來，避免同一個景點要在兩個頁面重複輸入。正式匯入 Day 1～Day 21 前，再跟你把行程核對一次。
 
     </div>
 
@@ -1213,13 +1452,8 @@
     class="nav-link active"
     href="index.html"
   >
-
-    <span class="nav-icon">
-      🏠
-    </span>
-
+    <span class="nav-icon">🏠</span>
     今天
-
   </a>
 
 
@@ -1227,27 +1461,17 @@
     class="nav-link"
     href="itinerary.html"
   >
-
-    <span class="nav-icon">
-      📅
-    </span>
-
+    <span class="nav-icon">📅</span>
     行程
-
   </a>
 
 
   <a
     class="nav-link"
-    href="stays.html"
+    href="map.html"
   >
-
-    <span class="nav-icon">
-      🏨
-    </span>
-
-    住宿
-
+    <span class="nav-icon">🗺️</span>
+    地圖
   </a>
 
 
@@ -1255,13 +1479,8 @@
     class="nav-link"
     href="tickets.html"
   >
-
-    <span class="nav-icon">
-      🎫
-    </span>
-
+    <span class="nav-icon">🎫</span>
     票券
-
   </a>
 
 
@@ -1269,13 +1488,8 @@
     class="nav-link"
     href="car.html"
   >
-
-    <span class="nav-icon">
-      🚗
-    </span>
-
+    <span class="nav-icon">🚗</span>
     租車
-
   </a>
 
 
@@ -1345,7 +1559,8 @@ if (
 
 
   number.textContent =
-    days + " 天";
+    days +
+    " 天";
 
 
   text.textContent =
@@ -1377,7 +1592,8 @@ else if (
 
 
   number.textContent =
-    "Day " + day;
+    "Day " +
+    day;
 
 
   text.textContent =
