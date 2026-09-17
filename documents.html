@@ -23,7 +23,6 @@
       --dark: #2e2d29;
       --accent-soft: #eee4d8;
       --green-soft: #e5eee6;
-      --yellow-soft: #f4ecd9;
       --blue-soft: #e6edf3;
       --red-soft: #f3e3e1;
       --danger: #a95e57;
@@ -32,7 +31,6 @@
 
     body {
       margin: 0;
-
       background: var(--bg);
       color: var(--text);
 
@@ -106,7 +104,6 @@
       border-radius: 14px;
 
       background: white;
-
       box-shadow: var(--shadow);
     }
 
@@ -190,8 +187,7 @@
 
     .summary {
       display: grid;
-
-      grid-template-columns: repeat(3,1fr);
+      grid-template-columns: repeat(3, 1fr);
 
       gap: 12px;
 
@@ -256,7 +252,6 @@
 
     .grid {
       display: grid;
-
       grid-template-columns: repeat(2,1fr);
 
       gap: 9px;
@@ -293,6 +288,7 @@
 
     .field:focus {
       border-color: #baa48f;
+
       background: white;
     }
 
@@ -306,7 +302,6 @@
 
     .upload-row {
       display: grid;
-
       grid-template-columns: 1fr auto;
 
       gap: 9px;
@@ -399,7 +394,6 @@
 
     .file-card {
       display: grid;
-
       grid-template-columns: auto 1fr auto;
 
       gap: 12px;
@@ -615,7 +609,6 @@
       class="back"
       href="index.html"
     >
-
       <div class="back-icon">
         ←
       </div>
@@ -623,7 +616,6 @@
       <div>
         文件中心
       </div>
-
     </a>
 
 
@@ -672,7 +664,6 @@
   <section class="summary">
 
     <div>
-
       <small>
         我的旅行文件
       </small>
@@ -680,12 +671,10 @@
       <strong id="ownCount">
         0
       </strong>
-
     </div>
 
 
     <div>
-
       <small>
         已連結文件
       </small>
@@ -693,12 +682,10 @@
       <strong id="linkedCount">
         0
       </strong>
-
     </div>
 
 
     <div>
-
       <small>
         全部私人檔案
       </small>
@@ -706,7 +693,6 @@
       <strong id="totalCount">
         0
       </strong>
-
     </div>
 
   </section>
@@ -834,12 +820,22 @@
       全部
     </button>
 
+
     <button
       class="filter-button"
       data-filter="documents"
     >
       📄 我的文件
     </button>
+
+
+    <button
+      class="filter-button"
+      data-filter="flights"
+    >
+      ✈️ 機票
+    </button>
+
 
     <button
       class="filter-button"
@@ -848,12 +844,14 @@
       🎫 票券
     </button>
 
+
     <button
       class="filter-button"
       data-filter="stays"
     >
       🏨 住宿
     </button>
+
 
     <button
       class="filter-button"
@@ -912,14 +910,11 @@
 const SUPABASE_URL =
   "https://vexzdnyinfmzvcyotiuo.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
 
-
 const BUCKET =
   "travel-private";
-
 
 const DOCUMENT_MODULE =
   "documents";
@@ -941,14 +936,11 @@ const supabaseClient =
 let currentUser =
   null;
 
-
 let documents =
   [];
 
-
 let linkedFiles =
   [];
-
 
 let currentFilter =
   "all";
@@ -964,11 +956,8 @@ function makeId() {
     window.crypto &&
     crypto.randomUUID
   ) {
-
     return crypto.randomUUID();
-
   }
-
 
   return (
     Date.now().toString(36) +
@@ -980,28 +969,21 @@ function makeId() {
 }
 
 
-function text(
-  value
-) {
+function text(value) {
 
   if (
     value === undefined ||
     value === null
   ) {
-
     return "";
-
   }
-
 
   return String(value);
 
 }
 
 
-function safeName(
-  value
-) {
+function safeName(value) {
 
   return text(
     value || "file"
@@ -1016,9 +998,7 @@ function safeName(
 }
 
 
-function escapeHtml(
-  value
-) {
+function escapeHtml(value) {
 
   return text(value)
     .replaceAll("&","&amp;")
@@ -1030,9 +1010,7 @@ function escapeHtml(
 }
 
 
-function categoryInfo(
-  value
-) {
+function categoryInfo(value) {
 
   const map = {
 
@@ -1068,43 +1046,30 @@ function categoryInfo(
 
   };
 
-
   return map[value] ||
     map.other;
 
 }
 
 
-function formatSize(
-  bytes
-) {
+function formatSize(bytes) {
 
   const size =
     Number(bytes || 0);
 
-
-  if (
-    size < 1024
-  ) {
-
-    return size +
-      " B";
-
+  if (size < 1024) {
+    return size + " B";
   }
-
 
   if (
     size <
     1024 * 1024
   ) {
-
     return (
       size / 1024
     ).toFixed(1) +
     " KB";
-
   }
-
 
   return (
     size /
@@ -1141,14 +1106,8 @@ function setStatus(
     "cloud-dot";
 
 
-  if (
-    type
-  ) {
-
-    dot.classList.add(
-      type
-    );
-
+  if (type) {
+    dot.classList.add(type);
   }
 
 }
@@ -1176,10 +1135,8 @@ function showBanner(
 
   setTimeout(
     () => {
-
       box.className =
         "banner";
-
     },
     5000
   );
@@ -1191,9 +1148,7 @@ function showBanner(
    DOCUMENT MODULE
 ========================= */
 
-function normalizeDocuments(
-  data
-) {
+function normalizeDocuments(data) {
 
   const list =
     Array.isArray(data)
@@ -1387,7 +1342,8 @@ async function loadRelatedFiles() {
         [
           "tickets",
           "stays",
-          "car"
+          "car",
+          "flights"
         ]
       );
 
@@ -1408,11 +1364,9 @@ async function loadRelatedFiles() {
         row.module_key ===
         "tickets"
       ) {
-
         addTicketFiles(
           row.data
         );
-
       }
 
 
@@ -1420,11 +1374,9 @@ async function loadRelatedFiles() {
         row.module_key ===
         "stays"
       ) {
-
         addStayFiles(
           row.data
         );
-
       }
 
 
@@ -1432,11 +1384,19 @@ async function loadRelatedFiles() {
         row.module_key ===
         "car"
       ) {
-
         addCarDocument(
           row.data
         );
+      }
 
+
+      if (
+        row.module_key ===
+        "flights"
+      ) {
+        addFlightFiles(
+          row.data
+        );
       }
 
     }
@@ -1448,9 +1408,216 @@ async function loadRelatedFiles() {
 }
 
 
-function addTicketFiles(
-  data
-) {
+/* =========================
+   FLIGHT FILES
+========================= */
+
+function addFlightFiles(data) {
+
+  const flightData =
+    data &&
+    data.flights
+      ?
+      data.flights
+      :
+      (
+        data || {}
+      );
+
+
+  const passengers =
+    Array.isArray(
+      flightData.passengers
+    )
+      ?
+      flightData.passengers
+      :
+      [];
+
+
+  const segments =
+    Array.isArray(
+      flightData.segments
+    )
+      ?
+      flightData.segments
+      :
+      [];
+
+
+  segments.forEach(
+    (
+      segment,
+      segmentIndex
+    ) => {
+
+      const tickets =
+        Array.isArray(
+          segment.tickets
+        )
+          ?
+          segment.tickets
+          :
+          [];
+
+
+      tickets.forEach(
+        (
+          ticket,
+          passengerIndex
+        ) => {
+
+          const path =
+            text(
+              ticket.path ||
+              ticket.ticketPath ||
+              ""
+            );
+
+
+          if (!path) {
+            return;
+          }
+
+
+          const passengerName =
+            text(
+              passengers[
+                passengerIndex
+              ] ||
+              (
+                "乘客 " +
+                (
+                  passengerIndex +
+                  1
+                )
+              )
+            );
+
+
+          const from =
+            text(
+              segment.departureAirport ||
+              segment.fromAirport ||
+              "---"
+            );
+
+
+          const to =
+            text(
+              segment.arrivalAirport ||
+              segment.toAirport ||
+              "---"
+            );
+
+
+          const flightName =
+            [
+              text(
+                segment.airline
+              ),
+              text(
+                segment.flightNo ||
+                segment.flightNumber
+              )
+            ]
+              .filter(Boolean)
+              .join(" ");
+
+
+          const metaParts =
+            [];
+
+
+          if (
+            segment.date
+          ) {
+            metaParts.push(
+              text(segment.date)
+            );
+          }
+
+
+          if (
+            flightName
+          ) {
+            metaParts.push(
+              flightName
+            );
+          }
+
+
+          if (
+            ticket.fileName
+          ) {
+            metaParts.push(
+              text(
+                ticket.fileName
+              )
+            );
+          }
+
+
+          linkedFiles.push({
+
+            id:
+              "flight-" +
+              text(
+                segment.id ||
+                segmentIndex
+              ) +
+              "-" +
+              passengerIndex,
+
+            source:
+              "flights",
+
+            icon:
+              "✈️",
+
+            title:
+              from +
+              " → " +
+              to +
+              " · " +
+              passengerName,
+
+            meta:
+              metaParts
+                .join(" · ") ||
+              "私人電子機票",
+
+            note:
+              text(
+                segment.note ||
+                ""
+              ),
+
+            path:
+              path,
+
+            url:
+              "",
+
+            sourcePage:
+              "flights.html"
+
+          });
+
+        }
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   TICKET FILES
+========================= */
+
+function addTicketFiles(data) {
 
   const list =
     data &&
@@ -1500,6 +1667,9 @@ function addTicketFiles(
               "PDF / 電子票"
             ),
 
+          note:
+            "",
+
           path:
             text(
               ticket.documentPath
@@ -1542,6 +1712,9 @@ function addTicketFiles(
               "QR Code"
             ),
 
+          note:
+            "",
+
           path:
             text(
               ticket.qrPath
@@ -1563,9 +1736,11 @@ function addTicketFiles(
 }
 
 
-function addStayFiles(
-  data
-) {
+/* =========================
+   STAY FILES
+========================= */
+
+function addStayFiles(data) {
 
   const list =
     data &&
@@ -1613,6 +1788,9 @@ function addStayFiles(
             "住宿確認文件"
           ),
 
+        note:
+          "",
+
         path:
           text(
             stay.documentPath
@@ -1632,9 +1810,11 @@ function addStayFiles(
 }
 
 
-function addCarDocument(
-  data
-) {
+/* =========================
+   CAR DOCUMENT
+========================= */
+
+function addCarDocument(data) {
 
   const car =
     data &&
@@ -1667,6 +1847,9 @@ function addCarDocument(
       meta:
         "目前為外部文件連結",
 
+      note:
+        "",
+
       path:
         "",
 
@@ -1689,9 +1872,7 @@ function addCarDocument(
    CAR PHOTOS
 ========================= */
 
-async function listCarFolder(
-  type
-) {
+async function listCarFolder(type) {
 
   const folder =
     currentUser.id +
@@ -1713,9 +1894,11 @@ async function listCarFolder(
         {
           limit: 100,
           offset: 0,
+
           sortBy: {
             column:
               "created_at",
+
             order:
               "asc"
           }
@@ -1764,6 +1947,9 @@ async function listCarFolder(
         meta:
           item.name,
 
+        note:
+          "",
+
         path:
           folder +
           "/" +
@@ -1788,6 +1974,7 @@ async function loadCarPhotos() {
       listCarFolder(
         "pickup"
       ),
+
       listCarFolder(
         "return"
       )
@@ -1832,15 +2019,12 @@ async function uploadDocument() {
     ).files[0];
 
 
-  if (
-    !file
-  ) {
+  if (!file) {
 
     showBanner(
       "請先選擇檔案。",
       "error"
     );
-
 
     return;
 
@@ -2001,12 +2185,10 @@ function clearUploadForm() {
 
 
 /* =========================
-   OPEN FILE
+   OPEN PRIVATE FILE
 ========================= */
 
-async function openStorageFile(
-  path
-) {
+async function openStorageFile(path) {
 
   const popup =
     window.open(
@@ -2037,9 +2219,7 @@ async function openStorageFile(
     }
 
 
-    if (
-      popup
-    ) {
+    if (popup) {
 
       popup.location =
         data.signedUrl;
@@ -2064,12 +2244,8 @@ async function openStorageFile(
     );
 
 
-    if (
-      popup
-    ) {
-
+    if (popup) {
       popup.close();
-
     }
 
 
@@ -2087,9 +2263,7 @@ async function openStorageFile(
    DELETE OWN DOCUMENT
 ========================= */
 
-async function deleteOwnDocument(
-  id
-) {
+async function deleteOwnDocument(id) {
 
   const documentItem =
     documents.find(
@@ -2098,9 +2272,7 @@ async function deleteOwnDocument(
     );
 
 
-  if (
-    !documentItem
-  ) {
+  if (!documentItem) {
     return;
   }
 
@@ -2110,9 +2282,7 @@ async function deleteOwnDocument(
       "確定要刪除這份旅行文件嗎？"
     )
   ) {
-
     return;
-
   }
 
 
@@ -2173,6 +2343,12 @@ async function deleteOwnDocument(
 
     setStatus(
       "刪除失敗",
+      "error"
+    );
+
+
+    showBanner(
+      "文件刪除失敗。",
       "error"
     );
 
@@ -2261,9 +2437,7 @@ function visibleFiles() {
     currentFilter ===
     "all"
   ) {
-
     return all;
-
   }
 
 
@@ -2339,7 +2513,6 @@ function render() {
 
         </div>
       `;
-
 
     return;
 
@@ -2512,7 +2685,6 @@ document.getElementById(
           item.path
         );
 
-
         return;
 
       }
@@ -2527,7 +2699,6 @@ document.getElementById(
           "_blank",
           "noopener"
         );
-
 
         return;
 
@@ -2588,11 +2759,9 @@ document.querySelectorAll(
           ".filter-button"
         ).forEach(
           item => {
-
             item.classList.remove(
               "active"
             );
-
           }
         );
 
@@ -2707,7 +2876,6 @@ async function initialize() {
       location.replace(
         "login.html"
       );
-
 
       return;
 
