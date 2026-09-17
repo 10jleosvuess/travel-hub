@@ -1,0 +1,2750 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>文件中心｜Travel Hub</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f4f1eb;
+      --card: #ffffff;
+      --text: #292824;
+      --muted: #817b73;
+      --line: #e7e0d7;
+      --dark: #2e2d29;
+      --accent-soft: #eee4d8;
+      --green-soft: #e5eee6;
+      --yellow-soft: #f4ecd9;
+      --blue-soft: #e6edf3;
+      --red-soft: #f3e3e1;
+      --danger: #a95e57;
+      --shadow: 0 8px 28px rgba(52,45,36,0.06);
+    }
+
+    body {
+      margin: 0;
+
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        sans-serif;
+
+      padding-bottom: 95px;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1000px, calc(100% - 24px));
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 80;
+
+      background: rgba(244,241,235,0.94);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .topbar {
+      min-height: 70px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .back {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      font-weight: 750;
+    }
+
+    .back-icon {
+      width: 40px;
+      height: 40px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 14px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
+    }
+
+    .right-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cloud-dot {
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: #aaa;
+    }
+
+    .cloud-dot.online {
+      background: #6e9573;
+    }
+
+    .cloud-dot.loading {
+      background: #c49a59;
+    }
+
+    .cloud-dot.error {
+      background: #b7635c;
+    }
+
+    .status-text {
+      color: var(--muted);
+
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .page-head {
+      padding: 22px 0 12px;
+    }
+
+    .page-head h1 {
+      margin: 0 0 5px;
+
+      font-size: 29px;
+    }
+
+    .page-head p {
+      margin: 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .banner {
+      display: none;
+
+      margin-bottom: 12px;
+
+      padding: 11px 13px;
+
+      border-radius: 14px;
+
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .banner.show {
+      display: block;
+    }
+
+    .banner.success {
+      background: var(--green-soft);
+    }
+
+    .banner.error {
+      background: var(--red-soft);
+    }
+
+    .summary {
+      display: grid;
+
+      grid-template-columns: repeat(3,1fr);
+
+      gap: 12px;
+
+      margin-bottom: 14px;
+
+      padding: 18px;
+
+      border-radius: 23px;
+
+      background: var(--dark);
+      color: white;
+
+      box-shadow: var(--shadow);
+    }
+
+    .summary small {
+      color: rgba(255,255,255,0.62);
+    }
+
+    .summary strong {
+      display: block;
+
+      margin-top: 4px;
+
+      font-size: 23px;
+    }
+
+    .upload-card {
+      margin-bottom: 14px;
+
+      padding: 17px;
+
+      border-radius: 22px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
+    }
+
+    .section-head {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      margin-bottom: 13px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+
+      font-size: 18px;
+    }
+
+    .section-head span {
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .grid {
+      display: grid;
+
+      grid-template-columns: repeat(2,1fr);
+
+      gap: 9px;
+    }
+
+    .field-wrap {
+      display: grid;
+      gap: 5px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .field {
+      width: 100%;
+
+      border: 1px solid var(--line);
+
+      border-radius: 12px;
+
+      padding: 10px 11px;
+
+      outline: none;
+
+      background: #fbfaf8;
+    }
+
+    .field:focus {
+      border-color: #baa48f;
+      background: white;
+    }
+
+    textarea.field {
+      min-height: 70px;
+
+      resize: vertical;
+
+      line-height: 1.5;
+    }
+
+    .upload-row {
+      display: grid;
+
+      grid-template-columns: 1fr auto;
+
+      gap: 9px;
+
+      margin-top: 11px;
+    }
+
+    .file-input {
+      width: 100%;
+
+      padding: 10px;
+
+      border: 1px solid var(--line);
+      border-radius: 12px;
+
+      background: #fbfaf8;
+
+      font-size: 11px;
+    }
+
+    .upload-button {
+      border: 0;
+
+      border-radius: 12px;
+
+      padding: 10px 15px;
+
+      background: var(--dark);
+      color: white;
+
+      font-weight: 800;
+    }
+
+    .privacy {
+      margin-top: 11px;
+
+      padding: 10px 12px;
+
+      border-radius: 13px;
+
+      background: var(--green-soft);
+
+      color: #536553;
+
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .filters {
+      display: flex;
+
+      gap: 7px;
+
+      overflow-x: auto;
+
+      margin: 17px 0 12px;
+
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-button {
+      flex: 0 0 auto;
+
+      border: 0;
+
+      border-radius: 999px;
+
+      padding: 9px 13px;
+
+      background: white;
+
+      color: var(--muted);
+
+      box-shadow: var(--shadow);
+    }
+
+    .filter-button.active {
+      background: var(--dark);
+      color: white;
+    }
+
+    .file-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .file-card {
+      display: grid;
+
+      grid-template-columns: auto 1fr auto;
+
+      gap: 12px;
+
+      align-items: center;
+
+      padding: 14px;
+
+      border-radius: 18px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
+    }
+
+    .file-icon {
+      width: 45px;
+      height: 45px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 14px;
+
+      background: var(--accent-soft);
+
+      font-size: 22px;
+    }
+
+    .file-main {
+      min-width: 0;
+    }
+
+    .file-title {
+      margin: 0;
+
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .file-meta {
+      margin-top: 4px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      line-height: 1.5;
+
+      word-break: break-word;
+    }
+
+    .file-note {
+      margin-top: 5px;
+
+      color: #665f56;
+
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .file-actions {
+      display: flex;
+
+      flex-wrap: wrap;
+      justify-content: flex-end;
+
+      gap: 6px;
+    }
+
+    .small-button {
+      border: 0;
+
+      border-radius: 9px;
+
+      padding: 8px 10px;
+
+      background: var(--blue-soft);
+
+      font-size: 10px;
+
+      white-space: nowrap;
+    }
+
+    .small-button.delete {
+      background: var(--red-soft);
+      color: var(--danger);
+    }
+
+    .small-button.source {
+      background: #f1eee9;
+    }
+
+    .empty {
+      padding: 45px 20px;
+
+      border: 1px dashed #cbbeb0;
+      border-radius: 22px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      background: rgba(255,255,255,0.45);
+    }
+
+    .empty-icon {
+      margin-bottom: 8px;
+
+      font-size: 40px;
+    }
+
+    .empty strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      color: var(--text);
+    }
+
+    .refresh-button {
+      border: 0;
+
+      border-radius: 10px;
+
+      padding: 8px 10px;
+
+      background: white;
+
+      box-shadow: var(--shadow);
+
+      font-size: 11px;
+    }
+
+    nav {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 100;
+
+      height: 72px;
+
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+
+      background: rgba(255,255,255,0.94);
+
+      backdrop-filter: blur(18px);
+
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .nav-link {
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 3px;
+
+      color: #79756e;
+
+      font-size: 11px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    @media (max-width: 700px) {
+
+      .summary,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .upload-row {
+        grid-template-columns: 1fr;
+      }
+
+      .file-card {
+        grid-template-columns: auto 1fr;
+      }
+
+      .file-actions {
+        grid-column: 1 / -1;
+
+        justify-content: flex-start;
+
+        padding-left: 57px;
+      }
+
+    }
+  </style>
+</head>
+
+
+<body>
+
+<header>
+
+  <div class="container topbar">
+
+    <a
+      class="back"
+      href="index.html"
+    >
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        文件中心
+      </div>
+
+    </a>
+
+
+    <div class="right-header">
+
+      <div
+        class="cloud-dot"
+        id="cloudDot"
+      ></div>
+
+      <div
+        class="status-text"
+        id="statusText"
+      >
+        登入確認中…
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main class="container">
+
+  <section class="page-head">
+
+    <h1>
+      📁 文件中心
+    </h1>
+
+    <p>
+      航班、保險、重要文件，以及旅行中已上傳的私人檔案
+    </p>
+
+  </section>
+
+
+  <div
+    class="banner"
+    id="banner"
+  ></div>
+
+
+  <section class="summary">
+
+    <div>
+
+      <small>
+        我的旅行文件
+      </small>
+
+      <strong id="ownCount">
+        0
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <small>
+        已連結文件
+      </small>
+
+      <strong id="linkedCount">
+        0
+      </strong>
+
+    </div>
+
+
+    <div>
+
+      <small>
+        全部私人檔案
+      </small>
+
+      <strong id="totalCount">
+        0
+      </strong>
+
+    </div>
+
+  </section>
+
+
+  <section class="upload-card">
+
+    <div class="section-head">
+
+      <h2>
+        ＋ 新增旅行文件
+      </h2>
+
+      <span>
+        Private Storage
+      </span>
+
+    </div>
+
+
+    <div class="grid">
+
+      <div class="field-wrap">
+
+        <label>
+          文件名稱
+        </label>
+
+        <input
+          class="field"
+          id="docTitle"
+          placeholder="例如：旅遊保險"
+        >
+
+      </div>
+
+
+      <div class="field-wrap">
+
+        <label>
+          分類
+        </label>
+
+        <select
+          class="field"
+          id="docCategory"
+        >
+          <option value="flight">✈️ 航班</option>
+          <option value="insurance">🛡️ 保險</option>
+          <option value="identity">🪪 證件</option>
+          <option value="transport">🚆 交通</option>
+          <option value="booking">📋 預約</option>
+          <option value="other">📄 其他</option>
+        </select>
+
+      </div>
+
+
+      <div class="field-wrap full">
+
+        <label>
+          備註
+        </label>
+
+        <textarea
+          class="field"
+          id="docNote"
+          placeholder="例如：保單編號、注意事項、使用日期……"
+        ></textarea>
+
+      </div>
+
+    </div>
+
+
+    <div class="upload-row">
+
+      <input
+        class="file-input"
+        id="docFile"
+        type="file"
+      >
+
+
+      <button
+        class="upload-button"
+        id="uploadButton"
+      >
+        ☁️ 上傳
+      </button>
+
+    </div>
+
+
+    <div class="privacy">
+      🔒 檔案會存進你的私人 Supabase Storage。護照等高度敏感資料若不是旅行中真的需要，仍建議只上傳必要內容。
+    </div>
+
+  </section>
+
+
+  <div class="section-head">
+
+    <h2>
+      私人檔案
+    </h2>
+
+
+    <button
+      class="refresh-button"
+      id="refreshButton"
+    >
+      ↻ 重新整理
+    </button>
+
+  </div>
+
+
+  <div class="filters">
+
+    <button
+      class="filter-button active"
+      data-filter="all"
+    >
+      全部
+    </button>
+
+    <button
+      class="filter-button"
+      data-filter="documents"
+    >
+      📄 我的文件
+    </button>
+
+    <button
+      class="filter-button"
+      data-filter="tickets"
+    >
+      🎫 票券
+    </button>
+
+    <button
+      class="filter-button"
+      data-filter="stays"
+    >
+      🏨 住宿
+    </button>
+
+    <button
+      class="filter-button"
+      data-filter="car"
+    >
+      🚗 租車
+    </button>
+
+  </div>
+
+
+  <div
+    class="file-list"
+    id="fileList"
+  ></div>
+
+</main>
+
+
+<nav>
+
+  <a class="nav-link" href="index.html">
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
+
+  <a class="nav-link" href="itinerary.html">
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+  <a class="nav-link" href="map.html">
+    <span class="nav-icon">🗺️</span>
+    地圖
+  </a>
+
+  <a class="nav-link" href="tickets.html">
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+  <a class="nav-link" href="car.html">
+    <span class="nav-icon">🚗</span>
+    租車
+  </a>
+
+</nav>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://vexzdnyinfmzvcyotiuo.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
+
+
+const BUCKET =
+  "travel-private";
+
+
+const DOCUMENT_MODULE =
+  "documents";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
+  );
+
+
+let currentUser =
+  null;
+
+
+let documents =
+  [];
+
+
+let linkedFiles =
+  [];
+
+
+let currentFilter =
+  "all";
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function makeId() {
+
+  if (
+    window.crypto &&
+    crypto.randomUUID
+  ) {
+
+    return crypto.randomUUID();
+
+  }
+
+
+  return (
+    Date.now().toString(36) +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+
+}
+
+
+function text(
+  value
+) {
+
+  if (
+    value === undefined ||
+    value === null
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value);
+
+}
+
+
+function safeName(
+  value
+) {
+
+  return text(
+    value || "file"
+  )
+    .replaceAll("/", "-")
+    .replaceAll("\\", "-")
+    .replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    );
+
+}
+
+
+function escapeHtml(
+  value
+) {
+
+  return text(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function categoryInfo(
+  value
+) {
+
+  const map = {
+
+    flight: [
+      "✈️",
+      "航班"
+    ],
+
+    insurance: [
+      "🛡️",
+      "保險"
+    ],
+
+    identity: [
+      "🪪",
+      "證件"
+    ],
+
+    transport: [
+      "🚆",
+      "交通"
+    ],
+
+    booking: [
+      "📋",
+      "預約"
+    ],
+
+    other: [
+      "📄",
+      "其他"
+    ]
+
+  };
+
+
+  return map[value] ||
+    map.other;
+
+}
+
+
+function formatSize(
+  bytes
+) {
+
+  const size =
+    Number(bytes || 0);
+
+
+  if (
+    size < 1024
+  ) {
+
+    return size +
+      " B";
+
+  }
+
+
+  if (
+    size <
+    1024 * 1024
+  ) {
+
+    return (
+      size / 1024
+    ).toFixed(1) +
+    " KB";
+
+  }
+
+
+  return (
+    size /
+    1024 /
+    1024
+  ).toFixed(1) +
+  " MB";
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function setStatus(
+  message,
+  type = ""
+) {
+
+  document.getElementById(
+    "statusText"
+  ).textContent =
+    message;
+
+
+  const dot =
+    document.getElementById(
+      "cloudDot"
+    );
+
+
+  dot.className =
+    "cloud-dot";
+
+
+  if (
+    type
+  ) {
+
+    dot.classList.add(
+      type
+    );
+
+  }
+
+}
+
+
+function showBanner(
+  message,
+  type = "success"
+) {
+
+  const box =
+    document.getElementById(
+      "banner"
+    );
+
+
+  box.textContent =
+    message;
+
+
+  box.className =
+    "banner show " +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      box.className =
+        "banner";
+
+    },
+    5000
+  );
+
+}
+
+
+/* =========================
+   DOCUMENT MODULE
+========================= */
+
+function normalizeDocuments(
+  data
+) {
+
+  const list =
+    Array.isArray(data)
+      ?
+      data
+      :
+      (
+        data &&
+        Array.isArray(
+          data.documents
+        )
+          ?
+          data.documents
+          :
+          []
+      );
+
+
+  return list.map(
+    item => ({
+
+      id:
+        text(
+          item.id ||
+          makeId()
+        ),
+
+      title:
+        text(
+          item.title ||
+          item.name ||
+          ""
+        ),
+
+      category:
+        text(
+          item.category ||
+          "other"
+        ),
+
+      note:
+        text(
+          item.note ||
+          item.notes ||
+          ""
+        ),
+
+      path:
+        text(
+          item.path ||
+          ""
+        ),
+
+      fileName:
+        text(
+          item.fileName ||
+          item.name ||
+          ""
+        ),
+
+      size:
+        Number(
+          item.size ||
+          0
+        ),
+
+      createdAt:
+        text(
+          item.createdAt ||
+          ""
+        )
+
+    })
+  );
+
+}
+
+
+async function loadDocumentsModule() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from(
+        "travel_modules"
+      )
+      .select(
+        "data"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "module_key",
+        DOCUMENT_MODULE
+      )
+      .maybeSingle();
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  documents =
+    data &&
+    data.data
+      ?
+      normalizeDocuments(
+        data.data
+      )
+      :
+      [];
+
+}
+
+
+async function saveDocumentsModule() {
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from(
+        "travel_modules"
+      )
+      .upsert(
+        {
+
+          user_id:
+            currentUser.id,
+
+          module_key:
+            DOCUMENT_MODULE,
+
+          data: {
+            version: 1,
+            documents:
+              documents
+          },
+
+          updated_at:
+            new Date()
+              .toISOString()
+
+        },
+        {
+          onConflict:
+            "user_id,module_key"
+        }
+      );
+
+
+  if (error) {
+    throw error;
+  }
+
+}
+
+
+/* =========================
+   RELATED MODULES
+========================= */
+
+async function loadRelatedFiles() {
+
+  linkedFiles =
+    [];
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from(
+        "travel_modules"
+      )
+      .select(
+        "module_key,data"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .in(
+        "module_key",
+        [
+          "tickets",
+          "stays",
+          "car"
+        ]
+      );
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  const rows =
+    data || [];
+
+
+  rows.forEach(
+    row => {
+
+      if (
+        row.module_key ===
+        "tickets"
+      ) {
+
+        addTicketFiles(
+          row.data
+        );
+
+      }
+
+
+      if (
+        row.module_key ===
+        "stays"
+      ) {
+
+        addStayFiles(
+          row.data
+        );
+
+      }
+
+
+      if (
+        row.module_key ===
+        "car"
+      ) {
+
+        addCarDocument(
+          row.data
+        );
+
+      }
+
+    }
+  );
+
+
+  await loadCarPhotos();
+
+}
+
+
+function addTicketFiles(
+  data
+) {
+
+  const list =
+    data &&
+    Array.isArray(
+      data.tickets
+    )
+      ?
+      data.tickets
+      :
+      [];
+
+
+  list.forEach(
+    ticket => {
+
+      const title =
+        text(
+          ticket.name ||
+          ticket.title ||
+          "票券"
+        );
+
+
+      if (
+        ticket.documentPath
+      ) {
+
+        linkedFiles.push({
+
+          id:
+            "ticket-document-" +
+            text(ticket.id),
+
+          source:
+            "tickets",
+
+          icon:
+            "🎫",
+
+          title:
+            title +
+            " · 電子票",
+
+          meta:
+            text(
+              ticket.documentName ||
+              "PDF / 電子票"
+            ),
+
+          path:
+            text(
+              ticket.documentPath
+            ),
+
+          url:
+            "",
+
+          sourcePage:
+            "tickets.html"
+
+        });
+
+      }
+
+
+      if (
+        ticket.qrPath
+      ) {
+
+        linkedFiles.push({
+
+          id:
+            "ticket-qr-" +
+            text(ticket.id),
+
+          source:
+            "tickets",
+
+          icon:
+            "▦",
+
+          title:
+            title +
+            " · QR Code",
+
+          meta:
+            text(
+              ticket.qrName ||
+              "QR Code"
+            ),
+
+          path:
+            text(
+              ticket.qrPath
+            ),
+
+          url:
+            "",
+
+          sourcePage:
+            "tickets.html"
+
+        });
+
+      }
+
+    }
+  );
+
+}
+
+
+function addStayFiles(
+  data
+) {
+
+  const list =
+    data &&
+    Array.isArray(
+      data.stays
+    )
+      ?
+      data.stays
+      :
+      [];
+
+
+  list.forEach(
+    stay => {
+
+      if (
+        !stay.documentPath
+      ) {
+        return;
+      }
+
+
+      linkedFiles.push({
+
+        id:
+          "stay-" +
+          text(stay.id),
+
+        source:
+          "stays",
+
+        icon:
+          "🏨",
+
+        title:
+          text(
+            stay.name ||
+            "住宿"
+          ) +
+          " · 訂房文件",
+
+        meta:
+          text(
+            stay.documentName ||
+            "住宿確認文件"
+          ),
+
+        path:
+          text(
+            stay.documentPath
+          ),
+
+        url:
+          "",
+
+        sourcePage:
+          "stays.html"
+
+      });
+
+    }
+  );
+
+}
+
+
+function addCarDocument(
+  data
+) {
+
+  const car =
+    data &&
+    data.car
+      ?
+      data.car
+      :
+      data;
+
+
+  if (
+    car &&
+    car.documentLink
+  ) {
+
+    linkedFiles.push({
+
+      id:
+        "car-document",
+
+      source:
+        "car",
+
+      icon:
+        "🚗",
+
+      title:
+        "租車文件",
+
+      meta:
+        "目前為外部文件連結",
+
+      path:
+        "",
+
+      url:
+        text(
+          car.documentLink
+        ),
+
+      sourcePage:
+        "car.html"
+
+    });
+
+  }
+
+}
+
+
+/* =========================
+   CAR PHOTOS
+========================= */
+
+async function listCarFolder(
+  type
+) {
+
+  const folder =
+    currentUser.id +
+    "/car/" +
+    type;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        BUCKET
+      )
+      .list(
+        folder,
+        {
+          limit: 100,
+          offset: 0,
+          sortBy: {
+            column:
+              "created_at",
+            order:
+              "asc"
+          }
+        }
+      );
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return (
+    data || []
+  )
+    .filter(
+      item =>
+        item.id !== null
+    )
+    .map(
+      item => ({
+
+        id:
+          "car-" +
+          type +
+          "-" +
+          item.name,
+
+        source:
+          "car",
+
+        icon:
+          type === "pickup"
+            ?
+            "🔑"
+            :
+            "🅿️",
+
+        title:
+          type === "pickup"
+            ?
+            "取車照片"
+            :
+            "還車照片",
+
+        meta:
+          item.name,
+
+        path:
+          folder +
+          "/" +
+          item.name,
+
+        url:
+          "",
+
+        sourcePage:
+          "car.html"
+
+      })
+    );
+
+}
+
+
+async function loadCarPhotos() {
+
+  const results =
+    await Promise.all([
+      listCarFolder(
+        "pickup"
+      ),
+      listCarFolder(
+        "return"
+      )
+    ]);
+
+
+  linkedFiles.push(
+    ...results[0],
+    ...results[1]
+  );
+
+}
+
+
+/* =========================
+   UPLOAD GENERAL DOCUMENT
+========================= */
+
+async function uploadDocument() {
+
+  const title =
+    document.getElementById(
+      "docTitle"
+    ).value.trim();
+
+
+  const category =
+    document.getElementById(
+      "docCategory"
+    ).value;
+
+
+  const note =
+    document.getElementById(
+      "docNote"
+    ).value.trim();
+
+
+  const file =
+    document.getElementById(
+      "docFile"
+    ).files[0];
+
+
+  if (
+    !file
+  ) {
+
+    showBanner(
+      "請先選擇檔案。",
+      "error"
+    );
+
+
+    return;
+
+  }
+
+
+  const id =
+    makeId();
+
+
+  const finalTitle =
+    title ||
+    file.name;
+
+
+  const path =
+    currentUser.id +
+    "/documents/" +
+    category +
+    "/" +
+    id +
+    "/" +
+    Date.now() +
+    "-" +
+    safeName(
+      file.name
+    );
+
+
+  setStatus(
+    "上傳中…",
+    "loading"
+  );
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .upload(
+          path,
+          file,
+          {
+            upsert: false,
+            cacheControl:
+              "3600"
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    documents.unshift({
+
+      id:
+        id,
+
+      title:
+        finalTitle,
+
+      category:
+        category,
+
+      note:
+        note,
+
+      path:
+        path,
+
+      fileName:
+        file.name,
+
+      size:
+        file.size,
+
+      createdAt:
+        new Date()
+          .toISOString()
+
+    });
+
+
+    await saveDocumentsModule();
+
+
+    clearUploadForm();
+
+
+    render();
+
+
+    setStatus(
+      "已同步 ☁️",
+      "online"
+    );
+
+
+    showBanner(
+      "🔒 文件已上傳到私人 Storage。"
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      "上傳失敗",
+      "error"
+    );
+
+
+    showBanner(
+      "⚠️ 文件上傳失敗。",
+      "error"
+    );
+
+  }
+
+}
+
+
+function clearUploadForm() {
+
+  document.getElementById(
+    "docTitle"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "docNote"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "docFile"
+  ).value =
+    "";
+
+}
+
+
+/* =========================
+   OPEN FILE
+========================= */
+
+async function openStorageFile(
+  path
+) {
+
+  const popup =
+    window.open(
+      "about:blank",
+      "_blank"
+    );
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .createSignedUrl(
+          path,
+          600
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (
+      popup
+    ) {
+
+      popup.location =
+        data.signedUrl;
+
+    }
+
+    else {
+
+      location.href =
+        data.signedUrl;
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    if (
+      popup
+    ) {
+
+      popup.close();
+
+    }
+
+
+    showBanner(
+      "目前無法開啟私人檔案。",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   DELETE OWN DOCUMENT
+========================= */
+
+async function deleteOwnDocument(
+  id
+) {
+
+  const documentItem =
+    documents.find(
+      item =>
+        item.id === id
+    );
+
+
+  if (
+    !documentItem
+  ) {
+    return;
+  }
+
+
+  if (
+    !confirm(
+      "確定要刪除這份旅行文件嗎？"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  setStatus(
+    "刪除中…",
+    "loading"
+  );
+
+
+  try {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .remove([
+          documentItem.path
+        ]);
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    documents =
+      documents.filter(
+        item =>
+          item.id !== id
+      );
+
+
+    await saveDocumentsModule();
+
+
+    render();
+
+
+    setStatus(
+      "已同步 ☁️",
+      "online"
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      "刪除失敗",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   DISPLAY DATA
+========================= */
+
+function ownDisplayItems() {
+
+  return documents.map(
+    item => {
+
+      const info =
+        categoryInfo(
+          item.category
+        );
+
+
+      return {
+
+        id:
+          item.id,
+
+        source:
+          "documents",
+
+        own:
+          true,
+
+        icon:
+          info[0],
+
+        title:
+          item.title,
+
+        meta:
+          info[1] +
+          " · " +
+          item.fileName +
+          (
+            item.size
+              ?
+              " · " +
+              formatSize(
+                item.size
+              )
+              :
+              ""
+          ),
+
+        note:
+          item.note,
+
+        path:
+          item.path,
+
+        url:
+          "",
+
+        sourcePage:
+          ""
+
+      };
+
+    }
+  );
+
+}
+
+
+function visibleFiles() {
+
+  const all =
+    [
+      ...ownDisplayItems(),
+      ...linkedFiles
+    ];
+
+
+  if (
+    currentFilter ===
+    "all"
+  ) {
+
+    return all;
+
+  }
+
+
+  return all.filter(
+    item =>
+      item.source ===
+      currentFilter
+  );
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function render() {
+
+  const own =
+    documents.length;
+
+
+  const linked =
+    linkedFiles.length;
+
+
+  document.getElementById(
+    "ownCount"
+  ).textContent =
+    own;
+
+
+  document.getElementById(
+    "linkedCount"
+  ).textContent =
+    linked;
+
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    own +
+    linked;
+
+
+  const container =
+    document.getElementById(
+      "fileList"
+    );
+
+
+  const files =
+    visibleFiles();
+
+
+  if (
+    files.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="empty">
+
+          <div class="empty-icon">
+            📁
+          </div>
+
+          <strong>
+            這個分類還沒有檔案
+          </strong>
+
+          可以從上方新增旅行文件。
+
+        </div>
+      `;
+
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    files
+      .map(
+        file => {
+
+          return `
+
+            <div
+              class="file-card"
+              data-id="${escapeHtml(file.id)}"
+              data-source="${escapeHtml(file.source)}"
+            >
+
+              <div class="file-icon">
+                ${file.icon}
+              </div>
+
+
+              <div class="file-main">
+
+                <div class="file-title">
+                  ${escapeHtml(file.title)}
+                </div>
+
+
+                <div class="file-meta">
+                  ${escapeHtml(file.meta)}
+                </div>
+
+
+                ${
+                  file.note
+                    ?
+                    `
+                      <div class="file-note">
+                        ${escapeHtml(file.note)}
+                      </div>
+                    `
+                    :
+                    ""
+                }
+
+              </div>
+
+
+              <div class="file-actions">
+
+                <button
+                  class="small-button"
+                  data-action="open"
+                >
+                  開啟
+                </button>
+
+
+                ${
+                  file.own
+                    ?
+                    `
+                      <button
+                        class="small-button delete"
+                        data-action="delete"
+                      >
+                        刪除
+                      </button>
+                    `
+                    :
+                    `
+                      <button
+                        class="small-button source"
+                        data-action="source"
+                      >
+                        原頁面
+                      </button>
+                    `
+                }
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =========================
+   CARD ACTIONS
+========================= */
+
+document.getElementById(
+  "fileList"
+).addEventListener(
+  "click",
+  async event => {
+
+    const button =
+      event.target.closest(
+        "[data-action]"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    const card =
+      button.closest(
+        ".file-card"
+      );
+
+
+    if (!card) {
+      return;
+    }
+
+
+    const id =
+      card.dataset.id;
+
+
+    const source =
+      card.dataset.source;
+
+
+    const all =
+      [
+        ...ownDisplayItems(),
+        ...linkedFiles
+      ];
+
+
+    const item =
+      all.find(
+        file =>
+          file.id === id &&
+          file.source === source
+      );
+
+
+    if (!item) {
+      return;
+    }
+
+
+    const action =
+      button.dataset.action;
+
+
+    if (
+      action === "open"
+    ) {
+
+      if (
+        item.path
+      ) {
+
+        await openStorageFile(
+          item.path
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        item.url
+      ) {
+
+        window.open(
+          item.url,
+          "_blank",
+          "noopener"
+        );
+
+
+        return;
+
+      }
+
+
+      showBanner(
+        "找不到可開啟的檔案。",
+        "error"
+      );
+
+    }
+
+
+    if (
+      action === "delete" &&
+      item.own
+    ) {
+
+      await deleteOwnDocument(
+        item.id
+      );
+
+    }
+
+
+    if (
+      action === "source" &&
+      item.sourcePage
+    ) {
+
+      location.href =
+        item.sourcePage;
+
+    }
+
+  }
+);
+
+
+/* =========================
+   FILTERS
+========================= */
+
+document.querySelectorAll(
+  ".filter-button"
+).forEach(
+  button => {
+
+    button.onclick =
+      () => {
+
+        currentFilter =
+          button.dataset.filter;
+
+
+        document.querySelectorAll(
+          ".filter-button"
+        ).forEach(
+          item => {
+
+            item.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        render();
+
+      };
+
+  }
+);
+
+
+/* =========================
+   REFRESH
+========================= */
+
+async function refreshAll() {
+
+  setStatus(
+    "重新整理中…",
+    "loading"
+  );
+
+
+  try {
+
+    await Promise.all([
+      loadDocumentsModule(),
+      loadRelatedFiles()
+    ]);
+
+
+    render();
+
+
+    setStatus(
+      "已同步 ☁️",
+      "online"
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      "讀取失敗",
+      "error"
+    );
+
+
+    showBanner(
+      "部分私人檔案讀取失敗。",
+      "error"
+    );
+
+  }
+
+}
+
+
+document.getElementById(
+  "refreshButton"
+).onclick =
+  refreshAll;
+
+
+document.getElementById(
+  "uploadButton"
+).onclick =
+  uploadDocument;
+
+
+/* =========================
+   START
+========================= */
+
+async function initialize() {
+
+  try {
+
+    setStatus(
+      "登入確認中…"
+    );
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
+
+
+    if (
+      error ||
+      !data.session
+    ) {
+
+      location.replace(
+        "login.html"
+      );
+
+
+      return;
+
+    }
+
+
+    currentUser =
+      data.session.user;
+
+
+    await refreshAll();
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      "載入失敗",
+      "error"
+    );
+
+  }
+
+}
+
+
+initialize();
+
+</script>
+
+</body>
+
+</html>
