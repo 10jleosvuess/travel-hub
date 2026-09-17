@@ -3,16 +3,13 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <title>票券｜Travel Hub</title>
 
-  <title>門票｜Travel Hub</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -21,20 +18,16 @@
       --bg: #f4f1eb;
       --card: #ffffff;
       --text: #292824;
-      --muted: #827d75;
-      --line: #e8e2d9;
-      --accent: #9a7350;
-      --accent-soft: #eee4d8;
+      --muted: #817b73;
+      --line: #e7e0d7;
       --dark: #2e2d29;
-      --danger: #a65a52;
-      --green-soft: #e7eee7;
-      --purple-soft: #eee8f3;
-      --orange-soft: #f4e7d6;
+      --accent-soft: #eee4d8;
+      --green-soft: #e5eee6;
+      --yellow-soft: #f4ecd9;
+      --blue-soft: #e6edf3;
+      --red-soft: #f3e3e1;
+      --danger: #a95e57;
       --shadow: 0 8px 28px rgba(52,45,36,0.06);
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     body {
@@ -69,19 +62,16 @@
     }
 
     .container {
-      width: min(950px, calc(100% - 24px));
+      width: min(1000px, calc(100% - 24px));
       margin: auto;
     }
-
-
-    /* HEADER */
 
     header {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 80;
 
-      background: rgba(244,241,235,0.93);
+      background: rgba(244,241,235,0.94);
       backdrop-filter: blur(18px);
 
       border-bottom: 1px solid rgba(0,0,0,0.04);
@@ -102,149 +92,216 @@
       align-items: center;
       gap: 10px;
 
-      font-weight: 700;
+      font-weight: 750;
     }
 
     .back-icon {
       width: 40px;
       height: 40px;
 
-      border-radius: 14px;
-      background: white;
-
       display: grid;
       place-items: center;
+
+      background: white;
+
+      border-radius: 14px;
 
       box-shadow: var(--shadow);
     }
 
-    .save-status {
-      color: var(--muted);
-      font-size: 12px;
+    .right-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
+    .cloud-dot {
+      width: 9px;
+      height: 9px;
 
-    /* PAGE HEAD */
+      border-radius: 50%;
+
+      background: #aaa;
+    }
+
+    .cloud-dot.online {
+      background: #6e9573;
+    }
+
+    .cloud-dot.saving {
+      background: #c49a59;
+    }
+
+    .cloud-dot.error {
+      background: #b7635c;
+    }
+
+    .save-status {
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
 
     .page-head {
-      padding: 20px 0 12px;
+      padding: 22px 0 12px;
     }
 
     .page-head h1 {
       margin: 0 0 5px;
-      font-size: 28px;
+      font-size: 29px;
     }
 
     .page-head p {
       margin: 0;
       color: var(--muted);
+
       font-size: 13px;
+      line-height: 1.55;
     }
 
+    .sync-banner {
+      display: none;
 
-    /* TOOLBAR */
+      margin-bottom: 12px;
+      padding: 11px 13px;
 
-    .toolbar {
+      border-radius: 14px;
+
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .sync-banner.show {
+      display: block;
+    }
+
+    .sync-banner.success {
+      background: var(--green-soft);
+    }
+
+    .sync-banner.error {
+      background: var(--red-soft);
+    }
+
+    .summary {
+      background: var(--dark);
+      color: white;
+
+      border-radius: 23px;
+
+      padding: 18px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
 
-      gap: 10px;
+      gap: 15px;
 
-      margin: 12px 0 18px;
+      margin-bottom: 17px;
+
+      box-shadow: var(--shadow);
     }
 
-    .count {
-      color: var(--muted);
-      font-size: 13px;
+    .summary small {
+      color: rgba(255,255,255,0.65);
+    }
+
+    .summary strong {
+      display: block;
+
+      margin-top: 3px;
+
+      font-size: 24px;
     }
 
     .add-button {
       border: 0;
 
-      padding: 11px 15px;
+      border-radius: 13px;
 
-      border-radius: 14px;
+      padding: 11px 14px;
 
-      background: var(--accent-soft);
-      color: #72543b;
+      background: white;
+      color: var(--dark);
 
-      font-weight: 700;
+      font-weight: 800;
+
+      white-space: nowrap;
     }
-
-
-    /* TICKET LIST */
 
     .ticket-list {
       display: grid;
-      gap: 15px;
+      gap: 14px;
     }
 
     .ticket-card {
       background: white;
 
-      border-radius: 24px;
+      border-radius: 22px;
 
-      padding: 18px;
+      padding: 17px;
 
       box-shadow: var(--shadow);
     }
 
-    .ticket-number {
-      font-size: 12px;
-      color: var(--muted);
+    .ticket-top {
+      display: grid;
 
-      margin-bottom: 6px;
+      grid-template-columns: auto 1fr auto;
+
+      align-items: center;
+
+      gap: 11px;
     }
 
-    .ticket-title {
+    .ticket-number {
+      width: 39px;
+      height: 39px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 13px;
+
+      background: var(--accent-soft);
+
+      color: #72543b;
+
+      font-weight: 800;
+    }
+
+    .ticket-name {
       width: 100%;
 
       border: 0;
       outline: none;
 
       background: transparent;
-
-      font-size: 22px;
-      font-weight: 800;
 
       color: var(--text);
 
-      padding: 0;
+      font-size: 18px;
+      font-weight: 800;
     }
 
-    .ticket-title::placeholder {
-      color: #bbb3aa;
-    }
-
-    .ticket-location {
-      width: 100%;
-
+    .delete-button {
       border: 0;
-      outline: none;
 
       background: transparent;
 
-      color: var(--muted);
+      color: var(--danger);
 
-      font-size: 13px;
-
-      margin-top: 5px;
-      padding: 0;
+      font-size: 21px;
     }
-
-
-    /* FORM */
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
 
-      gap: 10px;
-    }
+      grid-template-columns: repeat(2,1fr);
 
-    .grid.three {
-      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+
+      margin-top: 14px;
     }
 
     .field-wrap {
@@ -252,16 +309,13 @@
       gap: 5px;
     }
 
-    .field-wrap.full {
+    .full {
       grid-column: 1 / -1;
     }
 
     label {
+      font-size: 10px;
       color: var(--muted);
-
-      font-size: 11px;
-
-      padding-left: 2px;
     }
 
     .field {
@@ -269,9 +323,9 @@
 
       border: 1px solid var(--line);
 
-      border-radius: 14px;
+      border-radius: 12px;
 
-      padding: 11px 12px;
+      padding: 10px 11px;
 
       background: #fbfaf8;
 
@@ -279,104 +333,70 @@
     }
 
     .field:focus {
-      border-color: #bba58f;
+      border-color: #baa48f;
       background: white;
     }
 
     textarea.field {
+      min-height: 75px;
+
       resize: vertical;
 
-      min-height: 85px;
-
-      line-height: 1.55;
+      line-height: 1.5;
     }
 
-    .section-line {
-      margin-top: 14px;
+    .section-title {
+      grid-column: 1 / -1;
 
-      padding-top: 14px;
+      margin-top: 5px;
+      padding-top: 12px;
 
       border-top: 1px solid var(--line);
+
+      font-size: 12px;
+      font-weight: 800;
     }
-
-
-    /* LINK BUTTONS */
-
-    .link-row {
-      display: grid;
-
-      grid-template-columns: 1fr auto;
-
-      gap: 8px;
-    }
-
-    .open-button {
-      border: 0;
-
-      border-radius: 14px;
-
-      padding: 0 14px;
-
-      min-width: 86px;
-
-      font-weight: 700;
-
-      white-space: nowrap;
-
-      background: var(--green-soft);
-    }
-
-    .ticket-open {
-      background: var(--purple-soft);
-    }
-
-    .open-button:disabled {
-      opacity: 0.35;
-      cursor: default;
-    }
-
-
-    /* ACTIONS */
 
     .actions {
       display: flex;
 
+      flex-wrap: wrap;
+
       gap: 7px;
 
-      margin-top: 15px;
+      margin-top: 13px;
+      padding-top: 12px;
 
-      flex-wrap: wrap;
+      border-top: 1px solid var(--line);
     }
 
     .action-button {
       border: 0;
 
-      border-radius: 11px;
+      border-radius: 10px;
 
       padding: 8px 10px;
 
       background: #f1eee9;
 
-      font-size: 12px;
+      font-size: 11px;
     }
 
-    .delete-button {
-      color: var(--danger);
-
-      margin-left: auto;
+    .map-button {
+      background: var(--green-soft);
     }
 
-
-    /* EMPTY */
+    .link-button {
+      background: var(--blue-soft);
+    }
 
     .empty {
       padding: 45px 20px;
 
+      border: 1px dashed #cbbeb0;
+      border-radius: 22px;
+
       text-align: center;
-
-      border-radius: 24px;
-
-      border: 1px dashed #cabdac;
 
       color: var(--muted);
 
@@ -385,47 +405,31 @@
 
     .empty-icon {
       font-size: 40px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .empty strong {
       display: block;
 
-      color: var(--text);
-
       margin-bottom: 5px;
+
+      color: var(--text);
     }
 
-    .empty p {
-      margin: 0;
+    .privacy {
+      margin-top: 16px;
 
-      font-size: 13px;
+      padding: 12px 14px;
+
+      border-radius: 15px;
+
+      background: var(--yellow-soft);
+
+      color: #675c4c;
+
+      font-size: 11px;
+      line-height: 1.6;
     }
-
-
-    /* NOTICE */
-
-    .notice {
-      margin-top: 22px;
-
-      padding: 15px;
-
-      border-radius: 18px;
-
-      background: var(--orange-soft);
-
-      font-size: 12px;
-      line-height: 1.65;
-    }
-
-    .notice strong {
-      display: block;
-
-      margin-bottom: 3px;
-    }
-
-
-    /* NAV */
 
     nav {
       position: fixed;
@@ -440,7 +444,7 @@
 
       display: grid;
 
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5,1fr);
 
       background: rgba(255,255,255,0.94);
 
@@ -470,109 +474,101 @@
 
     .nav-link.active {
       color: var(--text);
-
       font-weight: 700;
     }
 
-
     @media (max-width: 650px) {
-
-      .grid,
-      .grid.three {
+      .grid {
         grid-template-columns: 1fr;
       }
 
-      .link-row {
-        grid-template-columns: 1fr;
+      .full,
+      .section-title {
+        grid-column: auto;
       }
 
-      .open-button {
-        min-height: 44px;
+      .summary {
+        align-items: flex-start;
       }
-
-      .delete-button {
-        margin-left: 0;
-      }
-
-      .ticket-title {
-        font-size: 20px;
-      }
-
     }
-
   </style>
-
 </head>
 
 
 <body>
 
-
 <header>
-
   <div class="container topbar">
 
-    <a
-      class="back"
-      href="index.html"
-    >
-
-      <div class="back-icon">
-        ←
-      </div>
-
-      <div>
-        門票
-      </div>
-
+    <a class="back" href="index.html">
+      <div class="back-icon">←</div>
+      <div>票券</div>
     </a>
 
+    <div class="right-header">
 
-    <div
-      class="save-status"
-      id="saveStatus"
-    >
-      自動儲存
+      <div
+        class="cloud-dot"
+        id="cloudDot"
+      ></div>
+
+      <div
+        class="save-status"
+        id="saveStatus"
+      >
+        連線中…
+      </div>
+
     </div>
 
   </div>
-
 </header>
 
 
 <main class="container">
 
-
   <section class="page-head">
 
     <h1>
-      🎫 門票
+      🎫 票券
     </h1>
 
     <p>
-      管理景點門票、預約時間與相關文件
+      景點門票、預約時間、訂單編號與入場資訊
     </p>
 
   </section>
 
 
-  <div class="toolbar">
+  <div
+    class="sync-banner"
+    id="syncBanner"
+  ></div>
 
-    <div
-      class="count"
-      id="ticketCount"
-    >
-      0 張票券
+
+  <section class="summary">
+
+    <div>
+
+      <small>
+        Italy 2026
+      </small>
+
+      <strong id="ticketCount">
+        0 張票券
+      </strong>
+
     </div>
+
 
     <button
       class="add-button"
       id="addTicket"
     >
-      ＋ 新增門票
+      ＋ 新增票券
     </button>
 
-  </div>
+  </section>
 
 
   <div
@@ -581,64 +577,38 @@
   ></div>
 
 
-  <div class="notice">
-
-    <strong>
-      🔐 門票與 QR Code
-    </strong>
-
-    目前 GitHub Pages 是公開網站，所以真正含 QR Code、訂單編號、姓名或付款資料的票券，不建議直接上傳到公開 Repository。之後我們再把私人 PDF / QR Code 接到安全的檔案空間。
-
+  <div class="privacy">
+    🔒 真正的 QR Code、條碼、護照資料、完整訂單 PDF 不要放進公開 GitHub。之後我們會用 Supabase 私人 Storage 存放。
   </div>
-
 
 </main>
 
 
 <nav>
 
-  <a
-    class="nav-link"
-    href="index.html"
-  >
+  <a class="nav-link" href="index.html">
     <span class="nav-icon">🏠</span>
     今天
   </a>
 
-
-  <a
-    class="nav-link"
-    href="itinerary.html"
-  >
+  <a class="nav-link" href="itinerary.html">
     <span class="nav-icon">📅</span>
     行程
   </a>
 
-
-  <a
-    class="nav-link"
-    href="#"
-  >
+  <a class="nav-link" href="map.html">
     <span class="nav-icon">🗺️</span>
     地圖
   </a>
 
-
-  <a
-    class="nav-link active"
-    href="tickets.html"
-  >
+  <a class="nav-link active" href="tickets.html">
     <span class="nav-icon">🎫</span>
     票券
   </a>
 
-
-  <a
-    class="nav-link"
-    href="stays.html"
-  >
-    <span class="nav-icon">🏨</span>
-    住宿
+  <a class="nav-link" href="car.html">
+    <span class="nav-icon">🚗</span>
+    租車
   </a>
 
 </nav>
@@ -646,130 +616,700 @@
 
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://vexzdnyinfmzvcyotiuo.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
+  );
+
+
+/* =========================
+   SETTINGS
+========================= */
 
 const STORAGE_KEY =
   "travelHubItaly2026Tickets";
 
 
-let tickets = [];
+const MODULE_KEY =
+  "tickets";
 
 
-function loadData() {
-
-  const saved =
-    localStorage.getItem(
-      STORAGE_KEY
-    );
+let currentUser =
+  null;
 
 
-  if (!saved) {
-    tickets = [];
-    return;
-  }
+let tickets =
+  [];
 
 
-  try {
+let cloudSaveTimer;
 
-    tickets =
-      JSON.parse(saved);
 
-  }
+/* =========================
+   HELPERS
+========================= */
 
-  catch {
+function makeId() {
 
-    tickets = [];
-
-  }
+  return (
+    Date.now().toString(36) +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
 
 }
 
 
-function saveData() {
+function valueOf(
+  object,
+  keys,
+  fallback = ""
+) {
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(tickets)
-  );
+  for (
+    const key of keys
+  ) {
 
+    if (
+      object[key] !== undefined &&
+      object[key] !== null
+    ) {
 
-  const status =
-    document.getElementById(
-      "saveStatus"
-    );
+      return object[key];
 
+    }
 
-  status.textContent =
-    "已儲存 ✓";
+  }
 
-
-  clearTimeout(
-    window.saveTimer
-  );
-
-
-  window.saveTimer =
-    setTimeout(
-      () => {
-
-        status.textContent =
-          "自動儲存";
-
-      },
-      1200
-    );
+  return fallback;
 
 }
 
 
-function newTicket() {
+function normalizeTicket(
+  oldTicket = {}
+) {
 
   return {
 
-    name: "",
-    location: "",
+    ...oldTicket,
 
-    date: "",
-    time: "",
+    id:
+      valueOf(
+        oldTicket,
+        ["id"],
+        makeId()
+      ),
 
-    people: "4",
+    name:
+      valueOf(
+        oldTicket,
+        ["name", "title", "ticketName"]
+      ),
 
-    ticketStatus: "已預約",
-    paymentStatus: "未設定",
+    location:
+      valueOf(
+        oldTicket,
+        ["location", "place", "city"]
+      ),
 
-    orderNumber: "",
+    date:
+      valueOf(
+        oldTicket,
+        ["date", "visitDate"]
+      ),
 
-    amount: "",
-    currency: "EUR",
+    time:
+      valueOf(
+        oldTicket,
+        ["time", "visitTime"]
+      ),
 
-    arriveEarly: "",
+    people:
+      valueOf(
+        oldTicket,
+        ["people", "persons", "guests"]
+      ),
 
-    maps: "",
-    ticketLink: "",
+    status:
+      valueOf(
+        oldTicket,
+        ["status"],
+        "已預訂"
+      ),
 
-    note: ""
+    payment:
+      valueOf(
+        oldTicket,
+        ["payment", "paymentStatus"]
+      ),
+
+    orderNo:
+      valueOf(
+        oldTicket,
+        [
+          "orderNo",
+          "order",
+          "bookingNo",
+          "confirmation"
+        ]
+      ),
+
+    amount:
+      valueOf(
+        oldTicket,
+        ["amount", "price"]
+      ),
+
+    currency:
+      valueOf(
+        oldTicket,
+        ["currency"],
+        "EUR"
+      ),
+
+    arriveEarly:
+      valueOf(
+        oldTicket,
+        [
+          "arriveEarly",
+          "early",
+          "arrival"
+        ]
+      ),
+
+    maps:
+      valueOf(
+        oldTicket,
+        [
+          "maps",
+          "map",
+          "mapLink"
+        ]
+      ),
+
+    documentLink:
+      valueOf(
+        oldTicket,
+        [
+          "documentLink",
+          "pdf",
+          "pdfLink",
+          "document"
+        ]
+      ),
+
+    qrLink:
+      valueOf(
+        oldTicket,
+        [
+          "qrLink",
+          "qr",
+          "qrCode"
+        ]
+      ),
+
+    note:
+      valueOf(
+        oldTicket,
+        ["note", "notes"]
+      )
 
   };
 
 }
 
 
+function newTicket() {
+
+  return normalizeTicket({
+    id: makeId(),
+    currency: "EUR",
+    status: "已預訂"
+  });
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function setCloudStatus(
+  text,
+  type
+) {
+
+  document.getElementById(
+    "saveStatus"
+  ).textContent =
+    text;
+
+
+  const dot =
+    document.getElementById(
+      "cloudDot"
+    );
+
+
+  dot.className =
+    "cloud-dot";
+
+
+  if (type) {
+    dot.classList.add(type);
+  }
+
+}
+
+
+function showBanner(
+  text,
+  type = "success"
+) {
+
+  const banner =
+    document.getElementById(
+      "syncBanner"
+    );
+
+
+  banner.textContent =
+    text;
+
+
+  banner.className =
+    "sync-banner show " +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      banner.className =
+        "sync-banner";
+
+    },
+    5000
+  );
+
+}
+
+
+/* =========================
+   LOCAL STORAGE
+========================= */
+
+function loadLocalTickets() {
+
+  const raw =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!raw) {
+    return null;
+  }
+
+
+  try {
+
+    const parsed =
+      JSON.parse(raw);
+
+
+    if (
+      Array.isArray(parsed)
+    ) {
+
+      return parsed.map(
+        normalizeTicket
+      );
+
+    }
+
+
+    if (
+      parsed &&
+      Array.isArray(parsed.tickets)
+    ) {
+
+      return parsed.tickets.map(
+        normalizeTicket
+      );
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+  }
+
+
+  return null;
+
+}
+
+
+function saveLocalTickets() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(tickets)
+  );
+
+}
+
+
+/* =========================
+   CLOUD
+========================= */
+
+async function loadCloudModule() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("travel_modules")
+      .select("data, updated_at")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "module_key",
+        MODULE_KEY
+      )
+      .maybeSingle();
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return data;
+
+}
+
+
+function cloudDataToTickets(
+  data
+) {
+
+  if (
+    Array.isArray(data)
+  ) {
+
+    return data.map(
+      normalizeTicket
+    );
+
+  }
+
+
+  if (
+    data &&
+    Array.isArray(data.tickets)
+  ) {
+
+    return data.tickets.map(
+      normalizeTicket
+    );
+
+  }
+
+
+  return [];
+
+}
+
+
+async function uploadTicketsNow() {
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  saveLocalTickets();
+
+
+  setCloudStatus(
+    "同步中…",
+    "saving"
+  );
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("travel_modules")
+      .upsert(
+        {
+
+          user_id:
+            currentUser.id,
+
+          module_key:
+            MODULE_KEY,
+
+          data: {
+            version: 1,
+            tickets: tickets
+          },
+
+          updated_at:
+            new Date()
+              .toISOString()
+
+        },
+        {
+          onConflict:
+            "user_id,module_key"
+        }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    setCloudStatus(
+      "同步失敗",
+      "error"
+    );
+
+
+    return;
+
+  }
+
+
+  setCloudStatus(
+    "已同步 ☁️",
+    "online"
+  );
+
+}
+
+
+function scheduleCloudSave() {
+
+  saveLocalTickets();
+
+
+  setCloudStatus(
+    "等待同步…",
+    "saving"
+  );
+
+
+  clearTimeout(
+    cloudSaveTimer
+  );
+
+
+  cloudSaveTimer =
+    setTimeout(
+      uploadTicketsNow,
+      650
+    );
+
+}
+
+
+/* =========================
+   INITIAL
+========================= */
+
+async function initializeCloud() {
+
+  setCloudStatus(
+    "登入確認中…"
+  );
+
+
+  const {
+    data: sessionData
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  const session =
+    sessionData.session;
+
+
+  if (!session) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  currentUser =
+    session.user;
+
+
+  const localTickets =
+    loadLocalTickets();
+
+
+  setCloudStatus(
+    "讀取雲端…",
+    "saving"
+  );
+
+
+  try {
+
+    const cloudRow =
+      await loadCloudModule();
+
+
+    if (
+      cloudRow &&
+      cloudRow.data
+    ) {
+
+      tickets =
+        cloudDataToTickets(
+          cloudRow.data
+        );
+
+
+      saveLocalTickets();
+
+
+      setCloudStatus(
+        "已同步 ☁️",
+        "online"
+      );
+
+
+      showBanner(
+        "☁️ 已載入票券雲端資料。"
+      );
+
+    }
+
+    else if (
+      localTickets &&
+      localTickets.length > 0
+    ) {
+
+      tickets =
+        localTickets;
+
+
+      await uploadTicketsNow();
+
+
+      showBanner(
+        "☁️ 第一次同步完成：原本瀏覽器裡的票券資料已上傳到 Supabase。"
+      );
+
+    }
+
+    else {
+
+      tickets =
+        [];
+
+
+      await uploadTicketsNow();
+
+
+      showBanner(
+        "☁️ 已建立票券雲端資料。"
+      );
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+
+    tickets =
+      localTickets || [];
+
+
+    setCloudStatus(
+      "離線備份模式",
+      "error"
+    );
+
+
+    showBanner(
+      "⚠️ Supabase 暫時無法連線，目前使用本機票券備份。",
+      "error"
+    );
+
+  }
+
+
+  render();
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
 function render() {
+
+  document.getElementById(
+    "ticketCount"
+  ).textContent =
+    tickets.length +
+    " 張票券";
+
 
   const container =
     document.getElementById(
       "ticketList"
     );
-
-
-  const count =
-    document.getElementById(
-      "ticketCount"
-    );
-
-
-  count.textContent =
-    tickets.length +
-    " 張票券";
 
 
   container.innerHTML =
@@ -782,23 +1322,19 @@ function render() {
 
     container.innerHTML =
       `
-
         <div class="empty">
 
           <div class="empty-icon">
-            🎟️
+            🎫
           </div>
 
           <strong>
-            還沒有加入門票
+            還沒有票券
           </strong>
 
-          <p>
-            按「＋ 新增門票」建立第一張票券。
-          </p>
+          按「＋ 新增票券」開始建立。
 
         </div>
-
       `;
 
 
@@ -826,6 +1362,10 @@ function render() {
 }
 
 
+/* =========================
+   CARD
+========================= */
+
 function createTicketCard(
   ticket,
   index
@@ -844,30 +1384,64 @@ function createTicketCard(
   card.innerHTML =
     `
 
-      <div class="ticket-number">
-        TICKET ${index + 1}
+      <div class="ticket-top">
+
+        <div class="ticket-number">
+          ${index + 1}
+        </div>
+
+
+        <input
+          class="ticket-name"
+          placeholder="票券 / 景點名稱"
+          value="${escapeAttribute(ticket.name)}"
+        >
+
+
+        <button
+          class="delete-button"
+        >
+          ×
+        </button>
+
       </div>
 
 
-      <input
-        class="ticket-title ticket-name"
-        placeholder="景點 / 門票名稱"
-        value="${escapeAttribute(ticket.name)}"
-      >
+      <div class="grid">
 
 
-      <input
-        class="ticket-location"
-        placeholder="城市 / 地區"
-        value="${escapeAttribute(ticket.location)}"
-      >
+        <div class="field-wrap">
+
+          <label>
+            地點
+          </label>
+
+          <input
+            class="field location"
+            placeholder="例如：Galleria dell'Accademia"
+            value="${escapeAttribute(ticket.location)}"
+          >
+
+        </div>
 
 
+        <div class="field-wrap">
 
-      <div
-        class="grid"
-        style="margin-top:16px"
-      >
+          <label>
+            狀態
+          </label>
+
+          <select class="field status">
+            ${statusOptions(ticket.status)}
+          </select>
+
+        </div>
+
+
+        <div class="section-title">
+          📅 預約
+        </div>
+
 
         <div class="field-wrap">
 
@@ -876,7 +1450,7 @@ function createTicketCard(
           </label>
 
           <input
-            class="field ticket-date"
+            class="field date"
             type="date"
             value="${escapeAttribute(ticket.date)}"
           >
@@ -887,214 +1461,172 @@ function createTicketCard(
         <div class="field-wrap">
 
           <label>
-            入場時間
+            時間
           </label>
 
           <input
-            class="field ticket-time"
-            placeholder="例如 16:45"
+            class="field time"
+            type="time"
             value="${escapeAttribute(ticket.time)}"
           >
 
         </div>
 
-      </div>
-
-
-
-      <div class="section-line">
-
-        <div class="grid three">
-
-
-          <div class="field-wrap">
-
-            <label>
-              人數
-            </label>
-
-            <input
-              class="field people"
-              inputmode="numeric"
-              placeholder="4"
-              value="${escapeAttribute(ticket.people)}"
-            >
-
-          </div>
-
-
-          <div class="field-wrap">
-
-            <label>
-              票券狀態
-            </label>
-
-            <select
-              class="field ticket-status"
-            >
-              ${ticketStatusOptions(ticket.ticketStatus)}
-            </select>
-
-          </div>
-
-
-          <div class="field-wrap">
-
-            <label>
-              付款狀態
-            </label>
-
-            <select
-              class="field payment-status"
-            >
-              ${paymentOptions(ticket.paymentStatus)}
-            </select>
-
-          </div>
-
-
-          <div class="field-wrap">
-
-            <label>
-              訂單編號
-            </label>
-
-            <input
-              class="field order-number"
-              placeholder="Booking reference"
-              value="${escapeAttribute(ticket.orderNumber)}"
-            >
-
-          </div>
-
-
-          <div class="field-wrap">
-
-            <label>
-              金額
-            </label>
-
-            <input
-              class="field amount"
-              inputmode="decimal"
-              placeholder="0"
-              value="${escapeAttribute(ticket.amount)}"
-            >
-
-          </div>
-
-
-          <div class="field-wrap">
-
-            <label>
-              幣別
-            </label>
-
-            <select
-              class="field currency"
-            >
-              ${currencyOptions(ticket.currency)}
-            </select>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-
-      <div class="section-line">
-
-        <div class="grid">
-
-
-          <div class="field-wrap">
-
-            <label>
-              建議提前抵達
-            </label>
-
-            <input
-              class="field arrive-early"
-              placeholder="例如 30 分鐘"
-              value="${escapeAttribute(ticket.arriveEarly)}"
-            >
-
-          </div>
-
-
-          <div class="field-wrap">
-
-            <label>
-              Google Maps
-            </label>
-
-            <div class="link-row">
-
-              <input
-                class="field maps"
-                placeholder="貼上 Google Maps 連結"
-                value="${escapeAttribute(ticket.maps)}"
-              >
-
-              <button
-                class="open-button maps-open"
-              >
-                📍 導航
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-
-      <div class="section-line">
 
         <div class="field-wrap">
 
           <label>
-            📄 PDF / QR Code / 電子票連結
+            人數
           </label>
 
-          <div class="link-row">
-
-            <input
-              class="field ticket-link"
-              placeholder="私人票券連結"
-              value="${escapeAttribute(ticket.ticketLink)}"
-            >
-
-            <button
-              class="open-button ticket-open"
-            >
-              🎫 查看票券
-            </button>
-
-          </div>
+          <input
+            class="field people"
+            placeholder="4"
+            inputmode="numeric"
+            value="${escapeAttribute(ticket.people)}"
+          >
 
         </div>
 
-      </div>
-
-
-
-      <div class="section-line">
 
         <div class="field-wrap">
 
           <label>
-            注意事項
+            建議提早多久到
+          </label>
+
+          <input
+            class="field arriveEarly"
+            placeholder="例如：提前 15 分鐘"
+            value="${escapeAttribute(ticket.arriveEarly)}"
+          >
+
+        </div>
+
+
+        <div class="section-title">
+          💳 訂單 / 金額
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            訂單編號
+          </label>
+
+          <input
+            class="field orderNo"
+            placeholder="Booking / Order number"
+            value="${escapeAttribute(ticket.orderNo)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            付款狀態
+          </label>
+
+          <input
+            class="field payment"
+            placeholder="已付款 / 現場付款"
+            value="${escapeAttribute(ticket.payment)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            金額
+          </label>
+
+          <input
+            class="field amount"
+            inputmode="decimal"
+            placeholder="0"
+            value="${escapeAttribute(ticket.amount)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            幣別
+          </label>
+
+          <select class="field currency">
+            ${currencyOptions(ticket.currency)}
+          </select>
+
+        </div>
+
+
+        <div class="section-title">
+          📍 地圖 / 文件
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            Google Maps 分享連結
+          </label>
+
+          <input
+            class="field maps"
+            placeholder="https://maps.google.com/..."
+            value="${escapeAttribute(ticket.maps)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            PDF / 電子票連結
+          </label>
+
+          <input
+            class="field documentLink"
+            placeholder="之後可放 Supabase 私人文件連結"
+            value="${escapeAttribute(ticket.documentLink)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            QR Code 連結
+          </label>
+
+          <input
+            class="field qrLink"
+            placeholder="之後可放 Supabase 私人 QR 連結"
+            value="${escapeAttribute(ticket.qrLink)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap full">
+
+          <label>
+            備註
           </label>
 
           <textarea
             class="field note"
-            placeholder="例如：護照姓名需一致、不可遲到、提前 30 分鐘排隊、入口位置、禁止攜帶物品……"
+            placeholder="入場入口、證件需求、取消規則、集合地點……"
           >${escapeHtml(ticket.note)}</textarea>
 
         </div>
@@ -1102,27 +1634,26 @@ function createTicketCard(
       </div>
 
 
-
       <div class="actions">
 
-        <button
-          class="action-button move-up"
-        >
+        <button class="action-button map-button openMap">
+          📍 Google Maps
+        </button>
+
+        <button class="action-button link-button openDocument">
+          📄 電子票
+        </button>
+
+        <button class="action-button link-button openQr">
+          ▦ QR
+        </button>
+
+        <button class="action-button moveUp">
           ↑ 上移
         </button>
 
-
-        <button
-          class="action-button move-down"
-        >
+        <button class="action-button moveDown">
           ↓ 下移
-        </button>
-
-
-        <button
-          class="action-button delete-button"
-        >
-          🗑 刪除門票
         </button>
 
       </div>
@@ -1130,182 +1661,90 @@ function createTicketCard(
     `;
 
 
-  const fields = {
-
-    name:
-      card.querySelector(
-        ".ticket-name"
-      ),
-
-    location:
-      card.querySelector(
-        ".ticket-location"
-      ),
-
-    date:
-      card.querySelector(
-        ".ticket-date"
-      ),
-
-    time:
-      card.querySelector(
-        ".ticket-time"
-      ),
-
-    people:
-      card.querySelector(
-        ".people"
-      ),
-
-    ticketStatus:
-      card.querySelector(
-        ".ticket-status"
-      ),
-
-    paymentStatus:
-      card.querySelector(
-        ".payment-status"
-      ),
-
-    orderNumber:
-      card.querySelector(
-        ".order-number"
-      ),
-
-    amount:
-      card.querySelector(
-        ".amount"
-      ),
-
-    currency:
-      card.querySelector(
-        ".currency"
-      ),
-
-    arriveEarly:
-      card.querySelector(
-        ".arrive-early"
-      ),
-
-    maps:
-      card.querySelector(
-        ".maps"
-      ),
-
-    ticketLink:
-      card.querySelector(
-        ".ticket-link"
-      ),
-
-    note:
-      card.querySelector(
-        ".note"
-      )
-
-  };
+  bindInput(card, ".ticket-name", ticket, "name");
+  bindInput(card, ".location", ticket, "location");
+  bindInput(card, ".date", ticket, "date");
+  bindInput(card, ".time", ticket, "time");
+  bindInput(card, ".people", ticket, "people");
+  bindInput(card, ".arriveEarly", ticket, "arriveEarly");
+  bindInput(card, ".orderNo", ticket, "orderNo");
+  bindInput(card, ".payment", ticket, "payment");
+  bindInput(card, ".amount", ticket, "amount");
+  bindInput(card, ".maps", ticket, "maps");
+  bindInput(card, ".documentLink", ticket, "documentLink");
+  bindInput(card, ".qrLink", ticket, "qrLink");
+  bindInput(card, ".note", ticket, "note");
 
 
-  Object.entries(
-    fields
-  ).forEach(
-    (
-      [
-        key,
-        element
-      ]
-    ) => {
-
-      const event =
-        element.tagName ===
-        "SELECT"
-        ? "change"
-        : "input";
-
-
-      element.addEventListener(
-        event,
-        () => {
-
-          ticket[key] =
-            element.value;
-
-          updateButtons();
-
-          saveData();
-
-        }
-      );
-
-    }
-  );
-
-
-  const mapsButton =
+  const status =
     card.querySelector(
-      ".maps-open"
+      ".status"
     );
 
 
-  const ticketButton =
-    card.querySelector(
-      ".ticket-open"
-    );
-
-
-  function updateButtons() {
-
-    mapsButton.disabled =
-      !ticket.maps.trim();
-
-
-    ticketButton.disabled =
-      !ticket.ticketLink.trim();
-
-  }
-
-
-  mapsButton.onclick =
+  status.onchange =
     () => {
 
-      if (!ticket.maps) {
-        return;
-      }
+      ticket.status =
+        status.value;
 
-
-      window.open(
-        ticket.maps,
-        "_blank",
-        "noopener"
-      );
+      scheduleCloudSave();
 
     };
 
 
-  ticketButton.onclick =
+  const currency =
+    card.querySelector(
+      ".currency"
+    );
+
+
+  currency.onchange =
     () => {
 
-      if (!ticket.ticketLink) {
-        return;
-      }
+      ticket.currency =
+        currency.value;
 
-
-      window.open(
-        ticket.ticketLink,
-        "_blank",
-        "noopener"
-      );
+      scheduleCloudSave();
 
     };
 
 
   card.querySelector(
-    ".move-up"
+    ".delete-button"
   ).onclick =
     () => {
 
-      if (
-        index === 0
-      ) {
+      const okay =
+        confirm(
+          "確定要刪除這張票券嗎？"
+        );
+
+
+      if (!okay) {
+        return;
+      }
+
+
+      tickets.splice(
+        index,
+        1
+      );
+
+
+      scheduleCloudSave();
+
+      render();
+
+    };
+
+
+  card.querySelector(
+    ".moveUp"
+  ).onclick =
+    () => {
+
+      if (index === 0) {
         return;
       }
 
@@ -1320,7 +1759,7 @@ function createTicketCard(
       ];
 
 
-      saveData();
+      scheduleCloudSave();
 
       render();
 
@@ -1328,7 +1767,7 @@ function createTicketCard(
 
 
   card.querySelector(
-    ".move-down"
+    ".moveDown"
   ).onclick =
     () => {
 
@@ -1350,7 +1789,7 @@ function createTicketCard(
       ];
 
 
-      saveData();
+      scheduleCloudSave();
 
       render();
 
@@ -1358,35 +1797,39 @@ function createTicketCard(
 
 
   card.querySelector(
-    ".delete-button"
+    ".openMap"
   ).onclick =
     () => {
 
-      const okay =
-        confirm(
-          "確定要刪除這張門票嗎？"
-        );
-
-
-      if (!okay) {
-        return;
-      }
-
-
-      tickets.splice(
-        index,
-        1
-      );
-
-
-      saveData();
-
-      render();
+      openMap(ticket);
 
     };
 
 
-  updateButtons();
+  card.querySelector(
+    ".openDocument"
+  ).onclick =
+    () => {
+
+      openPrivateLink(
+        ticket.documentLink,
+        "這張票券還沒有電子票連結。"
+      );
+
+    };
+
+
+  card.querySelector(
+    ".openQr"
+  ).onclick =
+    () => {
+
+      openPrivateLink(
+        ticket.qrLink,
+        "這張票券還沒有 QR Code 連結。"
+      );
+
+    };
 
 
   return card;
@@ -1394,68 +1837,176 @@ function createTicketCard(
 }
 
 
-function ticketStatusOptions(
-  selected
+/* =========================
+   INPUT
+========================= */
+
+function bindInput(
+  card,
+  selector,
+  object,
+  key
 ) {
 
-  const options =
-    [
-      "尚未預約",
-      "已預約",
-      "待確認",
-      "已取消",
-      "現場購票"
-    ];
+  const element =
+    card.querySelector(
+      selector
+    );
 
 
-  return options
-    .map(
-      option =>
-        `
-          <option
-            value="${option}"
-            ${
-              option === selected
-              ? "selected"
-              : ""
-            }
-          >
-            ${option}
-          </option>
-        `
-    )
-    .join("");
+  element.oninput =
+    () => {
+
+      object[key] =
+        element.value;
+
+      scheduleCloudSave();
+
+    };
 
 }
 
 
-function paymentOptions(
+/* =========================
+   ADD
+========================= */
+
+document.getElementById(
+  "addTicket"
+).onclick =
+  () => {
+
+    tickets.push(
+      newTicket()
+    );
+
+
+    scheduleCloudSave();
+
+    render();
+
+  };
+
+
+/* =========================
+   LINKS
+========================= */
+
+function openMap(
+  ticket
+) {
+
+  if (
+    ticket.maps &&
+    ticket.maps.trim()
+  ) {
+
+    window.open(
+      ticket.maps.trim(),
+      "_blank",
+      "noopener"
+    );
+
+    return;
+
+  }
+
+
+  const query =
+    ticket.location?.trim() ||
+    ticket.name?.trim();
+
+
+  if (!query) {
+
+    alert(
+      "先填票券名稱或地點。"
+    );
+
+    return;
+
+  }
+
+
+  window.open(
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(query),
+    "_blank",
+    "noopener"
+  );
+
+}
+
+
+function openPrivateLink(
+  url,
+  emptyMessage
+) {
+
+  const clean =
+    url?.trim();
+
+
+  if (!clean) {
+
+    alert(emptyMessage);
+
+    return;
+
+  }
+
+
+  window.open(
+    clean,
+    "_blank",
+    "noopener"
+  );
+
+}
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+function statusOptions(
   selected
 ) {
 
   const options =
     [
-      "未設定",
-      "未付款",
-      "部分付款",
+      "想訂",
+      "待搶票",
+      "已預訂",
       "已付款",
-      "現場付款"
+      "已使用",
+      "取消"
     ];
+
+
+  if (
+    selected &&
+    !options.includes(selected)
+  ) {
+
+    options.push(selected);
+
+  }
 
 
   return options
     .map(
-      option =>
+      item =>
         `
           <option
-            value="${option}"
+            value="${escapeAttribute(item)}"
             ${
-              option === selected
-              ? "selected"
-              : ""
+              item === selected
+                ? "selected"
+                : ""
             }
           >
-            ${option}
+            ${escapeHtml(item)}
           </option>
         `
     )
@@ -1468,30 +2019,41 @@ function currencyOptions(
   selected
 ) {
 
-  const options =
+  const currencies =
     [
       "EUR",
       "TWD",
       "USD",
-      "AUD",
+      "GBP",
       "JPY",
-      "GBP"
+      "AUD",
+      "CNY"
     ];
 
 
-  return options
+  if (
+    selected &&
+    !currencies.includes(selected)
+  ) {
+
+    currencies.push(selected);
+
+  }
+
+
+  return currencies
     .map(
-      option =>
+      currency =>
         `
           <option
-            value="${option}"
+            value="${escapeAttribute(currency)}"
             ${
-              option === selected
-              ? "selected"
-              : ""
+              currency === selected
+                ? "selected"
+                : ""
             }
           >
-            ${option}
+            ${escapeHtml(currency)}
           </option>
         `
     )
@@ -1500,86 +2062,20 @@ function currencyOptions(
 }
 
 
-document.getElementById(
-  "addTicket"
-).onclick =
-  () => {
-
-    tickets.push(
-      newTicket()
-    );
-
-
-    saveData();
-
-    render();
-
-
-    setTimeout(
-      () => {
-
-        const cards =
-          document.querySelectorAll(
-            ".ticket-card"
-          );
-
-
-        const last =
-          cards[
-            cards.length - 1
-          ];
-
-
-        last
-          ?.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-
-
-        last
-          ?.querySelector(
-            ".ticket-name"
-          )
-          ?.focus();
-
-      },
-      50
-    );
-
-  };
-
+/* =========================
+   ESCAPE
+========================= */
 
 function escapeHtml(
   text = ""
 ) {
 
   return String(text)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
 
@@ -1588,21 +2084,18 @@ function escapeAttribute(
   text = ""
 ) {
 
-  return escapeHtml(
-    text
-  );
+  return escapeHtml(text);
 
 }
 
 
-loadData();
+/* =========================
+   START
+========================= */
 
-render();
-
+initializeCloud();
 
 </script>
 
-
 </body>
-
 </html>
