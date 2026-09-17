@@ -357,6 +357,86 @@
       font-weight: 800;
     }
 
+    .private-files {
+      grid-column: 1 / -1;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      gap: 10px;
+    }
+
+    .file-box {
+      padding: 12px;
+
+      border-radius: 15px;
+
+      background: #f8f6f2;
+
+      border: 1px solid var(--line);
+    }
+
+    .file-box strong {
+      display: block;
+
+      margin-bottom: 4px;
+
+      font-size: 12px;
+    }
+
+    .file-status {
+      min-height: 18px;
+
+      margin-bottom: 8px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      word-break: break-all;
+    }
+
+    .file-input {
+      width: 100%;
+
+      font-size: 11px;
+    }
+
+    .file-actions {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+
+      margin-top: 9px;
+    }
+
+    .file-button {
+      border: 0;
+
+      border-radius: 9px;
+
+      padding: 7px 9px;
+
+      background: var(--blue-soft);
+
+      font-size: 10px;
+    }
+
+    .file-button.delete {
+      background: var(--red-soft);
+      color: var(--danger);
+    }
+
+    .legacy-note {
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
     .actions {
       display: flex;
 
@@ -384,10 +464,6 @@
 
     .map-button {
       background: var(--green-soft);
-    }
-
-    .link-button {
-      background: var(--blue-soft);
     }
 
     .empty {
@@ -423,9 +499,9 @@
 
       border-radius: 15px;
 
-      background: var(--yellow-soft);
+      background: var(--green-soft);
 
-      color: #675c4c;
+      color: #536553;
 
       font-size: 11px;
       line-height: 1.6;
@@ -478,7 +554,8 @@
     }
 
     @media (max-width: 650px) {
-      .grid {
+      .grid,
+      .private-files {
         grid-template-columns: 1fr;
       }
 
@@ -498,12 +575,21 @@
 <body>
 
 <header>
+
   <div class="container topbar">
 
     <a class="back" href="index.html">
-      <div class="back-icon">←</div>
-      <div>票券</div>
+
+      <div class="back-icon">
+        ←
+      </div>
+
+      <div>
+        票券
+      </div>
+
     </a>
+
 
     <div class="right-header">
 
@@ -522,6 +608,7 @@
     </div>
 
   </div>
+
 </header>
 
 
@@ -534,7 +621,7 @@
     </h1>
 
     <p>
-      景點門票、預約時間、訂單編號與入場資訊
+      景點門票、預約資訊，以及登入後才能開啟的私人電子票與 QR Code
     </p>
 
   </section>
@@ -578,7 +665,7 @@
 
 
   <div class="privacy">
-    🔒 真正的 QR Code、條碼、護照資料、完整訂單 PDF 不要放進公開 GitHub。之後我們會用 Supabase 私人 Storage 存放。
+    🔒 新上傳的電子票與 QR Code 都存放在私人 Supabase Storage，不會放進公開 GitHub repository。
   </div>
 
 </main>
@@ -641,6 +728,10 @@ const supabaseClient =
   );
 
 
+const STORAGE_BUCKET =
+  "travel-private";
+
+
 /* =========================
    SETTINGS
 ========================= */
@@ -670,6 +761,16 @@ let cloudSaveTimer;
 
 function makeId() {
 
+  if (
+    window.crypto &&
+    crypto.randomUUID
+  ) {
+
+    return crypto.randomUUID();
+
+  }
+
+
   return (
     Date.now().toString(36) +
     Math.random()
@@ -691,6 +792,7 @@ function valueOf(
   ) {
 
     if (
+      object &&
       object[key] !== undefined &&
       object[key] !== null
     ) {
@@ -700,6 +802,7 @@ function valueOf(
     }
 
   }
+
 
   return fallback;
 
@@ -791,21 +894,47 @@ function normalizeTicket(
     arriveEarly:
       valueOf(
         oldTicket,
-        [
-          "arriveEarly",
-          "early",
-          "arrival"
-        ]
+        ["arriveEarly", "early", "arrival"]
       ),
 
     maps:
       valueOf(
         oldTicket,
-        [
-          "maps",
-          "map",
-          "mapLink"
-        ]
+        ["maps", "map", "mapLink"]
+      ),
+
+    note:
+      valueOf(
+        oldTicket,
+        ["note", "notes"]
+      ),
+
+    documentPath:
+      valueOf(
+        oldTicket,
+        ["documentPath"],
+        ""
+      ),
+
+    documentName:
+      valueOf(
+        oldTicket,
+        ["documentName"],
+        ""
+      ),
+
+    qrPath:
+      valueOf(
+        oldTicket,
+        ["qrPath"],
+        ""
+      ),
+
+    qrName:
+      valueOf(
+        oldTicket,
+        ["qrName"],
+        ""
       ),
 
     documentLink:
@@ -814,9 +943,9 @@ function normalizeTicket(
         [
           "documentLink",
           "pdf",
-          "pdfLink",
-          "document"
-        ]
+          "pdfLink"
+        ],
+        ""
       ),
 
     qrLink:
@@ -824,18 +953,44 @@ function normalizeTicket(
         oldTicket,
         [
           "qrLink",
-          "qr",
-          "qrCode"
-        ]
-      ),
-
-    note:
-      valueOf(
-        oldTicket,
-        ["note", "notes"]
+          "qr"
+        ],
+        ""
       )
 
   };
+
+}
+
+
+function normalizeTickets(
+  data
+) {
+
+  if (
+    Array.isArray(data)
+  ) {
+
+    return data.map(
+      normalizeTicket
+    );
+
+  }
+
+
+  if (
+    data &&
+    Array.isArray(data.tickets)
+  ) {
+
+    return data.tickets.map(
+      normalizeTicket
+    );
+
+  }
+
+
+  return [];
 
 }
 
@@ -847,6 +1002,28 @@ function newTicket() {
     currency: "EUR",
     status: "已預訂"
   });
+
+}
+
+
+function sanitizeFileName(
+  name
+) {
+
+  const clean =
+    String(
+      name ||
+      "file"
+    )
+      .replaceAll("/", "-")
+      .replaceAll("\\", "-")
+      .replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+  return clean || "file";
 
 }
 
@@ -917,7 +1094,7 @@ function showBanner(
 
 
 /* =========================
-   LOCAL STORAGE
+   LOCAL
 ========================= */
 
 function loadLocalTickets() {
@@ -935,31 +1112,9 @@ function loadLocalTickets() {
 
   try {
 
-    const parsed =
-      JSON.parse(raw);
-
-
-    if (
-      Array.isArray(parsed)
-    ) {
-
-      return parsed.map(
-        normalizeTicket
-      );
-
-    }
-
-
-    if (
-      parsed &&
-      Array.isArray(parsed.tickets)
-    ) {
-
-      return parsed.tickets.map(
-        normalizeTicket
-      );
-
-    }
+    return normalizeTickets(
+      JSON.parse(raw)
+    );
 
   }
 
@@ -969,10 +1124,9 @@ function loadLocalTickets() {
 
     console.error(error);
 
+    return null;
+
   }
-
-
-  return null;
 
 }
 
@@ -988,7 +1142,7 @@ function saveLocalTickets() {
 
 
 /* =========================
-   CLOUD
+   CLOUD DATA
 ========================= */
 
 async function loadCloudModule() {
@@ -999,7 +1153,7 @@ async function loadCloudModule() {
   } =
     await supabaseClient
       .from("travel_modules")
-      .select("data, updated_at")
+      .select("data")
       .eq(
         "user_id",
         currentUser.id
@@ -1017,38 +1171,6 @@ async function loadCloudModule() {
 
 
   return data;
-
-}
-
-
-function cloudDataToTickets(
-  data
-) {
-
-  if (
-    Array.isArray(data)
-  ) {
-
-    return data.map(
-      normalizeTicket
-    );
-
-  }
-
-
-  if (
-    data &&
-    Array.isArray(data.tickets)
-  ) {
-
-    return data.tickets.map(
-      normalizeTicket
-    );
-
-  }
-
-
-  return [];
 
 }
 
@@ -1084,7 +1206,7 @@ async function uploadTicketsNow() {
             MODULE_KEY,
 
           data: {
-            version: 1,
+            version: 2,
             tickets: tickets
           },
 
@@ -1104,14 +1226,12 @@ async function uploadTicketsNow() {
 
     console.error(error);
 
-
     setCloudStatus(
       "同步失敗",
       "error"
     );
 
-
-    return;
+    throw error;
 
   }
 
@@ -1142,7 +1262,14 @@ function scheduleCloudSave() {
 
   cloudSaveTimer =
     setTimeout(
-      uploadTicketsNow,
+      () => {
+
+        uploadTicketsNow()
+          .catch(
+            console.error
+          );
+
+      },
       650
     );
 
@@ -1208,23 +1335,12 @@ async function initializeCloud() {
     ) {
 
       tickets =
-        cloudDataToTickets(
+        normalizeTickets(
           cloudRow.data
         );
 
 
       saveLocalTickets();
-
-
-      setCloudStatus(
-        "已同步 ☁️",
-        "online"
-      );
-
-
-      showBanner(
-        "☁️ 已載入票券雲端資料。"
-      );
 
     }
 
@@ -1239,11 +1355,6 @@ async function initializeCloud() {
 
       await uploadTicketsNow();
 
-
-      showBanner(
-        "☁️ 第一次同步完成：原本瀏覽器裡的票券資料已上傳到 Supabase。"
-      );
-
     }
 
     else {
@@ -1254,12 +1365,16 @@ async function initializeCloud() {
 
       await uploadTicketsNow();
 
-
-      showBanner(
-        "☁️ 已建立票券雲端資料。"
-      );
-
     }
+
+
+    render();
+
+
+    setCloudStatus(
+      "已同步 ☁️",
+      "online"
+    );
 
   }
 
@@ -1274,18 +1389,310 @@ async function initializeCloud() {
       localTickets || [];
 
 
+    render();
+
+
     setCloudStatus(
       "離線備份模式",
       "error"
     );
 
+  }
 
-    showBanner(
-      "⚠️ Supabase 暫時無法連線，目前使用本機票券備份。",
+}
+
+
+/* =========================
+   PRIVATE STORAGE
+========================= */
+
+function ticketFolder(
+  ticket,
+  kind
+) {
+
+  return (
+    currentUser.id +
+    "/tickets/" +
+    ticket.id +
+    "/" +
+    kind
+  );
+
+}
+
+
+async function uploadPrivateFile(
+  ticket,
+  kind,
+  file
+) {
+
+  if (!file) {
+    return;
+  }
+
+
+  setCloudStatus(
+    "檔案上傳中…",
+    "saving"
+  );
+
+
+  const safeName =
+    sanitizeFileName(
+      file.name
+    );
+
+
+  const path =
+    ticketFolder(
+      ticket,
+      kind
+    ) +
+    "/" +
+    Date.now() +
+    "-" +
+    makeId() +
+    "-" +
+    safeName;
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        STORAGE_BUCKET
+      )
+      .upload(
+        path,
+        file,
+        {
+          upsert: false,
+          cacheControl: "3600",
+          contentType:
+            file.type ||
+            undefined
+        }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    setCloudStatus(
+      "檔案上傳失敗",
       "error"
     );
 
+
+    alert(
+      "檔案上傳失敗。"
+    );
+
+
+    return;
   }
+
+
+  const oldPath =
+    kind === "document"
+      ? ticket.documentPath
+      : ticket.qrPath;
+
+
+  if (
+    kind === "document"
+  ) {
+
+    ticket.documentPath =
+      path;
+
+
+    ticket.documentName =
+      file.name;
+
+  }
+
+  else {
+
+    ticket.qrPath =
+      path;
+
+
+    ticket.qrName =
+      file.name;
+
+  }
+
+
+  await uploadTicketsNow();
+
+
+  if (
+    oldPath &&
+    oldPath !== path
+  ) {
+
+    await supabaseClient
+      .storage
+      .from(
+        STORAGE_BUCKET
+      )
+      .remove([
+        oldPath
+      ]);
+
+  }
+
+
+  render();
+
+
+  showBanner(
+    "🔒 私人檔案已上傳完成。"
+  );
+
+}
+
+
+async function openPrivateFile(
+  path
+) {
+
+  if (!path) {
+
+    alert(
+      "目前沒有檔案。"
+    );
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        STORAGE_BUCKET
+      )
+      .createSignedUrl(
+        path,
+        600
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    alert(
+      "目前無法開啟私人檔案。"
+    );
+
+
+    return;
+
+  }
+
+
+  window.open(
+    data.signedUrl,
+    "_blank",
+    "noopener"
+  );
+
+}
+
+
+async function deletePrivateFile(
+  ticket,
+  kind
+) {
+
+  const path =
+    kind === "document"
+      ? ticket.documentPath
+      : ticket.qrPath;
+
+
+  if (!path) {
+    return;
+  }
+
+
+  const okay =
+    confirm(
+      "確定要刪除這個私人檔案嗎？"
+    );
+
+
+  if (!okay) {
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        STORAGE_BUCKET
+      )
+      .remove([
+        path
+      ]);
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    alert(
+      "檔案刪除失敗。"
+    );
+
+
+    return;
+
+  }
+
+
+  if (
+    kind === "document"
+  ) {
+
+    ticket.documentPath =
+      "";
+
+    ticket.documentName =
+      "";
+
+  }
+
+  else {
+
+    ticket.qrPath =
+      "";
+
+    ticket.qrName =
+      "";
+
+  }
+
+
+  await uploadTicketsNow();
 
 
   render();
@@ -1418,7 +1825,6 @@ function createTicketCard(
 
           <input
             class="field location"
-            placeholder="例如：Galleria dell'Accademia"
             value="${escapeAttribute(ticket.location)}"
           >
 
@@ -1435,11 +1841,6 @@ function createTicketCard(
             ${statusOptions(ticket.status)}
           </select>
 
-        </div>
-
-
-        <div class="section-title">
-          📅 預約
         </div>
 
 
@@ -1481,8 +1882,6 @@ function createTicketCard(
 
           <input
             class="field people"
-            placeholder="4"
-            inputmode="numeric"
             value="${escapeAttribute(ticket.people)}"
           >
 
@@ -1492,20 +1891,14 @@ function createTicketCard(
         <div class="field-wrap">
 
           <label>
-            建議提早多久到
+            建議提早多久
           </label>
 
           <input
             class="field arriveEarly"
-            placeholder="例如：提前 15 分鐘"
             value="${escapeAttribute(ticket.arriveEarly)}"
           >
 
-        </div>
-
-
-        <div class="section-title">
-          💳 訂單 / 金額
         </div>
 
 
@@ -1517,7 +1910,6 @@ function createTicketCard(
 
           <input
             class="field orderNo"
-            placeholder="Booking / Order number"
             value="${escapeAttribute(ticket.orderNo)}"
           >
 
@@ -1532,7 +1924,6 @@ function createTicketCard(
 
           <input
             class="field payment"
-            placeholder="已付款 / 現場付款"
             value="${escapeAttribute(ticket.payment)}"
           >
 
@@ -1547,8 +1938,6 @@ function createTicketCard(
 
           <input
             class="field amount"
-            inputmode="decimal"
-            placeholder="0"
             value="${escapeAttribute(ticket.amount)}"
           >
 
@@ -1568,11 +1957,6 @@ function createTicketCard(
         </div>
 
 
-        <div class="section-title">
-          📍 地圖 / 文件
-        </div>
-
-
         <div class="field-wrap full">
 
           <label>
@@ -1581,39 +1965,113 @@ function createTicketCard(
 
           <input
             class="field maps"
-            placeholder="https://maps.google.com/..."
             value="${escapeAttribute(ticket.maps)}"
           >
 
         </div>
 
 
-        <div class="field-wrap full">
-
-          <label>
-            PDF / 電子票連結
-          </label>
-
-          <input
-            class="field documentLink"
-            placeholder="之後可放 Supabase 私人文件連結"
-            value="${escapeAttribute(ticket.documentLink)}"
-          >
-
+        <div class="section-title">
+          🔒 私人電子票 / QR
         </div>
 
 
-        <div class="field-wrap full">
+        <div class="private-files">
 
-          <label>
-            QR Code 連結
-          </label>
+          <div class="file-box">
 
-          <input
-            class="field qrLink"
-            placeholder="之後可放 Supabase 私人 QR 連結"
-            value="${escapeAttribute(ticket.qrLink)}"
-          >
+            <strong>
+              📄 電子票 / PDF
+            </strong>
+
+            <div class="file-status">
+              ${
+                ticket.documentPath
+                  ? "已上傳：" +
+                    escapeHtml(
+                      ticket.documentName ||
+                      "私人檔案"
+                    )
+                  : "尚未上傳私人檔案"
+              }
+            </div>
+
+            <input
+              class="file-input documentUpload"
+              type="file"
+              accept="application/pdf,image/*"
+            >
+
+            <div class="file-actions">
+
+              <button
+                class="file-button openDocument"
+              >
+                開啟
+              </button>
+
+              <button
+                class="file-button delete deleteDocument"
+              >
+                刪除
+              </button>
+
+            </div>
+
+            ${
+              ticket.documentLink
+                ? `
+                  <div class="legacy-note">
+                    仍保留舊的文件連結資料。
+                  </div>
+                `
+                : ""
+            }
+
+          </div>
+
+
+          <div class="file-box">
+
+            <strong>
+              ▦ QR Code
+            </strong>
+
+            <div class="file-status">
+              ${
+                ticket.qrPath
+                  ? "已上傳：" +
+                    escapeHtml(
+                      ticket.qrName ||
+                      "私人 QR"
+                    )
+                  : "尚未上傳私人 QR"
+              }
+            </div>
+
+            <input
+              class="file-input qrUpload"
+              type="file"
+              accept="image/*"
+            >
+
+            <div class="file-actions">
+
+              <button
+                class="file-button openQr"
+              >
+                開啟
+              </button>
+
+              <button
+                class="file-button delete deleteQr"
+              >
+                刪除
+              </button>
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -1626,7 +2084,6 @@ function createTicketCard(
 
           <textarea
             class="field note"
-            placeholder="入場入口、證件需求、取消規則、集合地點……"
           >${escapeHtml(ticket.note)}</textarea>
 
         </div>
@@ -1638,14 +2095,6 @@ function createTicketCard(
 
         <button class="action-button map-button openMap">
           📍 Google Maps
-        </button>
-
-        <button class="action-button link-button openDocument">
-          📄 電子票
-        </button>
-
-        <button class="action-button link-button openQr">
-          ▦ QR
         </button>
 
         <button class="action-button moveUp">
@@ -1661,19 +2110,92 @@ function createTicketCard(
     `;
 
 
-  bindInput(card, ".ticket-name", ticket, "name");
-  bindInput(card, ".location", ticket, "location");
-  bindInput(card, ".date", ticket, "date");
-  bindInput(card, ".time", ticket, "time");
-  bindInput(card, ".people", ticket, "people");
-  bindInput(card, ".arriveEarly", ticket, "arriveEarly");
-  bindInput(card, ".orderNo", ticket, "orderNo");
-  bindInput(card, ".payment", ticket, "payment");
-  bindInput(card, ".amount", ticket, "amount");
-  bindInput(card, ".maps", ticket, "maps");
-  bindInput(card, ".documentLink", ticket, "documentLink");
-  bindInput(card, ".qrLink", ticket, "qrLink");
-  bindInput(card, ".note", ticket, "note");
+  bindInput(
+    card,
+    ".ticket-name",
+    ticket,
+    "name"
+  );
+
+
+  bindInput(
+    card,
+    ".location",
+    ticket,
+    "location"
+  );
+
+
+  bindInput(
+    card,
+    ".date",
+    ticket,
+    "date"
+  );
+
+
+  bindInput(
+    card,
+    ".time",
+    ticket,
+    "time"
+  );
+
+
+  bindInput(
+    card,
+    ".people",
+    ticket,
+    "people"
+  );
+
+
+  bindInput(
+    card,
+    ".arriveEarly",
+    ticket,
+    "arriveEarly"
+  );
+
+
+  bindInput(
+    card,
+    ".orderNo",
+    ticket,
+    "orderNo"
+  );
+
+
+  bindInput(
+    card,
+    ".payment",
+    ticket,
+    "payment"
+  );
+
+
+  bindInput(
+    card,
+    ".amount",
+    ticket,
+    "amount"
+  );
+
+
+  bindInput(
+    card,
+    ".maps",
+    ticket,
+    "maps"
+  );
+
+
+  bindInput(
+    card,
+    ".note",
+    ticket,
+    "note"
+  );
 
 
   const status =
@@ -1687,6 +2209,7 @@ function createTicketCard(
 
       ticket.status =
         status.value;
+
 
       scheduleCloudSave();
 
@@ -1705,7 +2228,166 @@ function createTicketCard(
       ticket.currency =
         currency.value;
 
+
       scheduleCloudSave();
+
+    };
+
+
+  card.querySelector(
+    ".documentUpload"
+  ).onchange =
+    async event => {
+
+      const file =
+        event.target.files[0];
+
+
+      await uploadPrivateFile(
+        ticket,
+        "document",
+        file
+      );
+
+    };
+
+
+  card.querySelector(
+    ".qrUpload"
+  ).onchange =
+    async event => {
+
+      const file =
+        event.target.files[0];
+
+
+      await uploadPrivateFile(
+        ticket,
+        "qr",
+        file
+      );
+
+    };
+
+
+  card.querySelector(
+    ".openDocument"
+  ).onclick =
+    () => {
+
+      if (
+        ticket.documentPath
+      ) {
+
+        openPrivateFile(
+          ticket.documentPath
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        ticket.documentLink
+      ) {
+
+        window.open(
+          ticket.documentLink,
+          "_blank",
+          "noopener"
+        );
+
+
+        return;
+
+      }
+
+
+      alert(
+        "還沒有電子票。"
+      );
+
+    };
+
+
+  card.querySelector(
+    ".openQr"
+  ).onclick =
+    () => {
+
+      if (
+        ticket.qrPath
+      ) {
+
+        openPrivateFile(
+          ticket.qrPath
+        );
+
+
+        return;
+
+      }
+
+
+      if (
+        ticket.qrLink
+      ) {
+
+        window.open(
+          ticket.qrLink,
+          "_blank",
+          "noopener"
+        );
+
+
+        return;
+
+      }
+
+
+      alert(
+        "還沒有 QR Code。"
+      );
+
+    };
+
+
+  card.querySelector(
+    ".deleteDocument"
+  ).onclick =
+    () => {
+
+      deletePrivateFile(
+        ticket,
+        "document"
+      );
+
+    };
+
+
+  card.querySelector(
+    ".deleteQr"
+  ).onclick =
+    () => {
+
+      deletePrivateFile(
+        ticket,
+        "qr"
+      );
+
+    };
+
+
+  card.querySelector(
+    ".openMap"
+  ).onclick =
+    () => {
+
+      openMap(
+        ticket
+      );
 
     };
 
@@ -1713,7 +2395,7 @@ function createTicketCard(
   card.querySelector(
     ".delete-button"
   ).onclick =
-    () => {
+    async () => {
 
       const okay =
         confirm(
@@ -1726,13 +2408,38 @@ function createTicketCard(
       }
 
 
+      const paths =
+        [
+          ticket.documentPath,
+          ticket.qrPath
+        ]
+        .filter(Boolean);
+
+
+      if (
+        paths.length > 0
+      ) {
+
+        await supabaseClient
+          .storage
+          .from(
+            STORAGE_BUCKET
+          )
+          .remove(
+            paths
+          );
+
+      }
+
+
       tickets.splice(
         index,
         1
       );
 
 
-      scheduleCloudSave();
+      await uploadTicketsNow();
+
 
       render();
 
@@ -1744,7 +2451,9 @@ function createTicketCard(
   ).onclick =
     () => {
 
-      if (index === 0) {
+      if (
+        index === 0
+      ) {
         return;
       }
 
@@ -1796,42 +2505,6 @@ function createTicketCard(
     };
 
 
-  card.querySelector(
-    ".openMap"
-  ).onclick =
-    () => {
-
-      openMap(ticket);
-
-    };
-
-
-  card.querySelector(
-    ".openDocument"
-  ).onclick =
-    () => {
-
-      openPrivateLink(
-        ticket.documentLink,
-        "這張票券還沒有電子票連結。"
-      );
-
-    };
-
-
-  card.querySelector(
-    ".openQr"
-  ).onclick =
-    () => {
-
-      openPrivateLink(
-        ticket.qrLink,
-        "這張票券還沒有 QR Code 連結。"
-      );
-
-    };
-
-
   return card;
 
 }
@@ -1859,6 +2532,7 @@ function bindInput(
 
       object[key] =
         element.value;
+
 
       scheduleCloudSave();
 
@@ -1889,7 +2563,7 @@ document.getElementById(
 
 
 /* =========================
-   LINKS
+   MAP
 ========================= */
 
 function openMap(
@@ -1907,6 +2581,7 @@ function openMap(
       "noopener"
     );
 
+
     return;
 
   }
@@ -1923,6 +2598,7 @@ function openMap(
       "先填票券名稱或地點。"
     );
 
+
     return;
 
   }
@@ -1931,33 +2607,6 @@ function openMap(
   window.open(
     "https://www.google.com/maps/search/?api=1&query=" +
     encodeURIComponent(query),
-    "_blank",
-    "noopener"
-  );
-
-}
-
-
-function openPrivateLink(
-  url,
-  emptyMessage
-) {
-
-  const clean =
-    url?.trim();
-
-
-  if (!clean) {
-
-    alert(emptyMessage);
-
-    return;
-
-  }
-
-
-  window.open(
-    clean,
     "_blank",
     "noopener"
   );
@@ -2036,7 +2685,9 @@ function currencyOptions(
     !currencies.includes(selected)
   ) {
 
-    currencies.push(selected);
+    currencies.push(
+      selected
+    );
 
   }
 
@@ -2058,33 +2709,6 @@ function currencyOptions(
         `
     )
     .join("");
-
-}
-
-
-/* =========================
-   ESCAPE
-========================= */
-
-function escapeHtml(
-  text = ""
-) {
-
-  return String(text)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-
-
-function escapeAttribute(
-  text = ""
-) {
-
-  return escapeHtml(text);
 
 }
 
