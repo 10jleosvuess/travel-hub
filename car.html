@@ -47,7 +47,6 @@
 
     input,
     textarea,
-    select,
     button {
       font: inherit;
     }
@@ -200,8 +199,16 @@
       box-shadow: var(--shadow);
     }
 
+    .hero-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3,1fr);
+
+      gap: 12px;
+    }
+
     .hero small {
-      color: rgba(255,255,255,0.65);
+      color: rgba(255,255,255,0.62);
     }
 
     .hero strong {
@@ -209,15 +216,7 @@
 
       margin-top: 4px;
 
-      font-size: 23px;
-    }
-
-    .hero-grid {
-      display: grid;
-
-      grid-template-columns: repeat(3,1fr);
-
-      gap: 12px;
+      font-size: 22px;
     }
 
     .section-card {
@@ -439,19 +438,52 @@
       background: white;
     }
 
-    .photo-warning {
-      margin-bottom: 12px;
-
+    .privacy-box {
       padding: 11px 13px;
+
+      border-radius: 14px;
+
+      background: var(--green-soft);
+
+      color: #536553;
+
+      font-size: 11px;
+      line-height: 1.6;
+
+      margin-bottom: 13px;
+    }
+
+    .migration-box {
+      display: none;
+
+      padding: 12px 13px;
 
       border-radius: 14px;
 
       background: var(--yellow-soft);
 
-      color: #675c4c;
+      margin-bottom: 13px;
 
       font-size: 11px;
       line-height: 1.6;
+    }
+
+    .migration-box.show {
+      display: block;
+    }
+
+    .migration-button {
+      margin-top: 9px;
+
+      border: 0;
+
+      border-radius: 10px;
+
+      padding: 9px 11px;
+
+      background: white;
+
+      font-weight: 750;
     }
 
     .photo-columns {
@@ -473,9 +505,23 @@
     }
 
     .photo-box h3 {
-      margin: 0 0 10px;
+      margin: 0;
 
       font-size: 14px;
+    }
+
+    .photo-sub {
+      margin: 4px 0 10px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+    }
+
+    .photo-input {
+      width: 100%;
+
+      font-size: 11px;
     }
 
     .photo-grid {
@@ -513,22 +559,16 @@
       top: 5px;
       right: 5px;
 
-      width: 27px;
-      height: 27px;
+      width: 28px;
+      height: 28px;
 
       border: 0;
 
       border-radius: 999px;
 
-      background: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.92);
 
       color: var(--danger);
-    }
-
-    .photo-input {
-      width: 100%;
-
-      font-size: 11px;
     }
 
     .empty-small {
@@ -627,10 +667,6 @@
         grid-column: auto;
       }
 
-      .photo-grid {
-        grid-template-columns: repeat(3,1fr);
-      }
-
     }
   </style>
 </head>
@@ -685,7 +721,7 @@
     </h1>
 
     <p>
-      訂單、取還車資訊、檢查清單、照片與自駕備忘
+      訂單、取還車、檢查清單與私人雲端車況照片
     </p>
 
   </section>
@@ -702,41 +738,18 @@
     <div class="hero-grid">
 
       <div>
-
-        <small>
-          租車公司
-        </small>
-
-        <strong id="heroCompany">
-          尚未填寫
-        </strong>
-
+        <small>租車公司</small>
+        <strong id="heroCompany">尚未填寫</strong>
       </div>
 
-
       <div>
-
-        <small>
-          車型
-        </small>
-
-        <strong id="heroVehicle">
-          —
-        </strong>
-
+        <small>車型</small>
+        <strong id="heroVehicle">—</strong>
       </div>
 
-
       <div>
-
-        <small>
-          訂單編號
-        </small>
-
-        <strong id="heroBooking">
-          —
-        </strong>
-
+        <small>訂單編號</small>
+        <strong id="heroBooking">—</strong>
       </div>
 
     </div>
@@ -747,151 +760,60 @@
   <section class="section-card">
 
     <div class="section-title">
-
-      <h2>
-        📄 租車資料
-      </h2>
-
-      <span>
-        Supabase 雲端同步
-      </span>
-
+      <h2>📄 租車資料</h2>
+      <span>Supabase 雲端</span>
     </div>
 
 
     <div class="grid three">
 
       <div class="field-wrap">
-
-        <label>
-          租車公司
-        </label>
-
-        <input
-          class="field"
-          id="company"
-          placeholder="例如：Sicily by Car"
-        >
-
+        <label>租車公司</label>
+        <input class="field" id="company">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          車型 / 級距
-        </label>
-
-        <input
-          class="field"
-          id="vehicle"
-          placeholder="例如：Nissan Qashqai"
-        >
-
+        <label>車型 / 級距</label>
+        <input class="field" id="vehicle">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          車牌
-        </label>
-
-        <input
-          class="field"
-          id="plate"
-          placeholder="取車後填"
-        >
-
+        <label>車牌</label>
+        <input class="field" id="plate">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          訂單編號
-        </label>
-
-        <input
-          class="field"
-          id="bookingNo"
-        >
-
+        <label>訂單編號</label>
+        <input class="field" id="bookingNo">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          保險
-        </label>
-
-        <input
-          class="field"
-          id="insurance"
-          placeholder="全險 / 自負額"
-        >
-
+        <label>保險</label>
+        <input class="field" id="insurance">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          押金
-        </label>
-
-        <input
-          class="field"
-          id="deposit"
-          placeholder="例如：€500"
-        >
-
+        <label>押金</label>
+        <input class="field" id="deposit">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          油料政策
-        </label>
-
-        <input
-          class="field"
-          id="fuelPolicy"
-          placeholder="Full to Full"
-        >
-
+        <label>油料政策</label>
+        <input class="field" id="fuelPolicy">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          緊急聯絡電話
-        </label>
-
-        <input
-          class="field"
-          id="emergencyPhone"
-          placeholder="+39 ..."
-        >
-
+        <label>緊急聯絡電話</label>
+        <input class="field" id="emergencyPhone">
       </div>
-
 
       <div class="field-wrap full">
-
-        <label>
-          租車合約 / 訂單文件連結
-        </label>
-
+        <label>租車文件連結</label>
         <input
           class="field"
           id="documentLink"
-          placeholder="之後改放 Supabase 私人 Storage"
+          placeholder="之後也會改成私人 Storage 文件"
         >
-
       </div>
 
     </div>
@@ -914,86 +836,35 @@
   <section class="section-card">
 
     <div class="section-title">
-
-      <h2>
-        🔑 取車
-      </h2>
-
+      <h2>🔑 取車</h2>
     </div>
 
 
     <div class="grid">
 
       <div class="field-wrap">
-
-        <label>
-          取車日期
-        </label>
-
-        <input
-          class="field"
-          id="pickupDate"
-          type="date"
-        >
-
+        <label>日期</label>
+        <input class="field" id="pickupDate" type="date">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          取車時間
-        </label>
-
-        <input
-          class="field"
-          id="pickupTime"
-          type="time"
-        >
-
+        <label>時間</label>
+        <input class="field" id="pickupTime" type="time">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          取車地點
-        </label>
-
-        <input
-          class="field"
-          id="pickupLocation"
-          placeholder="例如：Milano Centrale"
-        >
-
+        <label>地點</label>
+        <input class="field" id="pickupLocation">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          地址
-        </label>
-
-        <input
-          class="field"
-          id="pickupAddress"
-        >
-
+        <label>地址</label>
+        <input class="field" id="pickupAddress">
       </div>
-
 
       <div class="field-wrap full">
-
-        <label>
-          Google Maps 分享連結
-        </label>
-
-        <input
-          class="field"
-          id="pickupMaps"
-        >
-
+        <label>Google Maps 分享連結</label>
+        <input class="field" id="pickupMaps">
       </div>
 
     </div>
@@ -1016,86 +887,35 @@
   <section class="section-card">
 
     <div class="section-title">
-
-      <h2>
-        🅿️ 還車
-      </h2>
-
+      <h2>🅿️ 還車</h2>
     </div>
 
 
     <div class="grid">
 
       <div class="field-wrap">
-
-        <label>
-          還車日期
-        </label>
-
-        <input
-          class="field"
-          id="returnDate"
-          type="date"
-        >
-
+        <label>日期</label>
+        <input class="field" id="returnDate" type="date">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          還車時間
-        </label>
-
-        <input
-          class="field"
-          id="returnTime"
-          type="time"
-        >
-
+        <label>時間</label>
+        <input class="field" id="returnTime" type="time">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          還車地點
-        </label>
-
-        <input
-          class="field"
-          id="returnLocation"
-          placeholder="例如：Vatican / Rome"
-        >
-
+        <label>地點</label>
+        <input class="field" id="returnLocation">
       </div>
-
 
       <div class="field-wrap">
-
-        <label>
-          地址
-        </label>
-
-        <input
-          class="field"
-          id="returnAddress"
-        >
-
+        <label>地址</label>
+        <input class="field" id="returnAddress">
       </div>
-
 
       <div class="field-wrap full">
-
-        <label>
-          Google Maps 分享連結
-        </label>
-
-        <input
-          class="field"
-          id="returnMaps"
-        >
-
+        <label>Google Maps 分享連結</label>
+        <input class="field" id="returnMaps">
       </div>
 
     </div>
@@ -1118,15 +938,8 @@
   <section class="section-card">
 
     <div class="section-title">
-
-      <h2>
-        ✅ 取車檢查
-      </h2>
-
-      <span id="pickupProgress">
-        0 / 0
-      </span>
-
+      <h2>✅ 取車檢查</h2>
+      <span id="pickupProgress">0 / 0</span>
     </div>
 
 
@@ -1141,9 +954,8 @@
       <input
         class="new-input"
         id="newPickupItem"
-        placeholder="新增取車檢查項目"
+        placeholder="新增檢查項目"
       >
-
 
       <button
         class="add-button"
@@ -1160,15 +972,8 @@
   <section class="section-card">
 
     <div class="section-title">
-
-      <h2>
-        ✅ 還車檢查
-      </h2>
-
-      <span id="returnProgress">
-        0 / 0
-      </span>
-
+      <h2>✅ 還車檢查</h2>
+      <span id="returnProgress">0 / 0</span>
     </div>
 
 
@@ -1183,9 +988,8 @@
       <input
         class="new-input"
         id="newReturnItem"
-        placeholder="新增還車檢查項目"
+        placeholder="新增檢查項目"
       >
-
 
       <button
         class="add-button"
@@ -1207,15 +1011,34 @@
         📷 車況照片
       </h2>
 
-      <span>
-        目前仍為本機照片
+      <span id="photoCloudStatus">
+        私人 Storage
       </span>
 
     </div>
 
 
-    <div class="photo-warning">
-      ⚠️ 這一區的照片目前仍存在「這台瀏覽器」的 IndexedDB，還沒有同步到其他裝置。下一步會把它們搬到 Supabase 私人 Storage。現在不要清除瀏覽器網站資料。
+    <div class="privacy-box">
+      🔒 照片會存放在私人 bucket「travel-private」，路徑屬於你的登入帳號。網頁顯示時使用暫時性的 signed URL，不會把照片放進公開 GitHub。
+    </div>
+
+
+    <div
+      class="migration-box"
+      id="migrationBox"
+    >
+
+      <div id="migrationText">
+        偵測到舊的本機照片。
+      </div>
+
+      <button
+        class="migration-button"
+        id="migratePhotos"
+      >
+        ☁️ 搬到私人雲端
+      </button>
+
     </div>
 
 
@@ -1227,6 +1050,12 @@
           🔑 取車照片
         </h3>
 
+        <div
+          class="photo-sub"
+          id="pickupPhotoCount"
+        >
+          0 張
+        </div>
 
         <input
           class="photo-input"
@@ -1235,7 +1064,6 @@
           accept="image/*"
           multiple
         >
-
 
         <div
           class="photo-grid"
@@ -1251,6 +1079,12 @@
           🅿️ 還車照片
         </h3>
 
+        <div
+          class="photo-sub"
+          id="returnPhotoCount"
+        >
+          0 張
+        </div>
 
         <input
           class="photo-input"
@@ -1259,7 +1093,6 @@
           accept="image/*"
           multiple
         >
-
 
         <div
           class="photo-grid"
@@ -1276,11 +1109,7 @@
   <section class="section-card">
 
     <div class="section-title">
-
-      <h2>
-        🚦 自駕規則 / 提醒
-      </h2>
-
+      <h2>🚦 自駕規則 / 提醒</h2>
     </div>
 
 
@@ -1294,7 +1123,6 @@
         id="newRule"
         placeholder="例如：注意 ZTL"
       >
-
 
       <button
         class="add-button"
@@ -1311,18 +1139,12 @@
   <section class="section-card">
 
     <div class="section-title">
-
-      <h2>
-        📝 其他備註
-      </h2>
-
+      <h2>📝 其他備註</h2>
     </div>
-
 
     <textarea
       class="field"
       id="notes"
-      placeholder="駕駛人、國際駕照、ETC、高速公路、停車注意事項……"
     ></textarea>
 
   </section>
@@ -1399,6 +1221,10 @@ const MODULE_KEY =
   "car";
 
 
+const STORAGE_BUCKET =
+  "travel-private";
+
+
 const PHOTO_DB =
   "TravelHubPhotoDB";
 
@@ -1418,15 +1244,31 @@ let car =
 let cloudSaveTimer;
 
 
-let localPhotos =
+let cloudPhotos = {
+  pickup: [],
+  return: []
+};
+
+
+let oldLocalPhotos =
   [];
 
 
 /* =========================
-   BASIC
+   HELPERS
 ========================= */
 
 function makeId() {
+
+  if (
+    window.crypto &&
+    crypto.randomUUID
+  ) {
+
+    return crypto.randomUUID();
+
+  }
+
 
   return (
     Date.now().toString(36) +
@@ -1480,12 +1322,8 @@ function normalizeChecklist(
   value
 ) {
 
-  if (
-    !Array.isArray(value)
-  ) {
-
+  if (!Array.isArray(value)) {
     return [];
-
   }
 
 
@@ -1539,12 +1377,8 @@ function normalizeRules(
   value
 ) {
 
-  if (
-    !Array.isArray(value)
-  ) {
-
+  if (!Array.isArray(value)) {
     return [];
-
   }
 
 
@@ -1564,13 +1398,19 @@ function normalizeRules(
 
 
       return {
+
         ...rule,
-        id: rule.id || makeId(),
+
+        id:
+          rule.id ||
+          makeId(),
+
         text:
           rule.text ||
           rule.name ||
           rule.title ||
           ""
+
       };
 
     }
@@ -1695,17 +1535,13 @@ function normalizeCar(
     insurance:
       firstValue(
         [source, info],
-        [
-          "insurance"
-        ]
+        ["insurance"]
       ),
 
     deposit:
       firstValue(
         [source, info],
-        [
-          "deposit"
-        ]
+        ["deposit"]
       ),
 
     fuelPolicy:
@@ -1867,6 +1703,29 @@ function normalizeCar(
 }
 
 
+function escapeHtml(
+  text = ""
+) {
+
+  return String(text)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+function escapeAttribute(
+  text = ""
+) {
+
+  return escapeHtml(text);
+
+}
+
+
 /* =========================
    STATUS
 ========================= */
@@ -1933,7 +1792,7 @@ function showBanner(
 
 
 /* =========================
-   LOCAL STORAGE
+   LOCAL CAR BACKUP
 ========================= */
 
 function loadLocalCar() {
@@ -1981,7 +1840,7 @@ function saveLocalCar() {
 
 
 /* =========================
-   CLOUD
+   CAR CLOUD
 ========================= */
 
 async function loadCloudModule() {
@@ -2045,7 +1904,7 @@ async function uploadCarNow() {
             MODULE_KEY,
 
           data: {
-            version: 1,
+            version: 2,
             car: car
           },
 
@@ -2176,17 +2035,6 @@ async function initializeCloud() {
 
       saveLocalCar();
 
-
-      setCloudStatus(
-        "已同步 ☁️",
-        "online"
-      );
-
-
-      showBanner(
-        "☁️ 已載入租車雲端資料。"
-      );
-
     }
 
     else if (
@@ -2199,11 +2047,6 @@ async function initializeCloud() {
 
       await uploadCarNow();
 
-
-      showBanner(
-        "☁️ 第一次同步完成：原本瀏覽器裡的租車資料已上傳到 Supabase。"
-      );
-
     }
 
     else {
@@ -2214,12 +2057,22 @@ async function initializeCloud() {
 
       await uploadCarNow();
 
-
-      showBanner(
-        "☁️ 已建立租車雲端資料。"
-      );
-
     }
+
+
+    render();
+
+
+    await loadCloudPhotos();
+
+
+    await detectOldLocalPhotos();
+
+
+    setCloudStatus(
+      "已同步 ☁️",
+      "online"
+    );
 
   }
 
@@ -2235,6 +2088,9 @@ async function initializeCloud() {
       createEmptyCar();
 
 
+    render();
+
+
     setCloudStatus(
       "離線備份模式",
       "error"
@@ -2242,16 +2098,11 @@ async function initializeCloud() {
 
 
     showBanner(
-      "⚠️ Supabase 暫時無法連線，目前使用本機租車備份。",
+      "⚠️ Supabase 暫時無法連線，目前使用本機租車資料。",
       "error"
     );
 
   }
-
-
-  render();
-
-  loadLocalPhotos();
 
 }
 
@@ -2463,17 +2314,13 @@ function renderChecklist(
         `;
 
 
-      const checkbox =
-        row.querySelector(
-          ".check-box"
-        );
-
-
-      checkbox.onchange =
-        () => {
+      row.querySelector(
+        ".check-box"
+      ).onchange =
+        event => {
 
           item.done =
-            checkbox.checked;
+            event.target.checked;
 
 
           scheduleCloudSave();
@@ -2483,17 +2330,13 @@ function renderChecklist(
         };
 
 
-      const text =
-        row.querySelector(
-          ".check-text"
-        );
-
-
-      text.oninput =
-        () => {
+      row.querySelector(
+        ".check-text"
+      ).oninput =
+        event => {
 
           item.text =
-            text.value;
+            event.target.value;
 
 
           scheduleCloudSave();
@@ -2669,17 +2512,13 @@ function renderRules() {
         `;
 
 
-      const input =
-        row.querySelector(
-          ".rule-input"
-        );
-
-
-      input.oninput =
-        () => {
+      row.querySelector(
+        ".rule-input"
+      ).oninput =
+        event => {
 
           rule.text =
-            input.value;
+            event.target.value;
 
 
           scheduleCloudSave();
@@ -2753,7 +2592,7 @@ document.getElementById(
 
 
 /* =========================
-   LINKS
+   MAP / DOCUMENT
 ========================= */
 
 function openMap(
@@ -2859,7 +2698,612 @@ document.getElementById(
 
 
 /* =========================
-   LOCAL PHOTO DATABASE
+   STORAGE PATH
+========================= */
+
+function storageFolder(
+  type
+) {
+
+  return (
+    currentUser.id +
+    "/car/" +
+    type
+  );
+
+}
+
+
+function sanitizeFileName(
+  name
+) {
+
+  const clean =
+    String(
+      name ||
+      "photo.jpg"
+    )
+      .replaceAll("/", "-")
+      .replaceAll("\\", "-")
+      .replace(
+        /[^a-zA-Z0-9._-]/g,
+        "_"
+      );
+
+
+  return clean ||
+    "photo.jpg";
+
+}
+
+
+/* =========================
+   CLOUD PHOTO UPLOAD
+========================= */
+
+async function uploadPhotoFile(
+  fileOrBlob,
+  type,
+  originalName
+) {
+
+  const safeName =
+    sanitizeFileName(
+      originalName ||
+      fileOrBlob.name ||
+      "photo.jpg"
+    );
+
+
+  const path =
+    storageFolder(type) +
+    "/" +
+    Date.now() +
+    "-" +
+    makeId() +
+    "-" +
+    safeName;
+
+
+  const options = {
+    cacheControl: "3600",
+    upsert: false
+  };
+
+
+  if (
+    fileOrBlob.type
+  ) {
+
+    options.contentType =
+      fileOrBlob.type;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        STORAGE_BUCKET
+      )
+      .upload(
+        path,
+        fileOrBlob,
+        options
+      );
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return path;
+
+}
+
+
+async function uploadSelectedFiles(
+  files,
+  type
+) {
+
+  if (
+    !files ||
+    files.length === 0
+  ) {
+    return;
+  }
+
+
+  setCloudStatus(
+    "照片上傳中…",
+    "saving"
+  );
+
+
+  document.getElementById(
+    "photoCloudStatus"
+  ).textContent =
+    "上傳中…";
+
+
+  try {
+
+    for (
+      const file of files
+    ) {
+
+      await uploadPhotoFile(
+        file,
+        type,
+        file.name
+      );
+
+    }
+
+
+    await loadCloudPhotos();
+
+
+    setCloudStatus(
+      "已同步 ☁️",
+      "online"
+    );
+
+
+    document.getElementById(
+      "photoCloudStatus"
+    ).textContent =
+      "私人 Storage";
+
+
+    showBanner(
+      "☁️ 照片已安全上傳到私人 Storage。"
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+
+    setCloudStatus(
+      "照片上傳失敗",
+      "error"
+    );
+
+
+    document.getElementById(
+      "photoCloudStatus"
+    ).textContent =
+      "上傳失敗";
+
+
+    alert(
+      "照片上傳失敗。請截圖錯誤狀態給我看。"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   CLOUD PHOTO LIST
+========================= */
+
+async function listPhotoFolder(
+  type
+) {
+
+  const folder =
+    storageFolder(type);
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        STORAGE_BUCKET
+      )
+      .list(
+        folder,
+        {
+          limit: 100,
+          offset: 0,
+          sortBy: {
+            column: "created_at",
+            order: "asc"
+          }
+        }
+      );
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  const files =
+    (data || [])
+      .filter(
+        item =>
+          item.id !== null
+      );
+
+
+  const result =
+    [];
+
+
+  for (
+    const file of files
+  ) {
+
+    const path =
+      folder +
+      "/" +
+      file.name;
+
+
+    const {
+      data: signedData,
+      error: signedError
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          STORAGE_BUCKET
+        )
+        .createSignedUrl(
+          path,
+          3600
+        );
+
+
+    if (signedError) {
+
+      console.error(
+        signedError
+      );
+
+
+      continue;
+
+    }
+
+
+    result.push({
+
+      name:
+        file.name,
+
+      path:
+        path,
+
+      createdAt:
+        file.created_at ||
+        "",
+
+      signedUrl:
+        signedData.signedUrl
+
+    });
+
+  }
+
+
+  return result;
+
+}
+
+
+async function loadCloudPhotos() {
+
+  try {
+
+    document.getElementById(
+      "photoCloudStatus"
+    ).textContent =
+      "讀取中…";
+
+
+    const [
+      pickup,
+      returned
+    ] =
+      await Promise.all([
+        listPhotoFolder("pickup"),
+        listPhotoFolder("return")
+      ]);
+
+
+    cloudPhotos.pickup =
+      pickup;
+
+
+    cloudPhotos.return =
+      returned;
+
+
+    renderCloudPhotos();
+
+
+    document.getElementById(
+      "photoCloudStatus"
+    ).textContent =
+      "私人 Storage";
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+
+    document.getElementById(
+      "photoCloudStatus"
+    ).textContent =
+      "讀取失敗";
+
+
+    setCloudStatus(
+      "照片讀取失敗",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   PHOTO RENDER
+========================= */
+
+function renderCloudPhotos() {
+
+  renderPhotoGroup(
+    "pickup",
+    "pickupPhotos",
+    "pickupPhotoCount"
+  );
+
+
+  renderPhotoGroup(
+    "return",
+    "returnPhotos",
+    "returnPhotoCount"
+  );
+
+}
+
+
+function renderPhotoGroup(
+  type,
+  containerId,
+  countId
+) {
+
+  const container =
+    document.getElementById(
+      containerId
+    );
+
+
+  const photos =
+    cloudPhotos[type] ||
+    [];
+
+
+  document.getElementById(
+    countId
+  ).textContent =
+    photos.length +
+    " 張";
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    photos.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="empty-small">
+          尚無雲端照片
+        </div>
+      `;
+
+
+    return;
+
+  }
+
+
+  photos.forEach(
+    photo => {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "photo-item";
+
+
+      item.innerHTML =
+        `
+
+          <img
+            src="${escapeAttribute(photo.signedUrl)}"
+            alt="租車照片"
+          >
+
+
+          <button
+            class="photo-delete"
+            title="刪除"
+          >
+            ×
+          </button>
+
+        `;
+
+
+      item.querySelector(
+        ".photo-delete"
+      ).onclick =
+        async () => {
+
+          const okay =
+            confirm(
+              "確定要從私人雲端刪除這張照片嗎？"
+            );
+
+
+          if (!okay) {
+            return;
+          }
+
+
+          await deleteCloudPhoto(
+            photo.path
+          );
+
+        };
+
+
+      container.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   CLOUD DELETE
+========================= */
+
+async function deleteCloudPhoto(
+  path
+) {
+
+  setCloudStatus(
+    "刪除照片中…",
+    "saving"
+  );
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        STORAGE_BUCKET
+      )
+      .remove([
+        path
+      ]);
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    setCloudStatus(
+      "照片刪除失敗",
+      "error"
+    );
+
+
+    alert(
+      "照片刪除失敗。"
+    );
+
+
+    return;
+
+  }
+
+
+  await loadCloudPhotos();
+
+
+  setCloudStatus(
+    "已同步 ☁️",
+    "online"
+  );
+
+}
+
+
+/* =========================
+   PHOTO INPUTS
+========================= */
+
+document.getElementById(
+  "pickupPhotoInput"
+).onchange =
+  async event => {
+
+    await uploadSelectedFiles(
+      Array.from(
+        event.target.files
+      ),
+      "pickup"
+    );
+
+
+    event.target.value =
+      "";
+
+  };
+
+
+document.getElementById(
+  "returnPhotoInput"
+).onchange =
+  async event => {
+
+    await uploadSelectedFiles(
+      Array.from(
+        event.target.files
+      ),
+      "return"
+    );
+
+
+    event.target.value =
+      "";
+
+  };
+
+
+/* =========================
+   OLD INDEXEDDB
 ========================= */
 
 function openPhotoDB() {
@@ -2945,21 +3389,18 @@ async function getAllLocalPhotos() {
         );
 
 
-      const store =
+      const request =
         tx.objectStore(
           PHOTO_STORE
-        );
-
-
-      const request =
-        store.getAll();
+        ).getAll();
 
 
       request.onsuccess =
         () => {
 
           resolve(
-            request.result || []
+            request.result ||
+            []
           );
 
         };
@@ -2980,50 +3421,7 @@ async function getAllLocalPhotos() {
 }
 
 
-async function savePhotoRecord(
-  record
-) {
-
-  const db =
-    await openPhotoDB();
-
-
-  return new Promise(
-    (
-      resolve,
-      reject
-    ) => {
-
-      const tx =
-        db.transaction(
-          PHOTO_STORE,
-          "readwrite"
-        );
-
-
-      tx.objectStore(
-        PHOTO_STORE
-      ).put(
-        record
-      );
-
-
-      tx.oncomplete =
-        () => resolve();
-
-
-      tx.onerror =
-        () => reject(
-          tx.error
-        );
-
-    }
-  );
-
-}
-
-
-async function deletePhotoRecord(
+async function deleteLocalPhoto(
   id
 ) {
 
@@ -3064,92 +3462,15 @@ async function deletePhotoRecord(
 }
 
 
-function fileToDataURL(
-  file
-) {
-
-  return new Promise(
-    (
-      resolve,
-      reject
-    ) => {
-
-      const reader =
-        new FileReader();
-
-
-      reader.onload =
-        () =>
-          resolve(
-            reader.result
-          );
-
-
-      reader.onerror =
-        () =>
-          reject(
-            reader.error
-          );
-
-
-      reader.readAsDataURL(
-        file
-      );
-
-    }
-  );
-
-}
-
-
-async function addLocalPhotos(
-  files,
-  type
-) {
-
-  for (
-    const file of files
-  ) {
-
-    const dataUrl =
-      await fileToDataURL(
-        file
-      );
-
-
-    await savePhotoRecord({
-
-      id: makeId(),
-
-      type: type,
-
-      name: file.name,
-
-      dataUrl: dataUrl,
-
-      createdAt:
-        new Date()
-          .toISOString()
-
-    });
-
-  }
-
-
-  await loadLocalPhotos();
-
-}
-
-
-async function loadLocalPhotos() {
+async function detectOldLocalPhotos() {
 
   try {
 
-    localPhotos =
+    oldLocalPhotos =
       await getAllLocalPhotos();
 
 
-    renderPhotos();
+    renderMigrationBox();
 
   }
 
@@ -3164,104 +3485,26 @@ async function loadLocalPhotos() {
 }
 
 
-function photoType(
-  photo
-) {
+function renderMigrationBox() {
 
-  return (
-    photo.type ||
-    photo.category ||
-    photo.stage ||
-    "pickup"
-  );
-
-}
-
-
-function photoSource(
-  photo
-) {
-
-  return (
-    photo.dataUrl ||
-    photo.url ||
-    photo.src ||
-    ""
-  );
-
-}
-
-
-function renderPhotos() {
-
-  renderPhotoGroup(
-    "pickup",
-    "pickupPhotos"
-  );
-
-
-  renderPhotoGroup(
-    "return",
-    "returnPhotos"
-  );
-
-}
-
-
-function renderPhotoGroup(
-  type,
-  elementId
-) {
-
-  const container =
+  const box =
     document.getElementById(
-      elementId
+      "migrationBox"
     );
 
 
-  container.innerHTML =
-    "";
-
-
-  const photos =
-    localPhotos.filter(
-      photo => {
-
-        const current =
-          photoType(photo);
-
-
-        if (
-          type === "return"
-        ) {
-
-          return (
-            current === "return" ||
-            current === "dropoff"
-          );
-
-        }
-
-
-        return (
-          current !== "return" &&
-          current !== "dropoff"
-        );
-
-      }
+  const text =
+    document.getElementById(
+      "migrationText"
     );
 
 
   if (
-    photos.length === 0
+    oldLocalPhotos.length === 0
   ) {
 
-    container.innerHTML =
-      `
-        <div class="empty-small">
-          尚無照片
-        </div>
-      `;
+    box.className =
+      "migration-box";
 
 
     return;
@@ -3269,129 +3512,311 @@ function renderPhotoGroup(
   }
 
 
-  photos.forEach(
-    photo => {
-
-      const src =
-        photoSource(photo);
+  box.className =
+    "migration-box show";
 
 
-      const item =
-        document.createElement(
-          "div"
-        );
+  text.textContent =
+    "偵測到這台瀏覽器還有 " +
+    oldLocalPhotos.length +
+    " 張舊的本機照片。可以把它們搬進私人 Supabase Storage。";
+
+}
 
 
-      item.className =
-        "photo-item";
+/* =========================
+   DATA URL -> BLOB
+========================= */
+
+function dataUrlToBlob(
+  dataUrl
+) {
+
+  const parts =
+    dataUrl.split(",");
 
 
-      if (src) {
+  if (
+    parts.length < 2
+  ) {
 
-        item.innerHTML =
-          `
-            <img
-              src="${escapeAttribute(src)}"
-              alt="租車照片"
-            >
+    throw new Error(
+      "Invalid data URL"
+    );
 
-            <button
-              class="photo-delete"
-            >
-              ×
-            </button>
-          `;
-
-      }
-
-      else {
-
-        item.innerHTML =
-          `
-            <div class="empty-small">
-              已儲存照片資料
-            </div>
-
-            <button
-              class="photo-delete"
-            >
-              ×
-            </button>
-          `;
-
-      }
+  }
 
 
-      item.querySelector(
-        ".photo-delete"
-      ).onclick =
-        async () => {
-
-          const okay =
-            confirm(
-              "確定刪除這張本機照片嗎？"
-            );
+  const meta =
+    parts[0];
 
 
-          if (!okay) {
-            return;
-          }
+  const mimeMatch =
+    meta.match(
+      /data:(.*?);base64/
+    );
 
 
-          await deletePhotoRecord(
-            photo.id
-          );
+  const mime =
+    mimeMatch
+      ? mimeMatch[1]
+      : "image/jpeg";
 
 
-          await loadLocalPhotos();
+  const binary =
+    atob(
+      parts[1]
+    );
 
-        };
+
+  const bytes =
+    new Uint8Array(
+      binary.length
+    );
 
 
-      container.appendChild(
-        item
-      );
+  for (
+    let i = 0;
+    i < binary.length;
+    i++
+  ) {
 
+    bytes[i] =
+      binary.charCodeAt(i);
+
+  }
+
+
+  return new Blob(
+    [bytes],
+    {
+      type: mime
     }
   );
 
 }
 
 
-document.getElementById(
-  "pickupPhotoInput"
-).onchange =
-  async event => {
+function oldPhotoType(
+  photo
+) {
 
-    await addLocalPhotos(
-      Array.from(
-        event.target.files
-      ),
-      "pickup"
+  const type =
+    photo.type ||
+    photo.category ||
+    photo.stage ||
+    "pickup";
+
+
+  if (
+    type === "return" ||
+    type === "dropoff"
+  ) {
+
+    return "return";
+
+  }
+
+
+  return "pickup";
+
+}
+
+
+function oldPhotoBlob(
+  photo
+) {
+
+  if (
+    photo.blob instanceof Blob
+  ) {
+
+    return photo.blob;
+
+  }
+
+
+  const source =
+    photo.dataUrl ||
+    photo.url ||
+    photo.src ||
+    "";
+
+
+  if (
+    source.startsWith(
+      "data:"
+    )
+  ) {
+
+    return dataUrlToBlob(
+      source
+    );
+
+  }
+
+
+  return null;
+
+}
+
+
+/* =========================
+   MIGRATE OLD PHOTOS
+========================= */
+
+document.getElementById(
+  "migratePhotos"
+).onclick =
+  async () => {
+
+    if (
+      oldLocalPhotos.length === 0
+    ) {
+      return;
+    }
+
+
+    const button =
+      document.getElementById(
+        "migratePhotos"
+      );
+
+
+    button.disabled =
+      true;
+
+
+    button.textContent =
+      "搬移中…";
+
+
+    setCloudStatus(
+      "搬移照片中…",
+      "saving"
     );
 
 
-    event.target.value =
-      "";
-
-  };
+    let success =
+      0;
 
 
-document.getElementById(
-  "returnPhotoInput"
-).onchange =
-  async event => {
-
-    await addLocalPhotos(
-      Array.from(
-        event.target.files
-      ),
-      "return"
-    );
+    let failed =
+      0;
 
 
-    event.target.value =
-      "";
+    for (
+      const photo of [
+        ...oldLocalPhotos
+      ]
+    ) {
+
+      try {
+
+        const blob =
+          oldPhotoBlob(photo);
+
+
+        if (!blob) {
+
+          failed += 1;
+
+          continue;
+
+        }
+
+
+        const type =
+          oldPhotoType(photo);
+
+
+        const fileName =
+          photo.name ||
+          (
+            "old-photo-" +
+            photo.id +
+            ".jpg"
+          );
+
+
+        await uploadPhotoFile(
+          blob,
+          type,
+          fileName
+        );
+
+
+        await deleteLocalPhoto(
+          photo.id
+        );
+
+
+        success += 1;
+
+      }
+
+      catch (
+        error
+      ) {
+
+        console.error(error);
+
+        failed += 1;
+
+      }
+
+    }
+
+
+    await loadCloudPhotos();
+
+
+    await detectOldLocalPhotos();
+
+
+    button.disabled =
+      false;
+
+
+    button.textContent =
+      "☁️ 搬到私人雲端";
+
+
+    if (
+      failed === 0
+    ) {
+
+      setCloudStatus(
+        "已同步 ☁️",
+        "online"
+      );
+
+
+      showBanner(
+        "☁️ 已成功把 " +
+        success +
+        " 張舊照片搬到私人雲端。"
+      );
+
+    }
+
+    else {
+
+      setCloudStatus(
+        "部分照片未搬移",
+        "error"
+      );
+
+
+      alert(
+        "成功搬移 " +
+        success +
+        " 張；有 " +
+        failed +
+        " 張舊照片無法讀取，所以原本資料沒有刪除。"
+      );
+
+    }
 
   };
 
@@ -3415,33 +3840,6 @@ function render() {
   );
 
   renderRules();
-
-}
-
-
-/* =========================
-   ESCAPE
-========================= */
-
-function escapeHtml(
-  text = ""
-) {
-
-  return String(text)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-
-
-function escapeAttribute(
-  text = ""
-) {
-
-  return escapeHtml(text);
 
 }
 
