@@ -12,7 +12,68 @@
 
   <title>Travel Hub</title>
 
-  <script src="auth-guard.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+(async function () {
+
+  document.documentElement.style.visibility = "hidden";
+
+  const SUPABASE_URL =
+    "https://vexzdnyinfmzvcyotiuo.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
+
+  try {
+
+    const client =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY,
+        {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true
+          }
+        }
+      );
+
+    const {
+      data,
+      error
+    } =
+      await client.auth.getSession();
+
+    if (
+      error ||
+      !data.session
+    ) {
+
+      window.location.replace(
+        "login.html"
+      );
+
+      return;
+    }
+
+    document.documentElement.style.visibility =
+      "visible";
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    window.location.replace(
+      "login.html"
+    );
+
+  }
+
+})();
+</script>
 
   <style>
 
