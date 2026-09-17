@@ -2,18 +2,14 @@
 <html lang="zh-Hant">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>旅行預算｜Travel Hub</title>
 
-  <style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <style>
     * {
       box-sizing: border-box;
     }
@@ -22,24 +18,20 @@
       --bg: #f4f1eb;
       --card: #ffffff;
       --text: #292824;
-      --muted: #827d75;
-      --line: #e8e2d9;
-      --accent: #9a7350;
-      --accent-soft: #eee4d8;
+      --muted: #817b73;
+      --line: #e7e0d7;
       --dark: #2e2d29;
-      --danger: #a65a52;
-      --green-soft: #e7eee7;
-      --orange-soft: #f4e7d6;
+      --accent-soft: #eee4d8;
+      --green-soft: #e5eee6;
+      --yellow-soft: #f4ecd9;
+      --red-soft: #f3e3e1;
+      --blue-soft: #e6edf3;
+      --danger: #a95e57;
       --shadow: 0 8px 28px rgba(52,45,36,0.06);
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
-
       background: var(--bg);
       color: var(--text);
 
@@ -74,16 +66,12 @@
       margin: auto;
     }
 
-
-    /* HEADER */
-
     header {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 80;
 
-      background: rgba(244,241,235,0.93);
-
+      background: rgba(244,241,235,0.94);
       backdrop-filter: blur(18px);
 
       border-bottom: 1px solid rgba(0,0,0,0.04);
@@ -104,39 +92,65 @@
       align-items: center;
       gap: 10px;
 
-      font-weight: 700;
+      font-weight: 750;
     }
 
     .back-icon {
       width: 40px;
       height: 40px;
 
+      display: grid;
+      place-items: center;
+
       border-radius: 14px;
 
       background: white;
 
-      display: grid;
-      place-items: center;
-
       box-shadow: var(--shadow);
+    }
+
+    .right-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cloud-dot {
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: #aaa;
+    }
+
+    .cloud-dot.online {
+      background: #6e9573;
+    }
+
+    .cloud-dot.saving {
+      background: #c49a59;
+    }
+
+    .cloud-dot.error {
+      background: #b7635c;
     }
 
     .save-status {
       color: var(--muted);
-      font-size: 12px;
+
+      font-size: 11px;
+      white-space: nowrap;
     }
 
-
-    /* PAGE */
-
     .page-head {
-      padding: 20px 0 14px;
+      padding: 22px 0 12px;
     }
 
     .page-head h1 {
       margin: 0 0 5px;
 
-      font-size: 28px;
+      font-size: 29px;
     }
 
     .page-head p {
@@ -145,278 +159,159 @@
       color: var(--muted);
 
       font-size: 13px;
+      line-height: 1.55;
     }
 
+    .sync-banner {
+      display: none;
 
-    /* BUDGET SETTING */
-
-    .budget-setting {
-      background: var(--dark);
-      color: white;
-
-      border-radius: 24px;
-
-      padding: 20px;
-
-      box-shadow: var(--shadow);
-    }
-
-    .budget-setting label {
-      display: block;
-
-      margin-bottom: 7px;
-
-      color: rgba(255,255,255,0.65);
-
-      font-size: 11px;
-    }
-
-    .budget-input-row {
-      display: grid;
-
-      grid-template-columns: 1fr 110px;
-
-      gap: 8px;
-    }
-
-    .budget-field {
-      width: 100%;
-
-      border: 1px solid rgba(255,255,255,0.13);
+      margin-bottom: 12px;
+      padding: 11px 13px;
 
       border-radius: 14px;
 
-      padding: 12px;
+      font-size: 11px;
+      line-height: 1.55;
+    }
 
-      background: rgba(255,255,255,0.1);
+    .sync-banner.show {
+      display: block;
+    }
 
+    .sync-banner.success {
+      background: var(--green-soft);
+    }
+
+    .sync-banner.error {
+      background: var(--red-soft);
+    }
+
+    .summary {
+      background: var(--dark);
       color: white;
 
-      outline: none;
+      border-radius: 23px;
+
+      padding: 18px;
+
+      box-shadow: var(--shadow);
+
+      margin-bottom: 14px;
     }
-
-    .budget-field::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-
-    .budget-field option {
-      color: #222;
-    }
-
-
-    /* SUMMARY */
 
     .summary-grid {
       display: grid;
 
       grid-template-columns: repeat(3,1fr);
 
-      gap: 10px;
-
-      margin-top: 13px;
+      gap: 12px;
     }
 
-    .summary-card {
-      background: white;
-
-      border-radius: 20px;
-
-      padding: 16px;
-
-      box-shadow: var(--shadow);
+    .summary-item {
+      padding: 5px 0;
     }
 
-    .summary-label {
-      color: var(--muted);
-
-      font-size: 11px;
-
-      margin-bottom: 8px;
+    .summary-item small {
+      color: rgba(255,255,255,0.6);
     }
 
-    .summary-card strong {
+    .summary-item strong {
       display: block;
 
+      margin-top: 4px;
+
       font-size: 23px;
-
-      word-break: break-word;
     }
 
-    .remaining-positive {
-      color: #526b53;
-    }
-
-    .remaining-negative {
-      color: var(--danger);
-    }
-
-
-    /* SECTION */
-
-    .section {
-      margin-top: 20px;
-    }
-
-    .section-title {
-      display: flex;
-
-      align-items: flex-end;
-      justify-content: space-between;
-
-      gap: 10px;
-
-      margin-bottom: 10px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-
-      font-size: 19px;
-    }
-
-    .section-title span {
-      color: var(--muted);
-
-      font-size: 11px;
-    }
-
-
-    /* ADD EXPENSE */
-
-    .panel {
-      background: white;
-
-      border-radius: 22px;
-
-      padding: 16px;
-
-      box-shadow: var(--shadow);
-    }
-
-    .add-grid {
+    .budget-settings {
       display: grid;
 
-      grid-template-columns: repeat(2,1fr);
+      grid-template-columns: 1fr 130px auto;
 
       gap: 9px;
+
+      margin-top: 15px;
     }
 
-    .field-wrap {
-      display: grid;
-
-      gap: 5px;
-    }
-
-    .field-wrap.full {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      color: var(--muted);
-
-      font-size: 11px;
-    }
-
-    .field {
+    .dark-field {
       width: 100%;
 
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255,255,255,0.14);
 
-      border-radius: 13px;
+      border-radius: 12px;
 
-      padding: 11px 12px;
-
-      background: #fbfaf8;
+      padding: 10px 11px;
 
       outline: none;
+
+      background: rgba(255,255,255,0.09);
+
+      color: white;
     }
 
-    .field:focus {
-      border-color: #baa48f;
-
-      background: white;
-    }
-
-    textarea.field {
-      min-height: 75px;
-
-      resize: vertical;
-
-      line-height: 1.55;
+    .dark-field option {
+      color: black;
     }
 
     .add-button {
-      width: 100%;
-
-      margin-top: 11px;
-
       border: 0;
 
-      border-radius: 14px;
+      border-radius: 12px;
 
-      padding: 12px;
+      padding: 10px 14px;
 
-      background: var(--accent-soft);
+      background: white;
+      color: var(--dark);
 
-      color: #72543b;
-
-      font-weight: 750;
+      font-weight: 800;
     }
 
+    .currency-note {
+      margin-top: 10px;
 
-    /* CATEGORY SUMMARY */
+      color: rgba(255,255,255,0.62);
 
-    .category-grid {
-      display: grid;
-
-      grid-template-columns: repeat(4,1fr);
-
-      gap: 9px;
+      font-size: 10px;
+      line-height: 1.5;
     }
 
-    .category-card {
+    .currency-box {
+      display: flex;
+
+      gap: 7px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 14px;
+    }
+
+    .currency-chip {
+      padding: 8px 11px;
+
+      border-radius: 12px;
+
       background: white;
 
-      border-radius: 17px;
-
-      padding: 13px;
-
       box-shadow: var(--shadow);
-    }
 
-    .category-card .icon {
-      font-size: 22px;
-
-      margin-bottom: 7px;
-    }
-
-    .category-card strong {
-      display: block;
-
-      margin-bottom: 3px;
-
-      font-size: 14px;
-    }
-
-    .category-card span {
       color: var(--muted);
 
       font-size: 11px;
     }
 
-
-    /* EXPENSE */
+    .currency-chip strong {
+      color: var(--text);
+    }
 
     .expense-list {
       display: grid;
-
-      gap: 10px;
+      gap: 11px;
     }
 
     .expense-card {
       background: white;
 
-      border-radius: 19px;
+      border-radius: 20px;
 
       padding: 15px;
 
@@ -429,6 +324,8 @@
       grid-template-columns: 1fr auto;
 
       gap: 10px;
+
+      align-items: center;
     }
 
     .expense-title {
@@ -439,69 +336,83 @@
 
       background: transparent;
 
-      font-size: 16px;
-      font-weight: 750;
-    }
+      color: var(--text);
 
-    .expense-amount {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 800;
-
-      white-space: nowrap;
     }
 
-    .expense-meta {
-      margin-top: 8px;
+    .delete-button {
+      border: 0;
 
-      display: flex;
+      background: transparent;
 
-      flex-wrap: wrap;
+      color: var(--danger);
 
-      gap: 6px;
+      font-size: 20px;
     }
 
-    .meta-pill {
-      padding: 5px 8px;
+    .grid {
+      display: grid;
 
-      border-radius: 100px;
+      grid-template-columns: repeat(3,1fr);
 
-      background: #f2eee8;
+      gap: 8px;
 
-      color: #6e665e;
+      margin-top: 12px;
+    }
+
+    .field-wrap {
+      display: grid;
+      gap: 5px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: var(--muted);
 
       font-size: 10px;
     }
 
-    .expense-note {
+    .field {
       width: 100%;
-
-      margin-top: 10px;
 
       border: 1px solid var(--line);
 
       border-radius: 12px;
 
-      padding: 9px;
+      padding: 10px 11px;
 
       background: #fbfaf8;
 
       outline: none;
+    }
+
+    .field:focus {
+      border-color: #baa48f;
+      background: white;
+    }
+
+    textarea.field {
+      min-height: 65px;
 
       resize: vertical;
-
-      min-height: 55px;
-
-      font-size: 12px;
 
       line-height: 1.5;
     }
 
-    .expense-actions {
+    .actions {
       display: flex;
 
       gap: 7px;
 
-      margin-top: 10px;
+      margin-top: 11px;
+      padding-top: 11px;
+
+      border-top: 1px solid var(--line);
     }
 
     .action-button {
@@ -509,67 +420,39 @@
 
       border-radius: 10px;
 
-      padding: 7px 9px;
+      padding: 8px 10px;
 
       background: #f1eee9;
 
       font-size: 11px;
     }
 
-    .delete-button {
-      margin-left: auto;
-
-      color: var(--danger);
-    }
-
-
-    /* EMPTY */
-
     .empty {
-      padding: 38px 20px;
+      padding: 45px 20px;
+
+      border: 1px dashed #cbbeb0;
+      border-radius: 22px;
 
       text-align: center;
 
-      border-radius: 21px;
-
-      border: 1px dashed #cbbeb0;
-
-      background: rgba(255,255,255,0.4);
-
       color: var(--muted);
+
+      background: rgba(255,255,255,0.45);
     }
 
     .empty-icon {
-      font-size: 38px;
-
       margin-bottom: 8px;
+
+      font-size: 40px;
     }
 
-
-    /* NOTICE */
-
-    .notice {
-      margin-top: 18px;
-
-      padding: 14px 15px;
-
-      border-radius: 17px;
-
-      background: var(--orange-soft);
-
-      font-size: 12px;
-
-      line-height: 1.6;
-    }
-
-    .notice strong {
+    .empty strong {
       display: block;
 
-      margin-bottom: 3px;
+      margin-bottom: 5px;
+
+      color: var(--text);
     }
-
-
-    /* NAV */
 
     nav {
       position: fixed;
@@ -612,54 +495,37 @@
       font-size: 20px;
     }
 
-    .nav-link.active {
-      color: var(--text);
+    @media (max-width: 650px) {
 
-      font-weight: 700;
-    }
-
-
-    @media (max-width: 750px) {
-
-      .summary-grid {
+      .summary-grid,
+      .grid {
         grid-template-columns: 1fr;
       }
 
-      .category-grid {
-        grid-template-columns: repeat(2,1fr);
+      .budget-settings {
+        grid-template-columns: 1fr 110px;
       }
 
-    }
-
-
-    @media (max-width: 600px) {
-
-      .add-grid {
-        grid-template-columns: 1fr;
+      .budget-settings .add-button {
+        grid-column: 1 / -1;
       }
 
-      .field-wrap.full {
+      .full {
         grid-column: auto;
       }
 
     }
-
   </style>
-
 </head>
 
 
 <body>
 
-
 <header>
 
   <div class="container topbar">
 
-    <a
-      class="back"
-      href="index.html"
-    >
+    <a class="back" href="index.html">
 
       <div class="back-icon">
         ←
@@ -672,11 +538,20 @@
     </a>
 
 
-    <div
-      class="save-status"
-      id="saveStatus"
-    >
-      自動儲存
+    <div class="right-header">
+
+      <div
+        class="cloud-dot"
+        id="cloudDot"
+      ></div>
+
+      <div
+        class="save-status"
+        id="saveStatus"
+      >
+        連線中…
+      </div>
+
     </div>
 
   </div>
@@ -684,9 +559,7 @@
 </header>
 
 
-
 <main class="container">
-
 
   <section class="page-head">
 
@@ -695,132 +568,1126 @@
     </h1>
 
     <p>
-      管理總預算、支出與付款紀錄
+      記錄住宿、交通、票券、餐飲與其他旅行支出
     </p>
 
   </section>
 
 
+  <div
+    class="sync-banner"
+    id="syncBanner"
+  ></div>
 
-  <section class="budget-setting">
 
-    <label>
-      整趟旅行總預算
-    </label>
+  <section class="summary">
 
-    <div class="budget-input-row">
+    <div class="summary-grid">
+
+      <div class="summary-item">
+
+        <small>
+          總預算
+        </small>
+
+        <strong id="budgetDisplay">
+          EUR 0
+        </strong>
+
+      </div>
+
+
+      <div class="summary-item">
+
+        <small>
+          已花費
+        </small>
+
+        <strong id="spentDisplay">
+          EUR 0
+        </strong>
+
+      </div>
+
+
+      <div class="summary-item">
+
+        <small>
+          剩餘
+        </small>
+
+        <strong id="remainingDisplay">
+          EUR 0
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <div class="budget-settings">
 
       <input
-        class="budget-field"
+        class="dark-field"
         id="totalBudget"
         inputmode="decimal"
-        placeholder="例如 400000"
+        placeholder="輸入總預算"
       >
 
 
       <select
-        class="budget-field"
-        id="budgetCurrency"
+        class="dark-field"
+        id="mainCurrency"
       >
 
-        <option value="TWD">
-          TWD
-        </option>
-
-        <option value="EUR">
-          EUR
-        </option>
-
-        <option value="USD">
-          USD
-        </option>
+        <option>EUR</option>
+        <option>TWD</option>
+        <option>USD</option>
+        <option>GBP</option>
+        <option>AUD</option>
+        <option>JPY</option>
+        <option>CNY</option>
 
       </select>
 
-    </div>
 
-  </section>
-
-
-
-  <section class="summary-grid">
-
-
-    <div class="summary-card">
-
-      <div class="summary-label">
-        總預算
-      </div>
-
-      <strong id="summaryBudget">
-        -
-      </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-      <div class="summary-label">
-        已記錄支出
-      </div>
-
-      <strong id="summarySpent">
-        -
-      </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-      <div class="summary-label">
-        剩餘
-      </div>
-
-      <strong
-        id="summaryRemaining"
-        class="remaining-positive"
+      <button
+        class="add-button"
+        id="addExpense"
       >
-        -
-      </strong>
+        ＋ 新增支出
+      </button>
 
     </div>
 
+
+    <div class="currency-note">
+      不同幣別目前不會自動換匯。上方「已花費 / 剩餘」只計算與總預算相同幣別的支出。
+    </div>
 
   </section>
 
 
-
-  <section class="section">
-
-    <div class="section-title">
-
-      <h2>
-        ＋ 新增支出
-      </h2>
-
-    </div>
+  <div
+    class="currency-box"
+    id="currencyTotals"
+  ></div>
 
 
-    <div class="panel">
+  <div
+    class="expense-list"
+    id="expenseList"
+  ></div>
 
-      <div class="add-grid">
+</main>
 
 
-        <div class="field-wrap full">
+<nav>
 
-          <label>
-            項目
-          </label>
+  <a class="nav-link" href="index.html">
+    <span class="nav-icon">🏠</span>
+    今天
+  </a>
 
-          <input
-            class="field"
-            id="newTitle"
-            placeholder="例如：飯店、門票、油錢"
-          >
+  <a class="nav-link" href="itinerary.html">
+    <span class="nav-icon">📅</span>
+    行程
+  </a>
+
+  <a class="nav-link" href="map.html">
+    <span class="nav-icon">🗺️</span>
+    地圖
+  </a>
+
+  <a class="nav-link" href="tickets.html">
+    <span class="nav-icon">🎫</span>
+    票券
+  </a>
+
+  <a class="nav-link" href="car.html">
+    <span class="nav-icon">🚗</span>
+    租車
+  </a>
+
+</nav>
+
+
+<script>
+
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://vexzdnyinfmzvcyotiuo.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
+  );
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+const STORAGE_KEY =
+  "travelHubItaly2026Budget";
+
+
+const MODULE_KEY =
+  "budget";
+
+
+let currentUser =
+  null;
+
+
+let budget =
+  {
+    totalBudget: "",
+    currency: "EUR",
+    expenses: []
+  };
+
+
+let cloudSaveTimer;
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function makeId() {
+
+  return (
+    Date.now().toString(36) +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+
+}
+
+
+function valueOf(
+  object,
+  keys,
+  fallback = ""
+) {
+
+  for (
+    const key of keys
+  ) {
+
+    if (
+      object &&
+      object[key] !== undefined &&
+      object[key] !== null
+    ) {
+
+      return object[key];
+
+    }
+
+  }
+
+
+  return fallback;
+
+}
+
+
+function normalizeExpense(
+  oldExpense = {}
+) {
+
+  return {
+
+    ...oldExpense,
+
+    id:
+      valueOf(
+        oldExpense,
+        ["id"],
+        makeId()
+      ),
+
+    title:
+      valueOf(
+        oldExpense,
+        [
+          "title",
+          "name",
+          "expense"
+        ]
+      ),
+
+    category:
+      valueOf(
+        oldExpense,
+        [
+          "category",
+          "type"
+        ],
+        "其他"
+      ),
+
+    date:
+      valueOf(
+        oldExpense,
+        ["date"]
+      ),
+
+    amount:
+      valueOf(
+        oldExpense,
+        [
+          "amount",
+          "price",
+          "cost"
+        ]
+      ),
+
+    currency:
+      valueOf(
+        oldExpense,
+        ["currency"],
+        "EUR"
+      ),
+
+    payment:
+      valueOf(
+        oldExpense,
+        [
+          "payment",
+          "paymentMethod"
+        ]
+      ),
+
+    note:
+      valueOf(
+        oldExpense,
+        [
+          "note",
+          "notes"
+        ]
+      )
+
+  };
+
+}
+
+
+function normalizeBudget(
+  data
+) {
+
+  if (
+    Array.isArray(data)
+  ) {
+
+    return {
+      totalBudget: "",
+      currency: "EUR",
+      expenses:
+        data.map(
+          normalizeExpense
+        )
+    };
+
+  }
+
+
+  if (!data) {
+
+    return {
+      totalBudget: "",
+      currency: "EUR",
+      expenses: []
+    };
+
+  }
+
+
+  const source =
+    data.budget &&
+    typeof data.budget === "object"
+      ? data.budget
+      : data;
+
+
+  const oldExpenses =
+    valueOf(
+      source,
+      [
+        "expenses",
+        "items",
+        "records"
+      ],
+      []
+    );
+
+
+  return {
+
+    totalBudget:
+      valueOf(
+        source,
+        [
+          "totalBudget",
+          "budgetAmount",
+          "total",
+          "budget"
+        ]
+      ),
+
+    currency:
+      valueOf(
+        source,
+        [
+          "currency",
+          "mainCurrency"
+        ],
+        "EUR"
+      ),
+
+    expenses:
+      Array.isArray(oldExpenses)
+        ? oldExpenses.map(
+            normalizeExpense
+          )
+        : []
+
+  };
+
+}
+
+
+function newExpense() {
+
+  return {
+    id: makeId(),
+    title: "",
+    category: "其他",
+    date: "",
+    amount: "",
+    currency: budget.currency || "EUR",
+    payment: "",
+    note: ""
+  };
+
+}
+
+
+function numberValue(
+  value
+) {
+
+  const number =
+    Number(
+      String(value || "")
+        .replaceAll(",", "")
+    );
+
+
+  return Number.isFinite(number)
+    ? number
+    : 0;
+
+}
+
+
+function formatMoney(
+  value
+) {
+
+  return Number(value)
+    .toLocaleString(
+      "zh-TW",
+      {
+        maximumFractionDigits: 2
+      }
+    );
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function setCloudStatus(
+  text,
+  type
+) {
+
+  document.getElementById(
+    "saveStatus"
+  ).textContent =
+    text;
+
+
+  const dot =
+    document.getElementById(
+      "cloudDot"
+    );
+
+
+  dot.className =
+    "cloud-dot";
+
+
+  if (type) {
+    dot.classList.add(type);
+  }
+
+}
+
+
+function showBanner(
+  text,
+  type = "success"
+) {
+
+  const banner =
+    document.getElementById(
+      "syncBanner"
+    );
+
+
+  banner.textContent =
+    text;
+
+
+  banner.className =
+    "sync-banner show " +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      banner.className =
+        "sync-banner";
+
+    },
+    5000
+  );
+
+}
+
+
+/* =========================
+   LOCAL STORAGE
+========================= */
+
+function loadLocalBudget() {
+
+  const raw =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!raw) {
+    return null;
+  }
+
+
+  try {
+
+    return normalizeBudget(
+      JSON.parse(raw)
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+    return null;
+
+  }
+
+}
+
+
+function saveLocalBudget() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(budget)
+  );
+
+}
+
+
+/* =========================
+   CLOUD
+========================= */
+
+async function loadCloudModule() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("travel_modules")
+      .select("data, updated_at")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "module_key",
+        MODULE_KEY
+      )
+      .maybeSingle();
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return data;
+
+}
+
+
+async function uploadBudgetNow() {
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  saveLocalBudget();
+
+
+  setCloudStatus(
+    "同步中…",
+    "saving"
+  );
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("travel_modules")
+      .upsert(
+        {
+
+          user_id:
+            currentUser.id,
+
+          module_key:
+            MODULE_KEY,
+
+          data: {
+            version: 1,
+            budget: budget
+          },
+
+          updated_at:
+            new Date()
+              .toISOString()
+
+        },
+        {
+          onConflict:
+            "user_id,module_key"
+        }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    setCloudStatus(
+      "同步失敗",
+      "error"
+    );
+
+
+    return;
+
+  }
+
+
+  setCloudStatus(
+    "已同步 ☁️",
+    "online"
+  );
+
+}
+
+
+function scheduleCloudSave() {
+
+  saveLocalBudget();
+
+
+  setCloudStatus(
+    "等待同步…",
+    "saving"
+  );
+
+
+  clearTimeout(
+    cloudSaveTimer
+  );
+
+
+  cloudSaveTimer =
+    setTimeout(
+      uploadBudgetNow,
+      650
+    );
+
+}
+
+
+/* =========================
+   INITIAL
+========================= */
+
+async function initializeCloud() {
+
+  setCloudStatus(
+    "登入確認中…"
+  );
+
+
+  const {
+    data: sessionData
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  const session =
+    sessionData.session;
+
+
+  if (!session) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  currentUser =
+    session.user;
+
+
+  const localBudget =
+    loadLocalBudget();
+
+
+  setCloudStatus(
+    "讀取雲端…",
+    "saving"
+  );
+
+
+  try {
+
+    const cloudRow =
+      await loadCloudModule();
+
+
+    if (
+      cloudRow &&
+      cloudRow.data
+    ) {
+
+      budget =
+        normalizeBudget(
+          cloudRow.data
+        );
+
+
+      saveLocalBudget();
+
+
+      setCloudStatus(
+        "已同步 ☁️",
+        "online"
+      );
+
+
+      showBanner(
+        "☁️ 已載入旅行預算雲端資料。"
+      );
+
+    }
+
+    else if (
+      localBudget
+    ) {
+
+      budget =
+        localBudget;
+
+
+      await uploadBudgetNow();
+
+
+      showBanner(
+        "☁️ 第一次同步完成：原本瀏覽器裡的預算資料已上傳到 Supabase。"
+      );
+
+    }
+
+    else {
+
+      budget =
+        normalizeBudget(null);
+
+
+      await uploadBudgetNow();
+
+
+      showBanner(
+        "☁️ 已建立旅行預算雲端資料。"
+      );
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+
+    budget =
+      localBudget ||
+      normalizeBudget(null);
+
+
+    setCloudStatus(
+      "離線備份模式",
+      "error"
+    );
+
+
+    showBanner(
+      "⚠️ Supabase 暫時無法連線，目前使用本機預算備份。",
+      "error"
+    );
+
+  }
+
+
+  render();
+
+}
+
+
+/* =========================
+   SUMMARY
+========================= */
+
+function updateSummary() {
+
+  const mainCurrency =
+    budget.currency || "EUR";
+
+
+  const totalBudget =
+    numberValue(
+      budget.totalBudget
+    );
+
+
+  const spent =
+    budget.expenses
+      .filter(
+        expense =>
+          expense.currency ===
+          mainCurrency
+      )
+      .reduce(
+        (
+          total,
+          expense
+        ) =>
+          total +
+          numberValue(
+            expense.amount
+          ),
+        0
+      );
+
+
+  const remaining =
+    totalBudget -
+    spent;
+
+
+  document.getElementById(
+    "budgetDisplay"
+  ).textContent =
+    mainCurrency +
+    " " +
+    formatMoney(totalBudget);
+
+
+  document.getElementById(
+    "spentDisplay"
+  ).textContent =
+    mainCurrency +
+    " " +
+    formatMoney(spent);
+
+
+  document.getElementById(
+    "remainingDisplay"
+  ).textContent =
+    mainCurrency +
+    " " +
+    formatMoney(remaining);
+
+
+  document.getElementById(
+    "totalBudget"
+  ).value =
+    budget.totalBudget || "";
+
+
+  document.getElementById(
+    "mainCurrency"
+  ).value =
+    mainCurrency;
+
+
+  renderCurrencyTotals();
+
+}
+
+
+/* =========================
+   CURRENCY TOTALS
+========================= */
+
+function renderCurrencyTotals() {
+
+  const totals =
+    {};
+
+
+  budget.expenses.forEach(
+    expense => {
+
+      const currency =
+        expense.currency ||
+        budget.currency ||
+        "EUR";
+
+
+      if (
+        !totals[currency]
+      ) {
+
+        totals[currency] =
+          0;
+
+      }
+
+
+      totals[currency] +=
+        numberValue(
+          expense.amount
+        );
+
+    }
+  );
+
+
+  const container =
+    document.getElementById(
+      "currencyTotals"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  Object.entries(
+    totals
+  ).forEach(
+    (
+      [
+        currency,
+        value
+      ]
+    ) => {
+
+      const chip =
+        document.createElement(
+          "div"
+        );
+
+
+      chip.className =
+        "currency-chip";
+
+
+      chip.innerHTML =
+        `
+          ${escapeHtml(currency)}
+          <strong>
+            ${formatMoney(value)}
+          </strong>
+        `;
+
+
+      container.appendChild(
+        chip
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function render() {
+
+  updateSummary();
+
+
+  const container =
+    document.getElementById(
+      "expenseList"
+    );
+
+
+  container.innerHTML =
+    "";
+
+
+  if (
+    budget.expenses.length === 0
+  ) {
+
+    container.innerHTML =
+      `
+        <div class="empty">
+
+          <div class="empty-icon">
+            💰
+          </div>
+
+          <strong>
+            還沒有支出
+          </strong>
+
+          按「＋ 新增支出」開始記帳。
 
         </div>
+      `;
+
+
+    return;
+
+  }
+
+
+  budget.expenses.forEach(
+    (
+      expense,
+      index
+    ) => {
+
+      container.appendChild(
+        createExpenseCard(
+          expense,
+          index
+        )
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   EXPENSE CARD
+========================= */
+
+function createExpenseCard(
+  expense,
+  index
+) {
+
+  const card =
+    document.createElement(
+      "div"
+    );
+
+
+  card.className =
+    "expense-card";
+
+
+  card.innerHTML =
+    `
+
+      <div class="expense-top">
+
+        <input
+          class="expense-title"
+          placeholder="支出名稱"
+          value="${escapeAttribute(expense.title)}"
+        >
+
+
+        <button
+          class="delete-button"
+          title="刪除"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="grid">
 
 
         <div class="field-wrap">
@@ -829,43 +1696,8 @@
             分類
           </label>
 
-          <select
-            class="field"
-            id="newCategory"
-          >
-
-            <option value="住宿">
-              🏨 住宿
-            </option>
-
-            <option value="交通">
-              🚗 交通
-            </option>
-
-            <option value="門票">
-              🎫 門票
-            </option>
-
-            <option value="餐飲">
-              🍝 餐飲
-            </option>
-
-            <option value="停車">
-              🅿️ 停車
-            </option>
-
-            <option value="加油">
-              ⛽ 加油
-            </option>
-
-            <option value="購物">
-              🛍️ 購物
-            </option>
-
-            <option value="其他">
-              📦 其他
-            </option>
-
+          <select class="field category">
+            ${categoryOptions(expense.category)}
           </select>
 
         </div>
@@ -878,9 +1710,24 @@
           </label>
 
           <input
-            class="field"
-            id="newDate"
+            class="field date"
             type="date"
+            value="${escapeAttribute(expense.date)}"
+          >
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            付款方式
+          </label>
+
+          <input
+            class="field payment"
+            placeholder="現金 / 信用卡"
+            value="${escapeAttribute(expense.payment)}"
           >
 
         </div>
@@ -893,10 +1740,10 @@
           </label>
 
           <input
-            class="field"
-            id="newAmount"
+            class="field amount"
             inputmode="decimal"
             placeholder="0"
+            value="${escapeAttribute(expense.amount)}"
           >
 
         </div>
@@ -908,74 +1755,8 @@
             幣別
           </label>
 
-          <select
-            class="field"
-            id="newCurrency"
-          >
-
-            <option value="TWD">
-              TWD
-            </option>
-
-            <option value="EUR">
-              EUR
-            </option>
-
-            <option value="USD">
-              USD
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="field-wrap">
-
-          <label>
-            誰付款
-          </label>
-
-          <input
-            class="field"
-            id="newPayer"
-            placeholder="例如：爸爸 / 我"
-          >
-
-        </div>
-
-
-        <div class="field-wrap">
-
-          <label>
-            付款方式
-          </label>
-
-          <select
-            class="field"
-            id="newPaymentMethod"
-          >
-
-            <option value="信用卡">
-              信用卡
-            </option>
-
-            <option value="現金">
-              現金
-            </option>
-
-            <option value="轉帳">
-              轉帳
-            </option>
-
-            <option value="Apple Pay">
-              Apple Pay
-            </option>
-
-            <option value="其他">
-              其他
-            </option>
-
+          <select class="field currency">
+            ${currencyOptions(expense.currency)}
           </select>
 
         </div>
@@ -988,973 +1769,426 @@
           </label>
 
           <textarea
-            class="field"
-            id="newNote"
-            placeholder="例如：四人總價、已付款、可退款、誰需要分攤……"
-          ></textarea>
+            class="field note"
+            placeholder="付款對象、訂單編號、分攤方式……"
+          >${escapeHtml(expense.note)}</textarea>
 
         </div>
 
       </div>
 
 
-      <button
-        class="add-button"
-        id="addExpense"
-      >
-        ＋ 加入支出
-      </button>
+      <div class="actions">
 
-    </div>
+        <button
+          class="action-button moveUp"
+        >
+          ↑ 上移
+        </button>
 
-  </section>
 
+        <button
+          class="action-button moveDown"
+        >
+          ↓ 下移
+        </button>
 
+      </div>
 
-  <section class="section">
+    `;
 
-    <div class="section-title">
 
-      <h2>
-        分類統計
-      </h2>
-
-      <span>
-        依目前記錄
-      </span>
-
-    </div>
-
-
-    <div
-      class="category-grid"
-      id="categoryGrid"
-    ></div>
-
-  </section>
-
-
-
-  <section class="section">
-
-    <div class="section-title">
-
-      <h2>
-        支出紀錄
-      </h2>
-
-      <span id="expenseCount">
-        0 筆
-      </span>
-
-    </div>
-
-
-    <div
-      class="expense-list"
-      id="expenseList"
-    ></div>
-
-  </section>
-
-
-
-  <div class="notice">
-
-    <strong>
-      💱 不同幣別
-    </strong>
-
-    目前這版先各自記錄 TWD、EUR、USD，不會自動拿即時匯率亂換算。之後我們可以再加「即時匯率 + 全部換算成台幣」功能。
-
-  </div>
-
-
-</main>
-
-
-
-<nav>
-
-  <a
-    class="nav-link"
-    href="index.html"
-  >
-    <span class="nav-icon">🏠</span>
-    今天
-  </a>
-
-
-  <a
-    class="nav-link"
-    href="itinerary.html"
-  >
-    <span class="nav-icon">📅</span>
-    行程
-  </a>
-
-
-  <a
-    class="nav-link active"
-    href="budget.html"
-  >
-    <span class="nav-icon">💰</span>
-    預算
-  </a>
-
-
-  <a
-    class="nav-link"
-    href="tickets.html"
-  >
-    <span class="nav-icon">🎫</span>
-    票券
-  </a>
-
-
-  <a
-    class="nav-link"
-    href="car.html"
-  >
-    <span class="nav-icon">🚗</span>
-    租車
-  </a>
-
-</nav>
-
-
-
-<script>
-
-
-const STORAGE_KEY =
-  "travelHubItaly2026Budget";
-
-
-const categoryIcons = {
-
-  "住宿": "🏨",
-
-  "交通": "🚗",
-
-  "門票": "🎫",
-
-  "餐飲": "🍝",
-
-  "停車": "🅿️",
-
-  "加油": "⛽",
-
-  "購物": "🛍️",
-
-  "其他": "📦"
-
-};
-
-
-let data = {
-
-  totalBudget: "",
-
-  budgetCurrency: "TWD",
-
-  expenses: []
-
-};
-
-
-
-function loadData() {
-
-  const saved =
-    localStorage.getItem(
-      STORAGE_KEY
-    );
-
-
-  if (!saved) {
-    return;
-  }
-
-
-  try {
-
-    data =
-      Object.assign(
-        data,
-        JSON.parse(saved)
-      );
-
-  }
-
-  catch {}
-
-}
-
-
-
-function saveData() {
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(data)
+  bindInput(
+    card,
+    ".expense-title",
+    expense,
+    "title"
   );
 
 
-  const status =
-    document.getElementById(
-      "saveStatus"
-    );
-
-
-  status.textContent =
-    "已儲存 ✓";
-
-
-  clearTimeout(
-    window.saveTimer
+  bindInput(
+    card,
+    ".date",
+    expense,
+    "date"
   );
 
 
-  window.saveTimer =
-    setTimeout(
-      () => {
-
-        status.textContent =
-          "自動儲存";
-
-      },
-      1200
-    );
-
-}
-
-
-
-function money(
-  amount,
-  currency
-) {
-
-  const number =
-    Number(amount || 0);
-
-
-  return (
-    currency +
-    " " +
-    number.toLocaleString()
+  bindInput(
+    card,
+    ".payment",
+    expense,
+    "payment"
   );
 
-}
+
+  bindInput(
+    card,
+    ".amount",
+    expense,
+    "amount",
+    true
+  );
 
 
+  bindInput(
+    card,
+    ".note",
+    expense,
+    "note"
+  );
 
-function updateSummary() {
 
-  const budget =
-    Number(
-      data.totalBudget || 0
+  const category =
+    card.querySelector(
+      ".category"
     );
+
+
+  category.onchange =
+    () => {
+
+      expense.category =
+        category.value;
+
+
+      scheduleCloudSave();
+
+    };
 
 
   const currency =
-    data.budgetCurrency;
-
-
-  const sameCurrencyExpenses =
-    data.expenses.filter(
-      expense =>
-        expense.currency ===
-        currency
+    card.querySelector(
+      ".currency"
     );
 
 
-  const spent =
-    sameCurrencyExpenses.reduce(
-      (
-        sum,
-        expense
-      ) =>
-        sum +
-        Number(
-          expense.amount || 0
-        ),
-      0
-    );
+  currency.onchange =
+    () => {
+
+      expense.currency =
+        currency.value;
 
 
-  const remaining =
-    budget - spent;
+      scheduleCloudSave();
+
+      updateSummary();
+
+    };
 
 
-  document.getElementById(
-    "summaryBudget"
-  ).textContent =
-    budget
-    ? money(
-        budget,
-        currency
-      )
-    : "-";
+  card.querySelector(
+    ".delete-button"
+  ).onclick =
+    () => {
 
-
-  document.getElementById(
-    "summarySpent"
-  ).textContent =
-    money(
-      spent,
-      currency
-    );
-
-
-  const remainingElement =
-    document.getElementById(
-      "summaryRemaining"
-    );
-
-
-  remainingElement.textContent =
-    budget
-    ? money(
-        remaining,
-        currency
-      )
-    : "-";
-
-
-  remainingElement.classList.toggle(
-    "remaining-negative",
-    remaining < 0
-  );
-
-
-  remainingElement.classList.toggle(
-    "remaining-positive",
-    remaining >= 0
-  );
-
-}
-
-
-
-function renderCategories() {
-
-  const container =
-    document.getElementById(
-      "categoryGrid"
-    );
-
-
-  container.innerHTML =
-    "";
-
-
-  Object.keys(
-    categoryIcons
-  ).forEach(
-    category => {
-
-
-      const expenses =
-        data.expenses.filter(
-          expense =>
-            expense.category ===
-            category
+      const okay =
+        confirm(
+          "確定要刪除這筆支出嗎？"
         );
 
 
+      if (!okay) {
+        return;
+      }
+
+
+      budget.expenses.splice(
+        index,
+        1
+      );
+
+
+      scheduleCloudSave();
+
+      render();
+
+    };
+
+
+  card.querySelector(
+    ".moveUp"
+  ).onclick =
+    () => {
+
       if (
-        expenses.length === 0
+        index === 0
       ) {
         return;
       }
 
 
-      const currencyTotals =
-        {};
+      [
+        budget.expenses[index - 1],
+        budget.expenses[index]
+      ] =
+      [
+        budget.expenses[index],
+        budget.expenses[index - 1]
+      ];
 
 
-      expenses.forEach(
-        expense => {
+      scheduleCloudSave();
 
-          const currency =
-            expense.currency;
+      render();
 
-
-          currencyTotals[currency] =
-            (
-              currencyTotals[currency] ||
-              0
-            ) +
-            Number(
-              expense.amount || 0
-            );
-
-        }
-      );
+    };
 
 
-      const summary =
-        Object.entries(
-          currencyTotals
-        )
-        .map(
-          (
-            [
-              currency,
-              total
-            ]
-          ) =>
-            money(
-              total,
-              currency
-            )
-        )
-        .join("・");
+  card.querySelector(
+    ".moveDown"
+  ).onclick =
+    () => {
+
+      if (
+        index ===
+        budget.expenses.length - 1
+      ) {
+        return;
+      }
 
 
-      const card =
-        document.createElement(
-          "div"
-        );
+      [
+        budget.expenses[index],
+        budget.expenses[index + 1]
+      ] =
+      [
+        budget.expenses[index + 1],
+        budget.expenses[index]
+      ];
 
 
-      card.className =
-        "category-card";
+      scheduleCloudSave();
+
+      render();
+
+    };
 
 
-      card.innerHTML =
-        `
-
-          <div class="icon">
-            ${categoryIcons[category]}
-          </div>
-
-          <strong>
-            ${category}
-          </strong>
-
-          <span>
-            ${summary}
-          </span>
-
-        `;
-
-
-      container.appendChild(
-        card
-      );
-
-    }
-  );
-
-
-  if (
-    container.children.length === 0
-  ) {
-
-    container.innerHTML =
-      `
-
-        <div class="empty" style="grid-column:1/-1">
-
-          還沒有支出資料
-
-        </div>
-
-      `;
-
-  }
+  return card;
 
 }
 
 
+/* =========================
+   BIND INPUT
+========================= */
 
-function renderExpenses() {
+function bindInput(
+  card,
+  selector,
+  object,
+  key,
+  updateTotals = false
+) {
 
-  const container =
-    document.getElementById(
-      "expenseList"
+  const element =
+    card.querySelector(
+      selector
     );
 
 
-  document.getElementById(
-    "expenseCount"
-  ).textContent =
-    data.expenses.length +
-    " 筆";
+  element.oninput =
+    () => {
 
+      object[key] =
+        element.value;
 
-  container.innerHTML =
-    "";
 
+      scheduleCloudSave();
 
-  if (
-    data.expenses.length === 0
-  ) {
 
-    container.innerHTML =
-      `
+      if (
+        updateTotals
+      ) {
 
-        <div class="empty">
-
-          <div class="empty-icon">
-            💰
-          </div>
-
-          還沒有加入任何支出
-
-        </div>
-
-      `;
-
-
-    return;
-
-  }
-
-
-  data.expenses
-    .slice()
-    .reverse()
-    .forEach(
-      expense => {
-
-
-        const realIndex =
-          data.expenses.indexOf(
-            expense
-          );
-
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-
-        card.className =
-          "expense-card";
-
-
-        card.innerHTML =
-          `
-
-            <div class="expense-top">
-
-              <input
-                class="expense-title"
-                value="${escapeAttribute(expense.title)}"
-              >
-
-              <div class="expense-amount">
-                ${money(expense.amount, expense.currency)}
-              </div>
-
-            </div>
-
-
-            <div class="expense-meta">
-
-              <span class="meta-pill">
-                ${categoryIcons[expense.category] || "📦"}
-                ${expense.category}
-              </span>
-
-              ${
-                expense.date
-                ? `
-                  <span class="meta-pill">
-                    📅 ${expense.date}
-                  </span>
-                `
-                : ""
-              }
-
-              ${
-                expense.payer
-                ? `
-                  <span class="meta-pill">
-                    👤 ${escapeHtml(expense.payer)}
-                  </span>
-                `
-                : ""
-              }
-
-              ${
-                expense.paymentMethod
-                ? `
-                  <span class="meta-pill">
-                    💳 ${escapeHtml(expense.paymentMethod)}
-                  </span>
-                `
-                : ""
-              }
-
-            </div>
-
-
-            <textarea
-              class="expense-note"
-              placeholder="備註"
-            >${escapeHtml(expense.note || "")}</textarea>
-
-
-            <div class="expense-actions">
-
-              <button
-                class="action-button move-up"
-              >
-                ↑ 上移
-              </button>
-
-              <button
-                class="action-button move-down"
-              >
-                ↓ 下移
-              </button>
-
-              <button
-                class="action-button delete-button"
-              >
-                🗑 刪除
-              </button>
-
-            </div>
-
-          `;
-
-
-
-        const title =
-          card.querySelector(
-            ".expense-title"
-          );
-
-
-        const note =
-          card.querySelector(
-            ".expense-note"
-          );
-
-
-        title.oninput =
-          () => {
-
-            expense.title =
-              title.value;
-
-            saveData();
-
-          };
-
-
-        note.oninput =
-          () => {
-
-            expense.note =
-              note.value;
-
-            saveData();
-
-          };
-
-
-        card.querySelector(
-          ".delete-button"
-        ).onclick =
-          () => {
-
-            const okay =
-              confirm(
-                "確定要刪除這筆支出嗎？"
-              );
-
-
-            if (!okay) {
-              return;
-            }
-
-
-            data.expenses.splice(
-              realIndex,
-              1
-            );
-
-
-            saveData();
-
-            render();
-
-          };
-
-
-        card.querySelector(
-          ".move-up"
-        ).onclick =
-          () => {
-
-            if (
-              realIndex === 0
-            ) {
-              return;
-            }
-
-
-            [
-              data.expenses[
-                realIndex - 1
-              ],
-              data.expenses[
-                realIndex
-              ]
-            ] =
-            [
-              data.expenses[
-                realIndex
-              ],
-              data.expenses[
-                realIndex - 1
-              ]
-            ];
-
-
-            saveData();
-
-            render();
-
-          };
-
-
-        card.querySelector(
-          ".move-down"
-        ).onclick =
-          () => {
-
-            if (
-              realIndex ===
-              data.expenses.length - 1
-            ) {
-              return;
-            }
-
-
-            [
-              data.expenses[
-                realIndex
-              ],
-              data.expenses[
-                realIndex + 1
-              ]
-            ] =
-            [
-              data.expenses[
-                realIndex + 1
-              ],
-              data.expenses[
-                realIndex
-              ]
-            ];
-
-
-            saveData();
-
-            render();
-
-          };
-
-
-        container.appendChild(
-          card
-        );
+        updateSummary();
 
       }
-    );
+
+    };
 
 }
 
 
-
-function addExpense() {
-
-  const title =
-    document.getElementById(
-      "newTitle"
-    ).value.trim();
-
-
-  const amount =
-    document.getElementById(
-      "newAmount"
-    ).value.trim();
-
-
-  if (
-    !title ||
-    !amount
-  ) {
-
-    alert(
-      "至少要填項目名稱和金額"
-    );
-
-    return;
-
-  }
-
-
-  data.expenses.push(
-    {
-
-      title,
-
-      category:
-        document.getElementById(
-          "newCategory"
-        ).value,
-
-      date:
-        document.getElementById(
-          "newDate"
-        ).value,
-
-      amount,
-
-      currency:
-        document.getElementById(
-          "newCurrency"
-        ).value,
-
-      payer:
-        document.getElementById(
-          "newPayer"
-        ).value.trim(),
-
-      paymentMethod:
-        document.getElementById(
-          "newPaymentMethod"
-        ).value,
-
-      note:
-        document.getElementById(
-          "newNote"
-        ).value.trim()
-
-    }
-  );
-
-
-  document.getElementById(
-    "newTitle"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "newAmount"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "newNote"
-  ).value =
-    "";
-
-
-  saveData();
-
-  render();
-
-}
-
-
-
-document.getElementById(
-  "addExpense"
-).onclick =
-  addExpense;
-
-
+/* =========================
+   MAIN BUDGET
+========================= */
 
 document.getElementById(
   "totalBudget"
 ).oninput =
   event => {
 
-    data.totalBudget =
+    budget.totalBudget =
       event.target.value;
 
-    saveData();
+
+    scheduleCloudSave();
 
     updateSummary();
 
   };
-
 
 
 document.getElementById(
-  "budgetCurrency"
+  "mainCurrency"
 ).onchange =
   event => {
 
-    data.budgetCurrency =
+    budget.currency =
       event.target.value;
 
-    saveData();
 
-    updateSummary();
+    scheduleCloudSave();
+
+    render();
 
   };
 
 
+/* =========================
+   ADD
+========================= */
 
-function render() {
+document.getElementById(
+  "addExpense"
+).onclick =
+  () => {
 
-  updateSummary();
+    budget.expenses.push(
+      newExpense()
+    );
 
-  renderCategories();
 
-  renderExpenses();
+    scheduleCloudSave();
+
+    render();
+
+  };
+
+
+/* =========================
+   OPTIONS
+========================= */
+
+function categoryOptions(
+  selected
+) {
+
+  const categories =
+    [
+      "住宿",
+      "交通",
+      "租車",
+      "油資",
+      "停車",
+      "票券",
+      "餐飲",
+      "購物",
+      "保險",
+      "其他"
+    ];
+
+
+  if (
+    selected &&
+    !categories.includes(selected)
+  ) {
+
+    categories.push(
+      selected
+    );
+
+  }
+
+
+  return categories
+    .map(
+      category =>
+        `
+          <option
+            value="${escapeAttribute(category)}"
+            ${
+              category === selected
+                ? "selected"
+                : ""
+            }
+          >
+            ${escapeHtml(category)}
+          </option>
+        `
+    )
+    .join("");
 
 }
 
 
+function currencyOptions(
+  selected
+) {
+
+  const currencies =
+    [
+      "EUR",
+      "TWD",
+      "USD",
+      "GBP",
+      "AUD",
+      "JPY",
+      "CNY"
+    ];
+
+
+  if (
+    selected &&
+    !currencies.includes(selected)
+  ) {
+
+    currencies.push(
+      selected
+    );
+
+  }
+
+
+  return currencies
+    .map(
+      currency =>
+        `
+          <option
+            value="${escapeAttribute(currency)}"
+            ${
+              currency === selected
+                ? "selected"
+                : ""
+            }
+          >
+            ${escapeHtml(currency)}
+          </option>
+        `
+    )
+    .join("");
+
+}
+
+
+/* =========================
+   ESCAPE
+========================= */
 
 function escapeHtml(
   text = ""
 ) {
 
   return String(text)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
-
 
 
 function escapeAttribute(
@@ -1968,28 +2202,13 @@ function escapeAttribute(
 }
 
 
+/* =========================
+   START
+========================= */
 
-loadData();
-
-
-document.getElementById(
-  "totalBudget"
-).value =
-  data.totalBudget || "";
-
-
-document.getElementById(
-  "budgetCurrency"
-).value =
-  data.budgetCurrency || "TWD";
-
-
-render();
-
+initializeCloud();
 
 </script>
 
-
 </body>
-
 </html>
