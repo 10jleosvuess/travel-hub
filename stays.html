@@ -139,6 +139,7 @@
     .save-status {
       font-size: 11px;
       color: var(--muted);
+
       white-space: nowrap;
     }
 
@@ -148,6 +149,7 @@
 
     .page-head h1 {
       margin: 0 0 5px;
+
       font-size: 29px;
     }
 
@@ -160,7 +162,7 @@
       line-height: 1.55;
     }
 
-    .sync-banner {
+    .banner {
       display: none;
 
       margin-bottom: 12px;
@@ -173,26 +175,19 @@
       line-height: 1.55;
     }
 
-    .sync-banner.show {
+    .banner.show {
       display: block;
     }
 
-    .sync-banner.success {
+    .banner.success {
       background: var(--green-soft);
     }
 
-    .sync-banner.error {
+    .banner.error {
       background: var(--red-soft);
     }
 
     .summary {
-      background: var(--dark);
-      color: white;
-
-      border-radius: 23px;
-
-      padding: 18px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -200,6 +195,13 @@
       gap: 15px;
 
       margin-bottom: 17px;
+
+      padding: 18px;
+
+      border-radius: 23px;
+
+      background: var(--dark);
+      color: white;
 
       box-shadow: var(--shadow);
     }
@@ -227,8 +229,6 @@
       color: var(--dark);
 
       font-weight: 800;
-
-      white-space: nowrap;
     }
 
     .stay-list {
@@ -237,11 +237,11 @@
     }
 
     .stay-card {
-      background: white;
+      padding: 17px;
 
       border-radius: 22px;
 
-      padding: 17px;
+      background: white;
 
       box-shadow: var(--shadow);
     }
@@ -286,7 +286,7 @@
       font-weight: 800;
     }
 
-    .delete-button {
+    .delete-stay {
       border: 0;
 
       background: transparent;
@@ -299,7 +299,7 @@
     .grid {
       display: grid;
 
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2,1fr);
 
       gap: 9px;
 
@@ -308,6 +308,7 @@
 
     .field-wrap {
       display: grid;
+
       gap: 5px;
     }
 
@@ -316,8 +317,9 @@
     }
 
     label {
-      font-size: 10px;
       color: var(--muted);
+
+      font-size: 10px;
     }
 
     .field {
@@ -351,13 +353,85 @@
       grid-column: 1 / -1;
 
       margin-top: 5px;
-
       padding-top: 12px;
 
       border-top: 1px solid var(--line);
 
       font-size: 12px;
       font-weight: 800;
+    }
+
+    .private-file {
+      grid-column: 1 / -1;
+
+      padding: 13px;
+
+      border: 1px solid var(--line);
+      border-radius: 16px;
+
+      background: #f8f6f2;
+    }
+
+    .private-file strong {
+      display: block;
+
+      margin-bottom: 5px;
+
+      font-size: 13px;
+    }
+
+    .file-status {
+      min-height: 24px;
+
+      margin-bottom: 9px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+      line-height: 1.5;
+
+      word-break: break-word;
+    }
+
+    .file-input {
+      width: 100%;
+
+      font-size: 11px;
+    }
+
+    .file-actions {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+
+      margin-top: 9px;
+    }
+
+    .file-button {
+      border: 0;
+
+      border-radius: 9px;
+
+      padding: 8px 10px;
+
+      background: var(--blue-soft);
+
+      font-size: 10px;
+    }
+
+    .file-button.delete {
+      background: var(--red-soft);
+      color: var(--danger);
+    }
+
+    .legacy-note {
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: 10px;
     }
 
     .actions {
@@ -368,7 +442,6 @@
       gap: 7px;
 
       margin-top: 13px;
-
       padding-top: 12px;
 
       border-top: 1px solid var(--line);
@@ -390,10 +463,6 @@
       background: var(--green-soft);
     }
 
-    .link-button {
-      background: var(--blue-soft);
-    }
-
     .empty {
       padding: 45px 20px;
 
@@ -407,19 +476,6 @@
       background: rgba(255,255,255,0.45);
     }
 
-    .empty-icon {
-      font-size: 40px;
-      margin-bottom: 8px;
-    }
-
-    .empty strong {
-      display: block;
-
-      margin-bottom: 5px;
-
-      color: var(--text);
-    }
-
     .privacy {
       margin-top: 16px;
 
@@ -427,9 +483,9 @@
 
       border-radius: 15px;
 
-      background: var(--yellow-soft);
+      background: var(--green-soft);
 
-      color: #675c4c;
+      color: #536553;
 
       font-size: 11px;
       line-height: 1.6;
@@ -442,12 +498,11 @@
       right: 0;
       bottom: 0;
 
-      height: 72px;
-
       z-index: 100;
 
-      display: grid;
+      height: 72px;
 
+      display: grid;
       grid-template-columns: repeat(5,1fr);
 
       background: rgba(255,255,255,0.94);
@@ -477,18 +532,17 @@
     }
 
     @media (max-width: 650px) {
+
       .grid {
         grid-template-columns: 1fr;
       }
 
       .full,
-      .section-title {
+      .section-title,
+      .private-file {
         grid-column: auto;
       }
 
-      .summary {
-        align-items: flex-start;
-      }
     }
   </style>
 </head>
@@ -543,15 +597,15 @@
     </h1>
 
     <p>
-      飯店、民宿、入住時間、訂單與停車資訊
+      飯店、民宿、入住資訊，以及登入後才能開啟的私人訂房文件
     </p>
 
   </section>
 
 
   <div
-    class="sync-banner"
-    id="syncBanner"
+    class="banner"
+    id="banner"
   ></div>
 
 
@@ -587,7 +641,7 @@
 
 
   <div class="privacy">
-    🔒 住宿資料現在會存在你的 Supabase 帳號中。之後真正的訂房確認 PDF、QR Code 或含個資文件，我們會改放「私人 Supabase Storage」，不要上傳到公開 GitHub repository。
+    🔒 訂房確認單、入住 PDF 等新檔案會放進私人 Supabase Storage，不會上傳到公開 GitHub。
   </div>
 
 </main>
@@ -595,46 +649,27 @@
 
 <nav>
 
-  <a
-    class="nav-link"
-    href="index.html"
-  >
+  <a class="nav-link" href="index.html">
     <span class="nav-icon">🏠</span>
     今天
   </a>
 
-
-  <a
-    class="nav-link"
-    href="itinerary.html"
-  >
+  <a class="nav-link" href="itinerary.html">
     <span class="nav-icon">📅</span>
     行程
   </a>
 
-
-  <a
-    class="nav-link"
-    href="map.html"
-  >
+  <a class="nav-link" href="map.html">
     <span class="nav-icon">🗺️</span>
     地圖
   </a>
 
-
-  <a
-    class="nav-link"
-    href="tickets.html"
-  >
+  <a class="nav-link" href="tickets.html">
     <span class="nav-icon">🎫</span>
     票券
   </a>
 
-
-  <a
-    class="nav-link"
-    href="car.html"
-  >
+  <a class="nav-link" href="car.html">
     <span class="nav-icon">🚗</span>
     租車
   </a>
@@ -644,34 +679,17 @@
 
 <script>
 
-/* =========================
-   SUPABASE
-========================= */
-
 const SUPABASE_URL =
   "https://vexzdnyinfmzvcyotiuo.supabase.co";
 
 
-const SUPABASE_PUBLISHABLE_KEY =
+const SUPABASE_KEY =
   "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
 
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY,
-    {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true
-      }
-    }
-  );
+const BUCKET =
+  "travel-private";
 
-
-/* =========================
-   SETTINGS
-========================= */
 
 const STORAGE_KEY =
   "travelHubItaly2026Stays";
@@ -679,6 +697,19 @@ const STORAGE_KEY =
 
 const MODULE_KEY =
   "stays";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
+  );
 
 
 let currentUser =
@@ -689,205 +720,25 @@ let stays =
   [];
 
 
-let cloudSaveTimer;
+let saveTimer =
+  null;
 
 
 /* =========================
    HELPERS
 ========================= */
 
-function valueOf(
-  object,
-  keys,
-  fallback = ""
-) {
+function makeId() {
 
-  for (
-    const key of keys
+  if (
+    window.crypto &&
+    crypto.randomUUID
   ) {
 
-    if (
-      object[key] !== undefined &&
-      object[key] !== null
-    ) {
-
-      return object[key];
-
-    }
+    return crypto.randomUUID();
 
   }
 
-  return fallback;
-
-}
-
-
-function normalizeStay(
-  oldStay = {}
-) {
-
-  return {
-
-    ...oldStay,
-
-    id:
-      valueOf(
-        oldStay,
-        ["id"],
-        makeId()
-      ),
-
-    name:
-      valueOf(
-        oldStay,
-        ["name", "hotelName", "title"]
-      ),
-
-    city:
-      valueOf(
-        oldStay,
-        ["city", "area"]
-      ),
-
-    checkInDate:
-      valueOf(
-        oldStay,
-        [
-          "checkInDate",
-          "checkIn",
-          "checkin",
-          "checkinDate"
-        ]
-      ),
-
-    checkInTime:
-      valueOf(
-        oldStay,
-        [
-          "checkInTime",
-          "checkinTime"
-        ]
-      ),
-
-    checkOutDate:
-      valueOf(
-        oldStay,
-        [
-          "checkOutDate",
-          "checkOut",
-          "checkout",
-          "checkoutDate"
-        ]
-      ),
-
-    checkOutTime:
-      valueOf(
-        oldStay,
-        [
-          "checkOutTime",
-          "checkoutTime"
-        ]
-      ),
-
-    address:
-      valueOf(
-        oldStay,
-        ["address"]
-      ),
-
-    maps:
-      valueOf(
-        oldStay,
-        [
-          "maps",
-          "map",
-          "mapLink"
-        ]
-      ),
-
-    platform:
-      valueOf(
-        oldStay,
-        [
-          "platform",
-          "bookingPlatform"
-        ]
-      ),
-
-    bookingNo:
-      valueOf(
-        oldStay,
-        [
-          "bookingNo",
-          "booking",
-          "bookingNumber",
-          "confirmation"
-        ]
-      ),
-
-    paymentStatus:
-      valueOf(
-        oldStay,
-        [
-          "paymentStatus",
-          "payment"
-        ]
-      ),
-
-    amount:
-      valueOf(
-        oldStay,
-        ["amount", "price"]
-      ),
-
-    currency:
-      valueOf(
-        oldStay,
-        ["currency"],
-        "EUR"
-      ),
-
-    phone:
-      valueOf(
-        oldStay,
-        ["phone", "telephone"]
-      ),
-
-    parking:
-      valueOf(
-        oldStay,
-        ["parking"]
-      ),
-
-    breakfast:
-      valueOf(
-        oldStay,
-        ["breakfast"]
-      ),
-
-    documentLink:
-      valueOf(
-        oldStay,
-        [
-          "documentLink",
-          "pdf",
-          "pdfLink",
-          "document"
-        ]
-      ),
-
-    notes:
-      valueOf(
-        oldStay,
-        ["notes", "note"]
-      )
-
-  };
-
-}
-
-
-function makeId() {
 
   return (
     Date.now().toString(36) +
@@ -899,189 +750,278 @@ function makeId() {
 }
 
 
-function newStay() {
-
-  return normalizeStay({
-    id: makeId(),
-    currency: "EUR"
-  });
-
-}
-
-
-/* =========================
-   STATUS
-========================= */
-
-function setCloudStatus(
-  text,
-  type
+function text(
+  value
 ) {
 
-  document.getElementById(
-    "saveStatus"
-  ).textContent =
-    text;
-
-
-  const dot =
-    document.getElementById(
-      "cloudDot"
-    );
-
-
-  dot.className =
-    "cloud-dot";
-
-
-  if (type) {
-    dot.classList.add(type);
-  }
-
-}
-
-
-function showBanner(
-  text,
-  type = "success"
-) {
-
-  const banner =
-    document.getElementById(
-      "syncBanner"
-    );
-
-
-  banner.textContent =
-    text;
-
-
-  banner.className =
-    "sync-banner show " +
-    type;
-
-
-  setTimeout(
-    () => {
-
-      banner.className =
-        "sync-banner";
-
-    },
-    5000
-  );
-
-}
-
-
-/* =========================
-   LOCAL STORAGE
-========================= */
-
-function loadLocalStays() {
-
-  const raw =
-    localStorage.getItem(
-      STORAGE_KEY
-    );
-
-
-  if (!raw) {
-    return null;
-  }
-
-
-  try {
-
-    const parsed =
-      JSON.parse(raw);
-
-
-    if (
-      Array.isArray(parsed)
-    ) {
-
-      return parsed.map(
-        normalizeStay
-      );
-
-    }
-
-
-    if (
-      parsed &&
-      Array.isArray(parsed.stays)
-    ) {
-
-      return parsed.stays.map(
-        normalizeStay
-      );
-
-    }
-
-  }
-
-  catch (
-    error
+  if (
+    value === null ||
+    value === undefined
   ) {
 
-    console.error(
-      error
-    );
+    return "";
 
   }
 
 
-  return null;
+  return String(value);
 
 }
 
 
-function saveLocalStays() {
+function first(
+  object,
+  keys,
+  fallback = ""
+) {
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(stays)
-  );
+  for (
+    const key of keys
+  ) {
 
-}
+    if (
+      object &&
+      object[key] !== undefined &&
+      object[key] !== null
+    ) {
 
+      return object[key];
 
-/* =========================
-   CLOUD
-========================= */
+    }
 
-async function loadCloudModule() {
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("travel_modules")
-      .select("data, updated_at")
-      .eq(
-        "user_id",
-        currentUser.id
-      )
-      .eq(
-        "module_key",
-        MODULE_KEY
-      )
-      .maybeSingle();
-
-
-  if (error) {
-    throw error;
   }
 
 
-  return data;
+  return fallback;
 
 }
 
 
-function cloudDataToStays(
+function normalizeStay(
+  old = {}
+) {
+
+  return {
+
+    ...old,
+
+    id:
+      text(
+        first(
+          old,
+          ["id"],
+          makeId()
+        )
+      ),
+
+    name:
+      text(
+        first(
+          old,
+          [
+            "name",
+            "hotelName",
+            "title"
+          ]
+        )
+      ),
+
+    city:
+      text(
+        first(
+          old,
+          ["city","area"]
+        )
+      ),
+
+    platform:
+      text(
+        first(
+          old,
+          [
+            "platform",
+            "bookingPlatform"
+          ]
+        )
+      ),
+
+    checkInDate:
+      text(
+        first(
+          old,
+          [
+            "checkInDate",
+            "checkIn",
+            "checkin"
+          ]
+        )
+      ),
+
+    checkInTime:
+      text(
+        first(
+          old,
+          [
+            "checkInTime",
+            "checkinTime"
+          ]
+        )
+      ),
+
+    checkOutDate:
+      text(
+        first(
+          old,
+          [
+            "checkOutDate",
+            "checkOut",
+            "checkout"
+          ]
+        )
+      ),
+
+    checkOutTime:
+      text(
+        first(
+          old,
+          [
+            "checkOutTime",
+            "checkoutTime"
+          ]
+        )
+      ),
+
+    address:
+      text(
+        first(
+          old,
+          ["address"]
+        )
+      ),
+
+    maps:
+      text(
+        first(
+          old,
+          [
+            "maps",
+            "map",
+            "mapLink"
+          ]
+        )
+      ),
+
+    phone:
+      text(
+        first(
+          old,
+          ["phone"]
+        )
+      ),
+
+    parking:
+      text(
+        first(
+          old,
+          ["parking"]
+        )
+      ),
+
+    breakfast:
+      text(
+        first(
+          old,
+          ["breakfast"]
+        )
+      ),
+
+    bookingNo:
+      text(
+        first(
+          old,
+          [
+            "bookingNo",
+            "booking",
+            "bookingNumber",
+            "confirmation"
+          ]
+        )
+      ),
+
+    amount:
+      text(
+        first(
+          old,
+          ["amount","price"]
+        )
+      ),
+
+    currency:
+      text(
+        first(
+          old,
+          ["currency"],
+          "EUR"
+        )
+      ) || "EUR",
+
+    paymentStatus:
+      text(
+        first(
+          old,
+          [
+            "paymentStatus",
+            "payment"
+          ]
+        )
+      ),
+
+    notes:
+      text(
+        first(
+          old,
+          [
+            "notes",
+            "note"
+          ]
+        )
+      ),
+
+    documentPath:
+      text(
+        first(
+          old,
+          ["documentPath"]
+        )
+      ),
+
+    documentName:
+      text(
+        first(
+          old,
+          ["documentName"]
+        )
+      ),
+
+    documentLink:
+      text(
+        first(
+          old,
+          [
+            "documentLink",
+            "pdf",
+            "pdfLink",
+            "document"
+          ]
+        )
+      )
+
+  };
+
+}
+
+
+function normalizeStays(
   data
 ) {
 
@@ -1113,17 +1053,187 @@ function cloudDataToStays(
 }
 
 
-async function uploadStaysNow() {
+function newStay() {
 
-  if (!currentUser) {
-    return;
+  return normalizeStay({
+    id: makeId(),
+    currency: "EUR"
+  });
+
+}
+
+
+function escapeHtml(
+  value
+) {
+
+  return text(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function setStatus(
+  message,
+  type = ""
+) {
+
+  document.getElementById(
+    "saveStatus"
+  ).textContent =
+    message;
+
+
+  const dot =
+    document.getElementById(
+      "cloudDot"
+    );
+
+
+  dot.className =
+    "cloud-dot";
+
+
+  if (type) {
+
+    dot.classList.add(
+      type
+    );
+
+  }
+
+}
+
+
+function showBanner(
+  message,
+  type = "success"
+) {
+
+  const box =
+    document.getElementById(
+      "banner"
+    );
+
+
+  box.textContent =
+    message;
+
+
+  box.className =
+    "banner show " +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      box.className =
+        "banner";
+
+    },
+    5000
+  );
+
+}
+
+
+/* =========================
+   LOCAL
+========================= */
+
+function loadLocal() {
+
+  const raw =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+
+  if (!raw) {
+    return null;
   }
 
 
-  saveLocalStays();
+  try {
+
+    return normalizeStays(
+      JSON.parse(raw)
+    );
+
+  }
+
+  catch {
+
+    return null;
+
+  }
+
+}
 
 
-  setCloudStatus(
+function saveLocal() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(stays)
+  );
+
+}
+
+
+/* =========================
+   CLOUD DATA
+========================= */
+
+async function loadCloud() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from(
+        "travel_modules"
+      )
+      .select(
+        "data"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "module_key",
+        MODULE_KEY
+      )
+      .maybeSingle();
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return data;
+
+}
+
+
+async function saveCloud() {
+
+  saveLocal();
+
+
+  setStatus(
     "同步中…",
     "saving"
   );
@@ -1133,7 +1243,9 @@ async function uploadStaysNow() {
     error
   } =
     await supabaseClient
-      .from("travel_modules")
+      .from(
+        "travel_modules"
+      )
       .upsert(
         {
 
@@ -1144,7 +1256,7 @@ async function uploadStaysNow() {
             MODULE_KEY,
 
           data: {
-            version: 1,
+            version: 2,
             stays: stays
           },
 
@@ -1161,24 +1273,11 @@ async function uploadStaysNow() {
 
 
   if (error) {
-
-    console.error(
-      error
-    );
-
-
-    setCloudStatus(
-      "同步失敗",
-      "error"
-    );
-
-
-    return;
-
+    throw error;
   }
 
 
-  setCloudStatus(
+  setStatus(
     "已同步 ☁️",
     "online"
   );
@@ -1186,25 +1285,42 @@ async function uploadStaysNow() {
 }
 
 
-function scheduleCloudSave() {
+function scheduleSave() {
 
-  saveLocalStays();
+  saveLocal();
 
 
-  setCloudStatus(
+  setStatus(
     "等待同步…",
     "saving"
   );
 
 
   clearTimeout(
-    cloudSaveTimer
+    saveTimer
   );
 
 
-  cloudSaveTimer =
+  saveTimer =
     setTimeout(
-      uploadStaysNow,
+      () => {
+
+        saveCloud()
+          .catch(
+            error => {
+
+              console.error(error);
+
+
+              setStatus(
+                "同步失敗",
+                "error"
+              );
+
+            }
+          );
+
+      },
       650
     );
 
@@ -1215,96 +1331,77 @@ function scheduleCloudSave() {
    INITIAL
 ========================= */
 
-async function initializeCloud() {
-
-  setCloudStatus(
-    "登入確認中…"
-  );
-
-
-  const {
-    data: sessionData
-  } =
-    await supabaseClient
-      .auth
-      .getSession();
-
-
-  const session =
-    sessionData.session;
-
-
-  if (!session) {
-
-    window.location.href =
-      "login.html";
-
-    return;
-
-  }
-
-
-  currentUser =
-    session.user;
-
-
-  const localStays =
-    loadLocalStays();
-
-
-  setCloudStatus(
-    "讀取雲端…",
-    "saving"
-  );
-
+async function initialize() {
 
   try {
 
-    const cloudRow =
-      await loadCloudModule();
+    setStatus(
+      "登入確認中…"
+    );
+
+
+    const {
+      data
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
 
 
     if (
-      cloudRow &&
-      cloudRow.data
+      !data.session
+    ) {
+
+      location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    currentUser =
+      data.session.user;
+
+
+    setStatus(
+      "讀取雲端…",
+      "saving"
+    );
+
+
+    const local =
+      loadLocal();
+
+
+    const row =
+      await loadCloud();
+
+
+    if (
+      row &&
+      row.data
     ) {
 
       stays =
-        cloudDataToStays(
-          cloudRow.data
+        normalizeStays(
+          row.data
         );
 
 
-      saveLocalStays();
-
-
-      setCloudStatus(
-        "已同步 ☁️",
-        "online"
-      );
-
-
-      showBanner(
-        "☁️ 已載入住宿雲端資料。"
-      );
+      saveLocal();
 
     }
 
     else if (
-      localStays &&
-      localStays.length > 0
+      local
     ) {
 
       stays =
-        localStays;
+        local;
 
 
-      await uploadStaysNow();
-
-
-      showBanner(
-        "☁️ 第一次同步完成：原本瀏覽器裡的住宿資料已上傳到 Supabase。"
-      );
+      await saveCloud();
 
     }
 
@@ -1314,14 +1411,18 @@ async function initializeCloud() {
         [];
 
 
-      await uploadStaysNow();
-
-
-      showBanner(
-        "☁️ 已建立住宿雲端資料。"
-      );
+      await saveCloud();
 
     }
+
+
+    render();
+
+
+    setStatus(
+      "已同步 ☁️",
+      "online"
+    );
 
   }
 
@@ -1329,27 +1430,306 @@ async function initializeCloud() {
     error
   ) {
 
-    console.error(
-      error
-    );
+    console.error(error);
 
 
     stays =
-      localStays || [];
+      loadLocal() ||
+      [];
 
 
-    setCloudStatus(
-      "離線備份模式",
+    render();
+
+
+    setStatus(
+      "載入發生錯誤",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   STORAGE
+========================= */
+
+function safeName(
+  value
+) {
+
+  return text(value || "file")
+    .replaceAll("/", "-")
+    .replaceAll("\\", "-")
+    .replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    );
+
+}
+
+
+async function uploadDocument(
+  stay,
+  file
+) {
+
+  if (!file) {
+    return;
+  }
+
+
+  try {
+
+    setStatus(
+      "檔案上傳中…",
+      "saving"
+    );
+
+
+    const path =
+      currentUser.id +
+      "/stays/" +
+      stay.id +
+      "/document/" +
+      Date.now() +
+      "-" +
+      makeId() +
+      "-" +
+      safeName(
+        file.name
+      );
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .upload(
+          path,
+          file,
+          {
+            upsert: false,
+            cacheControl: "3600"
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    const oldPath =
+      stay.documentPath;
+
+
+    stay.documentPath =
+      path;
+
+
+    stay.documentName =
+      file.name;
+
+
+    await saveCloud();
+
+
+    if (
+      oldPath &&
+      oldPath !== path
+    ) {
+
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .remove([
+          oldPath
+        ]);
+
+    }
+
+
+    render();
+
+
+    showBanner(
+      "🔒 私人住宿文件已上傳完成。"
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+
+    setStatus(
+      "上傳失敗",
       "error"
     );
 
 
     showBanner(
-      "⚠️ Supabase 暫時無法連線，目前使用本機住宿備份。",
+      "⚠️ 文件上傳失敗。",
       "error"
     );
 
   }
+
+}
+
+
+async function openDocument(
+  stay
+) {
+
+  if (
+    stay.documentPath
+  ) {
+
+    const popup =
+      window.open(
+        "about:blank",
+        "_blank"
+      );
+
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .createSignedUrl(
+          stay.documentPath,
+          600
+        );
+
+
+    if (error) {
+
+      if (popup) {
+        popup.close();
+      }
+
+
+      alert(
+        "目前無法開啟私人文件。"
+      );
+
+
+      return;
+
+    }
+
+
+    if (popup) {
+
+      popup.location =
+        data.signedUrl;
+
+    }
+
+
+    return;
+
+  }
+
+
+  if (
+    stay.documentLink
+  ) {
+
+    window.open(
+      stay.documentLink,
+      "_blank",
+      "noopener"
+    );
+
+
+    return;
+
+  }
+
+
+  alert(
+    "這間住宿還沒有文件。"
+  );
+
+}
+
+
+async function deleteDocument(
+  stay
+) {
+
+  if (
+    !stay.documentPath
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !confirm(
+      "確定要刪除這份私人住宿文件嗎？"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        BUCKET
+      )
+      .remove([
+        stay.documentPath
+      ]);
+
+
+  if (error) {
+
+    alert(
+      "刪除失敗。"
+    );
+
+
+    return;
+
+  }
+
+
+  stay.documentPath =
+    "";
+
+
+  stay.documentName =
+    "";
+
+
+  await saveCloud();
 
 
   render();
@@ -1376,10 +1756,6 @@ function render() {
     );
 
 
-  container.innerHTML =
-    "";
-
-
   if (
     stays.length === 0
   ) {
@@ -1387,17 +1763,8 @@ function render() {
     container.innerHTML =
       `
         <div class="empty">
-
-          <div class="empty-icon">
-            🏨
-          </div>
-
-          <strong>
-            還沒有住宿
-          </strong>
-
-          按上面的「＋ 新增住宿」開始建立。
-
+          🏨<br><br>
+          <strong>還沒有住宿</strong>
         </div>
       `;
 
@@ -1407,46 +1774,27 @@ function render() {
   }
 
 
-  stays.forEach(
-    (
-      stay,
-      index
-    ) => {
-
-      container.appendChild(
-        createStayCard(
-          stay,
-          index
-        )
-      );
-
-    }
-  );
+  container.innerHTML =
+    stays
+      .map(
+        stayHtml
+      )
+      .join("");
 
 }
 
 
-/* =========================
-   STAY CARD
-========================= */
-
-function createStayCard(
+function stayHtml(
   stay,
   index
 ) {
 
-  const card =
-    document.createElement(
-      "div"
-    );
+  return `
 
-
-  card.className =
-    "stay-card";
-
-
-  card.innerHTML =
-    `
+    <section
+      class="stay-card"
+      data-index="${index}"
+    >
 
       <div class="stay-top">
 
@@ -1457,14 +1805,15 @@ function createStayCard(
 
         <input
           class="stay-name"
+          data-field="name"
+          value="${escapeHtml(stay.name)}"
           placeholder="飯店 / 民宿名稱"
-          value="${escapeAttribute(stay.name)}"
         >
 
 
         <button
-          class="delete-button"
-          title="刪除"
+          class="delete-stay"
+          data-action="delete-stay"
         >
           ×
         </button>
@@ -1477,14 +1826,12 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            城市 / 區域
-          </label>
+          <label>城市 / 區域</label>
 
           <input
-            class="field city"
-            placeholder="例如：Florence"
-            value="${escapeAttribute(stay.city)}"
+            class="field"
+            data-field="city"
+            value="${escapeHtml(stay.city)}"
           >
 
         </div>
@@ -1492,14 +1839,12 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            訂房平台
-          </label>
+          <label>訂房平台</label>
 
           <input
-            class="field platform"
-            placeholder="Booking / Airbnb / 官網"
-            value="${escapeAttribute(stay.platform)}"
+            class="field"
+            data-field="platform"
+            value="${escapeHtml(stay.platform)}"
           >
 
         </div>
@@ -1512,14 +1857,13 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            入住日期
-          </label>
+          <label>入住日期</label>
 
           <input
-            class="field checkInDate"
+            class="field"
             type="date"
-            value="${escapeAttribute(stay.checkInDate)}"
+            data-field="checkInDate"
+            value="${escapeHtml(stay.checkInDate)}"
           >
 
         </div>
@@ -1527,14 +1871,13 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            入住時間
-          </label>
+          <label>入住時間</label>
 
           <input
-            class="field checkInTime"
+            class="field"
             type="time"
-            value="${escapeAttribute(stay.checkInTime)}"
+            data-field="checkInTime"
+            value="${escapeHtml(stay.checkInTime)}"
           >
 
         </div>
@@ -1542,14 +1885,13 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            退房日期
-          </label>
+          <label>退房日期</label>
 
           <input
-            class="field checkOutDate"
+            class="field"
             type="date"
-            value="${escapeAttribute(stay.checkOutDate)}"
+            data-field="checkOutDate"
+            value="${escapeHtml(stay.checkOutDate)}"
           >
 
         </div>
@@ -1557,14 +1899,13 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            退房時間
-          </label>
+          <label>退房時間</label>
 
           <input
-            class="field checkOutTime"
+            class="field"
             type="time"
-            value="${escapeAttribute(stay.checkOutTime)}"
+            data-field="checkOutTime"
+            value="${escapeHtml(stay.checkOutTime)}"
           >
 
         </div>
@@ -1577,14 +1918,12 @@ function createStayCard(
 
         <div class="field-wrap full">
 
-          <label>
-            地址
-          </label>
+          <label>地址</label>
 
           <input
-            class="field address"
-            placeholder="住宿完整地址"
-            value="${escapeAttribute(stay.address)}"
+            class="field"
+            data-field="address"
+            value="${escapeHtml(stay.address)}"
           >
 
         </div>
@@ -1592,14 +1931,12 @@ function createStayCard(
 
         <div class="field-wrap full">
 
-          <label>
-            Google Maps 分享連結
-          </label>
+          <label>Google Maps 分享連結</label>
 
           <input
-            class="field maps"
-            placeholder="https://maps.google.com/..."
-            value="${escapeAttribute(stay.maps)}"
+            class="field"
+            data-field="maps"
+            value="${escapeHtml(stay.maps)}"
           >
 
         </div>
@@ -1607,14 +1944,12 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            電話
-          </label>
+          <label>電話</label>
 
           <input
-            class="field phone"
-            placeholder="+39 ..."
-            value="${escapeAttribute(stay.phone)}"
+            class="field"
+            data-field="phone"
+            value="${escapeHtml(stay.phone)}"
           >
 
         </div>
@@ -1622,14 +1957,12 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            停車
-          </label>
+          <label>停車</label>
 
           <input
-            class="field parking"
-            placeholder="免費 / €20 / 無停車位"
-            value="${escapeAttribute(stay.parking)}"
+            class="field"
+            data-field="parking"
+            value="${escapeHtml(stay.parking)}"
           >
 
         </div>
@@ -1637,14 +1970,12 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            早餐
-          </label>
+          <label>早餐</label>
 
           <input
-            class="field breakfast"
-            placeholder="有 / 無 / 另加價"
-            value="${escapeAttribute(stay.breakfast)}"
+            class="field"
+            data-field="breakfast"
+            value="${escapeHtml(stay.breakfast)}"
           >
 
         </div>
@@ -1652,14 +1983,12 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            訂單編號
-          </label>
+          <label>訂單編號</label>
 
           <input
-            class="field bookingNo"
-            placeholder="Confirmation number"
-            value="${escapeAttribute(stay.bookingNo)}"
+            class="field"
+            data-field="bookingNo"
+            value="${escapeHtml(stay.bookingNo)}"
           >
 
         </div>
@@ -1672,15 +2001,12 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            金額
-          </label>
+          <label>金額</label>
 
           <input
-            class="field amount"
-            inputmode="decimal"
-            placeholder="4100"
-            value="${escapeAttribute(stay.amount)}"
+            class="field"
+            data-field="amount"
+            value="${escapeHtml(stay.amount)}"
           >
 
         </div>
@@ -1688,16 +2014,13 @@ function createStayCard(
 
         <div class="field-wrap">
 
-          <label>
-            幣別
-          </label>
+          <label>幣別</label>
 
-          <select class="field currency">
-
-            ${currencyOptions(
-              stay.currency
-            )}
-
+          <select
+            class="field"
+            data-field="currency"
+          >
+            ${currencyOptions(stay.currency)}
           </select>
 
         </div>
@@ -1705,48 +2028,96 @@ function createStayCard(
 
         <div class="field-wrap full">
 
-          <label>
-            付款狀態
-          </label>
+          <label>付款狀態</label>
 
           <input
-            class="field paymentStatus"
-            placeholder="已付款 / 現場付款 / 可免費取消"
-            value="${escapeAttribute(stay.paymentStatus)}"
+            class="field"
+            data-field="paymentStatus"
+            value="${escapeHtml(stay.paymentStatus)}"
           >
 
         </div>
 
 
         <div class="section-title">
-          📄 文件 / 備註
+          🔒 私人訂房文件
         </div>
 
 
-        <div class="field-wrap full">
+        <div class="private-file">
 
-          <label>
-            私人文件連結
-          </label>
+          <strong>
+            📄 訂房確認單 / PDF / 入住文件
+          </strong>
+
+
+          <div class="file-status">
+
+            ${
+              stay.documentPath
+                ?
+                "✅ 已上傳：" +
+                escapeHtml(
+                  stay.documentName ||
+                  "私人住宿文件"
+                )
+                :
+                "尚未上傳私人文件"
+            }
+
+          </div>
+
 
           <input
-            class="field documentLink"
-            placeholder="之後可放 Supabase 私人文件連結"
-            value="${escapeAttribute(stay.documentLink)}"
+            class="file-input"
+            type="file"
+            data-upload="document"
+            accept="application/pdf,image/*"
           >
+
+
+          <div class="file-actions">
+
+            <button
+              class="file-button"
+              data-action="open-document"
+            >
+              📄 開啟
+            </button>
+
+
+            <button
+              class="file-button delete"
+              data-action="delete-document"
+            >
+              刪除
+            </button>
+
+          </div>
+
+
+          ${
+            stay.documentLink
+              ?
+              `
+                <div class="legacy-note">
+                  原本舊版文件連結仍有保留。
+                </div>
+              `
+              :
+              ""
+          }
 
         </div>
 
 
         <div class="field-wrap full">
 
-          <label>
-            備註
-          </label>
+          <label>備註</label>
 
           <textarea
-            class="field notes"
-            placeholder="入住方式、門鎖、行李寄放、ZTL、注意事項……"
+            class="field"
+            data-field="notes"
           >${escapeHtml(stay.notes)}</textarea>
 
         </div>
@@ -1757,223 +2128,342 @@ function createStayCard(
       <div class="actions">
 
         <button
-          class="action-button map-button openMap"
+          class="action-button map-button"
+          data-action="map"
         >
           📍 Google Maps
         </button>
 
 
         <button
-          class="action-button link-button openDocument"
-        >
-          📄 開啟文件
-        </button>
-
-
-        <button
-          class="action-button moveUp"
+          class="action-button"
+          data-action="up"
         >
           ↑ 上移
         </button>
 
 
         <button
-          class="action-button moveDown"
+          class="action-button"
+          data-action="down"
         >
           ↓ 下移
         </button>
 
       </div>
 
-    `;
+    </section>
+
+  `;
+
+}
 
 
-  bindInput(
-    card,
-    ".stay-name",
-    stay,
-    "name"
+function currencyOptions(
+  selected
+) {
+
+  const values =
+    [
+      "EUR",
+      "TWD",
+      "USD",
+      "GBP",
+      "AUD",
+      "JPY",
+      "CNY"
+    ];
+
+
+  return values
+    .map(
+      value =>
+        `
+          <option
+            value="${value}"
+            ${
+              value === selected
+                ? "selected"
+                : ""
+            }
+          >
+            ${value}
+          </option>
+        `
+    )
+    .join("");
+
+}
+
+
+/* =========================
+   EVENTS
+========================= */
+
+const stayList =
+  document.getElementById(
+    "stayList"
   );
 
 
-  bindInput(
-    card,
-    ".city",
-    stay,
-    "city"
-  );
+function getInfo(
+  target
+) {
 
-
-  bindInput(
-    card,
-    ".platform",
-    stay,
-    "platform"
-  );
-
-
-  bindInput(
-    card,
-    ".checkInDate",
-    stay,
-    "checkInDate"
-  );
-
-
-  bindInput(
-    card,
-    ".checkInTime",
-    stay,
-    "checkInTime"
-  );
-
-
-  bindInput(
-    card,
-    ".checkOutDate",
-    stay,
-    "checkOutDate"
-  );
-
-
-  bindInput(
-    card,
-    ".checkOutTime",
-    stay,
-    "checkOutTime"
-  );
-
-
-  bindInput(
-    card,
-    ".address",
-    stay,
-    "address"
-  );
-
-
-  bindInput(
-    card,
-    ".maps",
-    stay,
-    "maps"
-  );
-
-
-  bindInput(
-    card,
-    ".phone",
-    stay,
-    "phone"
-  );
-
-
-  bindInput(
-    card,
-    ".parking",
-    stay,
-    "parking"
-  );
-
-
-  bindInput(
-    card,
-    ".breakfast",
-    stay,
-    "breakfast"
-  );
-
-
-  bindInput(
-    card,
-    ".bookingNo",
-    stay,
-    "bookingNo"
-  );
-
-
-  bindInput(
-    card,
-    ".amount",
-    stay,
-    "amount"
-  );
-
-
-  bindInput(
-    card,
-    ".paymentStatus",
-    stay,
-    "paymentStatus"
-  );
-
-
-  bindInput(
-    card,
-    ".documentLink",
-    stay,
-    "documentLink"
-  );
-
-
-  bindInput(
-    card,
-    ".notes",
-    stay,
-    "notes"
-  );
-
-
-  const currency =
-    card.querySelector(
-      ".currency"
+  const card =
+    target.closest(
+      ".stay-card"
     );
 
 
-  currency.onchange =
-    () => {
-
-      stay.currency =
-        currency.value;
-
-      scheduleCloudSave();
-
-    };
+  if (!card) {
+    return null;
+  }
 
 
-  card.querySelector(
-    ".delete-button"
-  ).onclick =
-    () => {
-
-      const okay =
-        confirm(
-          "確定要刪除這間住宿嗎？"
-        );
+  const index =
+    Number(
+      card.dataset.index
+    );
 
 
-      if (!okay) {
-        return;
-      }
+  if (
+    !Number.isInteger(index) ||
+    !stays[index]
+  ) {
+
+    return null;
+  }
 
 
-      stays.splice(
-        index,
-        1
+  return {
+    card,
+    index,
+    stay:
+      stays[index]
+  };
+
+}
+
+
+stayList.addEventListener(
+  "input",
+  event => {
+
+    const field =
+      event.target.dataset.field;
+
+
+    if (!field) {
+      return;
+    }
+
+
+    const info =
+      getInfo(
+        event.target
       );
 
 
-      scheduleCloudSave();
-
-      render();
-
-    };
+    if (!info) {
+      return;
+    }
 
 
-  card.querySelector(
-    ".moveUp"
-  ).onclick =
-    () => {
+    info.stay[field] =
+      event.target.value;
+
+
+    scheduleSave();
+
+  }
+);
+
+
+stayList.addEventListener(
+  "change",
+  async event => {
+
+    const field =
+      event.target.dataset.field;
+
+
+    if (field) {
+
+      const info =
+        getInfo(
+          event.target
+        );
+
+
+      if (info) {
+
+        info.stay[field] =
+          event.target.value;
+
+
+        scheduleSave();
+
+      }
+
+
+      return;
+
+    }
+
+
+    if (
+      event.target.dataset.upload ===
+      "document"
+    ) {
+
+      const info =
+        getInfo(
+          event.target
+        );
+
+
+      const file =
+        event.target.files &&
+        event.target.files[0];
+
+
+      if (
+        info &&
+        file
+      ) {
+
+        await uploadDocument(
+          info.stay,
+          file
+        );
+
+      }
+
+    }
+
+  }
+);
+
+
+stayList.addEventListener(
+  "click",
+  async event => {
+
+    const button =
+      event.target.closest(
+        "[data-action]"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    const info =
+      getInfo(
+        button
+      );
+
+
+    if (!info) {
+      return;
+    }
+
+
+    const {
+      stay,
+      index
+    } =
+      info;
+
+
+    const action =
+      button.dataset.action;
+
+
+    if (
+      action === "map"
+    ) {
+
+      if (
+        stay.maps
+      ) {
+
+        window.open(
+          stay.maps,
+          "_blank",
+          "noopener"
+        );
+
+
+        return;
+
+      }
+
+
+      const query =
+        stay.address ||
+        stay.name;
+
+
+      if (!query) {
+
+        alert(
+          "請先填住宿名稱或地址。"
+        );
+
+
+        return;
+
+      }
+
+
+      window.open(
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(query),
+        "_blank",
+        "noopener"
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      action === "open-document"
+    ) {
+
+      await openDocument(
+        stay
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      action === "delete-document"
+    ) {
+
+      await deleteDocument(
+        stay
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      action === "up"
+    ) {
 
       if (
         index === 0
@@ -1992,20 +2482,22 @@ function createStayCard(
       ];
 
 
-      scheduleCloudSave();
+      scheduleSave();
 
       render();
 
-    };
+
+      return;
+
+    }
 
 
-  card.querySelector(
-    ".moveDown"
-  ).onclick =
-    () => {
+    if (
+      action === "down"
+    ) {
 
       if (
-        index ===
+        index >=
         stays.length - 1
       ) {
         return;
@@ -2022,87 +2514,62 @@ function createStayCard(
       ];
 
 
-      scheduleCloudSave();
+      scheduleSave();
 
       render();
 
-    };
+
+      return;
+
+    }
 
 
-  card.querySelector(
-    ".openMap"
-  ).onclick =
-    () => {
+    if (
+      action === "delete-stay"
+    ) {
 
-      openMap(
-        stay
-      );
-
-    };
-
-
-  card.querySelector(
-    ".openDocument"
-  ).onclick =
-    () => {
-
-      const url =
-        stay.documentLink?.trim();
-
-
-      if (!url) {
-
-        alert(
-          "這間住宿還沒有文件連結。"
-        );
+      if (
+        !confirm(
+          "確定要刪除這間住宿嗎？"
+        )
+      ) {
 
         return;
 
       }
 
 
-      window.open(
-        url,
-        "_blank",
-        "noopener"
+      if (
+        stay.documentPath
+      ) {
+
+        await supabaseClient
+          .storage
+          .from(
+            BUCKET
+          )
+          .remove([
+            stay.documentPath
+          ]);
+
+      }
+
+
+      stays.splice(
+        index,
+        1
       );
 
-    };
+
+      await saveCloud();
 
 
-  return card;
+      render();
 
-}
+    }
 
-
-/* =========================
-   INPUT
-========================= */
-
-function bindInput(
-  card,
-  selector,
-  object,
-  key
-) {
-
-  const element =
-    card.querySelector(
-      selector
-    );
-
-
-  element.oninput =
-    () => {
-
-      object[key] =
-        element.value;
-
-      scheduleCloudSave();
-
-    };
-
-}
+  }
+);
 
 
 /* =========================
@@ -2119,153 +2586,16 @@ document.getElementById(
     );
 
 
-    scheduleCloudSave();
+    scheduleSave();
 
     render();
 
   };
 
 
-/* =========================
-   MAP
-========================= */
-
-function openMap(
-  stay
-) {
-
-  if (
-    stay.maps &&
-    stay.maps.trim()
-  ) {
-
-    window.open(
-      stay.maps.trim(),
-      "_blank",
-      "noopener"
-    );
-
-    return;
-
-  }
-
-
-  const query =
-    stay.address?.trim() ||
-    stay.name?.trim();
-
-
-  if (!query) {
-
-    alert(
-      "先填住宿名稱或地址。"
-    );
-
-    return;
-
-  }
-
-
-  window.open(
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(query),
-    "_blank",
-    "noopener"
-  );
-
-}
-
-
-/* =========================
-   OPTIONS
-========================= */
-
-function currencyOptions(
-  selected
-) {
-
-  const currencies =
-    [
-      "EUR",
-      "TWD",
-      "USD",
-      "JPY",
-      "GBP",
-      "AUD",
-      "CNY"
-    ];
-
-
-  if (
-    selected &&
-    !currencies.includes(selected)
-  ) {
-
-    currencies.push(
-      selected
-    );
-
-  }
-
-
-  return currencies
-    .map(
-      currency =>
-        `
-          <option
-            value="${escapeAttribute(currency)}"
-            ${
-              currency === selected
-                ? "selected"
-                : ""
-            }
-          >
-            ${escapeHtml(currency)}
-          </option>
-        `
-    )
-    .join("");
-
-}
-
-
-/* =========================
-   ESCAPE
-========================= */
-
-function escapeHtml(
-  text = ""
-) {
-
-  return String(text)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-
-}
-
-
-function escapeAttribute(
-  text = ""
-) {
-
-  return escapeHtml(
-    text
-  );
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-initializeCloud();
+initialize();
 
 </script>
 
 </body>
-
 </html>
