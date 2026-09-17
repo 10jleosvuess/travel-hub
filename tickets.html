@@ -102,9 +102,9 @@
       display: grid;
       place-items: center;
 
-      background: white;
-
       border-radius: 14px;
+
+      background: white;
 
       box-shadow: var(--shadow);
     }
@@ -137,8 +137,8 @@
     }
 
     .save-status {
-      font-size: 11px;
       color: var(--muted);
+      font-size: 11px;
       white-space: nowrap;
     }
 
@@ -159,10 +159,11 @@
       line-height: 1.55;
     }
 
-    .sync-banner {
+    .banner {
       display: none;
 
       margin-bottom: 12px;
+
       padding: 11px 13px;
 
       border-radius: 14px;
@@ -171,26 +172,19 @@
       line-height: 1.55;
     }
 
-    .sync-banner.show {
+    .banner.show {
       display: block;
     }
 
-    .sync-banner.success {
+    .banner.success {
       background: var(--green-soft);
     }
 
-    .sync-banner.error {
+    .banner.error {
       background: var(--red-soft);
     }
 
     .summary {
-      background: var(--dark);
-      color: white;
-
-      border-radius: 23px;
-
-      padding: 18px;
-
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -198,6 +192,13 @@
       gap: 15px;
 
       margin-bottom: 17px;
+
+      padding: 18px;
+
+      border-radius: 23px;
+
+      background: var(--dark);
+      color: white;
 
       box-shadow: var(--shadow);
     }
@@ -235,11 +236,11 @@
     }
 
     .ticket-card {
-      background: white;
+      padding: 17px;
 
       border-radius: 22px;
 
-      padding: 17px;
+      background: white;
 
       box-shadow: var(--shadow);
     }
@@ -249,9 +250,9 @@
 
       grid-template-columns: auto 1fr auto;
 
-      align-items: center;
-
       gap: 11px;
+
+      align-items: center;
     }
 
     .ticket-number {
@@ -284,7 +285,7 @@
       font-weight: 800;
     }
 
-    .delete-button {
+    .delete-ticket {
       border: 0;
 
       background: transparent;
@@ -297,7 +298,7 @@
     .grid {
       display: grid;
 
-      grid-template-columns: repeat(2,1fr);
+      grid-template-columns: repeat(2, 1fr);
 
       gap: 9px;
 
@@ -314,8 +315,8 @@
     }
 
     label {
-      font-size: 10px;
       color: var(--muted);
+      font-size: 10px;
     }
 
     .field {
@@ -361,42 +362,43 @@
       grid-column: 1 / -1;
 
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
 
       gap: 10px;
     }
 
     .file-box {
-      padding: 12px;
-
-      border-radius: 15px;
-
-      background: #f8f6f2;
+      padding: 13px;
 
       border: 1px solid var(--line);
+      border-radius: 16px;
+
+      background: #f8f6f2;
     }
 
     .file-box strong {
       display: block;
+      margin-bottom: 5px;
 
-      margin-bottom: 4px;
-
-      font-size: 12px;
+      font-size: 13px;
     }
 
     .file-status {
-      min-height: 18px;
+      min-height: 32px;
 
-      margin-bottom: 8px;
+      margin-bottom: 9px;
 
       color: var(--muted);
 
       font-size: 10px;
+      line-height: 1.5;
 
-      word-break: break-all;
+      word-break: break-word;
     }
 
     .file-input {
+      display: block;
+
       width: 100%;
 
       font-size: 11px;
@@ -417,7 +419,7 @@
 
       border-radius: 9px;
 
-      padding: 7px 9px;
+      padding: 8px 10px;
 
       background: var(--blue-soft);
 
@@ -429,12 +431,13 @@
       color: var(--danger);
     }
 
-    .legacy-note {
-      margin-top: 7px;
+    .legacy {
+      margin-top: 8px;
 
       color: var(--muted);
 
       font-size: 10px;
+      line-height: 1.5;
     }
 
     .actions {
@@ -479,19 +482,6 @@
       background: rgba(255,255,255,0.45);
     }
 
-    .empty-icon {
-      font-size: 40px;
-      margin-bottom: 8px;
-    }
-
-    .empty strong {
-      display: block;
-
-      margin-bottom: 5px;
-
-      color: var(--text);
-    }
-
     .privacy {
       margin-top: 16px;
 
@@ -519,7 +509,6 @@
       z-index: 100;
 
       display: grid;
-
       grid-template-columns: repeat(5,1fr);
 
       background: rgba(255,255,255,0.94);
@@ -554,19 +543,18 @@
     }
 
     @media (max-width: 650px) {
+
       .grid,
       .private-files {
         grid-template-columns: 1fr;
       }
 
       .full,
-      .section-title {
+      .section-title,
+      .private-files {
         grid-column: auto;
       }
 
-      .summary {
-        align-items: flex-start;
-      }
     }
   </style>
 </head>
@@ -578,8 +566,10 @@
 
   <div class="container topbar">
 
-    <a class="back" href="index.html">
-
+    <a
+      class="back"
+      href="index.html"
+    >
       <div class="back-icon">
         ←
       </div>
@@ -587,7 +577,6 @@
       <div>
         票券
       </div>
-
     </a>
 
 
@@ -628,8 +617,8 @@
 
 
   <div
-    class="sync-banner"
-    id="syncBanner"
+    class="banner"
+    id="banner"
   ></div>
 
 
@@ -665,7 +654,7 @@
 
 
   <div class="privacy">
-    🔒 新上傳的電子票與 QR Code 都存放在私人 Supabase Storage，不會放進公開 GitHub repository。
+    🔒 電子票、PDF 和 QR Code 會上傳至私人 Supabase Storage。公開 GitHub 裡只會有網頁程式，不會包含實際票券檔案。
   </div>
 
 </main>
@@ -703,22 +692,18 @@
 
 <script>
 
-/* =========================
-   SUPABASE
-========================= */
-
 const SUPABASE_URL =
   "https://vexzdnyinfmzvcyotiuo.supabase.co";
 
 
-const SUPABASE_PUBLISHABLE_KEY =
+const SUPABASE_KEY =
   "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
 
 
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY,
+    SUPABASE_KEY,
     {
       auth: {
         persistSession: true,
@@ -728,20 +713,16 @@ const supabaseClient =
   );
 
 
-const STORAGE_BUCKET =
-  "travel-private";
-
-
-/* =========================
-   SETTINGS
-========================= */
-
 const STORAGE_KEY =
   "travelHubItaly2026Tickets";
 
 
 const MODULE_KEY =
   "tickets";
+
+
+const BUCKET =
+  "travel-private";
 
 
 let currentUser =
@@ -752,12 +733,86 @@ let tickets =
   [];
 
 
-let cloudSaveTimer;
+let saveTimer =
+  null;
+
 
 
 /* =========================
-   HELPERS
+   SAFE VALUES
 ========================= */
+
+function text(
+  value
+) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  if (
+    typeof value === "object"
+  ) {
+
+    try {
+
+      return JSON.stringify(
+        value
+      );
+
+    }
+
+    catch {
+
+      return "";
+
+    }
+
+  }
+
+
+  return String(value);
+
+}
+
+
+function first(
+  object,
+  keys,
+  fallback = ""
+) {
+
+  if (!object) {
+    return fallback;
+  }
+
+
+  for (
+    const key of keys
+  ) {
+
+    if (
+      object[key] !== undefined &&
+      object[key] !== null
+    ) {
+
+      return object[key];
+
+    }
+
+  }
+
+
+  return fallback;
+
+}
+
 
 function makeId() {
 
@@ -781,181 +836,207 @@ function makeId() {
 }
 
 
-function valueOf(
-  object,
-  keys,
-  fallback = ""
-) {
-
-  for (
-    const key of keys
-  ) {
-
-    if (
-      object &&
-      object[key] !== undefined &&
-      object[key] !== null
-    ) {
-
-      return object[key];
-
-    }
-
-  }
-
-
-  return fallback;
-
-}
-
-
 function normalizeTicket(
-  oldTicket = {}
+  old
 ) {
+
+  const source =
+    (
+      old &&
+      typeof old === "object"
+    )
+      ? old
+      : {};
+
 
   return {
 
-    ...oldTicket,
+    ...source,
 
     id:
-      valueOf(
-        oldTicket,
-        ["id"],
-        makeId()
+      text(
+        first(
+          source,
+          ["id"],
+          makeId()
+        )
       ),
 
     name:
-      valueOf(
-        oldTicket,
-        ["name", "title", "ticketName"]
+      text(
+        first(
+          source,
+          ["name","title","ticketName"]
+        )
       ),
 
     location:
-      valueOf(
-        oldTicket,
-        ["location", "place", "city"]
+      text(
+        first(
+          source,
+          ["location","place","city"]
+        )
       ),
 
     date:
-      valueOf(
-        oldTicket,
-        ["date", "visitDate"]
+      text(
+        first(
+          source,
+          ["date","visitDate"]
+        )
       ),
 
     time:
-      valueOf(
-        oldTicket,
-        ["time", "visitTime"]
+      text(
+        first(
+          source,
+          ["time","visitTime"]
+        )
       ),
 
     people:
-      valueOf(
-        oldTicket,
-        ["people", "persons", "guests"]
+      text(
+        first(
+          source,
+          ["people","persons","guests"]
+        )
       ),
 
     status:
-      valueOf(
-        oldTicket,
-        ["status"],
-        "已預訂"
+      text(
+        first(
+          source,
+          ["status"],
+          "已預訂"
+        )
       ),
 
     payment:
-      valueOf(
-        oldTicket,
-        ["payment", "paymentStatus"]
+      text(
+        first(
+          source,
+          ["payment","paymentStatus"]
+        )
       ),
 
     orderNo:
-      valueOf(
-        oldTicket,
-        [
-          "orderNo",
-          "order",
-          "bookingNo",
-          "confirmation"
-        ]
+      text(
+        first(
+          source,
+          [
+            "orderNo",
+            "order",
+            "bookingNo",
+            "confirmation"
+          ]
+        )
       ),
 
     amount:
-      valueOf(
-        oldTicket,
-        ["amount", "price"]
+      text(
+        first(
+          source,
+          ["amount","price"]
+        )
       ),
 
     currency:
-      valueOf(
-        oldTicket,
-        ["currency"],
-        "EUR"
-      ),
+      text(
+        first(
+          source,
+          ["currency"],
+          "EUR"
+        )
+      ) || "EUR",
 
     arriveEarly:
-      valueOf(
-        oldTicket,
-        ["arriveEarly", "early", "arrival"]
+      text(
+        first(
+          source,
+          [
+            "arriveEarly",
+            "early",
+            "arrival"
+          ]
+        )
       ),
 
     maps:
-      valueOf(
-        oldTicket,
-        ["maps", "map", "mapLink"]
+      text(
+        first(
+          source,
+          [
+            "maps",
+            "map",
+            "mapLink"
+          ]
+        )
       ),
 
     note:
-      valueOf(
-        oldTicket,
-        ["note", "notes"]
+      text(
+        first(
+          source,
+          [
+            "note",
+            "notes"
+          ]
+        )
       ),
 
     documentPath:
-      valueOf(
-        oldTicket,
-        ["documentPath"],
-        ""
+      text(
+        first(
+          source,
+          ["documentPath"]
+        )
       ),
 
     documentName:
-      valueOf(
-        oldTicket,
-        ["documentName"],
-        ""
+      text(
+        first(
+          source,
+          ["documentName"]
+        )
       ),
 
     qrPath:
-      valueOf(
-        oldTicket,
-        ["qrPath"],
-        ""
+      text(
+        first(
+          source,
+          ["qrPath"]
+        )
       ),
 
     qrName:
-      valueOf(
-        oldTicket,
-        ["qrName"],
-        ""
+      text(
+        first(
+          source,
+          ["qrName"]
+        )
       ),
 
     documentLink:
-      valueOf(
-        oldTicket,
-        [
-          "documentLink",
-          "pdf",
-          "pdfLink"
-        ],
-        ""
+      text(
+        first(
+          source,
+          [
+            "documentLink",
+            "pdf",
+            "pdfLink"
+          ]
+        )
       ),
 
     qrLink:
-      valueOf(
-        oldTicket,
-        [
-          "qrLink",
-          "qr"
-        ],
-        ""
+      text(
+        first(
+          source,
+          [
+            "qrLink",
+            "qr"
+          ]
+        )
       )
 
   };
@@ -967,30 +1048,33 @@ function normalizeTickets(
   data
 ) {
 
+  let list =
+    [];
+
+
   if (
     Array.isArray(data)
   ) {
 
-    return data.map(
-      normalizeTicket
-    );
+    list =
+      data;
 
   }
 
-
-  if (
+  else if (
     data &&
     Array.isArray(data.tickets)
   ) {
 
-    return data.tickets.map(
-      normalizeTicket
-    );
+    list =
+      data.tickets;
 
   }
 
 
-  return [];
+  return list.map(
+    normalizeTicket
+  );
 
 }
 
@@ -999,6 +1083,7 @@ function newTicket() {
 
   return normalizeTicket({
     id: makeId(),
+    people: "4",
     currency: "EUR",
     status: "已預訂"
   });
@@ -1006,41 +1091,59 @@ function newTicket() {
 }
 
 
-function sanitizeFileName(
-  name
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHtml(
+  value
 ) {
 
-  const clean =
-    String(
-      name ||
-      "file"
+  return text(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
     )
-      .replaceAll("/", "-")
-      .replaceAll("\\", "-")
-      .replace(
-        /[^a-zA-Z0-9._-]/g,
-        "_"
-      );
 
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-  return clean || "file";
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
+
 
 
 /* =========================
    STATUS
 ========================= */
 
-function setCloudStatus(
-  text,
-  type
+function setStatus(
+  message,
+  type = ""
 ) {
 
   document.getElementById(
     "saveStatus"
   ).textContent =
-    text;
+    message;
 
 
   const dot =
@@ -1054,37 +1157,41 @@ function setCloudStatus(
 
 
   if (type) {
-    dot.classList.add(type);
+
+    dot.classList.add(
+      type
+    );
+
   }
 
 }
 
 
 function showBanner(
-  text,
+  message,
   type = "success"
 ) {
 
-  const banner =
+  const box =
     document.getElementById(
-      "syncBanner"
+      "banner"
     );
 
 
-  banner.textContent =
-    text;
+  box.textContent =
+    message;
 
 
-  banner.className =
-    "sync-banner show " +
+  box.className =
+    "banner show " +
     type;
 
 
   setTimeout(
     () => {
 
-      banner.className =
-        "sync-banner";
+      box.className =
+        "banner";
 
     },
     5000
@@ -1093,11 +1200,12 @@ function showBanner(
 }
 
 
+
 /* =========================
    LOCAL
 ========================= */
 
-function loadLocalTickets() {
+function loadLocal() {
 
   const raw =
     localStorage.getItem(
@@ -1118,11 +1226,7 @@ function loadLocalTickets() {
 
   }
 
-  catch (
-    error
-  ) {
-
-    console.error(error);
+  catch {
 
     return null;
 
@@ -1131,7 +1235,7 @@ function loadLocalTickets() {
 }
 
 
-function saveLocalTickets() {
+function saveLocal() {
 
   localStorage.setItem(
     STORAGE_KEY,
@@ -1141,19 +1245,24 @@ function saveLocalTickets() {
 }
 
 
+
 /* =========================
-   CLOUD DATA
+   SUPABASE DATA
 ========================= */
 
-async function loadCloudModule() {
+async function loadCloud() {
 
   const {
     data,
     error
   } =
     await supabaseClient
-      .from("travel_modules")
-      .select("data")
+      .from(
+        "travel_modules"
+      )
+      .select(
+        "data"
+      )
       .eq(
         "user_id",
         currentUser.id
@@ -1175,17 +1284,17 @@ async function loadCloudModule() {
 }
 
 
-async function uploadTicketsNow() {
+async function saveCloud() {
 
   if (!currentUser) {
     return;
   }
 
 
-  saveLocalTickets();
+  saveLocal();
 
 
-  setCloudStatus(
+  setStatus(
     "同步中…",
     "saving"
   );
@@ -1195,10 +1304,11 @@ async function uploadTicketsNow() {
     error
   } =
     await supabaseClient
-      .from("travel_modules")
+      .from(
+        "travel_modules"
+      )
       .upsert(
         {
-
           user_id:
             currentUser.id,
 
@@ -1206,14 +1316,13 @@ async function uploadTicketsNow() {
             MODULE_KEY,
 
           data: {
-            version: 2,
+            version: 3,
             tickets: tickets
           },
 
           updated_at:
             new Date()
               .toISOString()
-
         },
         {
           onConflict:
@@ -1224,19 +1333,18 @@ async function uploadTicketsNow() {
 
   if (error) {
 
-    console.error(error);
-
-    setCloudStatus(
+    setStatus(
       "同步失敗",
       "error"
     );
+
 
     throw error;
 
   }
 
 
-  setCloudStatus(
+  setStatus(
     "已同步 ☁️",
     "online"
   );
@@ -1244,29 +1352,41 @@ async function uploadTicketsNow() {
 }
 
 
-function scheduleCloudSave() {
+function scheduleSave() {
 
-  saveLocalTickets();
+  saveLocal();
 
 
-  setCloudStatus(
+  setStatus(
     "等待同步…",
     "saving"
   );
 
 
   clearTimeout(
-    cloudSaveTimer
+    saveTimer
   );
 
 
-  cloudSaveTimer =
+  saveTimer =
     setTimeout(
       () => {
 
-        uploadTicketsNow()
+        saveCloud()
           .catch(
-            console.error
+            error => {
+
+              console.error(
+                error
+              );
+
+
+              showBanner(
+                "雲端同步失敗。",
+                "error"
+              );
+
+            }
           );
 
       },
@@ -1276,84 +1396,82 @@ function scheduleCloudSave() {
 }
 
 
+
 /* =========================
-   INITIAL
+   START
 ========================= */
 
-async function initializeCloud() {
-
-  setCloudStatus(
-    "登入確認中…"
-  );
-
-
-  const {
-    data: sessionData
-  } =
-    await supabaseClient
-      .auth
-      .getSession();
-
-
-  const session =
-    sessionData.session;
-
-
-  if (!session) {
-
-    window.location.href =
-      "login.html";
-
-    return;
-
-  }
-
-
-  currentUser =
-    session.user;
-
-
-  const localTickets =
-    loadLocalTickets();
-
-
-  setCloudStatus(
-    "讀取雲端…",
-    "saving"
-  );
-
+async function initialize() {
 
   try {
 
-    const cloudRow =
-      await loadCloudModule();
+    setStatus(
+      "登入確認中…"
+    );
+
+
+    const {
+      data
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
 
 
     if (
-      cloudRow &&
-      cloudRow.data
+      !data.session
+    ) {
+
+      location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    currentUser =
+      data.session.user;
+
+
+    setStatus(
+      "讀取雲端…",
+      "saving"
+    );
+
+
+    const local =
+      loadLocal();
+
+
+    const row =
+      await loadCloud();
+
+
+    if (
+      row &&
+      row.data
     ) {
 
       tickets =
         normalizeTickets(
-          cloudRow.data
+          row.data
         );
 
 
-      saveLocalTickets();
+      saveLocal();
 
     }
 
     else if (
-      localTickets &&
-      localTickets.length > 0
+      local
     ) {
 
       tickets =
-        localTickets;
+        local;
 
 
-      await uploadTicketsNow();
+      await saveCloud();
 
     }
 
@@ -1363,7 +1481,7 @@ async function initializeCloud() {
         [];
 
 
-      await uploadTicketsNow();
+      await saveCloud();
 
     }
 
@@ -1371,7 +1489,7 @@ async function initializeCloud() {
     render();
 
 
-    setCloudStatus(
+    setStatus(
       "已同步 ☁️",
       "online"
     );
@@ -1382,322 +1500,101 @@ async function initializeCloud() {
     error
   ) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
+
+    const local =
+      loadLocal();
 
 
     tickets =
-      localTickets || [];
+      local ||
+      [];
 
 
-    render();
+    try {
+
+      render();
+
+    }
+
+    catch (
+      renderError
+    ) {
+
+      console.error(
+        renderError
+      );
+
+    }
 
 
-    setCloudStatus(
-      "離線備份模式",
+    setStatus(
+      "載入發生錯誤",
+      "error"
+    );
+
+
+    showBanner(
+      "⚠️ 頁面載入時發生錯誤，但原本票券資料沒有被刪除。",
       "error"
     );
 
   }
 
 }
+
 
 
 /* =========================
-   PRIVATE STORAGE
+   OPTIONS
 ========================= */
 
-function ticketFolder(
-  ticket,
-  kind
+function optionList(
+  values,
+  selected
 ) {
 
-  return (
-    currentUser.id +
-    "/tickets/" +
-    ticket.id +
-    "/" +
-    kind
-  );
-
-}
-
-
-async function uploadPrivateFile(
-  ticket,
-  kind,
-  file
-) {
-
-  if (!file) {
-    return;
-  }
-
-
-  setCloudStatus(
-    "檔案上傳中…",
-    "saving"
-  );
-
-
-  const safeName =
-    sanitizeFileName(
-      file.name
-    );
-
-
-  const path =
-    ticketFolder(
-      ticket,
-      kind
-    ) +
-    "/" +
-    Date.now() +
-    "-" +
-    makeId() +
-    "-" +
-    safeName;
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .storage
-      .from(
-        STORAGE_BUCKET
-      )
-      .upload(
-        path,
-        file,
-        {
-          upsert: false,
-          cacheControl: "3600",
-          contentType:
-            file.type ||
-            undefined
-        }
-      );
-
-
-  if (error) {
-
-    console.error(error);
-
-
-    setCloudStatus(
-      "檔案上傳失敗",
-      "error"
-    );
-
-
-    alert(
-      "檔案上傳失敗。"
-    );
-
-
-    return;
-  }
-
-
-  const oldPath =
-    kind === "document"
-      ? ticket.documentPath
-      : ticket.qrPath;
+  const list =
+    [...values];
 
 
   if (
-    kind === "document"
+    selected &&
+    !list.includes(
+      selected
+    )
   ) {
 
-    ticket.documentPath =
-      path;
-
-
-    ticket.documentName =
-      file.name;
-
-  }
-
-  else {
-
-    ticket.qrPath =
-      path;
-
-
-    ticket.qrName =
-      file.name;
+    list.push(
+      selected
+    );
 
   }
 
 
-  await uploadTicketsNow();
-
-
-  if (
-    oldPath &&
-    oldPath !== path
-  ) {
-
-    await supabaseClient
-      .storage
-      .from(
-        STORAGE_BUCKET
-      )
-      .remove([
-        oldPath
-      ]);
-
-  }
-
-
-  render();
-
-
-  showBanner(
-    "🔒 私人檔案已上傳完成。"
-  );
+  return list
+    .map(
+      value =>
+        `
+          <option
+            value="${escapeHtml(value)}"
+            ${
+              value === selected
+                ? "selected"
+                : ""
+            }
+          >
+            ${escapeHtml(value)}
+          </option>
+        `
+    )
+    .join("");
 
 }
 
-
-async function openPrivateFile(
-  path
-) {
-
-  if (!path) {
-
-    alert(
-      "目前沒有檔案。"
-    );
-
-    return;
-
-  }
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .storage
-      .from(
-        STORAGE_BUCKET
-      )
-      .createSignedUrl(
-        path,
-        600
-      );
-
-
-  if (error) {
-
-    console.error(error);
-
-
-    alert(
-      "目前無法開啟私人檔案。"
-    );
-
-
-    return;
-
-  }
-
-
-  window.open(
-    data.signedUrl,
-    "_blank",
-    "noopener"
-  );
-
-}
-
-
-async function deletePrivateFile(
-  ticket,
-  kind
-) {
-
-  const path =
-    kind === "document"
-      ? ticket.documentPath
-      : ticket.qrPath;
-
-
-  if (!path) {
-    return;
-  }
-
-
-  const okay =
-    confirm(
-      "確定要刪除這個私人檔案嗎？"
-    );
-
-
-  if (!okay) {
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .storage
-      .from(
-        STORAGE_BUCKET
-      )
-      .remove([
-        path
-      ]);
-
-
-  if (error) {
-
-    console.error(error);
-
-
-    alert(
-      "檔案刪除失敗。"
-    );
-
-
-    return;
-
-  }
-
-
-  if (
-    kind === "document"
-  ) {
-
-    ticket.documentPath =
-      "";
-
-    ticket.documentName =
-      "";
-
-  }
-
-  else {
-
-    ticket.qrPath =
-      "";
-
-    ticket.qrName =
-      "";
-
-  }
-
-
-  await uploadTicketsNow();
-
-
-  render();
-
-}
 
 
 /* =========================
@@ -1719,10 +1616,6 @@ function render() {
     );
 
 
-  container.innerHTML =
-    "";
-
-
   if (
     tickets.length === 0
   ) {
@@ -1730,8 +1623,7 @@ function render() {
     container.innerHTML =
       `
         <div class="empty">
-
-          <div class="empty-icon">
+          <div style="font-size:40px">
             🎫
           </div>
 
@@ -1739,8 +1631,9 @@ function render() {
             還沒有票券
           </strong>
 
-          按「＋ 新增票券」開始建立。
-
+          <div>
+            按上面的「＋ 新增票券」開始建立。
+          </div>
         </div>
       `;
 
@@ -1750,46 +1643,34 @@ function render() {
   }
 
 
-  tickets.forEach(
-    (
-      ticket,
-      index
-    ) => {
-
-      container.appendChild(
-        createTicketCard(
+  container.innerHTML =
+    tickets
+      .map(
+        (
           ticket,
           index
-        )
-      );
-
-    }
-  );
+        ) =>
+          ticketHtml(
+            ticket,
+            index
+          )
+      )
+      .join("");
 
 }
 
 
-/* =========================
-   CARD
-========================= */
-
-function createTicketCard(
+function ticketHtml(
   ticket,
   index
 ) {
 
-  const card =
-    document.createElement(
-      "div"
-    );
+  return `
 
-
-  card.className =
-    "ticket-card";
-
-
-  card.innerHTML =
-    `
+    <section
+      class="ticket-card"
+      data-index="${index}"
+    >
 
       <div class="ticket-top">
 
@@ -1800,13 +1681,16 @@ function createTicketCard(
 
         <input
           class="ticket-name"
+          data-field="name"
+          value="${escapeHtml(ticket.name)}"
           placeholder="票券 / 景點名稱"
-          value="${escapeAttribute(ticket.name)}"
         >
 
 
         <button
-          class="delete-button"
+          class="delete-ticket"
+          data-action="delete-ticket"
+          title="刪除"
         >
           ×
         </button>
@@ -1816,7 +1700,6 @@ function createTicketCard(
 
       <div class="grid">
 
-
         <div class="field-wrap">
 
           <label>
@@ -1824,8 +1707,9 @@ function createTicketCard(
           </label>
 
           <input
-            class="field location"
-            value="${escapeAttribute(ticket.location)}"
+            class="field"
+            data-field="location"
+            value="${escapeHtml(ticket.location)}"
           >
 
         </div>
@@ -1837,8 +1721,25 @@ function createTicketCard(
             狀態
           </label>
 
-          <select class="field status">
-            ${statusOptions(ticket.status)}
+          <select
+            class="field"
+            data-field="status"
+          >
+
+            ${
+              optionList(
+                [
+                  "想訂",
+                  "待搶票",
+                  "已預訂",
+                  "已付款",
+                  "已使用",
+                  "取消"
+                ],
+                ticket.status
+              )
+            }
+
           </select>
 
         </div>
@@ -1851,9 +1752,10 @@ function createTicketCard(
           </label>
 
           <input
-            class="field date"
+            class="field"
             type="date"
-            value="${escapeAttribute(ticket.date)}"
+            data-field="date"
+            value="${escapeHtml(ticket.date)}"
           >
 
         </div>
@@ -1866,9 +1768,10 @@ function createTicketCard(
           </label>
 
           <input
-            class="field time"
+            class="field"
             type="time"
-            value="${escapeAttribute(ticket.time)}"
+            data-field="time"
+            value="${escapeHtml(ticket.time)}"
           >
 
         </div>
@@ -1881,8 +1784,9 @@ function createTicketCard(
           </label>
 
           <input
-            class="field people"
-            value="${escapeAttribute(ticket.people)}"
+            class="field"
+            data-field="people"
+            value="${escapeHtml(ticket.people)}"
           >
 
         </div>
@@ -1891,12 +1795,14 @@ function createTicketCard(
         <div class="field-wrap">
 
           <label>
-            建議提早多久
+            建議提早多久到
           </label>
 
           <input
-            class="field arriveEarly"
-            value="${escapeAttribute(ticket.arriveEarly)}"
+            class="field"
+            data-field="arriveEarly"
+            value="${escapeHtml(ticket.arriveEarly)}"
+            placeholder="例如：提前 15 分鐘"
           >
 
         </div>
@@ -1909,8 +1815,9 @@ function createTicketCard(
           </label>
 
           <input
-            class="field orderNo"
-            value="${escapeAttribute(ticket.orderNo)}"
+            class="field"
+            data-field="orderNo"
+            value="${escapeHtml(ticket.orderNo)}"
           >
 
         </div>
@@ -1923,8 +1830,9 @@ function createTicketCard(
           </label>
 
           <input
-            class="field payment"
-            value="${escapeAttribute(ticket.payment)}"
+            class="field"
+            data-field="payment"
+            value="${escapeHtml(ticket.payment)}"
           >
 
         </div>
@@ -1937,8 +1845,9 @@ function createTicketCard(
           </label>
 
           <input
-            class="field amount"
-            value="${escapeAttribute(ticket.amount)}"
+            class="field"
+            data-field="amount"
+            value="${escapeHtml(ticket.amount)}"
           >
 
         </div>
@@ -1950,8 +1859,26 @@ function createTicketCard(
             幣別
           </label>
 
-          <select class="field currency">
-            ${currencyOptions(ticket.currency)}
+          <select
+            class="field"
+            data-field="currency"
+          >
+
+            ${
+              optionList(
+                [
+                  "EUR",
+                  "TWD",
+                  "USD",
+                  "GBP",
+                  "JPY",
+                  "AUD",
+                  "CNY"
+                ],
+                ticket.currency
+              )
+            }
+
           </select>
 
         </div>
@@ -1964,15 +1891,16 @@ function createTicketCard(
           </label>
 
           <input
-            class="field maps"
-            value="${escapeAttribute(ticket.maps)}"
+            class="field"
+            data-field="maps"
+            value="${escapeHtml(ticket.maps)}"
           >
 
         </div>
 
 
         <div class="section-title">
-          🔒 私人電子票 / QR
+          🔒 私人電子票 / QR Code
         </div>
 
 
@@ -1984,48 +1912,62 @@ function createTicketCard(
               📄 電子票 / PDF
             </strong>
 
+
             <div class="file-status">
+
               ${
                 ticket.documentPath
-                  ? "已上傳：" +
-                    escapeHtml(
-                      ticket.documentName ||
-                      "私人檔案"
-                    )
-                  : "尚未上傳私人檔案"
+                  ?
+                  "✅ " +
+                  escapeHtml(
+                    ticket.documentName ||
+                    "私人電子票"
+                  )
+                  :
+                  "尚未上傳"
               }
+
             </div>
 
+
             <input
-              class="file-input documentUpload"
+              class="file-input"
               type="file"
+              data-upload="document"
               accept="application/pdf,image/*"
             >
+
 
             <div class="file-actions">
 
               <button
-                class="file-button openDocument"
+                class="file-button"
+                data-action="open-document"
               >
-                開啟
+                📄 開啟
               </button>
 
+
               <button
-                class="file-button delete deleteDocument"
+                class="file-button delete"
+                data-action="delete-document"
               >
                 刪除
               </button>
 
             </div>
 
+
             ${
               ticket.documentLink
-                ? `
-                  <div class="legacy-note">
-                    仍保留舊的文件連結資料。
+                ?
+                `
+                  <div class="legacy">
+                    原本舊版電子票連結仍有保留。
                   </div>
                 `
-                : ""
+                :
+                ""
             }
 
           </div>
@@ -2037,34 +1979,45 @@ function createTicketCard(
               ▦ QR Code
             </strong>
 
+
             <div class="file-status">
+
               ${
                 ticket.qrPath
-                  ? "已上傳：" +
-                    escapeHtml(
-                      ticket.qrName ||
-                      "私人 QR"
-                    )
-                  : "尚未上傳私人 QR"
+                  ?
+                  "✅ " +
+                  escapeHtml(
+                    ticket.qrName ||
+                    "私人 QR Code"
+                  )
+                  :
+                  "尚未上傳"
               }
+
             </div>
 
+
             <input
-              class="file-input qrUpload"
+              class="file-input"
               type="file"
+              data-upload="qr"
               accept="image/*"
             >
+
 
             <div class="file-actions">
 
               <button
-                class="file-button openQr"
+                class="file-button"
+                data-action="open-qr"
               >
-                開啟
+                ▦ 開啟
               </button>
 
+
               <button
-                class="file-button delete deleteQr"
+                class="file-button delete"
+                data-action="delete-qr"
               >
                 刪除
               </button>
@@ -2083,7 +2036,8 @@ function createTicketCard(
           </label>
 
           <textarea
-            class="field note"
+            class="field"
+            data-field="note"
           >${escapeHtml(ticket.note)}</textarea>
 
         </div>
@@ -2093,193 +2047,642 @@ function createTicketCard(
 
       <div class="actions">
 
-        <button class="action-button map-button openMap">
+        <button
+          class="action-button map-button"
+          data-action="map"
+        >
           📍 Google Maps
         </button>
 
-        <button class="action-button moveUp">
+
+        <button
+          class="action-button"
+          data-action="up"
+        >
           ↑ 上移
         </button>
 
-        <button class="action-button moveDown">
+
+        <button
+          class="action-button"
+          data-action="down"
+        >
           ↓ 下移
         </button>
 
       </div>
 
-    `;
+    </section>
+
+  `;
+
+}
 
 
-  bindInput(
-    card,
-    ".ticket-name",
-    ticket,
-    "name"
+
+/* =========================
+   EDIT EVENTS
+========================= */
+
+const ticketList =
+  document.getElementById(
+    "ticketList"
   );
 
 
-  bindInput(
-    card,
-    ".location",
-    ticket,
-    "location"
-  );
+function eventTicket(
+  target
+) {
 
-
-  bindInput(
-    card,
-    ".date",
-    ticket,
-    "date"
-  );
-
-
-  bindInput(
-    card,
-    ".time",
-    ticket,
-    "time"
-  );
-
-
-  bindInput(
-    card,
-    ".people",
-    ticket,
-    "people"
-  );
-
-
-  bindInput(
-    card,
-    ".arriveEarly",
-    ticket,
-    "arriveEarly"
-  );
-
-
-  bindInput(
-    card,
-    ".orderNo",
-    ticket,
-    "orderNo"
-  );
-
-
-  bindInput(
-    card,
-    ".payment",
-    ticket,
-    "payment"
-  );
-
-
-  bindInput(
-    card,
-    ".amount",
-    ticket,
-    "amount"
-  );
-
-
-  bindInput(
-    card,
-    ".maps",
-    ticket,
-    "maps"
-  );
-
-
-  bindInput(
-    card,
-    ".note",
-    ticket,
-    "note"
-  );
-
-
-  const status =
-    card.querySelector(
-      ".status"
+  const card =
+    target.closest(
+      ".ticket-card"
     );
 
 
-  status.onchange =
-    () => {
-
-      ticket.status =
-        status.value;
+  if (!card) {
+    return null;
+  }
 
 
-      scheduleCloudSave();
-
-    };
-
-
-  const currency =
-    card.querySelector(
-      ".currency"
+  const index =
+    Number(
+      card.dataset.index
     );
 
 
-  currency.onchange =
-    () => {
+  if (
+    !Number.isInteger(index) ||
+    !tickets[index]
+  ) {
 
-      ticket.currency =
-        currency.value;
+    return null;
 
-
-      scheduleCloudSave();
-
-    };
+  }
 
 
-  card.querySelector(
-    ".documentUpload"
-  ).onchange =
-    async event => {
+  return {
+    card,
+    index,
+    ticket:
+      tickets[index]
+  };
 
-      const file =
-        event.target.files[0];
+}
 
 
-      await uploadPrivateFile(
-        ticket,
-        "document",
-        file
+ticketList.addEventListener(
+  "input",
+  event => {
+
+    const field =
+      event.target.dataset.field;
+
+
+    if (!field) {
+      return;
+    }
+
+
+    const info =
+      eventTicket(
+        event.target
       );
 
-    };
+
+    if (!info) {
+      return;
+    }
 
 
-  card.querySelector(
-    ".qrUpload"
-  ).onchange =
-    async event => {
-
-      const file =
-        event.target.files[0];
+    info.ticket[field] =
+      event.target.value;
 
 
-      await uploadPrivateFile(
-        ticket,
-        "qr",
-        file
+    scheduleSave();
+
+  }
+);
+
+
+ticketList.addEventListener(
+  "change",
+  async event => {
+
+    const field =
+      event.target.dataset.field;
+
+
+    if (field) {
+
+      const info =
+        eventTicket(
+          event.target
+        );
+
+
+      if (info) {
+
+        info.ticket[field] =
+          event.target.value;
+
+
+        scheduleSave();
+
+      }
+
+
+      return;
+
+    }
+
+
+    const kind =
+      event.target.dataset.upload;
+
+
+    if (!kind) {
+      return;
+    }
+
+
+    const info =
+      eventTicket(
+        event.target
       );
 
-    };
+
+    if (!info) {
+      return;
+    }
 
 
-  card.querySelector(
-    ".openDocument"
-  ).onclick =
-    () => {
+    const file =
+      event.target.files &&
+      event.target.files[0];
+
+
+    if (!file) {
+      return;
+    }
+
+
+    await uploadPrivateFile(
+      info.ticket,
+      kind,
+      file
+    );
+
+  }
+);
+
+
+
+/* =========================
+   STORAGE
+========================= */
+
+function safeFileName(
+  value
+) {
+
+  return text(value || "file")
+    .replaceAll("/", "-")
+    .replaceAll("\\", "-")
+    .replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    );
+
+}
+
+
+async function uploadPrivateFile(
+  ticket,
+  kind,
+  file
+) {
+
+  try {
+
+    setStatus(
+      "檔案上傳中…",
+      "saving"
+    );
+
+
+    const path =
+      currentUser.id +
+      "/tickets/" +
+      ticket.id +
+      "/" +
+      kind +
+      "/" +
+      Date.now() +
+      "-" +
+      makeId() +
+      "-" +
+      safeFileName(
+        file.name
+      );
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .upload(
+          path,
+          file,
+          {
+            upsert: false,
+            cacheControl: "3600"
+          }
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    const oldPath =
+      kind === "document"
+        ?
+        ticket.documentPath
+        :
+        ticket.qrPath;
+
+
+    if (
+      kind === "document"
+    ) {
+
+      ticket.documentPath =
+        path;
+
+
+      ticket.documentName =
+        file.name;
+
+    }
+
+    else {
+
+      ticket.qrPath =
+        path;
+
+
+      ticket.qrName =
+        file.name;
+
+    }
+
+
+    await saveCloud();
+
+
+    if (
+      oldPath &&
+      oldPath !== path
+    ) {
+
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .remove([
+          oldPath
+        ]);
+
+    }
+
+
+    render();
+
+
+    showBanner(
+      "🔒 私人檔案已成功上傳。"
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      "檔案上傳失敗",
+      "error"
+    );
+
+
+    showBanner(
+      "⚠️ 檔案上傳失敗。",
+      "error"
+    );
+
+  }
+
+}
+
+
+async function openPrivateFile(
+  path
+) {
+
+  if (!path) {
+    return false;
+  }
+
+
+  const newWindow =
+    window.open(
+      "about:blank",
+      "_blank"
+    );
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(
+          BUCKET
+        )
+        .createSignedUrl(
+          path,
+          600
+        );
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (
+      newWindow
+    ) {
+
+      newWindow.location =
+        data.signedUrl;
+
+    }
+
+    else {
+
+      location.href =
+        data.signedUrl;
+
+    }
+
+
+    return true;
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(error);
+
+
+    if (
+      newWindow
+    ) {
+
+      newWindow.close();
+
+    }
+
+
+    showBanner(
+      "⚠️ 無法開啟私人檔案。",
+      "error"
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+async function deletePrivateFile(
+  ticket,
+  kind
+) {
+
+  const path =
+    kind === "document"
+      ?
+      ticket.documentPath
+      :
+      ticket.qrPath;
+
+
+  if (!path) {
+
+    showBanner(
+      "目前沒有檔案。",
+      "error"
+    );
+
+
+    return;
+
+  }
+
+
+  if (
+    !confirm(
+      "確定刪除這個私人檔案嗎？"
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .storage
+      .from(
+        BUCKET
+      )
+      .remove([
+        path
+      ]);
+
+
+  if (error) {
+
+    console.error(error);
+
+
+    showBanner(
+      "刪除失敗。",
+      "error"
+    );
+
+
+    return;
+
+  }
+
+
+  if (
+    kind === "document"
+  ) {
+
+    ticket.documentPath =
+      "";
+
+    ticket.documentName =
+      "";
+
+  }
+
+  else {
+
+    ticket.qrPath =
+      "";
+
+    ticket.qrName =
+      "";
+
+  }
+
+
+  await saveCloud();
+
+
+  render();
+
+}
+
+
+
+/* =========================
+   BUTTON EVENTS
+========================= */
+
+ticketList.addEventListener(
+  "click",
+  async event => {
+
+    const button =
+      event.target.closest(
+        "[data-action]"
+      );
+
+
+    if (!button) {
+      return;
+    }
+
+
+    const info =
+      eventTicket(
+        button
+      );
+
+
+    if (!info) {
+      return;
+    }
+
+
+    const {
+      ticket,
+      index
+    } =
+      info;
+
+
+    const action =
+      button.dataset.action;
+
+
+    if (
+      action === "map"
+    ) {
+
+      if (
+        ticket.maps
+      ) {
+
+        window.open(
+          ticket.maps,
+          "_blank",
+          "noopener"
+        );
+
+
+        return;
+
+      }
+
+
+      const query =
+        ticket.location ||
+        ticket.name;
+
+
+      if (!query) {
+
+        alert(
+          "請先填地點。"
+        );
+
+
+        return;
+
+      }
+
+
+      window.open(
+        "https://www.google.com/maps/search/?api=1&query=" +
+        encodeURIComponent(query),
+        "_blank",
+        "noopener"
+      );
+
+
+      return;
+
+    }
+
+
+    if (
+      action === "open-document"
+    ) {
 
       if (
         ticket.documentPath
       ) {
 
-        openPrivateFile(
+        await openPrivateFile(
           ticket.documentPath
         );
 
@@ -2309,19 +2712,21 @@ function createTicketCard(
         "還沒有電子票。"
       );
 
-    };
+
+      return;
+
+    }
 
 
-  card.querySelector(
-    ".openQr"
-  ).onclick =
-    () => {
+    if (
+      action === "open-qr"
+    ) {
 
       if (
         ticket.qrPath
       ) {
 
-        openPrivateFile(
+        await openPrivateFile(
           ticket.qrPath
         );
 
@@ -2351,105 +2756,45 @@ function createTicketCard(
         "還沒有 QR Code。"
       );
 
-    };
+
+      return;
+
+    }
 
 
-  card.querySelector(
-    ".deleteDocument"
-  ).onclick =
-    () => {
+    if (
+      action === "delete-document"
+    ) {
 
-      deletePrivateFile(
+      await deletePrivateFile(
         ticket,
         "document"
       );
 
-    };
+
+      return;
+
+    }
 
 
-  card.querySelector(
-    ".deleteQr"
-  ).onclick =
-    () => {
+    if (
+      action === "delete-qr"
+    ) {
 
-      deletePrivateFile(
+      await deletePrivateFile(
         ticket,
         "qr"
       );
 
-    };
+
+      return;
+
+    }
 
 
-  card.querySelector(
-    ".openMap"
-  ).onclick =
-    () => {
-
-      openMap(
-        ticket
-      );
-
-    };
-
-
-  card.querySelector(
-    ".delete-button"
-  ).onclick =
-    async () => {
-
-      const okay =
-        confirm(
-          "確定要刪除這張票券嗎？"
-        );
-
-
-      if (!okay) {
-        return;
-      }
-
-
-      const paths =
-        [
-          ticket.documentPath,
-          ticket.qrPath
-        ]
-        .filter(Boolean);
-
-
-      if (
-        paths.length > 0
-      ) {
-
-        await supabaseClient
-          .storage
-          .from(
-            STORAGE_BUCKET
-          )
-          .remove(
-            paths
-          );
-
-      }
-
-
-      tickets.splice(
-        index,
-        1
-      );
-
-
-      await uploadTicketsNow();
-
-
-      render();
-
-    };
-
-
-  card.querySelector(
-    ".moveUp"
-  ).onclick =
-    () => {
+    if (
+      action === "up"
+    ) {
 
       if (
         index === 0
@@ -2468,20 +2813,22 @@ function createTicketCard(
       ];
 
 
-      scheduleCloudSave();
+      scheduleSave();
 
       render();
 
-    };
+
+      return;
+
+    }
 
 
-  card.querySelector(
-    ".moveDown"
-  ).onclick =
-    () => {
+    if (
+      action === "down"
+    ) {
 
       if (
-        index ===
+        index >=
         tickets.length - 1
       ) {
         return;
@@ -2498,47 +2845,71 @@ function createTicketCard(
       ];
 
 
-      scheduleCloudSave();
+      scheduleSave();
 
       render();
 
-    };
+
+      return;
+
+    }
 
 
-  return card;
+    if (
+      action === "delete-ticket"
+    ) {
 
-}
+      if (
+        !confirm(
+          "確定刪除這張票券嗎？"
+        )
+      ) {
 
+        return;
 
-/* =========================
-   INPUT
-========================= */
-
-function bindInput(
-  card,
-  selector,
-  object,
-  key
-) {
-
-  const element =
-    card.querySelector(
-      selector
-    );
+      }
 
 
-  element.oninput =
-    () => {
+      const paths =
+        [
+          ticket.documentPath,
+          ticket.qrPath
+        ]
+        .filter(Boolean);
 
-      object[key] =
-        element.value;
+
+      if (
+        paths.length
+      ) {
+
+        await supabaseClient
+          .storage
+          .from(
+            BUCKET
+          )
+          .remove(
+            paths
+          );
+
+      }
 
 
-      scheduleCloudSave();
+      tickets.splice(
+        index,
+        1
+      );
 
-    };
 
-}
+      await saveCloud();
+
+
+      render();
+
+    }
+
+  }
+);
+
 
 
 /* =========================
@@ -2555,169 +2926,15 @@ document.getElementById(
     );
 
 
-    scheduleCloudSave();
+    scheduleSave();
 
     render();
 
   };
 
 
-/* =========================
-   MAP
-========================= */
 
-function openMap(
-  ticket
-) {
-
-  if (
-    ticket.maps &&
-    ticket.maps.trim()
-  ) {
-
-    window.open(
-      ticket.maps.trim(),
-      "_blank",
-      "noopener"
-    );
-
-
-    return;
-
-  }
-
-
-  const query =
-    ticket.location?.trim() ||
-    ticket.name?.trim();
-
-
-  if (!query) {
-
-    alert(
-      "先填票券名稱或地點。"
-    );
-
-
-    return;
-
-  }
-
-
-  window.open(
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(query),
-    "_blank",
-    "noopener"
-  );
-
-}
-
-
-/* =========================
-   OPTIONS
-========================= */
-
-function statusOptions(
-  selected
-) {
-
-  const options =
-    [
-      "想訂",
-      "待搶票",
-      "已預訂",
-      "已付款",
-      "已使用",
-      "取消"
-    ];
-
-
-  if (
-    selected &&
-    !options.includes(selected)
-  ) {
-
-    options.push(selected);
-
-  }
-
-
-  return options
-    .map(
-      item =>
-        `
-          <option
-            value="${escapeAttribute(item)}"
-            ${
-              item === selected
-                ? "selected"
-                : ""
-            }
-          >
-            ${escapeHtml(item)}
-          </option>
-        `
-    )
-    .join("");
-
-}
-
-
-function currencyOptions(
-  selected
-) {
-
-  const currencies =
-    [
-      "EUR",
-      "TWD",
-      "USD",
-      "GBP",
-      "JPY",
-      "AUD",
-      "CNY"
-    ];
-
-
-  if (
-    selected &&
-    !currencies.includes(selected)
-  ) {
-
-    currencies.push(
-      selected
-    );
-
-  }
-
-
-  return currencies
-    .map(
-      currency =>
-        `
-          <option
-            value="${escapeAttribute(currency)}"
-            ${
-              currency === selected
-                ? "selected"
-                : ""
-            }
-          >
-            ${escapeHtml(currency)}
-          </option>
-        `
-    )
-    .join("");
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-initializeCloud();
+initialize();
 
 </script>
 
