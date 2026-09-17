@@ -2,18 +2,14 @@
 <html lang="zh-Hant">
 
 <head>
-
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>待辦事項｜Travel Hub</title>
 
-  <style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <style>
     * {
       box-sizing: border-box;
     }
@@ -22,25 +18,20 @@
       --bg: #f4f1eb;
       --card: #ffffff;
       --text: #292824;
-      --muted: #827d75;
-      --line: #e8e2d9;
-      --accent: #9a7350;
-      --accent-soft: #eee4d8;
+      --muted: #817b73;
+      --line: #e7e0d7;
       --dark: #2e2d29;
-      --danger: #a65a52;
-      --green-soft: #e7eee7;
-      --red-soft: #f4e4e2;
-      --yellow-soft: #f4eddc;
+      --accent-soft: #eee4d8;
+      --green-soft: #e5eee6;
+      --yellow-soft: #f4ecd9;
+      --red-soft: #f3e3e1;
+      --blue-soft: #e6edf3;
+      --danger: #a95e57;
       --shadow: 0 8px 28px rgba(52,45,36,0.06);
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
-
       background: var(--bg);
       color: var(--text);
 
@@ -75,16 +66,12 @@
       margin: auto;
     }
 
-
-    /* HEADER */
-
     header {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 80;
 
-      background: rgba(244,241,235,0.93);
-
+      background: rgba(244,241,235,0.94);
       backdrop-filter: blur(18px);
 
       border-bottom: 1px solid rgba(0,0,0,0.04);
@@ -105,130 +92,134 @@
       align-items: center;
       gap: 10px;
 
-      font-weight: 700;
+      font-weight: 750;
     }
 
     .back-icon {
       width: 40px;
       height: 40px;
 
+      display: grid;
+      place-items: center;
+
       border-radius: 14px;
 
       background: white;
 
-      display: grid;
-      place-items: center;
-
       box-shadow: var(--shadow);
+    }
+
+    .right-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cloud-dot {
+      width: 9px;
+      height: 9px;
+
+      border-radius: 50%;
+
+      background: #aaa;
+    }
+
+    .cloud-dot.online {
+      background: #6e9573;
+    }
+
+    .cloud-dot.saving {
+      background: #c49a59;
+    }
+
+    .cloud-dot.error {
+      background: #b7635c;
     }
 
     .save-status {
       color: var(--muted);
-      font-size: 12px;
+
+      font-size: 11px;
+
+      white-space: nowrap;
     }
 
-
-    /* PAGE */
-
     .page-head {
-      padding: 20px 0 14px;
+      padding: 22px 0 12px;
     }
 
     .page-head h1 {
       margin: 0 0 5px;
-      font-size: 28px;
+
+      font-size: 29px;
     }
 
     .page-head p {
       margin: 0;
+
       color: var(--muted);
+
       font-size: 13px;
+      line-height: 1.55;
     }
 
+    .sync-banner {
+      display: none;
 
-    /* SUMMARY */
+      margin-bottom: 12px;
 
-    .summary-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
+      padding: 11px 13px;
 
-      gap: 10px;
-    }
+      border-radius: 14px;
 
-    .summary-card {
-      background: white;
-
-      border-radius: 19px;
-
-      padding: 16px;
-
-      box-shadow: var(--shadow);
-    }
-
-    .summary-card .label {
-      color: var(--muted);
       font-size: 11px;
-
-      margin-bottom: 7px;
+      line-height: 1.55;
     }
 
-    .summary-card strong {
-      font-size: 25px;
+    .sync-banner.show {
+      display: block;
     }
 
-    .summary-card.dark {
+    .sync-banner.success {
+      background: var(--green-soft);
+    }
+
+    .sync-banner.error {
+      background: var(--red-soft);
+    }
+
+    .summary {
       background: var(--dark);
       color: white;
-    }
 
-    .summary-card.dark .label {
-      color: rgba(255,255,255,0.65);
-    }
+      border-radius: 23px;
 
+      padding: 18px;
 
-    /* ADD */
-
-    .add-panel {
-      margin-top: 16px;
-
-      background: white;
-
-      border-radius: 21px;
-
-      padding: 15px;
+      margin-bottom: 14px;
 
       box-shadow: var(--shadow);
     }
 
-    .add-grid {
-      display: grid;
+    .summary-top {
+      display: flex;
 
-      grid-template-columns:
-        150px
-        1fr
-        135px
-        auto;
+      align-items: center;
+      justify-content: space-between;
 
-      gap: 8px;
+      gap: 14px;
     }
 
-    .field {
-      width: 100%;
-
-      border: 1px solid var(--line);
-
-      border-radius: 13px;
-
-      padding: 11px 12px;
-
-      background: #fbfaf8;
-
-      outline: none;
+    .summary small {
+      color: rgba(255,255,255,0.64);
     }
 
-    .field:focus {
-      background: white;
-      border-color: #baa48f;
+    .summary strong {
+      display: block;
+
+      margin-top: 3px;
+
+      font-size: 24px;
     }
 
     .add-button {
@@ -236,28 +227,54 @@
 
       border-radius: 13px;
 
-      padding: 0 15px;
+      padding: 11px 14px;
 
-      background: var(--accent-soft);
+      background: white;
+      color: var(--dark);
 
-      color: #72543b;
-
-      font-weight: 700;
+      font-weight: 800;
 
       white-space: nowrap;
     }
 
+    .progress-track {
+      height: 8px;
 
-    /* FILTER */
+      margin-top: 14px;
+
+      border-radius: 999px;
+
+      overflow: hidden;
+
+      background: rgba(255,255,255,0.14);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+
+      background: white;
+
+      border-radius: inherit;
+
+      transition: width 0.25s ease;
+    }
+
+    .progress-text {
+      margin-top: 7px;
+
+      color: rgba(255,255,255,0.7);
+
+      font-size: 11px;
+    }
 
     .filters {
       display: flex;
-
-      gap: 8px;
+      gap: 7px;
 
       overflow-x: auto;
 
-      padding: 18px 0 10px;
+      margin-bottom: 14px;
 
       scrollbar-width: none;
     }
@@ -271,26 +288,21 @@
 
       border: 0;
 
-      padding: 9px 13px;
+      border-radius: 999px;
 
-      border-radius: 100px;
+      padding: 9px 13px;
 
       background: white;
 
       color: var(--muted);
 
       box-shadow: var(--shadow);
-
-      font-size: 12px;
     }
 
     .filter-button.active {
       background: var(--dark);
       color: white;
     }
-
-
-    /* TODO */
 
     .todo-list {
       display: grid;
@@ -307,26 +319,29 @@
       box-shadow: var(--shadow);
     }
 
-    .todo-main {
-      display: grid;
-
-      grid-template-columns:
-        auto
-        1fr
-        auto;
-
-      gap: 11px;
-
-      align-items: start;
+    .todo-card.done {
+      opacity: 0.6;
     }
 
-    .todo-check {
+    .todo-card.done .todo-title {
+      text-decoration: line-through;
+    }
+
+    .todo-top {
+      display: grid;
+
+      grid-template-columns: auto 1fr auto;
+
+      align-items: center;
+
+      gap: 10px;
+    }
+
+    .done-check {
       width: 22px;
       height: 22px;
 
-      margin-top: 4px;
-
-      accent-color: var(--accent);
+      accent-color: #70816b;
     }
 
     .todo-title {
@@ -339,16 +354,8 @@
 
       color: var(--text);
 
-      font-size: 16px;
-      font-weight: 750;
-
-      padding: 2px 0;
-    }
-
-    .todo-title.done {
-      color: #aaa49c;
-
-      text-decoration: line-through;
+      font-size: 17px;
+      font-weight: 800;
     }
 
     .delete-button {
@@ -358,51 +365,60 @@
 
       color: var(--danger);
 
-      font-size: 18px;
+      font-size: 20px;
     }
 
-
-    /* META */
-
-    .meta-grid {
+    .grid {
       display: grid;
 
-      grid-template-columns:
-        repeat(3,1fr);
+      grid-template-columns: repeat(3,1fr);
 
       gap: 8px;
 
       margin-top: 12px;
     }
 
-    .mini-field-wrap {
+    .field-wrap {
       display: grid;
-      gap: 4px;
+      gap: 5px;
     }
 
-    .mini-field-wrap label {
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
       color: var(--muted);
+
       font-size: 10px;
     }
 
-    .mini-field {
+    .field {
       width: 100%;
 
       border: 1px solid var(--line);
 
-      border-radius: 11px;
+      border-radius: 12px;
 
-      padding: 8px 9px;
+      padding: 10px 11px;
 
       background: #fbfaf8;
 
       outline: none;
-
-      font-size: 12px;
     }
 
+    .field:focus {
+      border-color: #baa48f;
+      background: white;
+    }
 
-    /* PRIORITY */
+    textarea.field {
+      min-height: 70px;
+
+      resize: vertical;
+
+      line-height: 1.5;
+    }
 
     .priority-high {
       background: var(--red-soft);
@@ -416,89 +432,56 @@
       background: var(--green-soft);
     }
 
+    .actions {
+      display: flex;
+      gap: 7px;
 
-    /* NOTE */
+      flex-wrap: wrap;
 
-    .note {
-      width: 100%;
+      margin-top: 11px;
+      padding-top: 11px;
 
-      margin-top: 10px;
-
-      min-height: 65px;
-
-      border: 1px solid var(--line);
-
-      border-radius: 13px;
-
-      padding: 10px;
-
-      resize: vertical;
-
-      background: #fbfaf8;
-
-      outline: none;
-
-      line-height: 1.55;
-
-      font-size: 12px;
+      border-top: 1px solid var(--line);
     }
 
-    .note:focus {
-      background: white;
-      border-color: #baa48f;
-    }
+    .action-button {
+      border: 0;
 
-
-    /* DUE */
-
-    .due-warning {
-      margin-top: 9px;
+      border-radius: 10px;
 
       padding: 8px 10px;
 
-      border-radius: 11px;
-
-      background: var(--red-soft);
-
-      color: #89524d;
+      background: #f1eee9;
 
       font-size: 11px;
-
-      display: none;
     }
 
-
-    /* EMPTY */
-
     .empty {
-      padding: 40px 20px;
+      padding: 45px 20px;
+
+      border: 1px dashed #cbbeb0;
+      border-radius: 22px;
 
       text-align: center;
 
-      border-radius: 22px;
-
-      border: 1px dashed #cbbeb0;
-
-      background: rgba(255,255,255,0.4);
-
       color: var(--muted);
+
+      background: rgba(255,255,255,0.45);
     }
 
     .empty-icon {
+      margin-bottom: 8px;
+
       font-size: 40px;
-      margin-bottom: 9px;
     }
 
     .empty strong {
       display: block;
 
-      color: var(--text);
-
       margin-bottom: 5px;
+
+      color: var(--text);
     }
-
-
-    /* NAV */
 
     nav {
       position: fixed;
@@ -541,50 +524,30 @@
       font-size: 20px;
     }
 
-    .nav-link.active {
-      color: var(--text);
-
-      font-weight: 700;
-    }
-
-
-    @media (max-width: 700px) {
-
-      .summary-grid {
-        grid-template-columns: repeat(3,1fr);
-      }
-
-      .add-grid {
+    @media (max-width: 650px) {
+      .grid {
         grid-template-columns: 1fr;
       }
 
-      .add-button {
-        min-height: 44px;
+      .full {
+        grid-column: auto;
       }
 
-      .meta-grid {
-        grid-template-columns: 1fr;
+      .summary-top {
+        align-items: flex-start;
       }
-
     }
-
   </style>
-
 </head>
 
 
-
 <body>
-
 
 <header>
 
   <div class="container topbar">
 
-    <a
-      class="back"
-      href="index.html"
-    >
+    <a class="back" href="index.html">
 
       <div class="back-icon">
         ←
@@ -597,11 +560,20 @@
     </a>
 
 
-    <div
-      class="save-status"
-      id="saveStatus"
-    >
-      自動儲存
+    <div class="right-header">
+
+      <div
+        class="cloud-dot"
+        id="cloudDot"
+      ></div>
+
+      <div
+        class="save-status"
+        id="saveStatus"
+      >
+        連線中…
+      </div>
+
     </div>
 
   </div>
@@ -609,9 +581,7 @@
 </header>
 
 
-
 <main class="container">
-
 
   <section class="page-head">
 
@@ -620,148 +590,96 @@
     </h1>
 
     <p>
-      管理出發前需要預約、確認與處理的事情
+      訂票、預約、文件、行前準備與出發前要完成的事情
     </p>
 
   </section>
 
 
+  <div
+    class="sync-banner"
+    id="syncBanner"
+  ></div>
 
-  <section class="summary-grid">
 
-    <div class="summary-card dark">
+  <section class="summary">
 
-      <div class="label">
-        待完成
+    <div class="summary-top">
+
+      <div>
+
+        <small>
+          Italy 2026
+        </small>
+
+        <strong id="todoCount">
+          0 / 0
+        </strong>
+
       </div>
-
-      <strong id="pendingCount">
-        0
-      </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-      <div class="label">
-        已完成
-      </div>
-
-      <strong id="doneCount">
-        0
-      </strong>
-
-    </div>
-
-
-    <div class="summary-card">
-
-      <div class="label">
-        總計
-      </div>
-
-      <strong id="totalCount">
-        0
-      </strong>
-
-    </div>
-
-  </section>
-
-
-
-  <section class="add-panel">
-
-    <div class="add-grid">
-
-
-      <select
-        class="field"
-        id="newCategory"
-      >
-
-        <option value="門票">
-          🎫 門票
-        </option>
-
-        <option value="住宿">
-          🏨 住宿
-        </option>
-
-        <option value="交通">
-          🚗 交通
-        </option>
-
-        <option value="文件">
-          📄 文件
-        </option>
-
-        <option value="付款">
-          💳 付款
-        </option>
-
-        <option value="行程">
-          📅 行程
-        </option>
-
-        <option value="行李">
-          🧳 行李
-        </option>
-
-        <option value="其他">
-          📌 其他
-        </option>
-
-      </select>
-
-
-      <input
-        class="field"
-        id="newTitle"
-        placeholder="新增待辦事項"
-      >
-
-
-      <select
-        class="field"
-        id="newPriority"
-      >
-
-        <option value="高">
-          🔴 高優先
-        </option>
-
-        <option value="中" selected>
-          🟡 中優先
-        </option>
-
-        <option value="低">
-          🟢 低優先
-        </option>
-
-      </select>
 
 
       <button
         class="add-button"
         id="addTodo"
       >
-        ＋ 新增
+        ＋ 新增待辦
       </button>
 
+    </div>
 
+
+    <div class="progress-track">
+
+      <div
+        class="progress-bar"
+        id="progressBar"
+      ></div>
+
+    </div>
+
+
+    <div
+      class="progress-text"
+      id="progressText"
+    >
+      尚未建立待辦
     </div>
 
   </section>
 
 
+  <div class="filters">
 
-  <div
-    class="filters"
-    id="filters"
-  ></div>
+    <button
+      class="filter-button active"
+      data-filter="all"
+    >
+      全部
+    </button>
 
+    <button
+      class="filter-button"
+      data-filter="open"
+    >
+      未完成
+    </button>
+
+    <button
+      class="filter-button"
+      data-filter="done"
+    >
+      已完成
+    </button>
+
+    <button
+      class="filter-button"
+      data-filter="high"
+    >
+      🔴 高優先
+    </button>
+
+  </div>
 
 
   <div
@@ -769,53 +687,32 @@
     id="todoList"
   ></div>
 
-
 </main>
-
 
 
 <nav>
 
-  <a
-    class="nav-link"
-    href="index.html"
-  >
+  <a class="nav-link" href="index.html">
     <span class="nav-icon">🏠</span>
     今天
   </a>
 
-
-  <a
-    class="nav-link"
-    href="itinerary.html"
-  >
+  <a class="nav-link" href="itinerary.html">
     <span class="nav-icon">📅</span>
     行程
   </a>
 
-
-  <a
-    class="nav-link active"
-    href="todo.html"
-  >
-    <span class="nav-icon">✅</span>
-    待辦
+  <a class="nav-link" href="map.html">
+    <span class="nav-icon">🗺️</span>
+    地圖
   </a>
 
-
-  <a
-    class="nav-link"
-    href="tickets.html"
-  >
+  <a class="nav-link" href="tickets.html">
     <span class="nav-icon">🎫</span>
     票券
   </a>
 
-
-  <a
-    class="nav-link"
-    href="car.html"
-  >
+  <a class="nav-link" href="car.html">
     <span class="nav-icon">🚗</span>
     租車
   </a>
@@ -823,115 +720,704 @@
 </nav>
 
 
-
 <script>
 
+/* =========================
+   SUPABASE
+========================= */
+
+const SUPABASE_URL =
+  "https://vexzdnyinfmzvcyotiuo.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_XZqhHC1vRtMVo8-SexbZoA_vaOd8tfJ";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
+  );
+
+
+/* =========================
+   SETTINGS
+========================= */
 
 const STORAGE_KEY =
   "travelHubItaly2026Todos";
 
 
-const categoryIcons = {
-
-  "門票": "🎫",
-
-  "住宿": "🏨",
-
-  "交通": "🚗",
-
-  "文件": "📄",
-
-  "付款": "💳",
-
-  "行程": "📅",
-
-  "行李": "🧳",
-
-  "其他": "📌"
-
-};
+const MODULE_KEY =
+  "todos";
 
 
-let todos = [];
+let currentUser =
+  null;
+
+
+let todos =
+  [];
+
 
 let currentFilter =
-  "待完成";
+  "all";
 
 
+let cloudSaveTimer;
 
-function loadData() {
 
-  const saved =
+/* =========================
+   HELPERS
+========================= */
+
+function makeId() {
+
+  return (
+    Date.now().toString(36) +
+    Math.random()
+      .toString(36)
+      .slice(2)
+  );
+
+}
+
+
+function valueOf(
+  object,
+  keys,
+  fallback = ""
+) {
+
+  for (
+    const key of keys
+  ) {
+
+    if (
+      object &&
+      object[key] !== undefined &&
+      object[key] !== null
+    ) {
+
+      return object[key];
+
+    }
+
+  }
+
+
+  return fallback;
+
+}
+
+
+function normalizePriority(
+  priority
+) {
+
+  const value =
+    String(priority || "")
+      .toLowerCase();
+
+
+  if (
+    value === "high" ||
+    value === "高" ||
+    value === "高優先"
+  ) {
+
+    return "高";
+
+  }
+
+
+  if (
+    value === "low" ||
+    value === "低" ||
+    value === "低優先"
+  ) {
+
+    return "低";
+
+  }
+
+
+  return "中";
+
+}
+
+
+function normalizeTodo(
+  oldTodo = {}
+) {
+
+  if (
+    typeof oldTodo === "string"
+  ) {
+
+    return {
+      id: makeId(),
+      title: oldTodo,
+      category: "",
+      priority: "中",
+      dueDate: "",
+      note: "",
+      done: false
+    };
+
+  }
+
+
+  return {
+
+    ...oldTodo,
+
+    id:
+      valueOf(
+        oldTodo,
+        ["id"],
+        makeId()
+      ),
+
+    title:
+      valueOf(
+        oldTodo,
+        [
+          "title",
+          "name",
+          "text",
+          "task"
+        ]
+      ),
+
+    category:
+      valueOf(
+        oldTodo,
+        [
+          "category",
+          "type"
+        ]
+      ),
+
+    priority:
+      normalizePriority(
+        valueOf(
+          oldTodo,
+          ["priority"],
+          "中"
+        )
+      ),
+
+    dueDate:
+      valueOf(
+        oldTodo,
+        [
+          "dueDate",
+          "due",
+          "date",
+          "deadline"
+        ]
+      ),
+
+    note:
+      valueOf(
+        oldTodo,
+        [
+          "note",
+          "notes"
+        ]
+      ),
+
+    done:
+      Boolean(
+        valueOf(
+          oldTodo,
+          [
+            "done",
+            "completed",
+            "checked"
+          ],
+          false
+        )
+      )
+
+  };
+
+}
+
+
+function normalizeTodos(
+  data
+) {
+
+  if (
+    Array.isArray(data)
+  ) {
+
+    return data.map(
+      normalizeTodo
+    );
+
+  }
+
+
+  if (
+    data &&
+    Array.isArray(data.todos)
+  ) {
+
+    return data.todos.map(
+      normalizeTodo
+    );
+
+  }
+
+
+  if (
+    data &&
+    Array.isArray(data.tasks)
+  ) {
+
+    return data.tasks.map(
+      normalizeTodo
+    );
+
+  }
+
+
+  return [];
+
+}
+
+
+function newTodo() {
+
+  return {
+    id: makeId(),
+    title: "",
+    category: "",
+    priority: "中",
+    dueDate: "",
+    note: "",
+    done: false
+  };
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function setCloudStatus(
+  text,
+  type
+) {
+
+  document.getElementById(
+    "saveStatus"
+  ).textContent =
+    text;
+
+
+  const dot =
+    document.getElementById(
+      "cloudDot"
+    );
+
+
+  dot.className =
+    "cloud-dot";
+
+
+  if (type) {
+    dot.classList.add(type);
+  }
+
+}
+
+
+function showBanner(
+  text,
+  type = "success"
+) {
+
+  const banner =
+    document.getElementById(
+      "syncBanner"
+    );
+
+
+  banner.textContent =
+    text;
+
+
+  banner.className =
+    "sync-banner show " +
+    type;
+
+
+  setTimeout(
+    () => {
+
+      banner.className =
+        "sync-banner";
+
+    },
+    5000
+  );
+
+}
+
+
+/* =========================
+   LOCAL STORAGE
+========================= */
+
+function loadLocalTodos() {
+
+  const raw =
     localStorage.getItem(
       STORAGE_KEY
     );
 
 
-  if (!saved) {
+  if (!raw) {
+    return null;
+  }
 
-    todos = [];
+
+  try {
+
+    const parsed =
+      JSON.parse(raw);
+
+
+    return normalizeTodos(
+      parsed
+    );
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    return null;
+
+  }
+
+}
+
+
+function saveLocalTodos() {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      version: 1,
+      todos: todos
+    })
+  );
+
+}
+
+
+/* =========================
+   CLOUD
+========================= */
+
+async function loadCloudModule() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("travel_modules")
+      .select("data, updated_at")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "module_key",
+        MODULE_KEY
+      )
+      .maybeSingle();
+
+
+  if (error) {
+    throw error;
+  }
+
+
+  return data;
+
+}
+
+
+async function uploadTodosNow() {
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  saveLocalTodos();
+
+
+  setCloudStatus(
+    "同步中…",
+    "saving"
+  );
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("travel_modules")
+      .upsert(
+        {
+
+          user_id:
+            currentUser.id,
+
+          module_key:
+            MODULE_KEY,
+
+          data: {
+            version: 1,
+            todos: todos
+          },
+
+          updated_at:
+            new Date()
+              .toISOString()
+
+        },
+        {
+          onConflict:
+            "user_id,module_key"
+        }
+      );
+
+
+  if (error) {
+
+    console.error(
+      error
+    );
+
+
+    setCloudStatus(
+      "同步失敗",
+      "error"
+    );
+
 
     return;
 
   }
 
 
-  try {
-
-    todos =
-      JSON.parse(saved);
-
-  }
-
-  catch {
-
-    todos = [];
-
-  }
+  setCloudStatus(
+    "已同步 ☁️",
+    "online"
+  );
 
 }
 
 
+function scheduleCloudSave() {
 
-function saveData() {
+  saveLocalTodos();
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(todos)
+
+  setCloudStatus(
+    "等待同步…",
+    "saving"
   );
-
-
-  const status =
-    document.getElementById(
-      "saveStatus"
-    );
-
-
-  status.textContent =
-    "已儲存 ✓";
 
 
   clearTimeout(
-    window.saveTimer
+    cloudSaveTimer
   );
 
 
-  window.saveTimer =
+  cloudSaveTimer =
     setTimeout(
-      () => {
-
-        status.textContent =
-          "自動儲存";
-
-      },
-      1200
+      uploadTodosNow,
+      650
     );
 
 }
 
 
+/* =========================
+   INITIAL
+========================= */
 
-function updateSummary() {
+async function initializeCloud() {
+
+  setCloudStatus(
+    "登入確認中…"
+  );
+
+
+  const {
+    data: sessionData
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  const session =
+    sessionData.session;
+
+
+  if (!session) {
+
+    window.location.href =
+      "login.html";
+
+    return;
+
+  }
+
+
+  currentUser =
+    session.user;
+
+
+  const localTodos =
+    loadLocalTodos();
+
+
+  setCloudStatus(
+    "讀取雲端…",
+    "saving"
+  );
+
+
+  try {
+
+    const cloudRow =
+      await loadCloudModule();
+
+
+    if (
+      cloudRow &&
+      cloudRow.data
+    ) {
+
+      todos =
+        normalizeTodos(
+          cloudRow.data
+        );
+
+
+      saveLocalTodos();
+
+
+      setCloudStatus(
+        "已同步 ☁️",
+        "online"
+      );
+
+
+      showBanner(
+        "☁️ 已載入待辦事項雲端資料。"
+      );
+
+    }
+
+    else if (
+      localTodos &&
+      localTodos.length > 0
+    ) {
+
+      todos =
+        localTodos;
+
+
+      await uploadTodosNow();
+
+
+      showBanner(
+        "☁️ 第一次同步完成：原本瀏覽器裡的待辦事項已上傳到 Supabase。"
+      );
+
+    }
+
+    else {
+
+      todos =
+        [];
+
+
+      await uploadTodosNow();
+
+
+      showBanner(
+        "☁️ 已建立待辦事項雲端資料。"
+      );
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    console.error(
+      error
+    );
+
+
+    todos =
+      localTodos || [];
+
+
+    setCloudStatus(
+      "離線備份模式",
+      "error"
+    );
+
+
+    showBanner(
+      "⚠️ Supabase 暫時無法連線，目前使用本機待辦備份。",
+      "error"
+    );
+
+  }
+
+
+  render();
+
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+function updateProgress() {
 
   const total =
     todos.length;
@@ -939,102 +1425,138 @@ function updateSummary() {
 
   const done =
     todos.filter(
-      todo =>
-        todo.done
+      todo => todo.done
     ).length;
 
 
-  const pending =
-    total - done;
+  const percent =
+    total === 0
+      ? 0
+      : Math.round(
+          done / total * 100
+        );
 
 
   document.getElementById(
-    "pendingCount"
+    "todoCount"
   ).textContent =
-    pending;
-
-
-  document.getElementById(
-    "doneCount"
-  ).textContent =
-    done;
-
-
-  document.getElementById(
-    "totalCount"
-  ).textContent =
+    done +
+    " / " +
     total;
 
+
+  document.getElementById(
+    "progressBar"
+  ).style.width =
+    percent +
+    "%";
+
+
+  document.getElementById(
+    "progressText"
+  ).textContent =
+    total === 0
+      ? "尚未建立待辦"
+      : "已完成 " +
+        percent +
+        "% · 還有 " +
+        (total - done) +
+        " 件";
+
 }
 
 
+/* =========================
+   FILTER
+========================= */
 
-function renderFilters() {
+function filteredTodos() {
 
-  const container =
-    document.getElementById(
-      "filters"
+  if (
+    currentFilter === "open"
+  ) {
+
+    return todos.filter(
+      todo => !todo.done
     );
 
-
-  const options =
-    [
-      "待完成",
-      "全部",
-      "已完成"
-    ];
+  }
 
 
-  container.innerHTML =
-    "";
+  if (
+    currentFilter === "done"
+  ) {
+
+    return todos.filter(
+      todo => todo.done
+    );
+
+  }
 
 
-  options.forEach(
-    option => {
+  if (
+    currentFilter === "high"
+  ) {
+
+    return todos.filter(
+      todo =>
+        todo.priority === "高"
+    );
+
+  }
 
 
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.className =
-        "filter-button" +
-        (
-          currentFilter === option
-          ? " active"
-          : ""
-        );
-
-
-      button.textContent =
-        option;
-
-
-      button.onclick =
-        () => {
-
-          currentFilter =
-            option;
-
-          render();
-
-        };
-
-
-      container.appendChild(
-        button
-      );
-
-    }
-  );
+  return todos;
 
 }
 
 
+document.querySelectorAll(
+  ".filter-button"
+).forEach(
+  button => {
 
-function renderTodos() {
+    button.onclick =
+      () => {
+
+        currentFilter =
+          button.dataset.filter;
+
+
+        document.querySelectorAll(
+          ".filter-button"
+        ).forEach(
+          item => {
+
+            item.classList.remove(
+              "active"
+            );
+
+          }
+        );
+
+
+        button.classList.add(
+          "active"
+        );
+
+
+        render();
+
+      };
+
+  }
+);
+
+
+/* =========================
+   RENDER
+========================= */
+
+function render() {
+
+  updateProgress();
+
 
   const container =
     document.getElementById(
@@ -1046,91 +1568,8 @@ function renderTodos() {
     "";
 
 
-  let visible =
-    todos
-      .map(
-        (
-          todo,
-          index
-        ) => ({
-          todo,
-          index
-        })
-      );
-
-
-  if (
-    currentFilter ===
-    "待完成"
-  ) {
-
-    visible =
-      visible.filter(
-        entry =>
-          !entry.todo.done
-      );
-
-  }
-
-
-  if (
-    currentFilter ===
-    "已完成"
-  ) {
-
-    visible =
-      visible.filter(
-        entry =>
-          entry.todo.done
-      );
-
-  }
-
-
-  visible.sort(
-    (
-      a,
-      b
-    ) => {
-
-      const priorityRank = {
-        "高": 0,
-        "中": 1,
-        "低": 2
-      };
-
-
-      if (
-        priorityRank[a.todo.priority] !==
-        priorityRank[b.todo.priority]
-      ) {
-
-        return (
-          priorityRank[a.todo.priority] -
-          priorityRank[b.todo.priority]
-        );
-
-      }
-
-
-      if (
-        a.todo.dueDate &&
-        b.todo.dueDate
-      ) {
-
-        return (
-          a.todo.dueDate.localeCompare(
-            b.todo.dueDate
-          )
-        );
-
-      }
-
-
-      return 0;
-
-    }
-  );
+  const visible =
+    filteredTodos();
 
 
   if (
@@ -1139,7 +1578,6 @@ function renderTodos() {
 
     container.innerHTML =
       `
-
         <div class="empty">
 
           <div class="empty-icon">
@@ -1150,10 +1588,9 @@ function renderTodos() {
             目前沒有待辦
           </strong>
 
-          需要處理的事情可以從上方新增。
+          可以新增訂票、預約或行前準備事項。
 
         </div>
-
       `;
 
 
@@ -1163,12 +1600,19 @@ function renderTodos() {
 
 
   visible.forEach(
-    entry => {
+    todo => {
+
+      const originalIndex =
+        todos.findIndex(
+          item =>
+            item.id === todo.id
+        );
+
 
       container.appendChild(
         createTodoCard(
-          entry.todo,
-          entry.index
+          todo,
+          originalIndex
         )
       );
 
@@ -1178,6 +1622,9 @@ function renderTodos() {
 }
 
 
+/* =========================
+   TODO CARD
+========================= */
 
 function createTodoCard(
   todo,
@@ -1191,25 +1638,30 @@ function createTodoCard(
 
 
   card.className =
-    "todo-card";
+    "todo-card" +
+    (
+      todo.done
+        ? " done"
+        : ""
+    );
 
 
   card.innerHTML =
     `
 
-      <div class="todo-main">
+      <div class="todo-top">
 
         <input
-          class="todo-check"
+          class="done-check"
           type="checkbox"
           ${todo.done ? "checked" : ""}
         >
 
 
         <input
-          class="todo-title ${todo.done ? "done" : ""}"
-          value="${escapeAttribute(todo.title)}"
+          class="todo-title"
           placeholder="待辦事項"
+          value="${escapeAttribute(todo.title)}"
         >
 
 
@@ -1223,120 +1675,165 @@ function createTodoCard(
       </div>
 
 
+      <div class="grid">
 
-      <div class="meta-grid">
 
-
-        <div class="mini-field-wrap">
+        <div class="field-wrap">
 
           <label>
             分類
           </label>
 
-          <select
-            class="mini-field category"
+          <input
+            class="field category"
+            placeholder="票券 / 住宿 / 文件"
+            value="${escapeAttribute(todo.category)}"
           >
 
-            ${categoryOptions(todo.category)}
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            優先度
+          </label>
+
+          <select class="field priority">
+
+            <option
+              value="高"
+              ${todo.priority === "高" ? "selected" : ""}
+            >
+              🔴 高
+            </option>
+
+            <option
+              value="中"
+              ${todo.priority === "中" ? "selected" : ""}
+            >
+              🟡 中
+            </option>
+
+            <option
+              value="低"
+              ${todo.priority === "低" ? "selected" : ""}
+            >
+              🟢 低
+            </option>
 
           </select>
 
         </div>
 
 
-
-        <div class="mini-field-wrap">
+        <div class="field-wrap">
 
           <label>
             截止日期
           </label>
 
           <input
-            class="mini-field due-date"
+            class="field dueDate"
             type="date"
-            value="${escapeAttribute(todo.dueDate || "")}"
+            value="${escapeAttribute(todo.dueDate)}"
           >
 
         </div>
 
 
-
-        <div class="mini-field-wrap">
+        <div class="field-wrap full">
 
           <label>
-            優先度
+            備註
           </label>
 
-          <select
-            class="mini-field priority"
-          >
-
-            ${priorityOptions(todo.priority)}
-
-          </select>
+          <textarea
+            class="field note"
+            placeholder="網址、搶票時間、需要準備的資料……"
+          >${escapeHtml(todo.note)}</textarea>
 
         </div>
-
 
       </div>
 
 
+      <div class="actions">
 
-      <textarea
-        class="note"
-        placeholder="備註，例如：開放售票日期、需要準備的資料、網站、提醒事項……"
-      >${escapeHtml(todo.note || "")}</textarea>
+        <button
+          class="action-button moveUp"
+        >
+          ↑ 上移
+        </button>
 
 
-      <div
-        class="due-warning"
-      ></div>
+        <button
+          class="action-button moveDown"
+        >
+          ↓ 下移
+        </button>
+
+      </div>
 
     `;
 
 
-
   const checkbox =
     card.querySelector(
-      ".todo-check"
+      ".done-check"
     );
 
 
-  const title =
-    card.querySelector(
-      ".todo-title"
-    );
+  checkbox.onchange =
+    () => {
+
+      todo.done =
+        checkbox.checked;
 
 
-  const category =
-    card.querySelector(
-      ".category"
-    );
+      scheduleCloudSave();
+
+      render();
+
+    };
 
 
-  const dueDate =
-    card.querySelector(
-      ".due-date"
-    );
+  bindInput(
+    card,
+    ".todo-title",
+    todo,
+    "title"
+  );
+
+
+  bindInput(
+    card,
+    ".category",
+    todo,
+    "category"
+  );
+
+
+  bindInput(
+    card,
+    ".dueDate",
+    todo,
+    "dueDate"
+  );
+
+
+  bindInput(
+    card,
+    ".note",
+    todo,
+    "note"
+  );
 
 
   const priority =
     card.querySelector(
       ".priority"
     );
-
-
-  const note =
-    card.querySelector(
-      ".note"
-    );
-
-
-  const warning =
-    card.querySelector(
-      ".due-warning"
-    );
-
 
 
   function updatePriorityStyle() {
@@ -1349,8 +1846,7 @@ function createTodoCard(
 
 
     if (
-      priority.value ===
-      "高"
+      priority.value === "高"
     ) {
 
       priority.classList.add(
@@ -1359,20 +1855,9 @@ function createTodoCard(
 
     }
 
-
     else if (
-      priority.value ===
-      "中"
+      priority.value === "低"
     ) {
-
-      priority.classList.add(
-        "priority-medium"
-      );
-
-    }
-
-
-    else {
 
       priority.classList.add(
         "priority-low"
@@ -1380,164 +1865,15 @@ function createTodoCard(
 
     }
 
-  }
+    else {
 
-
-
-  function updateDueWarning() {
-
-    warning.style.display =
-      "none";
-
-
-    if (
-      todo.done ||
-      !todo.dueDate
-    ) {
-
-      return;
-
-    }
-
-
-    const today =
-      new Date();
-
-
-    today.setHours(
-      0,
-      0,
-      0,
-      0
-    );
-
-
-    const due =
-      new Date(
-        todo.dueDate +
-        "T00:00:00"
+      priority.classList.add(
+        "priority-medium"
       );
-
-
-    const difference =
-      Math.ceil(
-        (
-          due -
-          today
-        ) /
-        (
-          1000 *
-          60 *
-          60 *
-          24
-        )
-      );
-
-
-    if (
-      difference < 0
-    ) {
-
-      warning.textContent =
-        "⚠️ 已超過截止日期";
-
-
-      warning.style.display =
-        "block";
-
-    }
-
-
-    else if (
-      difference === 0
-    ) {
-
-      warning.textContent =
-        "⚠️ 今天截止";
-
-
-      warning.style.display =
-        "block";
-
-    }
-
-
-    else if (
-      difference <= 7
-    ) {
-
-      warning.textContent =
-        "⏰ 距離截止還有 " +
-        difference +
-        " 天";
-
-
-      warning.style.display =
-        "block";
 
     }
 
   }
-
-
-
-  checkbox.onchange =
-    () => {
-
-      todo.done =
-        checkbox.checked;
-
-
-      title.classList.toggle(
-        "done",
-        todo.done
-      );
-
-
-      saveData();
-
-      render();
-
-    };
-
-
-
-  title.oninput =
-    () => {
-
-      todo.title =
-        title.value;
-
-      saveData();
-
-    };
-
-
-
-  category.onchange =
-    () => {
-
-      todo.category =
-        category.value;
-
-      saveData();
-
-    };
-
-
-
-  dueDate.onchange =
-    () => {
-
-      todo.dueDate =
-        dueDate.value;
-
-      saveData();
-
-      updateDueWarning();
-
-    };
-
 
 
   priority.onchange =
@@ -1546,24 +1882,15 @@ function createTodoCard(
       todo.priority =
         priority.value;
 
-      saveData();
 
       updatePriorityStyle();
 
-    };
-
-
-
-  note.oninput =
-    () => {
-
-      todo.note =
-        note.value;
-
-      saveData();
+      scheduleCloudSave();
 
     };
 
+
+  updatePriorityStyle();
 
 
   card.querySelector(
@@ -1573,7 +1900,7 @@ function createTodoCard(
 
       const okay =
         confirm(
-          "確定要刪除這個待辦事項嗎？"
+          "確定要刪除這個待辦嗎？"
         );
 
 
@@ -1588,17 +1915,70 @@ function createTodoCard(
       );
 
 
-      saveData();
+      scheduleCloudSave();
 
       render();
 
     };
 
 
+  card.querySelector(
+    ".moveUp"
+  ).onclick =
+    () => {
 
-  updatePriorityStyle();
+      if (
+        index <= 0
+      ) {
+        return;
+      }
 
-  updateDueWarning();
+
+      [
+        todos[index - 1],
+        todos[index]
+      ] =
+      [
+        todos[index],
+        todos[index - 1]
+      ];
+
+
+      scheduleCloudSave();
+
+      render();
+
+    };
+
+
+  card.querySelector(
+    ".moveDown"
+  ).onclick =
+    () => {
+
+      if (
+        index >=
+        todos.length - 1
+      ) {
+        return;
+      }
+
+
+      [
+        todos[index],
+        todos[index + 1]
+      ] =
+      [
+        todos[index + 1],
+        todos[index]
+      ];
+
+
+      scheduleCloudSave();
+
+      render();
+
+    };
 
 
   return card;
@@ -1606,223 +1986,92 @@ function createTodoCard(
 }
 
 
+/* =========================
+   INPUT
+========================= */
 
-function addTodo() {
+function bindInput(
+  card,
+  selector,
+  object,
+  key
+) {
 
-  const titleInput =
-    document.getElementById(
-      "newTitle"
+  const element =
+    card.querySelector(
+      selector
     );
 
 
-  const title =
-    titleInput.value.trim();
+  element.oninput =
+    () => {
+
+      object[key] =
+        element.value;
 
 
-  if (!title) {
-    return;
-  }
+      scheduleCloudSave();
 
-
-  const category =
-    document.getElementById(
-      "newCategory"
-    ).value;
-
-
-  const priority =
-    document.getElementById(
-      "newPriority"
-    ).value;
-
-
-  todos.push(
-    {
-
-      title,
-
-      category,
-
-      priority,
-
-      dueDate: "",
-
-      note: "",
-
-      done: false
-
-    }
-  );
-
-
-  titleInput.value =
-    "";
-
-
-  currentFilter =
-    "待完成";
-
-
-  saveData();
-
-  render();
-
-
-  titleInput.focus();
+    };
 
 }
 
 
+/* =========================
+   ADD
+========================= */
 
 document.getElementById(
   "addTodo"
 ).onclick =
-  addTodo;
+  () => {
+
+    todos.push(
+      newTodo()
+    );
 
 
-
-document.getElementById(
-  "newTitle"
-).addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key ===
-      "Enter"
-    ) {
-
-      addTodo();
-
-    }
-
-  }
-);
+    currentFilter =
+      "all";
 
 
+    document.querySelectorAll(
+      ".filter-button"
+    ).forEach(
+      button => {
 
-function categoryOptions(
-  selected
-) {
+        button.classList.toggle(
+          "active",
+          button.dataset.filter === "all"
+        );
 
-  return Object.keys(
-    categoryIcons
-  )
-  .map(
-    category =>
-      `
-
-        <option
-          value="${category}"
-          ${
-            selected === category
-            ? "selected"
-            : ""
-          }
-        >
-
-          ${categoryIcons[category]}
-          ${category}
-
-        </option>
-
-      `
-  )
-  .join("");
-
-}
+      }
+    );
 
 
+    scheduleCloudSave();
 
-function priorityOptions(
-  selected
-) {
+    render();
 
-  const options =
-    [
-      "高",
-      "中",
-      "低"
-    ];
+  };
 
 
-  return options
-    .map(
-      option =>
-        `
-
-          <option
-            value="${option}"
-            ${
-              selected === option
-              ? "selected"
-              : ""
-            }
-          >
-
-            ${
-              option === "高"
-              ? "🔴 高"
-              : option === "中"
-              ? "🟡 中"
-              : "🟢 低"
-            }
-
-          </option>
-
-        `
-    )
-    .join("");
-
-}
-
-
-
-function render() {
-
-  updateSummary();
-
-  renderFilters();
-
-  renderTodos();
-
-}
-
-
+/* =========================
+   ESCAPE
+========================= */
 
 function escapeHtml(
   text = ""
 ) {
 
   return String(text)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 
 }
-
 
 
 function escapeAttribute(
@@ -1836,15 +2085,13 @@ function escapeAttribute(
 }
 
 
+/* =========================
+   START
+========================= */
 
-loadData();
-
-render();
-
+initializeCloud();
 
 </script>
 
-
 </body>
-
 </html>
