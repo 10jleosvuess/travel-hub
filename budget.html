@@ -269,10 +269,31 @@
     .currency-note {
       margin-top: 10px;
 
-      color: rgba(255,255,255,0.62);
+      color: rgba(255,255,255,0.68);
 
       font-size: 10px;
-      line-height: 1.5;
+      line-height: 1.55;
+    }
+
+    .warning-box {
+      display: none;
+
+      margin-bottom: 14px;
+
+      padding: 11px 13px;
+
+      border-radius: 14px;
+
+      background: var(--yellow-soft);
+
+      color: #695d49;
+
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .warning-box.show {
+      display: block;
     }
 
     .currency-box {
@@ -396,12 +417,39 @@
       background: white;
     }
 
+    .field:disabled {
+      opacity: 0.6;
+      background: #efede9;
+    }
+
     textarea.field {
       min-height: 65px;
 
       resize: vertical;
 
       line-height: 1.5;
+    }
+
+    .conversion-box {
+      margin-top: 10px;
+
+      padding: 11px 12px;
+
+      border-radius: 13px;
+
+      background: var(--blue-soft);
+
+      font-size: 11px;
+
+      line-height: 1.55;
+    }
+
+    .conversion-box.missing {
+      background: var(--yellow-soft);
+    }
+
+    .conversion-box strong {
+      font-size: 13px;
     }
 
     .actions {
@@ -568,7 +616,7 @@
     </h1>
 
     <p>
-      記錄住宿、交通、票券、餐飲與其他旅行支出
+      可混合記錄 TWD、EUR 等幣別，並換算成主預算幣別
     </p>
 
   </section>
@@ -591,7 +639,7 @@
         </small>
 
         <strong id="budgetDisplay">
-          EUR 0
+          TWD 0
         </strong>
 
       </div>
@@ -604,7 +652,7 @@
         </small>
 
         <strong id="spentDisplay">
-          EUR 0
+          TWD 0
         </strong>
 
       </div>
@@ -617,7 +665,7 @@
         </small>
 
         <strong id="remainingDisplay">
-          EUR 0
+          TWD 0
         </strong>
 
       </div>
@@ -640,8 +688,8 @@
         id="mainCurrency"
       >
 
-        <option>EUR</option>
         <option>TWD</option>
+        <option>EUR</option>
         <option>USD</option>
         <option>GBP</option>
         <option>AUD</option>
@@ -662,10 +710,16 @@
 
 
     <div class="currency-note">
-      不同幣別目前不會自動換匯。上方「已花費 / 剩餘」只計算與總預算相同幣別的支出。
+      如果支出幣別和主預算不同，請在該筆支出填入「1 單位支出幣別 = 幾單位主幣別」。
     </div>
 
   </section>
+
+
+  <div
+    class="warning-box"
+    id="rateWarning"
+  ></div>
 
 
   <div
@@ -758,7 +812,7 @@ let currentUser =
 let budget =
   {
     totalBudget: "",
-    currency: "EUR",
+    currency: "TWD",
     expenses: []
   };
 
@@ -828,20 +882,13 @@ function normalizeExpense(
     title:
       valueOf(
         oldExpense,
-        [
-          "title",
-          "name",
-          "expense"
-        ]
+        ["title", "name", "expense"]
       ),
 
     category:
       valueOf(
         oldExpense,
-        [
-          "category",
-          "type"
-        ],
+        ["category", "type"],
         "其他"
       ),
 
@@ -854,36 +901,37 @@ function normalizeExpense(
     amount:
       valueOf(
         oldExpense,
-        [
-          "amount",
-          "price",
-          "cost"
-        ]
+        ["amount", "price", "cost"]
       ),
 
     currency:
       valueOf(
         oldExpense,
         ["currency"],
-        "EUR"
+        "TWD"
+      ),
+
+    rateToMain:
+      valueOf(
+        oldExpense,
+        [
+          "rateToMain",
+          "exchangeRate",
+          "rate"
+        ],
+        ""
       ),
 
     payment:
       valueOf(
         oldExpense,
-        [
-          "payment",
-          "paymentMethod"
-        ]
+        ["payment", "paymentMethod"]
       ),
 
     note:
       valueOf(
         oldExpense,
-        [
-          "note",
-          "notes"
-        ]
+        ["note", "notes"]
       )
 
   };
@@ -901,11 +949,9 @@ function normalizeBudget(
 
     return {
       totalBudget: "",
-      currency: "EUR",
+      currency: "TWD",
       expenses:
-        data.map(
-          normalizeExpense
-        )
+        data.map(normalizeExpense)
     };
 
   }
@@ -915,7 +961,7 @@ function normalizeBudget(
 
     return {
       totalBudget: "",
-      currency: "EUR",
+      currency: "TWD",
       expenses: []
     };
 
@@ -932,11 +978,7 @@ function normalizeBudget(
   const oldExpenses =
     valueOf(
       source,
-      [
-        "expenses",
-        "items",
-        "records"
-      ],
+      ["expenses", "items", "records"],
       []
     );
 
@@ -961,14 +1003,12 @@ function normalizeBudget(
           "currency",
           "mainCurrency"
         ],
-        "EUR"
+        "TWD"
       ),
 
     expenses:
       Array.isArray(oldExpenses)
-        ? oldExpenses.map(
-            normalizeExpense
-          )
+        ? oldExpenses.map(normalizeExpense)
         : []
 
   };
@@ -979,14 +1019,26 @@ function normalizeBudget(
 function newExpense() {
 
   return {
+
     id: makeId(),
+
     title: "",
+
     category: "其他",
+
     date: "",
+
     amount: "",
-    currency: budget.currency || "EUR",
+
+    currency:
+      budget.currency || "TWD",
+
+    rateToMain: "",
+
     payment: "",
+
     note: ""
+
   };
 
 }
@@ -1021,6 +1073,74 @@ function formatMoney(
         maximumFractionDigits: 2
       }
     );
+
+}
+
+
+/* =========================
+   CONVERSION
+========================= */
+
+function expenseRate(
+  expense
+) {
+
+  if (
+    expense.currency ===
+    budget.currency
+  ) {
+
+    return 1;
+
+  }
+
+
+  const rate =
+    numberValue(
+      expense.rateToMain
+    );
+
+
+  if (
+    rate <= 0
+  ) {
+
+    return null;
+
+  }
+
+
+  return rate;
+
+}
+
+
+function convertedExpenseAmount(
+  expense
+) {
+
+  const amount =
+    numberValue(
+      expense.amount
+    );
+
+
+  const rate =
+    expenseRate(
+      expense
+    );
+
+
+  if (
+    rate === null
+  ) {
+
+    return null;
+
+  }
+
+
+  return amount * rate;
 
 }
 
@@ -1091,7 +1211,7 @@ function showBanner(
 
 
 /* =========================
-   LOCAL STORAGE
+   LOCAL
 ========================= */
 
 function loadLocalBudget() {
@@ -1203,7 +1323,7 @@ async function uploadBudgetNow() {
             MODULE_KEY,
 
           data: {
-            version: 1,
+            version: 2,
             budget: budget
           },
 
@@ -1357,11 +1477,6 @@ async function initializeCloud() {
 
       await uploadBudgetNow();
 
-
-      showBanner(
-        "☁️ 第一次同步完成：原本瀏覽器裡的預算資料已上傳到 Supabase。"
-      );
-
     }
 
     else {
@@ -1371,11 +1486,6 @@ async function initializeCloud() {
 
 
       await uploadBudgetNow();
-
-
-      showBanner(
-        "☁️ 已建立旅行預算雲端資料。"
-      );
 
     }
 
@@ -1398,12 +1508,6 @@ async function initializeCloud() {
       "error"
     );
 
-
-    showBanner(
-      "⚠️ Supabase 暫時無法連線，目前使用本機預算備份。",
-      "error"
-    );
-
   }
 
 
@@ -1419,7 +1523,7 @@ async function initializeCloud() {
 function updateSummary() {
 
   const mainCurrency =
-    budget.currency || "EUR";
+    budget.currency || "TWD";
 
 
   const totalBudget =
@@ -1428,24 +1532,46 @@ function updateSummary() {
     );
 
 
-  const spent =
-    budget.expenses
-      .filter(
-        expense =>
-          expense.currency ===
-          mainCurrency
-      )
-      .reduce(
-        (
-          total,
+  let spent =
+    0;
+
+
+  let missingRates =
+    0;
+
+
+  budget.expenses.forEach(
+    expense => {
+
+      const converted =
+        convertedExpenseAmount(
           expense
-        ) =>
-          total +
+        );
+
+
+      if (
+        converted === null
+      ) {
+
+        if (
           numberValue(
             expense.amount
-          ),
-        0
-      );
+          ) > 0
+        ) {
+
+          missingRates += 1;
+
+        }
+
+        return;
+
+      }
+
+
+      spent += converted;
+
+    }
+  );
 
 
   const remaining =
@@ -1489,19 +1615,47 @@ function updateSummary() {
     mainCurrency;
 
 
+  const warning =
+    document.getElementById(
+      "rateWarning"
+    );
+
+
+  if (
+    missingRates > 0
+  ) {
+
+    warning.className =
+      "warning-box show";
+
+
+    warning.textContent =
+      "⚠️ 有 " +
+      missingRates +
+      " 筆外幣支出尚未填匯率，因此目前尚未計入上方「已花費 / 剩餘」。";
+
+  }
+
+  else {
+
+    warning.className =
+      "warning-box";
+
+  }
+
+
   renderCurrencyTotals();
 
 }
 
 
 /* =========================
-   CURRENCY TOTALS
+   ORIGINAL CURRENCY TOTALS
 ========================= */
 
 function renderCurrencyTotals() {
 
-  const totals =
-    {};
+  const totals = {};
 
 
   budget.expenses.forEach(
@@ -1510,7 +1664,7 @@ function renderCurrencyTotals() {
       const currency =
         expense.currency ||
         budget.currency ||
-        "EUR";
+        "TWD";
 
 
       if (
@@ -1665,6 +1819,17 @@ function createExpenseCard(
     "expense-card";
 
 
+  const sameCurrency =
+    expense.currency ===
+    budget.currency;
+
+
+  const converted =
+    convertedExpenseAmount(
+      expense
+    );
+
+
   card.innerHTML =
     `
 
@@ -1679,7 +1844,6 @@ function createExpenseCard(
 
         <button
           class="delete-button"
-          title="刪除"
         >
           ×
         </button>
@@ -1752,12 +1916,44 @@ function createExpenseCard(
         <div class="field-wrap">
 
           <label>
-            幣別
+            支出幣別
           </label>
 
           <select class="field currency">
             ${currencyOptions(expense.currency)}
           </select>
+
+        </div>
+
+
+        <div class="field-wrap">
+
+          <label>
+            ${
+              sameCurrency
+                ? "匯率（同幣別自動 = 1）"
+                : "1 " +
+                  escapeHtml(expense.currency) +
+                  " = ? " +
+                  escapeHtml(budget.currency)
+            }
+          </label>
+
+          <input
+            class="field rateToMain"
+            inputmode="decimal"
+            placeholder="${
+              sameCurrency
+                ? "1"
+                : "例如：36"
+            }"
+            value="${
+              sameCurrency
+                ? "1"
+                : escapeAttribute(expense.rateToMain)
+            }"
+            ${sameCurrency ? "disabled" : ""}
+          >
 
         </div>
 
@@ -1774,6 +1970,31 @@ function createExpenseCard(
           >${escapeHtml(expense.note)}</textarea>
 
         </div>
+
+      </div>
+
+
+      <div
+        class="conversion-box ${
+          converted === null
+            ? "missing"
+            : ""
+        }"
+      >
+
+        ${
+          converted === null
+            ? `
+              ⚠️ 請填匯率後才會計入總預算。
+            `
+            : `
+              換算後：
+              <strong>
+                ${escapeHtml(budget.currency)}
+                ${formatMoney(converted)}
+              </strong>
+            `
+        }
 
       </div>
 
@@ -1824,19 +2045,35 @@ function createExpenseCard(
 
   bindInput(
     card,
-    ".amount",
-    expense,
-    "amount",
-    true
-  );
-
-
-  bindInput(
-    card,
     ".note",
     expense,
     "note"
   );
+
+
+  const amount =
+    card.querySelector(
+      ".amount"
+    );
+
+
+  amount.oninput =
+    () => {
+
+      expense.amount =
+        amount.value;
+
+
+      scheduleCloudSave();
+
+      updateSummary();
+
+      updateConversionBox(
+        card,
+        expense
+      );
+
+    };
 
 
   const category =
@@ -1872,7 +2109,32 @@ function createExpenseCard(
 
       scheduleCloudSave();
 
+      render();
+
+    };
+
+
+  const rate =
+    card.querySelector(
+      ".rateToMain"
+    );
+
+
+  rate.oninput =
+    () => {
+
+      expense.rateToMain =
+        rate.value;
+
+
+      scheduleCloudSave();
+
       updateSummary();
+
+      updateConversionBox(
+        card,
+        expense
+      );
 
     };
 
@@ -1971,15 +2233,68 @@ function createExpenseCard(
 
 
 /* =========================
-   BIND INPUT
+   CONVERSION BOX
+========================= */
+
+function updateConversionBox(
+  card,
+  expense
+) {
+
+  const box =
+    card.querySelector(
+      ".conversion-box"
+    );
+
+
+  const converted =
+    convertedExpenseAmount(
+      expense
+    );
+
+
+  if (
+    converted === null
+  ) {
+
+    box.className =
+      "conversion-box missing";
+
+
+    box.innerHTML =
+      "⚠️ 請填匯率後才會計入總預算。";
+
+  }
+
+  else {
+
+    box.className =
+      "conversion-box";
+
+
+    box.innerHTML =
+      `
+        換算後：
+        <strong>
+          ${escapeHtml(budget.currency)}
+          ${formatMoney(converted)}
+        </strong>
+      `;
+
+  }
+
+}
+
+
+/* =========================
+   BIND
 ========================= */
 
 function bindInput(
   card,
   selector,
   object,
-  key,
-  updateTotals = false
+  key
 ) {
 
   const element =
@@ -1996,15 +2311,6 @@ function bindInput(
 
 
       scheduleCloudSave();
-
-
-      if (
-        updateTotals
-      ) {
-
-        updateSummary();
-
-      }
 
     };
 
@@ -2096,9 +2402,7 @@ function categoryOptions(
     !categories.includes(selected)
   ) {
 
-    categories.push(
-      selected
-    );
+    categories.push(selected);
 
   }
 
@@ -2130,8 +2434,8 @@ function currencyOptions(
 
   const currencies =
     [
-      "EUR",
       "TWD",
+      "EUR",
       "USD",
       "GBP",
       "AUD",
@@ -2145,9 +2449,7 @@ function currencyOptions(
     !currencies.includes(selected)
   ) {
 
-    currencies.push(
-      selected
-    );
+    currencies.push(selected);
 
   }
 
@@ -2195,9 +2497,7 @@ function escapeAttribute(
   text = ""
 ) {
 
-  return escapeHtml(
-    text
-  );
+  return escapeHtml(text);
 
 }
 
